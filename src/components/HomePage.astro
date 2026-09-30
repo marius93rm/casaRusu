@@ -8,9 +8,31 @@ import { siteData, type SiteLocale } from '../data/site';
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const seo = siteData.seo[locale];
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: siteData.company.name,
+  telephone: siteData.company.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteData.company.address,
+    addressLocality: siteData.company.city,
+    postalCode: siteData.company.postalCode,
+    addressCountry: 'RO',
+  },
+  openingHoursSpecification: siteData.company.openingHours.map((hours) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: hours.daysOfWeek.map((day) => `https://schema.org/${day}`),
+    opens: hours.opens,
+    closes: hours.closes,
+  })),
+  sameAs: [siteData.links.facebook, siteData.links.instagram],
+  ...(Astro.site ? { url: new URL('/', Astro.site).toString() } : {}),
+};
 ---
 
 <BaseLayout lang={locale} title={seo.title} description={seo.description}>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} />
 
@@ -19,7 +41,7 @@ const seo = siteData.seo[locale];
       <div class="container hero-stage">
         <div class="hero-copy">
           <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>{copy.hero.eyebrow}</p>
-          <h1 id="hero-title">{copy.hero.titleFirst}<br /><span>{copy.hero.titleSecond}</span></h1>
+          <h1 id="hero-title">{copy.hero.titleFirst}{' '}<br /><span>{copy.hero.titleSecond}</span></h1>
           <p class="hero-description">{copy.hero.description}</p>
           <div class="hero-actions">
             <a class="button button-primary" href={siteData.company.phoneHref}>
@@ -73,25 +95,42 @@ const seo = siteData.seo[locale];
     </section>
 
     <section class="visit-section" id="vizita" aria-labelledby="visit-title">
-      <div class="container">
-        <div class="visit-heading">
-          <h2 id="visit-title">{copy.visit.titleFirst}<br /><span>{copy.visit.titleSecond}</span></h2>
-          <p>{copy.visit.body}</p>
-        </div>
+      <div class="container visit-layout">
+        <figure class="visit-visual">
+          <img
+            src={siteData.media.exterior}
+            alt={copy.visit.imageAlt}
+            loading="lazy"
+            width="1439"
+            height="960"
+          />
+        </figure>
 
-        <div class="visit-details">
-          <div class="visit-detail">
-            <span>{copy.visit.addressLabel}</span>
-            <strong>{siteData.company.address}</strong>
-            <p>{siteData.company.city} · {siteData.company.country}</p>
+        <div class="visit-content">
+          <div class="visit-heading">
+            <h2 id="visit-title">{copy.visit.titleFirst}{' '}<br /><span>{copy.visit.titleSecond}</span></h2>
+            <p>{copy.visit.body}</p>
           </div>
-          <div class="visit-detail">
-            <span>{copy.visit.phoneLabel}</span>
-            <a href={siteData.company.phoneHref}>{siteData.company.phone}</a>
+
+          <div class="visit-details">
+            <div class="visit-detail">
+              <span>{copy.visit.addressLabel}</span>
+              <strong>{siteData.company.address}</strong>
+              <p>{siteData.company.postalCode} · {siteData.company.city} · {locale === 'ro' ? 'România' : 'Romania'}</p>
+            </div>
+            <div class="visit-detail">
+              <span>{copy.visit.phoneLabel}</span>
+              <a href={siteData.company.phoneHref}>{siteData.company.phone}</a>
+            </div>
+            <div class="visit-detail visit-hours">
+              <span>{copy.visit.hoursLabel}</span>
+              <p>{copy.visit.weekdayHours}</p>
+              <p>{copy.visit.weekendHours}</p>
+            </div>
+            <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer">
+              {copy.visit.mapAction}<Icon name="location" size={18} />
+            </a>
           </div>
-          <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer">
-            {copy.visit.mapAction}<Icon name="location" size={18} />
-          </a>
         </div>
       </div>
     </section>

@@ -7,6 +7,7 @@ export const siteConfig = {
     theme: siteData.theme,
   },
   seo: {
+    // Fill with the production origin to enable absolute SEO URLs and sitemap generation.
     siteUrl: '',
     title: siteData.seo.ro.title,
     description: siteData.seo.ro.description,

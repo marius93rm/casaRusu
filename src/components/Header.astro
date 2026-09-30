@@ -34,7 +34,8 @@ const homeHref = localizedPath('/', locale);
       data-close-label={dictionary.ui.closeMenu}
       hidden
     >
-      <Icon name="menu" />
+      <span class="menu-toggle-open"><Icon name="menu" /></span>
+      <span class="menu-toggle-close"><Icon name="close" /></span>
     </button>
 
     <nav id="main-navigation" class="main-navigation" aria-label={dictionary.ui.mainNavigation}>
@@ -66,21 +67,26 @@ const homeHref = localizedPath('/', locale);
       nav.dataset.open = String(open);
     };
 
-    toggle.hidden = false;
     nav.dataset.enhanced = 'true';
+    const desktop = window.matchMedia('(min-width: 761px)');
+    const syncViewport = () => {
+      toggle.hidden = desktop.matches;
+      setOpen(false);
+    };
+    syncViewport();
 
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     nav.addEventListener('click', (event) => {
       if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
     });
 
-    const desktop = window.matchMedia('(min-width: 761px)');
-    desktop.addEventListener('change', (event) => {
-      if (event.matches) setOpen(false);
-    });
+    desktop.addEventListener('change', syncViewport);
   })();
 </script>
 
@@ -132,13 +138,34 @@ const homeHref = localizedPath('/', locale);
   }
 
   .menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     border: 0;
     background: transparent;
     color: inherit;
     padding: 0.5rem;
   }
 
+  .menu-toggle[hidden] { display: none !important; }
+  .menu-toggle-close { display: none; }
+  .menu-toggle[aria-expanded='true'] .menu-toggle-open { display: none; }
+  .menu-toggle[aria-expanded='true'] .menu-toggle-close { display: block; }
+
   @media (max-width: 760px) {
+    .header-inner { flex-wrap: wrap; }
+
+    .main-navigation:not([data-enhanced='true']) {
+      position: static;
+      display: flex;
+      flex: 1 0 100%;
+      align-items: stretch;
+      flex-direction: column;
+      width: 100%;
+      padding: 0 0 1rem;
+    }
+
     .main-navigation[data-enhanced='true'] {
       position: absolute;
       inset: 100% 0 auto 0;
@@ -151,7 +178,7 @@ const homeHref = localizedPath('/', locale);
       border-bottom: 1px solid var(--border, #ddd);
     }
 
-    .main-navigation[data-open='true'] {
+    .main-navigation[data-enhanced='true'][data-open='true'] {
       display: flex;
     }
 

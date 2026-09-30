@@ -1,8 +1,9 @@
 import { en } from './locales/en';
 import { ro } from './locales/ro';
+import { siteData, type SiteLocale } from '../data/site';
 
-export const locales = ['ro', 'en'] as const;
-export type Locale = (typeof locales)[number];
+export const locales = Object.keys(siteData.copy) as SiteLocale[];
+export type Locale = SiteLocale;
 export const defaultLocale: Locale = 'ro';
 
 const dictionaries = { ro, en } as const;

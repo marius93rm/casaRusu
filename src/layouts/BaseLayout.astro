@@ -25,6 +25,11 @@ const themeStyle = [
   `--accent:${theme.accent}`,
   `--border:${theme.border}`,
 ].join(';');
+const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const romanianUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
+const englishUrl = Astro.site ? new URL('/en/', Astro.site).toString() : undefined;
+const socialImage = Astro.site ? new URL('/images/casa-rusu-interior.jpg', Astro.site).toString() : undefined;
+const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
 ---
 
 <!doctype html>
@@ -36,6 +41,21 @@ const themeStyle = [
     <meta name="theme-color" content={theme.background} />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Restaurant Casa Rusu" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:locale" content={socialLocale} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {romanianUrl && <link rel="alternate" hreflang="ro-RO" href={romanianUrl} />}
+    {englishUrl && <link rel="alternate" hreflang="en" href={englishUrl} />}
+    {romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     {!siteConfig.seo.indexable && <meta name="robots" content="noindex,nofollow" />}
   </head>
