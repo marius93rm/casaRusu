@@ -1,0 +1,14 @@
+---
+import { siteData } from '../data/site';
+
+interface Props {
+  href?: string;
+  label?: string;
+}
+
+const { href = '/', label = siteData.company.name } = Astro.props;
+---
+
+<a class="brand" {href} aria-label={label}>
+  <img src={siteData.media.logo} alt="" />
+</a>

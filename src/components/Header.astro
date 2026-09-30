@@ -1,0 +1,164 @@
+---
+import Brand from './Brand.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import Icon from './Icon.astro';
+import { getDictionary, localizedPath, type Locale } from '../i18n';
+
+export interface NavigationItem {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  locale: Locale;
+  navigation?: readonly NavigationItem[];
+  cta?: NavigationItem;
+}
+
+const { locale, navigation = [], cta } = Astro.props;
+const dictionary = getDictionary(locale);
+const homeHref = localizedPath('/', locale);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <Brand href={homeHref} />
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="main-navigation"
+      aria-label={dictionary.ui.menu}
+      data-open-label={dictionary.ui.menu}
+      data-close-label={dictionary.ui.closeMenu}
+      hidden
+    >
+      <Icon name="menu" />
+    </button>
+
+    <nav id="main-navigation" class="main-navigation" aria-label={dictionary.ui.mainNavigation}>
+      {navigation.length > 0 && (
+        <ul>
+          {navigation.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      )}
+
+      <div class="header-actions">
+        <LanguageSwitcher {locale} />
+        {cta && <a class="header-cta" href={cta.href}>{cta.label}</a>}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('#main-navigation');
+    if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+
+    const setOpen = (open) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? toggle.dataset.closeLabel || '' : toggle.dataset.openLabel || '');
+      nav.dataset.open = String(open);
+    };
+
+    toggle.hidden = false;
+    nav.dataset.enhanced = 'true';
+
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+
+    const desktop = window.matchMedia('(min-width: 761px)');
+    desktop.addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  })();
+</script>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid var(--border, #ddd);
+    background: var(--surface, #fff);
+  }
+
+  .header-inner,
+  .main-navigation,
+  .header-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-inner {
+    min-height: 4.5rem;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .main-navigation {
+    gap: 1.5rem;
+  }
+
+  .main-navigation ul {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .main-navigation a {
+    text-decoration: none;
+  }
+
+  .header-actions {
+    gap: 1rem;
+  }
+
+  .header-cta {
+    border: 1px solid currentColor;
+    border-radius: var(--radius, 4px);
+    padding: 0.55rem 0.9rem;
+  }
+
+  .menu-toggle {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0.5rem;
+  }
+
+  @media (max-width: 760px) {
+    .main-navigation[data-enhanced='true'] {
+      position: absolute;
+      inset: 100% 0 auto 0;
+      display: none;
+      align-items: stretch;
+      flex-direction: column;
+      width: 100%;
+      padding: 1rem;
+      background: var(--surface, #fff);
+      border-bottom: 1px solid var(--border, #ddd);
+    }
+
+    .main-navigation[data-open='true'] {
+      display: flex;
+    }
+
+    .main-navigation ul,
+    .header-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+</style>

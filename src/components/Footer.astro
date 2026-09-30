@@ -1,0 +1,22 @@
+---
+import { siteData } from '../data/site';
+import { localizedPath, type Locale } from '../i18n';
+
+const { locale } = Astro.props as { locale: Locale };
+const copy = siteData.copy[locale].footer;
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="footer-name" href={localizedPath('/', locale)}>{siteData.company.name}</a>
+      <p>{copy.location}</p>
+    </div>
+    <div class="footer-links">
+      <a href={siteData.links.facebook} target="_blank" rel="noreferrer">{copy.facebook}</a>
+      <a href={siteData.links.instagram} target="_blank" rel="noreferrer">{copy.instagram}</a>
+      <a href={locale === 'ro' ? '/en/' : '/'}>{locale === 'ro' ? 'English' : 'Română'}</a>
+    </div>
+    <p class="footer-copyright">© {new Date().getFullYear()} {siteData.company.name}</p>
+  </div>
+</footer>

@@ -1,0 +1,60 @@
+---
+import {
+  IconArrowRight,
+  IconArrowUpRight,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandTiktok,
+  IconCheck,
+  IconChevronRight,
+  IconMail,
+  IconMapPin,
+  IconMenu2,
+  IconPhone,
+  IconPlus,
+  IconX,
+} from '@tabler/icons-astro';
+
+type IconName =
+  | 'arrow'
+  | 'diagonal'
+  | 'plus'
+  | 'close'
+  | 'menu'
+  | 'chevron'
+  | 'check'
+  | 'phone'
+  | 'email'
+  | 'instagram'
+  | 'tiktok'
+  | 'facebook'
+  | 'location';
+
+interface Props {
+  name?: IconName;
+  class?: string;
+  size?: number;
+}
+
+const { name = 'arrow', class: className, size = 20 } = Astro.props;
+
+const icons = {
+  arrow: IconArrowRight,
+  diagonal: IconArrowUpRight,
+  plus: IconPlus,
+  close: IconX,
+  menu: IconMenu2,
+  chevron: IconChevronRight,
+  check: IconCheck,
+  phone: IconPhone,
+  email: IconMail,
+  instagram: IconBrandInstagram,
+  tiktok: IconBrandTiktok,
+  facebook: IconBrandFacebook,
+  location: IconMapPin,
+} as const;
+
+const IconComponent = icons[name];
+---
+
+<IconComponent class={className} {size} stroke={1.5} aria-hidden="true" />

@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import { siteData, type SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = siteData.copy[locale];
+const seo = siteData.seo[locale];
+---
+
+<BaseLayout lang={locale} title={seo.title} description={seo.description}>
+  <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
+  <Header {locale} navigation={copy.nav} />
+
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-stage">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>{copy.hero.eyebrow}</p>
+          <h1 id="hero-title">{copy.hero.titleFirst}<br /><span>{copy.hero.titleSecond}</span></h1>
+          <p class="hero-description">{copy.hero.description}</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href={siteData.company.phoneHref}>
+              {copy.hero.primaryAction}<Icon name="phone" size={18} />
+            </a>
+            <a class="text-link" href="#vizita">{copy.hero.secondaryAction}<Icon name="diagonal" size={17} /></a>
+          </div>
+        </div>
+
+        <figure class="hero-visual">
+          <img
+            src={siteData.media.cover}
+            alt={copy.hero.imageAlt}
+            fetchpriority="high"
+            width="2048"
+            height="1366"
+          />
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-section" id="poveste" aria-labelledby="story-title">
+      <div class="container story-inner">
+        <h2 id="story-title">{copy.story.title}</h2>
+        <p class="story-body">{copy.story.body}</p>
+        <p class="story-signature">Restaurant Casa Rusu <span>Codlea · {locale === 'ro' ? 'România' : 'Romania'}</span></p>
+      </div>
+    </section>
+
+    <section class="dish-section" id="preparat" aria-labelledby="dish-title">
+      <div class="container dish-grid">
+        <figure class="dish-visual">
+          <img
+            src={siteData.media.featuredDish}
+            alt={copy.dish.imageAlt}
+            loading="lazy"
+            width="2048"
+            height="1366"
+          />
+        </figure>
+        <div class="dish-copy">
+          <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>{copy.dish.eyebrow}</p>
+          <h2 id="dish-title">{copy.dish.title}</h2>
+          <p>{copy.dish.body}</p>
+          <small>{copy.dish.note}</small>
+          <a class="text-link" href={siteData.links.facebook} target="_blank" rel="noreferrer">
+            {copy.dish.action}<Icon name="diagonal" size={17} />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="visit-section" id="vizita" aria-labelledby="visit-title">
+      <div class="container">
+        <div class="visit-heading">
+          <h2 id="visit-title">{copy.visit.titleFirst}<br /><span>{copy.visit.titleSecond}</span></h2>
+          <p>{copy.visit.body}</p>
+        </div>
+
+        <div class="visit-details">
+          <div class="visit-detail">
+            <span>{copy.visit.addressLabel}</span>
+            <strong>{siteData.company.address}</strong>
+            <p>{siteData.company.city} · {siteData.company.country}</p>
+          </div>
+          <div class="visit-detail">
+            <span>{copy.visit.phoneLabel}</span>
+            <a href={siteData.company.phoneHref}>{siteData.company.phone}</a>
+          </div>
+          <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer">
+            {copy.visit.mapAction}<Icon name="location" size={18} />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer {locale} />
+</BaseLayout>

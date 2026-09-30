@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../config/site';
+import type { SiteLocale } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: SiteLocale;
+}
+
+const {
+  title = siteConfig.seo.title,
+  description = siteConfig.seo.description,
+  lang = 'ro',
+} = Astro.props;
+
+const theme = siteConfig.branding.theme;
+const themeStyle = [
+  `--background:${theme.background}`,
+  `--surface:${theme.surface}`,
+  `--text:${theme.text}`,
+  `--muted:${theme.muted}`,
+  `--primary:${theme.primary}`,
+  `--accent:${theme.accent}`,
+  `--border:${theme.border}`,
+].join(';');
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={theme.background} />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
+    {!siteConfig.seo.indexable && <meta name="robots" content="noindex,nofollow" />}
+  </head>
+  <body style={themeStyle}>
+    <slot />
+  </body>
+</html>
