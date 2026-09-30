@@ -2,6 +2,18 @@
 
 Sito Astro indipendente per Restaurant Casa Rusu. Testi, contatti, colori e collegamenti sono in `src/data/site.ts`; logo, fotografie e font sono locali in `public/brand/`, `public/images/` e `public/fonts/`. La licenza del font DM Sans è in `public/fonts/OFL.txt`.
 
+## Anteprima
+
+Homepage catturata in locale nelle versioni desktop e mobile, presentata in mockup MacBook e iPhone.
+
+<p align="center">
+  <img src="docs/mockups/casa-rusu-macbook.svg" alt="Homepage Restaurant Casa Rusu in un mockup MacBook" width="920">
+</p>
+
+<p align="center">
+  <img src="docs/mockups/casa-rusu-iphone.svg" alt="Homepage Restaurant Casa Rusu in un mockup iPhone" width="300">
+</p>
+
 ## Avvio
 
 ```bash

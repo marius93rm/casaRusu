@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 980" role="img" aria-labelledby="title desc">
+  <title id="title">Restaurant Casa Rusu — anteprima mobile in un mockup iPhone</title>
+  <desc id="desc">Homepage Casa Rusu, fotografiata a 390 per 800 pixel, incorniciata in uno smartphone.</desc>
+  <defs>
+    <linearGradient id="phone" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#333334" />
+      <stop offset="0.45" stop-color="#121213" />
+      <stop offset="1" stop-color="#29292a" />
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-20%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#4e4034" flood-opacity="0.24" />
+    </filter>
+    <clipPath id="screenClip">
+      <rect x="145" y="102" width="330" height="677" rx="42" />
+    </clipPath>
+  </defs>
+
+  <rect width="620" height="980" rx="42" fill="#f3ecdf" />
+  <g filter="url(#shadow)">
+    <rect x="120" y="54" width="380" height="868" rx="70" fill="url(#phone)" stroke="#5d5d5f" stroke-width="3" />
+    <image href="casa-rusu-mobile.png" x="145" y="102" width="330" height="677" preserveAspectRatio="none" clip-path="url(#screenClip)" />
+    <rect x="145" y="102" width="330" height="677" rx="42" fill="none" stroke="#050506" stroke-width="5" />
+    <rect x="253" y="73" width="114" height="26" rx="13" fill="#09090a" />
+    <circle cx="352" cy="86" r="4" fill="#262628" />
+    <rect x="261" y="858" width="98" height="7" rx="3.5" fill="#f0f0f0" opacity="0.92" />
+  </g>
+</svg>
