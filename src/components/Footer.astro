@@ -1,6 +1,8 @@
 ---
 import { siteData } from '../data/site';
 import { localizedPath, type Locale } from '../i18n';
+import Brand from './Brand.astro';
+import Icon from './Icon.astro';
 
 const { locale } = Astro.props as { locale: Locale };
 const copy = siteData.copy[locale].footer;
@@ -9,12 +11,12 @@ const copy = siteData.copy[locale].footer;
 <footer class="site-footer">
   <div class="container footer-inner">
     <div class="footer-brand">
-      <a class="footer-name" href={localizedPath('/', locale)}>{siteData.company.name}</a>
+      <Brand href={localizedPath('/', locale)} />
       <p>{copy.location}</p>
     </div>
     <div class="footer-links">
-      <a href={siteData.links.facebook} target="_blank" rel="noreferrer">{copy.facebook}</a>
-      <a href={siteData.links.instagram} target="_blank" rel="noreferrer">{copy.instagram}</a>
+      <a href={siteData.links.facebook} target="_blank" rel="noreferrer">{copy.facebook}<Icon name="diagonal" size={15} /></a>
+      <a href={siteData.links.instagram} target="_blank" rel="noreferrer">{copy.instagram}<Icon name="diagonal" size={15} /></a>
       <a href={locale === 'ro' ? '/en/' : '/'}>{locale === 'ro' ? 'English' : 'Română'}</a>
     </div>
     <p class="footer-copyright">© {new Date().getFullYear()} {siteData.company.name}</p>

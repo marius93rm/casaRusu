@@ -34,14 +34,14 @@ const structuredData = {
 <BaseLayout lang={locale} title={seo.title} description={seo.description}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
-  <Header {locale} navigation={copy.nav} />
+  <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
 
   <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-stage">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>{copy.hero.eyebrow}</p>
-          <h1 id="hero-title">{copy.hero.titleFirst}{' '}<br /><span>{copy.hero.titleSecond}</span></h1>
+          <p class="eyebrow">{copy.hero.eyebrow}</p>
+          <h1 id="hero-title">{copy.hero.titleFirst}{' '}<span>{copy.hero.titleSecond}</span></h1>
           <p class="hero-description">{copy.hero.description}</p>
           <div class="hero-actions">
             <a class="button button-primary" href={siteData.company.phoneHref}>
@@ -56,8 +56,8 @@ const structuredData = {
             src={siteData.media.cover}
             alt={copy.hero.imageAlt}
             fetchpriority="high"
-            width="2048"
-            height="1366"
+            width="1919"
+            height="1279"
           />
         </figure>
       </div>
@@ -67,7 +67,7 @@ const structuredData = {
       <div class="container story-inner">
         <h2 id="story-title">{copy.story.title}</h2>
         <p class="story-body">{copy.story.body}</p>
-        <p class="story-signature">Restaurant Casa Rusu <span>Codlea · {locale === 'ro' ? 'România' : 'Romania'}</span></p>
+        <a class="text-link story-link" href="#preparat">{copy.dish.eyebrow}<Icon name="arrow" size={18} /></a>
       </div>
     </section>
 
@@ -83,7 +83,7 @@ const structuredData = {
           />
         </figure>
         <div class="dish-copy">
-          <p class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span>{copy.dish.eyebrow}</p>
+          <p class="section-label">{copy.dish.eyebrow}</p>
           <h2 id="dish-title">{copy.dish.title}</h2>
           <p>{copy.dish.body}</p>
           <small>{copy.dish.note}</small>
@@ -96,6 +96,10 @@ const structuredData = {
 
     <section class="visit-section" id="vizita" aria-labelledby="visit-title">
       <div class="container visit-layout">
+        <div class="visit-heading">
+          <h2 id="visit-title">{copy.visit.titleFirst}{' '}<span>{copy.visit.titleSecond}</span></h2>
+          <p>{copy.visit.body}</p>
+        </div>
         <figure class="visit-visual">
           <img
             src={siteData.media.exterior}
@@ -107,16 +111,11 @@ const structuredData = {
         </figure>
 
         <div class="visit-content">
-          <div class="visit-heading">
-            <h2 id="visit-title">{copy.visit.titleFirst}{' '}<br /><span>{copy.visit.titleSecond}</span></h2>
-            <p>{copy.visit.body}</p>
-          </div>
-
           <div class="visit-details">
             <div class="visit-detail">
               <span>{copy.visit.addressLabel}</span>
               <strong>{siteData.company.address}</strong>
-              <p>{siteData.company.postalCode} · {siteData.company.city} · {locale === 'ro' ? 'România' : 'Romania'}</p>
+              <p>{siteData.company.postalCode} {siteData.company.city}, {locale === 'ro' ? 'România' : 'Romania'}</p>
             </div>
             <div class="visit-detail">
               <span>{copy.visit.phoneLabel}</span>

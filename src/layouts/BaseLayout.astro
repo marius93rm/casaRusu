@@ -38,7 +38,9 @@ const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content={theme.background} />
+    <meta name="theme-color" content={theme.background} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#211e1a" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <meta property="og:type" content="website" />
