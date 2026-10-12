@@ -38,7 +38,7 @@ export const siteData = {
     map: 'https://www.google.com/maps/search/?api=1&query=Strada+Lateral%C4%83%2C+nr.+42%2C+Codlea%2C+Romania',
   },
   media: {
-    logo: '/brand/casa-rusu-logo.jpg',
+    logo: '/brand/casa-rusu-concept-1.svg',
     cover: '/images/casa-rusu-interior.jpg',
     featuredDish: '/images/casa-rusu-preparat.jpg',
     exterior: '/images/casa-rusu-exterior.jpg',

@@ -107,7 +107,7 @@ h1, h2, h3 {
 .header-inner, .main-navigation, .header-actions { display: flex; align-items: center; }
 .header-inner { height: 79px; justify-content: space-between; gap: 2rem; }
 .brand { display: inline-flex; flex-shrink: 0; align-items: center; text-decoration: none; }
-.brand img { width: 76px; height: 76px; object-fit: contain; mix-blend-mode: multiply; }
+.brand img { width: 180px; height: 54px; object-fit: contain; mix-blend-mode: multiply; }
 .main-navigation { gap: clamp(1.5rem, 3vw, 3rem); }
 .main-navigation ul { display: flex; gap: clamp(1.5rem, 2.6vw, 2.5rem); padding: 0; margin: 0; list-style: none; }
 .main-navigation a { text-decoration: none; }
@@ -203,7 +203,7 @@ h1, h2, h3 {
 .site-footer { border-top: 1px solid var(--border); }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 2rem; }
 .footer-brand { display: flex; align-items: center; gap: 1rem; }
-.footer-brand .brand img { width: 90px; height: 90px; }
+.footer-brand .brand img { width: 190px; height: 57px; }
 .footer-brand p { color: var(--muted); font-size: .7rem; }
 .footer-links { display: flex; align-items: center; gap: 1.5rem; }
 .footer-links a { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; font-size: .72rem; text-decoration: none; }
@@ -243,7 +243,7 @@ h1, h2, h3 {
   html { scroll-padding-top: 5rem; }
   .container { width: calc(100% - 2.5rem); }
   .header-inner { height: 72px; gap: 1rem; flex-wrap: wrap; }
-  .brand img { height: 68px; width: 68px; }
+  .brand img { height: 46px; width: 154px; }
   .main-navigation:not([data-enhanced='true']) { display: flex; flex: 1 0 100%; flex-direction: column; align-items: stretch; gap: 1rem; padding-bottom: 1rem; background: var(--background); }
   .header-inner:has(.main-navigation:not([data-enhanced='true'])) { height: auto; }
   .main-navigation[data-enhanced='true'] { position: absolute; inset: 100% 0 auto; display: none; flex-direction: column; align-items: stretch; gap: 1.25rem; padding: 1.25rem; border-bottom: 1px solid var(--border); background: var(--background); }
@@ -279,7 +279,7 @@ h1, h2, h3 {
   .visit-details { column-gap: 1.25rem; }
   .footer-inner { flex-wrap: wrap; gap: 1rem; padding-block: 1.5rem; }
   .footer-brand { width: 100%; }
-  .footer-brand .brand img { width: 76px; height: 76px; }
+  .footer-brand .brand img { width: 166px; height: 50px; }
   .footer-links { flex-wrap: wrap; gap: 1rem; }
 }
 @media (max-width: 380px) {
