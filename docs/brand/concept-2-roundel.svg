@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
-  <title id="title">Casa Rusu concept 2 — roundel mark</title>
-  <desc id="desc">A compact navy roundel with a bold ivory CR monogram and a horizontal CASA RUSU wordmark.</desc>
-  <circle cx="142" cy="150" r="104" fill="#122336"/>
-  <text x="142" y="184" fill="#f8f3e8" font-family="'DM Sans', 'DM Sans Regular', Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="-9" text-anchor="middle">CR</text>
-  <path d="M300 150h56" fill="none" stroke="#b29862" stroke-width="3"/>
-  <text x="390" y="143" fill="#122336" font-family="'DM Sans', 'DM Sans Regular', Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="4">CASA RUSU</text>
-  <text x="394" y="190" fill="#b29862" font-family="'DM Sans', 'DM Sans Regular', Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="7">RESTAURANT</text>
-</svg>
