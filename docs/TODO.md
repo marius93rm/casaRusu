@@ -13,7 +13,7 @@
 - [x] **CR-04 — Leggibilità dei testi funzionali su mobile.** CTA, link e orari portati a 14,4 px sotto 760 px; verificati a 320 e 390 px senza overflow e a 1440 px per la resa desktop.
 - [ ] **CR-05 — Descrivere meglio l’offerta.** Precisare cucina, fascia di prezzo e specialità soltanto con informazioni confermate dal ristorante.
 - [x] **CR-06 — Prenotazione accessibile durante lo scroll mobile.** Aggiunta una CTA telefonica fissa in basso sotto 760 px, con numero e testo già configurati e spazio per l’area sicura; verificata in Chromium a 390×844, dopo lo scroll e a 1440×1000 (nascosta su desktop).
-- [ ] **CR-07 — CTA della sezione cucina.** Preferire menu o prenotazione al collegamento esterno a Facebook. **Dipendenze:** CR-01 e CR-02.
+- [x] **CR-07 — CTA della sezione cucina.** Il collegamento porta alla scheda locale del piatto invece che a Facebook; implementato con CR-01 nel commit `604d09b`. Verificato nel browser in RO a 390×844 e 1440×1000 e in EN a 1440×1000, senza overflow; le destinazioni sono localizzate. **Dipendenza:** CR-01 completato; non serve scegliere un canale di prenotazione per questa CTA.
 - [ ] **CR-08 — Elementi di fiducia.** Valutare recensioni verificabili, informazioni sulla gestione e più piatti; usare solo contenuti autentici e approvati.
 
 ## Priorità bassa
