@@ -18,7 +18,7 @@
 
 ## Priorità bassa
 
-- [ ] **CR-09 — Varianti responsive delle immagini.** Misurare il beneficio reale e, se utile, aggiungere `srcset` e formati moderni senza peggiorare la qualità.
+- [x] **CR-09 — Varianti responsive delle immagini.** Aggiunte varianti WebP da 640 a 1920 px (fino a 1439 px per l’esterno), `srcset` e fallback JPEG. Hero a 640 px: 49,2 KB rispetto ai 247,7 KB originali; resa verificata a 390 e 1440 px.
 
 ## Regole per il coordinamento
 

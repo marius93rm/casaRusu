@@ -8,6 +8,11 @@ import { siteData, type SiteLocale } from '../data/site';
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const seo = siteData.seo[locale];
+const webpSrcset = (image: string, widths: number[]) => {
+  const stem = image.replace(/\.jpe?g$/i, '');
+  return widths.map((width) => `${stem}-${width}.webp ${width}w`).join(', ');
+};
+const imageSizes = '(max-width: 760px) calc(100vw - 2.5rem), min(44vw, 40rem)';
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
@@ -52,13 +57,20 @@ const structuredData = {
         </div>
 
         <figure class="hero-visual">
-          <img
-            src={siteData.media.cover}
-            alt={copy.hero.imageAlt}
-            fetchpriority="high"
-            width="1919"
-            height="1279"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcset={webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920])}
+              sizes={imageSizes}
+            />
+            <img
+              src={siteData.media.cover}
+              alt={copy.hero.imageAlt}
+              fetchpriority="high"
+              width="1919"
+              height="1279"
+            />
+          </picture>
         </figure>
       </div>
     </section>
@@ -74,13 +86,20 @@ const structuredData = {
     <section class="dish-section" id="preparat" aria-labelledby="dish-title">
       <div class="container dish-grid">
         <figure class="dish-visual">
-          <img
-            src={siteData.media.featuredDish}
-            alt={copy.dish.imageAlt}
-            loading="lazy"
-            width="2048"
-            height="1366"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920])}
+              sizes={imageSizes}
+            />
+            <img
+              src={siteData.media.featuredDish}
+              alt={copy.dish.imageAlt}
+              loading="lazy"
+              width="2048"
+              height="1366"
+            />
+          </picture>
         </figure>
         <div class="dish-copy">
           <p class="section-label">{copy.dish.eyebrow}</p>
@@ -101,13 +120,20 @@ const structuredData = {
           <p>{copy.visit.body}</p>
         </div>
         <figure class="visit-visual">
-          <img
-            src={siteData.media.exterior}
-            alt={copy.visit.imageAlt}
-            loading="lazy"
-            width="1439"
-            height="960"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcset={webpSrcset(siteData.media.exterior, [640, 960, 1280, 1439])}
+              sizes={imageSizes}
+            />
+            <img
+              src={siteData.media.exterior}
+              alt={copy.visit.imageAlt}
+              loading="lazy"
+              width="1439"
+              height="960"
+            />
+          </picture>
         </figure>
 
         <div class="visit-content">
