@@ -5,7 +5,7 @@
 ## Priorità alta
 
 - [x] **CR-01 — Anteprima del menu e scheda del piatto in evidenza.** Su indicazione di Marius (13/10/2026), il menu segnala che quello completo arriverà e presenta solo lo șnițel già pubblicato sul sito, con una pagina di dettaglio nelle versioni RO/EN. Nessun dato commerciale nuovo aggiunto. Menu completo, prezzi e informazioni alimentari restano in sospeso finché il ristorante non fornisce dati aggiornati e approvati.
-- [ ] **CR-02 — Alternativa alla prenotazione telefonica.** Valutare un canale scritto o un sistema gestito dal ristorante. **Blocco:** scelta operativa da concordare; chiedere prima di contatti esterni, account, costi o attivazioni.
+- [x] **CR-02 — Alternativa alla prenotazione telefonica.** Decisione di Marius (13/10/2026): mantenere per ora la prenotazione telefonica; nessun canale alternativo da introdurre.
 - [ ] **CR-03 — Configurazione SEO di produzione.** Impostare `seo.siteUrl` in `src/config/site.ts` per canonical, hreflang, sitemap e anteprime social. **Blocco:** attendere dominio HTTPS e hosting confermati; non inserire origini ipotetiche.
 
 ## Priorità media
