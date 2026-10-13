@@ -46,10 +46,18 @@ export const siteData = {
   copy: {
     ro: {
       nav: [
-        { label: 'Despre', href: '#poveste' },
-        { label: 'Din bucătăria noastră', href: '#preparat' },
-        { label: 'Contact', href: '#vizita' },
+        { label: 'Meniu', href: '/meniu/' },
+        { label: 'Despre', href: '/#poveste' },
+        { label: 'Din bucătăria noastră', href: '/#preparat' },
+        { label: 'Contact', href: '/#vizita' },
       ],
+      menu: {
+        eyebrow: 'Meniu',
+        title: 'Meniul complet, în curând.',
+        body: 'Până atunci, descoperă preparatul pe care îl prezentăm acum.',
+        dishAction: 'Vezi preparatul',
+        backAction: 'Înapoi la meniu',
+      },
       hero: {
         eyebrow: 'Restaurant · Codlea',
         titleFirst: 'Gusturi care aduc',
@@ -69,7 +77,7 @@ export const siteData = {
         body: 'Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.',
         note: 'Sună-ne pentru disponibilitate și preț.',
         imageAlt: 'Preparat Casa Rusu cu cotlet de porc, cartofi prăjiți și garnituri.',
-        action: 'Urmărește-ne pe Facebook',
+        action: 'Descoperă preparatul',
       },
       visit: {
         titleFirst: 'Hai să ne',
@@ -91,10 +99,18 @@ export const siteData = {
     },
     en: {
       nav: [
-        { label: 'About', href: '#poveste' },
-        { label: 'From our kitchen', href: '#preparat' },
-        { label: 'Contact', href: '#vizita' },
+        { label: 'Menu', href: '/en/meniu/' },
+        { label: 'About', href: '/en/#poveste' },
+        { label: 'From our kitchen', href: '/en/#preparat' },
+        { label: 'Contact', href: '/en/#vizita' },
       ],
+      menu: {
+        eyebrow: 'Menu',
+        title: 'The full menu is coming soon.',
+        body: 'For now, discover the dish we are featuring.',
+        dishAction: 'See the dish',
+        backAction: 'Back to menu',
+      },
       hero: {
         eyebrow: 'Restaurant · Codlea',
         titleFirst: 'Flavours that bring',
@@ -114,7 +130,7 @@ export const siteData = {
         body: 'We serve it with a hearty portion of fries topped with parsley, parmesan and garlic.',
         note: 'Call us to check availability and price.',
         imageAlt: 'Casa Rusu dish with pork loin, fries and garnishes.',
-        action: 'Follow us on Facebook',
+        action: 'Discover the dish',
       },
       visit: {
         titleFirst: 'Let’s meet',

@@ -184,6 +184,31 @@ h1, h2, h3 {
 .dish-copy > p:not(.section-label) { max-width: 24rem; margin-bottom: 1rem; color: var(--muted); font-size: .9rem; }
 .dish-copy small { display: block; margin-bottom: 1.6rem; color: var(--muted); font-size: .73rem; }
 
+.menu-page { min-height: 60vh; padding-block: clamp(3.5rem, 7vw, 6rem) 0; }
+.menu-page-heading { max-width: 52rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+.menu-page-heading .eyebrow { margin-bottom: 1rem; }
+.menu-page-heading h1 { margin-bottom: 1.25rem; font-size: clamp(3rem, 6vw, 5.5rem); }
+.menu-page-intro { max-width: 38rem; color: var(--muted); font-size: .95rem; }
+.menu-feature { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: clamp(3rem, 8vw, 8rem); padding-bottom: var(--section-space); }
+.menu-feature-visual { aspect-ratio: 1.12; overflow: hidden; }
+.menu-feature-visual picture, .dish-detail-visual picture { width: 100%; height: 100%; }
+.menu-feature-visual img, .dish-detail-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; }
+.menu-feature-visual:hover img { transform: scale(1.035); }
+.menu-feature-copy { max-width: 29rem; }
+.menu-feature-copy .section-label { margin-bottom: 1rem; }
+.menu-feature-copy h2 { margin-bottom: 1.25rem; font-size: clamp(2.6rem, 4.4vw, 4.2rem); }
+.menu-feature-copy h2 a { text-decoration: none; }
+.menu-feature-description { max-width: 24rem; margin-bottom: 1rem; color: var(--muted); font-size: .9rem; }
+.menu-feature-note { margin-bottom: 1.4rem; color: var(--muted); font-size: .73rem; }
+.dish-detail { min-height: 60vh; padding-block: clamp(3.5rem, 7vw, 6rem) var(--section-space); }
+.dish-detail-grid { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: clamp(3rem, 8vw, 8rem); }
+.dish-detail-visual { aspect-ratio: 1.12; overflow: hidden; }
+.dish-detail-copy { max-width: 32rem; }
+.dish-detail-copy h1 { margin-bottom: 1.5rem; font-size: clamp(2.8rem, 5vw, 4.5rem); }
+.dish-detail-body { margin-bottom: 1rem; color: var(--muted); font-size: .95rem; }
+.dish-detail-note { margin-bottom: 1.8rem; color: var(--muted); font-size: .8rem; }
+.dish-detail-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
+
 .visit-section { border-top: 1px solid var(--border); padding-block: var(--section-space); background: var(--surface); }
 .visit-layout { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 3.5rem clamp(3rem, 8vw, 8rem); }
 .visit-heading { grid-column: 1 / -1; max-width: 48rem; }
@@ -224,6 +249,7 @@ h1, h2, h3 {
   .hero-actions { gap: 1rem; }
   .button { padding-inline: 1rem; }
   .dish-grid, .visit-layout { column-gap: 3rem; }
+  .menu-feature, .dish-detail-grid { column-gap: 3rem; }
 }
 @media (max-width: 900px) and (min-width: 761px) {
   .header-inner { gap: 1rem; }
@@ -296,6 +322,18 @@ h1, h2, h3 {
   .dish-copy { max-width: 32rem; }
   .section-label { margin-bottom: 1rem; }
   .dish-copy h2 { max-width: 25rem; font-size: clamp(2.5rem, 8vw, 3.5rem); }
+  .menu-page { padding-top: 3rem; }
+  .menu-page-heading { margin-bottom: 2.5rem; }
+  .menu-page-heading h1 { font-size: clamp(2.7rem, 9vw, 3.8rem); }
+  .menu-feature, .dish-detail-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .menu-feature { padding-bottom: 4rem; }
+  .menu-feature-visual, .dish-detail-visual { aspect-ratio: 1.2; }
+  .menu-feature-copy { max-width: 32rem; }
+  .menu-feature-copy h2 { max-width: 25rem; font-size: clamp(2.5rem, 8vw, 3.5rem); }
+  .dish-detail { padding-block: 3rem 4rem; }
+  .dish-detail-copy { max-width: 32rem; }
+  .dish-detail-copy h1 { font-size: clamp(2.5rem, 8vw, 3.5rem); }
+  .dish-detail-actions { align-items: start; flex-direction: column; }
   .visit-section { padding-block: 3.5rem; }
   .visit-layout { grid-template-columns: 1fr; gap: 2rem; }
   .visit-heading h2 { font-size: clamp(2.5rem, 8vw, 3.5rem); }
