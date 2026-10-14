@@ -15,6 +15,7 @@
 - [x] **CR-06 — Prenotazione accessibile durante lo scroll mobile.** Aggiunta una CTA telefonica fissa in basso sotto 760 px, con numero e testo già configurati e spazio per l’area sicura; verificata in Chromium a 390×844, dopo lo scroll e a 1440×1000 (nascosta su desktop).
 - [x] **CR-07 — CTA della sezione cucina.** Il collegamento porta alla scheda locale del piatto invece che a Facebook; implementato con CR-01 nel commit `604d09b`. Verificato nel browser in RO a 390×844 e 1440×1000 e in EN a 1440×1000, senza overflow; le destinazioni sono localizzate. **Dipendenza:** CR-01 completato; non serve scegliere un canale di prenotazione per questa CTA.
 - [x] **CR-08 — Elementi di fiducia.** Aggiunto un collegamento diretto alla scheda Google che corrisponde a nome, indirizzo e telefono del ristorante, per leggere le recensioni aggiornate. Non sono stati copiati testi o rating, che Google indica come non confermati. Non aggiunte informazioni sulla gestione o altri piatti senza contenuti approvati.
+- [x] **CR-10 — Hreflang per pagina localizzata.** In `BaseLayout.astro` i link `hreflang` di ogni pagina puntavano alle homepage RO/EN; menu e scheda del piatto non indicavano la controparte tradotta. Generati i link della stessa rotta, con slash canonico e `x-default` sulla versione RO. Verificati tutti e sei gli HTML generati (home, menu e scheda piatto in RO/EN): ciascun `hreflang` corrisponde al canonical della pagina tradotta.
 
 ## Priorità bassa
 
