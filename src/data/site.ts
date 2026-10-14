@@ -36,6 +36,7 @@ export const siteData = {
     facebook: 'https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/',
     instagram: 'https://www.instagram.com/restaurant.casarusu/',
     map: 'https://www.google.com/maps/search/?api=1&query=Strada+Lateral%C4%83%2C+nr.+42%2C+Codlea%2C+Romania',
+    googleBusiness: 'https://www.google.com/maps?cid=8243879332869202835',
   },
   media: {
     logo: '/brand/casa-rusu-logo.jpg',
@@ -90,6 +91,7 @@ export const siteData = {
         weekdayHours: 'Luni–vineri · 11:00–22:30',
         weekendHours: 'Sâmbătă–duminică · 11:00–23:00',
         mapAction: 'Deschide harta',
+        reviewsAction: 'Citește recenziile pe Google',
       },
       footer: {
         location: 'Codlea · România',
@@ -143,6 +145,7 @@ export const siteData = {
         weekdayHours: 'Monday–Friday · 11:00–22:30',
         weekendHours: 'Saturday–Sunday · 11:00–23:00',
         mapAction: 'Open in Google Maps',
+        reviewsAction: 'Read reviews on Google',
       },
       footer: {
         location: 'Codlea · Romania',
