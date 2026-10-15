@@ -13,7 +13,4 @@ export const siteConfig = {
     description: siteData.seo.ro.description,
     indexable: siteData.seo.indexable,
   },
-  contactForm: {
-    endpoint: '',
-  },
 };
