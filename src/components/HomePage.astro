@@ -43,7 +43,7 @@ const structuredData = {
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-stage">
         <div class="hero-copy">

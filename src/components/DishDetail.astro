@@ -24,7 +24,7 @@ const imageSizes = '(max-width: 760px) calc(100vw - 2.5rem), min(44vw, 40rem)';
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <article class="dish-detail" aria-labelledby="dish-detail-title">
       <div class="container dish-detail-grid">
         <figure class="dish-detail-visual">
