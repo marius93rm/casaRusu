@@ -5,15 +5,11 @@ import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
+import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
-const webpSrcset = (image: string, widths: number[]) => {
-  const stem = image.replace(/\.jpe?g$/i, '');
-  return widths.map((width) => `${stem}-${width}.webp ${width}w`).join(', ');
-};
-const imageSizes = '(max-width: 760px) calc(100vw - 2.5rem), min(44vw, 40rem)';
 ---
 
 <BaseLayout
