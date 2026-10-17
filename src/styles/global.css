@@ -257,7 +257,7 @@ h1, h2, h3 {
   .main-navigation ul a { font-size: .7rem; }
   .header-actions { gap: .8rem; }
   .language-switcher { flex-direction: column; gap: 0; }
-  .language-switcher a { min-height: 22px; font-size: .65rem; }
+  .language-switcher a { min-height: 24px; font-size: .65rem; }
   .header-cta { font-size: .6rem; }
   .hero-visual { height: 30rem; }
   .hero h1 { font-size: 2.8rem; }
