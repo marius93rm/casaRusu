@@ -211,6 +211,7 @@ async function main() {
     }
 
     const jsonLd = [];
+    const parsedJsonLd = [];
     const scriptExpression = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi;
     let scriptMatch;
     while ((scriptMatch = scriptExpression.exec(html))) {
@@ -221,8 +222,32 @@ async function main() {
       try {
         const parsed = JSON.parse(block);
         if (!parsed || typeof parsed !== 'object') throw new Error('il valore JSON non è un oggetto o un array');
+        parsedJsonLd.push(parsed);
       } catch (error) {
         report(relativeFile, `JSON-LD ${index + 1} non valido: ${error.message}.`);
+      }
+    }
+
+    if (route === '/' || route === '/en/') {
+      const restaurant = parsedJsonLd.find((entry) => entry['@type'] === 'Restaurant');
+      if (!restaurant) {
+        report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');
+      } else {
+        const geo = restaurant.geo;
+        if (!geo || geo['@type'] !== 'GeoCoordinates') {
+          report(relativeFile, 'JSON-LD Restaurant senza geo GeoCoordinates.');
+        } else {
+          for (const [coordinate, minimum, maximum] of [
+            ['latitude', -90, 90],
+            ['longitude', -180, 180],
+          ]) {
+            const value = geo[coordinate];
+            const precision = typeof value === 'number' ? String(value).split('.')[1]?.length ?? 0 : 0;
+            if (!Number.isFinite(value) || value < minimum || value > maximum || precision < 5) {
+              report(relativeFile, `JSON-LD Restaurant.geo.${coordinate} deve essere un numero valido con almeno 5 decimali.`);
+            }
+          }
+        }
       }
     }
 

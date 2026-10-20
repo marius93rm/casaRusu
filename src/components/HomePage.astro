@@ -31,6 +31,11 @@ const structuredData = {
     postalCode: siteData.company.postalCode,
     addressCountry: 'RO',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: siteData.company.geo.latitude,
+    longitude: siteData.company.geo.longitude,
+  },
   openingHoursSpecification: siteData.company.openingHours.map((hours) => ({
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: hours.daysOfWeek.map((day) => `https://schema.org/${day}`),

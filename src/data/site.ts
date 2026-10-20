@@ -7,6 +7,10 @@ export const siteData = {
     postalCode: '505100',
     city: 'Codlea',
     country: 'România',
+    geo: {
+      latitude: 45.697789,
+      longitude: 25.449737,
+    },
     openingHours: [
       { daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '11:00', closes: '22:30' },
       { daysOfWeek: ['Saturday', 'Sunday'], opens: '11:00', closes: '23:00' },
