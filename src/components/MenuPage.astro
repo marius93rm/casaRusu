@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
@@ -23,6 +24,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
   <main id="main-content" tabindex="-1">
     <section class="menu-page" aria-labelledby="menu-page-title">
       <div class="container">
+        <Breadcrumbs locale={locale} currentLabel={copy.menu.eyebrow} level="menu" />
         <header class="menu-page-heading">
           <p class="eyebrow">{copy.menu.eyebrow}</p>
           <h1 id="menu-page-title">{copy.menu.title}</h1>

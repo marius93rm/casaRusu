@@ -1,0 +1,52 @@
+---
+import type { SiteLocale } from '../data/site';
+import { localizedPath } from '../i18n';
+
+interface Props {
+  locale: SiteLocale;
+  currentLabel: string;
+  level: 'menu' | 'dish';
+}
+
+const { locale, currentLabel, level } = Astro.props;
+const homeLabel = locale === 'ro' ? 'Acasă' : 'Home';
+const menuLabel = locale === 'ro' ? 'Meniu' : 'Menu';
+const items: Array<{ name: string; href?: string }> = [
+  { name: homeLabel, href: localizedPath('/', locale) },
+];
+
+if (level === 'dish') {
+  items.push({ name: menuLabel, href: localizedPath('/meniu', locale) });
+}
+items.push({ name: currentLabel });
+
+const siteUrl = Astro.site;
+const breadcrumbData = siteUrl
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        ...(item.href
+          ? { item: new URL(item.href.endsWith('/') ? item.href : `${item.href}/`, siteUrl).toString() }
+          : {}),
+      })),
+    }
+  : undefined;
+---
+
+{breadcrumbData && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />}
+<nav class="breadcrumbs" aria-label={locale === 'ro' ? 'Navigare' : 'Breadcrumb'}>
+  <ol>
+    {items.map((item, index) => (
+      <li>
+        {index > 0 && <span class="breadcrumb-separator" aria-hidden="true">›</span>}
+        {item.href
+          ? <a href={item.href}>{item.name}</a>
+          : <span aria-current="page">{item.name}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

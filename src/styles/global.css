@@ -95,6 +95,14 @@ h1, h2, h3 {
   background: var(--primary);
 }
 .skip-link:focus { transform: translateY(0); }
+.breadcrumbs { margin-bottom: clamp(1.25rem, 3vw, 2rem); }
+.breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; padding: 0; margin: 0; list-style: none; }
+.breadcrumbs li { display: inline-flex; align-items: center; gap: .5rem; min-width: 0; color: var(--muted); font-size: .75rem; line-height: 1.4; }
+.breadcrumbs a, .breadcrumbs [aria-current='page'] { display: inline-flex; align-items: center; min-height: 32px; }
+.breadcrumbs a { color: var(--muted); text-decoration-color: var(--border); text-underline-offset: .2rem; }
+.breadcrumbs a:hover { color: var(--accent); }
+.breadcrumbs [aria-current='page'] { color: var(--text); font-weight: 500; }
+.breadcrumb-separator { color: var(--border); }
 
 .site-header {
   position: sticky;
