@@ -267,6 +267,17 @@ async function main() {
             report(relativeFile, 'JSON-LD Restaurant.sameAs contiene URL duplicati.');
           }
         }
+
+        if (productionOrigin) {
+          const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
+          const menuUrl = parseUrl(restaurant.menu);
+          if (!menuUrl || menuUrl.origin !== productionOrigin || menuUrl.pathname !== expectedMenuPath
+            || menuUrl.search || menuUrl.hash) {
+            report(relativeFile, `JSON-LD Restaurant.menu deve puntare a ${productionOrigin}${expectedMenuPath}.`);
+          } else if (!(await resolveOutputPath(menuUrl.pathname))) {
+            report(relativeFile, `JSON-LD Restaurant.menu non punta a una pagina HTML generata: ${menuUrl.pathname}.`);
+          }
+        }
       }
     }
 

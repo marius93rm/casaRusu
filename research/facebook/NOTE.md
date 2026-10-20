@@ -25,3 +25,9 @@ Album pubblico consultato: [Marea deschidere](https://www.facebook.com/media/set
 - `exterior-sign-42.jpg`: insegna Casa Rusu sulla facciata e civico 42, 1439×960.
 
 `exterior-sign-42.jpg` è stata selezionata per la sezione contatti del sito e copiata in `public/images/casa-rusu-exterior.jpg`. `dessert-assortment.jpg` resta materiale di ricerca: la foto non chiarisce il nome o la disponibilità dei prodotti. Ricontrollare gli orari se la pagina Facebook viene aggiornata.
+
+## Aggiornamento — 20 ottobre 2026
+
+Post pubblico della stessa pagina ufficiale: [promozione cocktail 3+1](https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl), consultato il 20/10/2026. Il post nomina Disaronno Sour, PornStar Martini e Aperol Vanilla Sour; comunica che ordinando tre cocktail il quarto è gratuito, fino al 30/11/2026, e invita a prenotare al 0732 901 232.
+
+Il post non riporta prezzi, ingredienti o allergeni. La pagina menu mostra quindi soltanto l’offerta e la data di validità, senza presentarla come menu completo né aggiungere dettagli non pubblicati. Il codice la nasconde nei nuovi build dopo la scadenza e la rimuove anche nel browser se una build precedente resta online; il testo indica comunque la data esplicita.

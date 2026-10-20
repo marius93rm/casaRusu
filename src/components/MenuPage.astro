@@ -10,6 +10,8 @@ import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const offer = copy.menu.offer;
+const offerActive = Date.now() < Date.parse(siteData.promotions.cocktailOffer.expiresAt);
 const socialImage = {
   src: siteData.media.featuredDish,
   alt: copy.dish.imageAlt,
@@ -66,6 +68,31 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
             </a>
           </div>
         </article>
+
+        {offerActive && (
+          <section
+            class="menu-offer"
+            aria-labelledby="menu-offer-title"
+            data-expires-at={siteData.promotions.cocktailOffer.expiresAt}
+          >
+            <header>
+              <p class="eyebrow">{offer.eyebrow}</p>
+              <h2 id="menu-offer-title">{offer.title}</h2>
+            </header>
+            <p class="menu-offer-copy">{offer.body}</p>
+            <ul class="menu-offer-cocktails">
+              {offer.cocktails.map((cocktail) => <li>{cocktail}</li>)}
+            </ul>
+            <div class="menu-offer-actions">
+              <a class="button button-primary" href={siteData.company.phoneHref}>
+                {offer.callAction}<Icon name="phone" size={18} />
+              </a>
+              <a class="text-link" href={siteData.promotions.cocktailOffer.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {offer.sourceAction}<Icon name="diagonal" size={17} />
+              </a>
+            </div>
+          </section>
+        )}
       </div>
     </section>
   </main>
@@ -75,3 +102,11 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
     {copy.hero.primaryAction}<Icon name="phone" size={18} />
   </a>
 </BaseLayout>
+
+<script>
+  const offer = document.querySelector<HTMLElement>('.menu-offer[data-expires-at]');
+  if (offer) {
+    const expiresAt = Date.parse(offer.dataset.expiresAt ?? '');
+    if (Number.isFinite(expiresAt) && Date.now() >= expiresAt) offer.remove();
+  }
+</script>

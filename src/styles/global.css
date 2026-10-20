@@ -207,6 +207,13 @@ h1, h2, h3 {
 .menu-feature-copy h2 a { text-decoration: none; }
 .menu-feature-description { max-width: 24rem; margin-bottom: 1rem; color: var(--muted); font-size: .9rem; }
 .menu-feature-note { margin-bottom: 1.4rem; color: var(--muted); font-size: .73rem; }
+.menu-offer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; max-width: 62rem; margin: 0 auto var(--section-space); padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--border); background: var(--surface); }
+.menu-offer .eyebrow { margin-bottom: .7rem; }
+.menu-offer h2 { max-width: 22ch; margin: 0; font-size: clamp(2rem, 4vw, 3.25rem); }
+.menu-offer-copy { max-width: 42rem; color: var(--muted); font-size: .92rem; }
+.menu-offer-cocktails { display: flex; flex-wrap: wrap; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+.menu-offer-cocktails li { border: 1px solid var(--border); padding: .55rem .8rem; font-size: .82rem; }
+.menu-offer-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
 .dish-detail { min-height: 60vh; padding-block: clamp(3.5rem, 7vw, 6rem) var(--section-space); }
 .dish-detail-grid { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: clamp(3rem, 8vw, 8rem); }
 .dish-detail-visual { aspect-ratio: 1.12; overflow: hidden; }
@@ -335,6 +342,9 @@ h1, h2, h3 {
   .menu-page-heading h1 { font-size: clamp(2.7rem, 9vw, 3.8rem); }
   .menu-feature, .dish-detail-grid { grid-template-columns: 1fr; gap: 2rem; }
   .menu-feature { padding-bottom: 4rem; }
+  .menu-offer { margin-bottom: 4rem; }
+  .menu-offer-actions { align-items: start; flex-direction: column; }
+  .menu-offer-actions .button { width: 100%; max-width: 100%; min-width: 0; justify-content: space-between; white-space: normal; }
   .menu-feature-visual, .dish-detail-visual { aspect-ratio: 1.2; }
   .menu-feature-copy { max-width: 32rem; }
   .menu-feature-copy h2 { max-width: 25rem; font-size: clamp(2.5rem, 8vw, 3.5rem); }

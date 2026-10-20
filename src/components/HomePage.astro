@@ -49,6 +49,7 @@ const structuredData = {
     image: [siteData.media.cover, siteData.media.exterior, siteData.media.featuredDish]
       .map((image) => new URL(image, Astro.site).toString()),
     logo: new URL(siteData.media.logo, Astro.site).toString(),
+    menu: new URL(`${localizedPath('/meniu', locale)}/`, Astro.site).toString(),
   } : {}),
 };
 ---

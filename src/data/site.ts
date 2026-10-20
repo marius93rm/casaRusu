@@ -48,6 +48,12 @@ export const siteData = {
     featuredDish: '/images/casa-rusu-preparat.jpg',
     exterior: '/images/casa-rusu-exterior.jpg',
   },
+  promotions: {
+    cocktailOffer: {
+      expiresAt: '2026-12-01T00:00:00+02:00',
+      sourceUrl: 'https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl',
+    },
+  },
   copy: {
     ro: {
       nav: [
@@ -66,6 +72,14 @@ export const siteData = {
         },
         dishAction: 'Vezi preparatul',
         backAction: 'Înapoi la meniu',
+        offer: {
+          eyebrow: 'Ofertă publicată · valabilă până la 30 noiembrie 2026',
+          title: '3 cocktailuri + 1 din partea casei',
+          body: 'Comandă trei cocktailuri din selecție și îl primești gratuit pe al patrulea:',
+          cocktails: ['Disaronno Sour', 'PornStar Martini', 'Aperol Vanilla Sour'],
+          callAction: 'Sună pentru detalii și rezervare',
+          sourceAction: 'Vezi oferta pe Facebook',
+        },
       },
       hero: {
         eyebrow: 'Restaurant · Codlea',
@@ -126,6 +140,14 @@ export const siteData = {
         },
         dishAction: 'See the dish',
         backAction: 'Back to menu',
+        offer: {
+          eyebrow: 'Published offer · valid through 30 November 2026',
+          title: '3 cocktails + 1 on the house',
+          body: 'Order three cocktails from this selection and get the fourth free:',
+          cocktails: ['Disaronno Sour', 'PornStar Martini', 'Aperol Vanilla Sour'],
+          callAction: 'Call for details and reservations',
+          sourceAction: 'See the offer on Facebook',
+        },
       },
       hero: {
         eyebrow: 'Restaurant · Codlea',
