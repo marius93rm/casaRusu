@@ -6,11 +6,13 @@ import Icon from './Icon.astro';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
+import { formatOpeningHours } from '../utils/openingHours';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const seo = siteData.seo[locale];
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
+const openingHours = formatOpeningHours(siteData.company.openingHours, locale);
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
@@ -148,8 +150,7 @@ const structuredData = {
             </div>
             <div class="visit-detail visit-hours">
               <span>{copy.visit.hoursLabel}</span>
-              <p>{copy.visit.weekdayHours}</p>
-              <p>{copy.visit.weekendHours}</p>
+              {openingHours.map((hours) => <p>{hours}</p>)}
             </div>
             <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer">
               {copy.visit.mapAction}<Icon name="location" size={18} />

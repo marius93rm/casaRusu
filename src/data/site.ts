@@ -96,8 +96,6 @@ export const siteData = {
         phoneLabel: 'Telefon',
         imageAlt: 'Firma Restaurantului Casa Rusu pe fațada clădirii, lângă numărul 42.',
         hoursLabel: 'Program',
-        weekdayHours: 'Luni–vineri · 11:00–22:30',
-        weekendHours: 'Sâmbătă–duminică · 11:00–23:00',
         mapAction: 'Deschide harta',
         reviewsAction: 'Citește recenziile pe Google',
       },
@@ -158,8 +156,6 @@ export const siteData = {
         phoneLabel: 'Phone',
         imageAlt: 'The Casa Rusu restaurant sign on the outside wall beside number 42.',
         hoursLabel: 'Opening hours',
-        weekdayHours: 'Monday–Friday · 11:00–22:30',
-        weekendHours: 'Saturday–Sunday · 11:00–23:00',
         mapAction: 'Open in Google Maps',
         reviewsAction: 'Read reviews on Google',
       },
@@ -173,3 +169,4 @@ export const siteData = {
 } as const;
 
 export type SiteLocale = keyof typeof siteData.copy;
+export type OpeningDay = (typeof siteData.company.openingHours)[number]['daysOfWeek'][number];
