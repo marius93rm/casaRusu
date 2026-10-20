@@ -233,6 +233,10 @@ async function main() {
       if (!restaurant) {
         report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');
       } else {
+        if (restaurant.acceptsReservations !== true) {
+          report(relativeFile, 'JSON-LD Restaurant.acceptsReservations deve riflettere la prenotazione telefonica dichiarata sul sito.');
+        }
+
         const geo = restaurant.geo;
         if (!geo || geo['@type'] !== 'GeoCoordinates') {
           report(relativeFile, 'JSON-LD Restaurant senza geo GeoCoordinates.');
