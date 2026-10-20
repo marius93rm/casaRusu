@@ -248,6 +248,25 @@ async function main() {
             }
           }
         }
+
+        if (!Array.isArray(restaurant.sameAs) || restaurant.sameAs.length < 3) {
+          report(relativeFile, 'JSON-LD Restaurant.sameAs deve includere Facebook, Instagram e Google Maps.');
+        } else {
+          const profiles = restaurant.sameAs.map((value) => parseUrl(value));
+          if (profiles.some((profile) => !profile || profile.protocol !== 'https:')) {
+            report(relativeFile, 'JSON-LD Restaurant.sameAs deve contenere URL HTTPS assoluti.');
+          }
+          const hosts = new Set(profiles.filter(Boolean).map((profile) => profile.hostname));
+          if (!hosts.has('www.facebook.com')) report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Facebook.');
+          if (!hosts.has('www.instagram.com')) report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Instagram.');
+          if (!profiles.some((profile) => profile?.hostname === 'www.google.com'
+            && profile.pathname === '/maps' && profile.searchParams.has('cid'))) {
+            report(relativeFile, 'JSON-LD Restaurant.sameAs non include la scheda Google Maps con CID.');
+          }
+          if (new Set(profiles.filter(Boolean).map((profile) => profile.href)).size !== restaurant.sameAs.length) {
+            report(relativeFile, 'JSON-LD Restaurant.sameAs contiene URL duplicati.');
+          }
+        }
       }
     }
 
