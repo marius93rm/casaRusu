@@ -41,3 +41,7 @@ La pagina [ufficiale Restaurant Casa Rusu | Codlea](https://www.facebook.com/peo
 - Circa 4 giorni prima: [video sulle opzioni del ristorante](https://www.facebook.com/reel/1038477139209678/). La didascalia completa nomina “Cheeseburger” e “pinsa Romana”, con indirizzo e telefono. Non specifica ingredienti, prezzi, allergeni, disponibilità futura o varianti.
 
 La pagina menu riporta solo i due nomi del terzo post, lo collega alla fonte e invita a telefonare per disponibilità e prezzo. Non presenta la selezione come menu completo né attribuisce la musica live a un calendario permanente.
+
+## Riverifica del feed — 21 ottobre 2026
+
+La pagina [ufficiale Restaurant Casa Rusu | Codlea](https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/) è stata riaperta con il browser Paseo. Il post più recente visibile (circa 12 ore al momento del controllo) è ancora la [promozione 3+1](https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl); il contenuto e la scadenza del 30 novembre 2026 coincidono con quanto già documentato. Seguono il video sulla musica live pubblicato circa 2 giorni prima e il reel sulle due opzioni alimentari di circa 4 giorni prima, già descritti sopra. Non è apparso un nuovo piatto o un dettaglio verificabile su prezzi, ingredienti, allergeni o disponibilità.

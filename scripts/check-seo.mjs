@@ -280,6 +280,36 @@ async function main() {
         }
 
         if (productionOrigin) {
+          const expectedRestaurantId = new URL('/#restaurant', productionOrigin).toString();
+          if (restaurant['@id'] !== expectedRestaurantId) {
+            report(relativeFile, `JSON-LD Restaurant.@id deve essere ${expectedRestaurantId}.`);
+          }
+
+          const expectedRestaurantUrl = new URL('/', productionOrigin).toString();
+          if (restaurant.url !== expectedRestaurantUrl) {
+            report(relativeFile, `JSON-LD Restaurant.url deve essere ${expectedRestaurantUrl}.`);
+          }
+
+          const restaurantImages = Array.isArray(restaurant.image) ? restaurant.image : [];
+          if (restaurantImages.length < 3) {
+            report(relativeFile, 'JSON-LD Restaurant.image deve contenere almeno tre immagini.');
+          }
+          for (const imageValue of restaurantImages) {
+            const imageUrl = parseUrl(imageValue);
+            if (!imageUrl || imageUrl.origin !== productionOrigin || imageUrl.search || imageUrl.hash) {
+              report(relativeFile, 'JSON-LD Restaurant.image deve contenere URL assoluti senza query o fragment sull’origine di produzione.');
+            } else if (!(await resolveOutputPath(imageUrl.pathname))) {
+              report(relativeFile, `JSON-LD Restaurant.image non punta a un asset generato: ${imageUrl.pathname}.`);
+            }
+          }
+
+          const logoUrl = parseUrl(restaurant.logo);
+          if (!logoUrl || logoUrl.origin !== productionOrigin || logoUrl.search || logoUrl.hash) {
+            report(relativeFile, 'JSON-LD Restaurant.logo deve essere un URL assoluto sull’origine di produzione.');
+          } else if (!(await resolveOutputPath(logoUrl.pathname))) {
+            report(relativeFile, `JSON-LD Restaurant.logo non punta a un asset generato: ${logoUrl.pathname}.`);
+          }
+
           const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
           const menuUrl = parseUrl(restaurant.menu);
           if (!menuUrl || menuUrl.origin !== productionOrigin || menuUrl.pathname !== expectedMenuPath
