@@ -10,6 +10,12 @@ import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const socialImage = {
+  src: siteData.media.featuredDish,
+  alt: copy.dish.imageAlt,
+  width: 2048,
+  height: 1366,
+};
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 ---
 
@@ -17,6 +23,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
   lang={locale}
   title={copy.menu.seo.title}
   description={copy.menu.seo.description}
+  {socialImage}
 >
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />

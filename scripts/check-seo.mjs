@@ -126,6 +126,18 @@ function parseUrl(value, base) {
   }
 }
 
+function singleMetaContent(page, attribute, key) {
+  const matches = page.metaTags.filter((tag) => tag[attribute]?.toLowerCase() === key);
+  if (matches.length !== 1) {
+    report(page.relativeFile, `atteso un solo meta ${key}, trovati ${matches.length}.`);
+    return undefined;
+  }
+
+  const content = matches[0].content?.trim();
+  if (!content) report(page.relativeFile, `meta ${key} senza contenuto.`);
+  return content;
+}
+
 function sourceCandidates(srcset) {
   return srcset.split(',').map((candidate) => candidate.trim().split(/\s+/)[0]).filter(Boolean);
 }
@@ -280,6 +292,35 @@ async function main() {
     const pagesByRoute = new Map(pages.map((page) => [page.route, page]));
     const pagesByCanonical = new Map();
     for (const page of pages) {
+      const expectedSocialImagePath = page.route === '/' || page.route === '/en/'
+        ? '/images/casa-rusu-interior.jpg'
+        : '/images/casa-rusu-preparat.jpg';
+      const socialImage = singleMetaContent(page, 'property', 'og:image');
+      const twitterImage = singleMetaContent(page, 'name', 'twitter:image');
+      const socialImageAlt = singleMetaContent(page, 'property', 'og:image:alt');
+      const twitterImageAlt = singleMetaContent(page, 'name', 'twitter:image:alt');
+      const socialImageWidth = singleMetaContent(page, 'property', 'og:image:width');
+      const socialImageHeight = singleMetaContent(page, 'property', 'og:image:height');
+      const socialImageUrl = socialImage ? parseUrl(socialImage) : undefined;
+
+      if (!socialImageUrl || socialImageUrl.origin !== productionOrigin) {
+        report(page.relativeFile, `og:image deve essere un URL assoluto su ${productionOrigin}.`);
+      } else {
+        if (socialImageUrl.pathname !== expectedSocialImagePath) {
+          report(page.relativeFile, `og:image attesa ${expectedSocialImagePath}, trovata ${socialImageUrl.pathname}.`);
+        }
+        if (!(await resolveOutputPath(socialImageUrl.pathname))) {
+          report(page.relativeFile, `asset og:image inesistente: ${socialImageUrl.pathname}.`);
+        }
+      }
+      if (twitterImage !== socialImage) report(page.relativeFile, 'twitter:image deve corrispondere a og:image.');
+      if (socialImageAlt && twitterImageAlt !== socialImageAlt) {
+        report(page.relativeFile, 'twitter:image:alt deve corrispondere a og:image:alt.');
+      }
+      if (socialImageWidth !== '2048' || socialImageHeight !== '1366') {
+        report(page.relativeFile, 'dimensioni social attese: 2048×1366.');
+      }
+
       const canonicalTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical'));
       if (canonicalTags.length !== 1) {
         report(page.relativeFile, `atteso un canonical, trovati ${canonicalTags.length}.`);

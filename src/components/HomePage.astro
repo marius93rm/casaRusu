@@ -11,6 +11,12 @@ import { formatOpeningHours } from '../utils/openingHours';
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const seo = siteData.seo[locale];
+const socialImage = {
+  src: siteData.media.cover,
+  alt: copy.hero.imageAlt,
+  width: 2048,
+  height: 1366,
+};
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 const openingHours = formatOpeningHours(siteData.company.openingHours, locale);
 const structuredData = {
@@ -32,11 +38,17 @@ const structuredData = {
     closes: hours.closes,
   })),
   sameAs: [siteData.links.facebook, siteData.links.instagram],
-  ...(Astro.site ? { url: new URL('/', Astro.site).toString() } : {}),
+  ...(Astro.site ? {
+    '@id': new URL('/#restaurant', Astro.site).toString(),
+    url: new URL('/', Astro.site).toString(),
+    image: [siteData.media.cover, siteData.media.exterior, siteData.media.featuredDish]
+      .map((image) => new URL(image, Astro.site).toString()),
+    logo: new URL(siteData.media.logo, Astro.site).toString(),
+  } : {}),
 };
 ---
 
-<BaseLayout lang={locale} title={seo.title} description={seo.description}>
+<BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />

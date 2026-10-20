@@ -8,12 +8,19 @@ interface Props {
   title?: string;
   description?: string;
   lang?: SiteLocale;
+  socialImage?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 }
 
 const {
   title = siteConfig.seo.title,
   description = siteConfig.seo.description,
   lang = 'ro',
+  socialImage: socialImageData,
 } = Astro.props;
 
 const theme = siteConfig.branding.theme;
@@ -34,7 +41,9 @@ const localizedUrl = (locale: SiteLocale) => {
 };
 const romanianUrl = localizedUrl('ro');
 const englishUrl = localizedUrl('en');
-const socialImage = Astro.site ? new URL('/images/casa-rusu-interior.jpg', Astro.site).toString() : undefined;
+const socialImageUrl = Astro.site && socialImageData
+  ? new URL(socialImageData.src, Astro.site).toString()
+  : undefined;
 const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
 ---
 
@@ -57,12 +66,16 @@ const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:locale" content={socialLocale} />
-    {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    {socialImageUrl && socialImageData && <meta property="og:image:alt" content={socialImageData.alt} />}
+    {socialImageUrl && socialImageData && <meta property="og:image:width" content={String(socialImageData.width)} />}
+    {socialImageUrl && socialImageData && <meta property="og:image:height" content={String(socialImageData.height)} />}
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
-    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
+    {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     {romanianUrl && <link rel="alternate" hreflang="ro-RO" href={romanianUrl} />}
     {englishUrl && <link rel="alternate" hreflang="en" href={englishUrl} />}
