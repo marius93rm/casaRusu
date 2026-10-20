@@ -1,0 +1,381 @@
+import { readFile, readdir, stat } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const outputDirectory = path.join(projectRoot, 'dist');
+const errors = [];
+const localOrigin = 'http://casa-rusu.local';
+
+function report(file, message) {
+  errors.push(`${file}: ${message}`);
+}
+
+function decodeEntities(value) {
+  return value.replace(/&(#x[\da-f]+|#\d+|amp|quot|apos|lt|gt);/gi, (entity, code) => {
+    if (code[0] === '#') {
+      const numeric = code[1].toLowerCase() === 'x'
+        ? Number.parseInt(code.slice(2), 16)
+        : Number.parseInt(code.slice(1), 10);
+      return Number.isFinite(numeric) && numeric <= 0x10ffff
+        ? String.fromCodePoint(numeric)
+        : entity;
+    }
+
+    return {
+      amp: '&',
+      quot: '"',
+      apos: "'",
+      lt: '<',
+      gt: '>',
+    }[code.toLowerCase()];
+  });
+}
+
+function parseAttributes(source) {
+  const attributes = {};
+  const expression = /([^\s"'<>/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g;
+  let match;
+
+  while ((match = expression.exec(source))) {
+    attributes[match[1].toLowerCase()] = decodeEntities(match[2] ?? match[3] ?? match[4] ?? '');
+  }
+
+  return attributes;
+}
+
+function openingTags(html, names) {
+  const expression = new RegExp(`<(${names})\\b([^>]*)>`, 'gi');
+  const tags = [];
+  let match;
+
+  while ((match = expression.exec(html))) {
+    tags.push({ name: match[1].toLowerCase(), attributes: parseAttributes(match[2]) });
+  }
+
+  return tags;
+}
+
+function routeFromFile(relativeFile) {
+  const normalized = relativeFile.split(path.sep).join('/');
+  if (normalized === 'index.html') return '/';
+  if (normalized.endsWith('/index.html')) return `/${normalized.slice(0, -'index.html'.length)}`;
+  return `/${normalized.slice(0, -'.html'.length)}`;
+}
+
+async function findHtmlFiles(directory, prefix = '') {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const relative = path.join(prefix, entry.name);
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...await findHtmlFiles(fullPath, relative));
+    else if (entry.isFile() && entry.name.endsWith('.html')) files.push(relative);
+  }
+
+  return files;
+}
+
+async function fileExists(filePath) {
+  try {
+    return (await stat(filePath)).isFile();
+  } catch {
+    return false;
+  }
+}
+
+async function resolveOutputPath(urlPath) {
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(urlPath);
+  } catch {
+    return undefined;
+  }
+
+  const candidate = path.resolve(outputDirectory, `.${decodedPath}`);
+  if (!candidate.startsWith(`${outputDirectory}${path.sep}`) && candidate !== outputDirectory) return undefined;
+
+  const candidates = decodedPath.endsWith('/')
+    ? [path.join(candidate, 'index.html')]
+    : [candidate, path.join(candidate, 'index.html'), `${candidate}.html`];
+
+  for (const filePath of candidates) {
+    if (await fileExists(filePath)) return filePath;
+  }
+
+  return undefined;
+}
+
+function normalizedText(value) {
+  return decodeEntities(value.replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim();
+}
+
+async function getConfiguredSiteUrl() {
+  const source = await readFile(path.join(projectRoot, 'src/config/site.ts'), 'utf8');
+  const match = source.match(/\bsiteUrl\s*:\s*(['"])(.*?)\1/s);
+  if (!match) throw new Error('Non riesco a leggere siteConfig.seo.siteUrl come stringa letterale in src/config/site.ts.');
+  return match[2].trim();
+}
+
+function parseUrl(value, base) {
+  try {
+    return new URL(value, base);
+  } catch {
+    return undefined;
+  }
+}
+
+function sourceCandidates(srcset) {
+  return srcset.split(',').map((candidate) => candidate.trim().split(/\s+/)[0]).filter(Boolean);
+}
+
+async function main() {
+  if (!(await fileExists(path.join(outputDirectory, 'index.html')))) {
+    throw new Error('dist/index.html non esiste: esegui prima `npm run build`.');
+  }
+
+  const configuredSiteUrl = await getConfiguredSiteUrl();
+  let productionOrigin;
+  if (configuredSiteUrl) {
+    const configuredUrl = parseUrl(configuredSiteUrl);
+    if (!configuredUrl) throw new Error(`seo.siteUrl non è un URL valido: ${configuredSiteUrl}`);
+    if (configuredUrl.protocol !== 'https:') report('src/config/site.ts', 'seo.siteUrl deve usare HTTPS.');
+    if (configuredUrl.pathname !== '/' || configuredUrl.search || configuredUrl.hash) {
+      report('src/config/site.ts', 'seo.siteUrl deve contenere solo l’origine, senza percorso, query o fragment.');
+    }
+    productionOrigin = configuredUrl.origin;
+  }
+
+  const relativeFiles = (await findHtmlFiles(outputDirectory)).sort();
+  if (relativeFiles.length === 0) throw new Error('Nessun file HTML trovato in dist/.');
+
+  const pages = [];
+  for (const relativeFile of relativeFiles) {
+    const fullPath = path.join(outputDirectory, relativeFile);
+    const html = await readFile(fullPath, 'utf8');
+    const route = routeFromFile(relativeFile);
+    const htmlTag = openingTags(html, 'html')[0];
+    const expectedLanguage = route === '/en/' || route.startsWith('/en/') ? 'en' : 'ro';
+    const metaTags = openingTags(html, 'meta').map((tag) => tag.attributes);
+    const linkTags = openingTags(html, 'link').map((tag) => tag.attributes);
+    const titleMatches = [...html.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/gi)];
+    const titles = titleMatches.map((match) => normalizedText(match[1])).filter(Boolean);
+    const metadata = {
+      title: titles[0] ?? '',
+      description: metaTags.find((tag) => tag.name?.toLowerCase() === 'description')?.content?.trim() ?? '',
+      ogTitle: metaTags.find((tag) => tag.property?.toLowerCase() === 'og:title')?.content?.trim() ?? '',
+      ogDescription: metaTags.find((tag) => tag.property?.toLowerCase() === 'og:description')?.content?.trim() ?? '',
+      twitterTitle: metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:title')?.content?.trim() ?? '',
+      twitterDescription: metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:description')?.content?.trim() ?? '',
+    };
+
+    if (!htmlTag?.attributes.lang?.trim()) report(relativeFile, 'attributo lang mancante su <html>.');
+    else if (htmlTag.attributes.lang.toLowerCase() !== expectedLanguage) {
+      report(relativeFile, `lang="${htmlTag.attributes.lang}" non corrisponde alla lingua attesa "${expectedLanguage}".`);
+    }
+
+    if (titleMatches.length !== 1 || !metadata.title) report(relativeFile, `atteso un solo <title> non vuoto, trovati ${titleMatches.length}.`);
+    for (const [name, value] of Object.entries(metadata).slice(1)) {
+      const isOpenGraph = name === 'ogTitle' || name === 'ogDescription';
+      const attribute = isOpenGraph ? 'property' : 'name';
+      const key = name.replace(/[A-Z]/g, (letter) => `:${letter.toLowerCase()}`).toLowerCase();
+      const matches = metaTags.filter((tag) => tag[attribute]?.toLowerCase() === key);
+      if (matches.length !== 1 || !value) report(relativeFile, `atteso un solo meta ${key} non vuoto, trovati ${matches.length}.`);
+    }
+
+    const descriptionTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'description');
+    if (descriptionTags.length !== 1 || !metadata.description) {
+      report(relativeFile, `atteso un solo meta description non vuoto, trovati ${descriptionTags.length}.`);
+    }
+
+    const ids = new Set();
+    const htmlWithoutRawText = html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '');
+    const idExpression = /<[a-z][a-z\d:-]*\b([^>]*)>/gi;
+    let idMatch;
+    while ((idMatch = idExpression.exec(htmlWithoutRawText))) {
+      const id = parseAttributes(idMatch[1]).id;
+      if (id) ids.add(id);
+    }
+
+    const jsonLd = [];
+    const scriptExpression = /<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi;
+    let scriptMatch;
+    while ((scriptMatch = scriptExpression.exec(html))) {
+      const attributes = parseAttributes(scriptMatch[1]);
+      if (attributes.type?.toLowerCase() === 'application/ld+json') jsonLd.push(scriptMatch[2].trim());
+    }
+    for (const [index, block] of jsonLd.entries()) {
+      try {
+        const parsed = JSON.parse(block);
+        if (!parsed || typeof parsed !== 'object') throw new Error('il valore JSON non è un oggetto o un array');
+      } catch (error) {
+        report(relativeFile, `JSON-LD ${index + 1} non valido: ${error.message}.`);
+      }
+    }
+
+    pages.push({ relativeFile, fullPath, html, route, expectedLanguage, metadata, ids, metaTags, linkTags });
+  }
+
+  for (const field of ['title', 'description']) {
+    const seen = new Map();
+    for (const page of pages) {
+      const value = page.metadata[field].replace(/\s+/g, ' ').trim().toLocaleLowerCase();
+      if (!value) continue;
+      if (seen.has(value)) report(page.relativeFile, `${field} duplicato anche in ${seen.get(value)}.`);
+      else seen.set(value, page.relativeFile);
+    }
+  }
+
+  const pagesByFile = new Map(pages.map((page) => [path.resolve(page.fullPath), page]));
+  const baseOrigin = productionOrigin ?? localOrigin;
+  for (const page of pages) {
+    const base = new URL(page.route, baseOrigin);
+    const tags = openingTags(page.html, 'a|area|link|img|source|script|iframe|video|audio|track|embed|object');
+    for (const meta of page.metaTags) {
+      if (['og:url', 'og:image'].includes(meta.property?.toLowerCase()) || meta.name?.toLowerCase() === 'twitter:image') {
+        if (meta.content) tags.push({ name: 'meta', attributes: { content: meta.content } });
+      }
+    }
+    for (const tag of tags) {
+      const attributes = tag.attributes;
+      const refs = [];
+      if ((tag.name === 'a' || tag.name === 'area' || tag.name === 'link') && attributes.href) refs.push(attributes.href);
+      if (['img', 'source', 'script', 'iframe', 'video', 'audio', 'track', 'embed'].includes(tag.name) && attributes.src) refs.push(attributes.src);
+      if (tag.name === 'object' && attributes.data) refs.push(attributes.data);
+      if (tag.name === 'meta' && attributes.content) refs.push(attributes.content);
+      if ((tag.name === 'img' || tag.name === 'source') && attributes.srcset) refs.push(...sourceCandidates(attributes.srcset));
+
+      for (const reference of refs) {
+        if (/^(?:data:|mailto:|tel:|javascript:|blob:)/i.test(reference)) continue;
+        const url = parseUrl(reference, base);
+        if (!url) {
+          report(page.relativeFile, `URL interno non valido: ${reference}`);
+          continue;
+        }
+        if (url.origin !== baseOrigin) continue;
+
+        const targetFile = await resolveOutputPath(url.pathname);
+        if (!targetFile) {
+          report(page.relativeFile, `destinazione interna inesistente: ${reference}`);
+          continue;
+        }
+        if (url.hash) {
+          const targetPage = pagesByFile.get(path.resolve(targetFile));
+          let fragment;
+          try {
+            fragment = decodeURIComponent(url.hash.slice(1));
+          } catch {
+            fragment = url.hash.slice(1);
+          }
+          if (targetPage && !targetPage.ids.has(fragment)) {
+            report(page.relativeFile, `fragment #${fragment} non trovato in ${targetPage.relativeFile}.`);
+          }
+        }
+      }
+    }
+  }
+
+  if (productionOrigin) {
+    const pagesByRoute = new Map(pages.map((page) => [page.route, page]));
+    const pagesByCanonical = new Map();
+    for (const page of pages) {
+      const canonicalTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical'));
+      if (canonicalTags.length !== 1) {
+        report(page.relativeFile, `atteso un canonical, trovati ${canonicalTags.length}.`);
+        continue;
+      }
+
+      const canonical = parseUrl(canonicalTags[0].href ?? '');
+      const expectedCanonical = `${productionOrigin}${page.route}`;
+      if (!canonical || canonical.href !== expectedCanonical) {
+        report(page.relativeFile, `canonical atteso ${expectedCanonical}, trovato ${canonicalTags[0].href ?? '(assente)'}.`);
+      } else if (pagesByCanonical.has(canonical.href)) {
+        report(page.relativeFile, `canonical duplicato anche in ${pagesByCanonical.get(canonical.href)}.`);
+      } else {
+        pagesByCanonical.set(canonical.href, page.relativeFile);
+      }
+
+      const alternateTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('alternate') && tag.hreflang);
+      const alternates = new Map();
+      for (const alternate of alternateTags) {
+        const language = alternate.hreflang.toLowerCase();
+        if (alternates.has(language)) report(page.relativeFile, `hreflang duplicato: ${alternate.hreflang}.`);
+        alternates.set(language, alternate.href);
+      }
+
+      const romanianRoute = page.route === '/en/' ? '/' : page.route.startsWith('/en/') ? page.route.slice(3) : page.route;
+      const englishRoute = romanianRoute === '/' ? '/en/' : `/en${romanianRoute}`;
+      const expectedAlternates = {
+        'ro-ro': `${productionOrigin}${romanianRoute}`,
+        en: `${productionOrigin}${englishRoute}`,
+        'x-default': `${productionOrigin}${romanianRoute}`,
+      };
+      for (const [language, expectedHref] of Object.entries(expectedAlternates)) {
+        if (alternates.get(language) !== expectedHref) {
+          report(page.relativeFile, `hreflang ${language} atteso ${expectedHref}, trovato ${alternates.get(language) ?? '(assente)'}.`);
+        }
+        const targetRoute = language === 'en' ? englishRoute : romanianRoute;
+        if (!pagesByRoute.has(targetRoute)) report(page.relativeFile, `pagina hreflang mancante per ${language}: ${targetRoute}.`);
+      }
+      for (const language of alternates.keys()) {
+        if (!(language in expectedAlternates)) report(page.relativeFile, `hreflang non previsto: ${language}.`);
+      }
+    }
+
+    const sitemapIndexPath = path.join(outputDirectory, 'sitemap-index.xml');
+    if (!(await fileExists(sitemapIndexPath))) {
+      report('dist/', 'sitemap-index.xml assente nonostante seo.siteUrl configurato.');
+    } else {
+      const sitemapIndex = await readFile(sitemapIndexPath, 'utf8');
+      const sitemapUrls = [...sitemapIndex.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)].map((match) => decodeEntities(match[1].trim()));
+      if (!/<sitemapindex\b/i.test(sitemapIndex) || sitemapUrls.length === 0) {
+        report('dist/sitemap-index.xml', 'indice sitemap vuoto o malformato.');
+      }
+
+      const indexedPageUrls = new Set();
+      for (const sitemapUrl of sitemapUrls) {
+        const url = parseUrl(sitemapUrl);
+        if (!url || url.origin !== productionOrigin) {
+          report('dist/sitemap-index.xml', `URL sitemap non appartenente all’origine configurata: ${sitemapUrl}.`);
+          continue;
+        }
+        const sitemapPath = await resolveOutputPath(url.pathname);
+        if (!sitemapPath || !sitemapPath.endsWith('.xml')) {
+          report('dist/sitemap-index.xml', `file sitemap figlio mancante: ${sitemapUrl}.`);
+          continue;
+        }
+        const sitemap = await readFile(sitemapPath, 'utf8');
+        if (!/<urlset\b/i.test(sitemap)) {
+          report(path.relative(projectRoot, sitemapPath), 'sitemap figlio senza elemento <urlset>.');
+          continue;
+        }
+        for (const match of sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)) {
+          const pageUrl = decodeEntities(match[1].trim());
+          if (indexedPageUrls.has(pageUrl)) report(path.relative(projectRoot, sitemapPath), `URL sitemap duplicato: ${pageUrl}.`);
+          indexedPageUrls.add(pageUrl);
+        }
+      }
+
+      for (const page of pages) {
+        const expectedUrl = `${productionOrigin}${page.route}`;
+        if (!indexedPageUrls.has(expectedUrl)) report('dist/sitemap-index.xml', `URL pagina mancante nella sitemap: ${expectedUrl}.`);
+      }
+    }
+  }
+
+  if (errors.length) {
+    console.error(`Controllo SEO non superato (${errors.length} problemi):`);
+    for (const error of errors) console.error(`- ${error}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  const mode = productionOrigin ? `origine ${productionOrigin}, canonical/hreflang/sitemap attivi` : 'modalità locale, SEO di produzione in attesa di seo.siteUrl';
+  console.log(`Controllo SEO superato: ${pages.length} pagine HTML, metadati distinti, lingue, link/asset interni e JSON-LD validi; ${mode}.`);
+}
+
+main().catch((error) => {
+  console.error(`Controllo SEO non eseguito: ${error.message}`);
+  process.exitCode = 1;
+});
