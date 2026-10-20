@@ -54,8 +54,8 @@ export const siteData = {
       ],
       menu: {
         eyebrow: 'Meniu',
-        title: 'Meniul complet, în curând.',
-        body: 'Până atunci, descoperă preparatul pe care îl prezentăm acum.',
+        title: 'Meniu Restaurant Casa Rusu',
+        body: 'Meniul complet va fi disponibil în curând. Până atunci, descoperă preparatul pe care îl prezentăm acum.',
         seo: {
           title: 'Meniu Restaurant Casa Rusu din Codlea | Șnițel de porc',
           description: 'Vezi preparatul prezentat de Restaurant Casa Rusu din Codlea: șnițel din cotlet de porc cu os, servit cu cartofi prăjiți. Meniul complet urmează.',
@@ -65,8 +65,8 @@ export const siteData = {
       },
       hero: {
         eyebrow: 'Restaurant · Codlea',
-        titleFirst: 'Gusturi care aduc',
-        titleSecond: 'oamenii împreună!',
+        title: 'Restaurant Casa Rusu în Codlea',
+        slogan: 'Gusturi care aduc oamenii împreună!',
         description: 'Ne găsești pe Strada Laterală, nr. 42, în Codlea. Sună-ne și hai la masă!',
         primaryAction: 'Sună-ne pentru o rezervare',
         secondaryAction: 'Vezi locația',
@@ -116,8 +116,8 @@ export const siteData = {
       ],
       menu: {
         eyebrow: 'Menu',
-        title: 'The full menu is coming soon.',
-        body: 'For now, discover the dish we are featuring.',
+        title: 'Casa Rusu Restaurant Menu',
+        body: 'The full menu will be available soon. For now, discover the dish we are featuring.',
         seo: {
           title: 'Restaurant Casa Rusu Menu in Codlea | Pork Schnitzel',
           description: 'Explore the featured dish at Restaurant Casa Rusu in Codlea: bone-in pork loin schnitzel with fries. The full menu is coming soon.',
@@ -127,8 +127,8 @@ export const siteData = {
       },
       hero: {
         eyebrow: 'Restaurant · Codlea',
-        titleFirst: 'Flavours that bring',
-        titleSecond: 'people together!',
+        title: 'Restaurant Casa Rusu in Codlea',
+        slogan: 'Flavours that bring people together!',
         description: 'Find us at Strada Laterală 42 in Codlea. Call us and join us at the table!',
         primaryAction: 'Call us to book a table',
         secondaryAction: 'View location',
