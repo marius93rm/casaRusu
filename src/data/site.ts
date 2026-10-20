@@ -56,6 +56,10 @@ export const siteData = {
         eyebrow: 'Meniu',
         title: 'Meniul complet, în curând.',
         body: 'Până atunci, descoperă preparatul pe care îl prezentăm acum.',
+        seo: {
+          title: 'Meniu Restaurant Casa Rusu din Codlea | Șnițel de porc',
+          description: 'Vezi preparatul prezentat de Restaurant Casa Rusu din Codlea: șnițel din cotlet de porc cu os, servit cu cartofi prăjiți. Meniul complet urmează.',
+        },
         dishAction: 'Vezi preparatul',
         backAction: 'Înapoi la meniu',
       },
@@ -76,6 +80,10 @@ export const siteData = {
         eyebrow: 'Din bucătăria noastră',
         title: 'Șnițel din cotlet de porc cu os',
         body: 'Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.',
+        seo: {
+          title: 'Șnițel din cotlet de porc cu os | Casa Rusu, Codlea',
+          description: 'Șnițel din cotlet de porc cu os, cu cartofi prăjiți cu pătrunjel, parmezan și usturoi. Sună la Restaurant Casa Rusu din Codlea pentru disponibilitate și preț.',
+        },
         note: 'Sună-ne pentru disponibilitate și preț.',
         imageAlt: 'Preparat Casa Rusu cu cotlet de porc, cartofi prăjiți și garnituri.',
         action: 'Descoperă preparatul',
@@ -110,6 +118,10 @@ export const siteData = {
         eyebrow: 'Menu',
         title: 'The full menu is coming soon.',
         body: 'For now, discover the dish we are featuring.',
+        seo: {
+          title: 'Restaurant Casa Rusu Menu in Codlea | Pork Schnitzel',
+          description: 'Explore the featured dish at Restaurant Casa Rusu in Codlea: bone-in pork loin schnitzel with fries. The full menu is coming soon.',
+        },
         dishAction: 'See the dish',
         backAction: 'Back to menu',
       },
@@ -130,6 +142,10 @@ export const siteData = {
         eyebrow: 'From our kitchen',
         title: 'Bone-in pork loin schnitzel',
         body: 'We serve it with a hearty portion of fries topped with parsley, parmesan and garlic.',
+        seo: {
+          title: 'Bone-in Pork Loin Schnitzel | Casa Rusu, Codlea',
+          description: 'Bone-in pork loin schnitzel served with fries topped with parsley, parmesan and garlic. Call Restaurant Casa Rusu in Codlea to check availability and price.',
+        },
         note: 'Call us to check availability and price.',
         imageAlt: 'Casa Rusu dish with pork loin, fries and garnishes.',
         action: 'Discover the dish',

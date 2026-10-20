@@ -14,8 +14,8 @@ const menuHref = localizedPath('/meniu', locale);
 
 <BaseLayout
   lang={locale}
-  title={`${copy.dish.title} | Restaurant Casa Rusu`}
-  description={copy.dish.body}
+  title={copy.dish.seo.title}
+  description={copy.dish.seo.description}
 >
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
