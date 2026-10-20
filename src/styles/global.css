@@ -207,6 +207,13 @@ h1, h2, h3 {
 .menu-feature-copy h2 a { text-decoration: none; }
 .menu-feature-description { max-width: 24rem; margin-bottom: 1rem; color: var(--muted); font-size: .9rem; }
 .menu-feature-note { margin-bottom: 1.4rem; color: var(--muted); font-size: .73rem; }
+.menu-mentioned { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; max-width: 62rem; margin: 0 auto 1.5rem; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--border); background: var(--surface); }
+.menu-mentioned .section-label { margin-bottom: .7rem; }
+.menu-mentioned h2 { max-width: 22ch; margin: 0 0 .8rem; font-size: clamp(2rem, 4vw, 3.25rem); }
+.menu-mentioned-copy { max-width: 42rem; color: var(--muted); font-size: .92rem; }
+.menu-mentioned-items { display: flex; flex-wrap: wrap; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+.menu-mentioned-items li { border: 1px solid var(--border); padding: .55rem .8rem; font-size: .82rem; }
+.menu-mentioned-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
 .menu-offer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.2rem; max-width: 62rem; margin: 0 auto var(--section-space); padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--border); background: var(--surface); }
 .menu-offer .eyebrow { margin-bottom: .7rem; }
 .menu-offer h2 { max-width: 22ch; margin: 0; font-size: clamp(2rem, 4vw, 3.25rem); }
@@ -342,6 +349,8 @@ h1, h2, h3 {
   .menu-page-heading h1 { font-size: clamp(2.7rem, 9vw, 3.8rem); }
   .menu-feature, .dish-detail-grid { grid-template-columns: 1fr; gap: 2rem; }
   .menu-feature { padding-bottom: 4rem; }
+  .menu-mentioned-actions { align-items: start; flex-direction: column; }
+  .menu-mentioned-actions .button { width: 100%; max-width: 100%; min-width: 0; justify-content: space-between; white-space: normal; }
   .menu-offer { margin-bottom: 4rem; }
   .menu-offer-actions { align-items: start; flex-direction: column; }
   .menu-offer-actions .button { width: 100%; max-width: 100%; min-width: 0; justify-content: space-between; white-space: normal; }

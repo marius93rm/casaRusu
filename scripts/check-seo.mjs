@@ -268,6 +268,13 @@ async function main() {
           }
         }
 
+        const mapUrl = parseUrl(restaurant.hasMap);
+        if (!mapUrl || mapUrl.protocol !== 'https:' || mapUrl.hostname !== 'www.google.com'
+          || mapUrl.pathname !== '/maps' || !mapUrl.searchParams.has('cid')
+          || !Array.isArray(restaurant.sameAs) || !restaurant.sameAs.includes(restaurant.hasMap)) {
+          report(relativeFile, 'JSON-LD Restaurant.hasMap deve puntare alla scheda Google Maps HTTPS verificata inclusa in sameAs.');
+        }
+
         if (productionOrigin) {
           const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
           const menuUrl = parseUrl(restaurant.menu);

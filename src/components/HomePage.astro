@@ -36,6 +36,7 @@ const structuredData = {
     latitude: siteData.company.geo.latitude,
     longitude: siteData.company.geo.longitude,
   },
+  hasMap: siteData.links.googleBusiness,
   openingHoursSpecification: siteData.company.openingHours.map((hours) => ({
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: hours.daysOfWeek.map((day) => `https://schema.org/${day}`),

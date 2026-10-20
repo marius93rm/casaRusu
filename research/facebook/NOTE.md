@@ -31,3 +31,13 @@ Album pubblico consultato: [Marea deschidere](https://www.facebook.com/media/set
 Post pubblico della stessa pagina ufficiale: [promozione cocktail 3+1](https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl), consultato il 20/10/2026. Il post nomina Disaronno Sour, PornStar Martini e Aperol Vanilla Sour; comunica che ordinando tre cocktail il quarto è gratuito, fino al 30/11/2026, e invita a prenotare al 0732 901 232.
 
 Il post non riporta prezzi, ingredienti o allergeni. La pagina menu mostra quindi soltanto l’offerta e la data di validità, senza presentarla come menu completo né aggiungere dettagli non pubblicati. Il codice la nasconde nei nuovi build dopo la scadenza e la rimuove anche nel browser se una build precedente resta online; il testo indica comunque la data esplicita.
+
+## Controllo del feed — 20 ottobre 2026
+
+La pagina [ufficiale Restaurant Casa Rusu | Codlea](https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/) è stata riaperta nel browser Paseo; nome, indirizzo a Codlea, telefono e Instagram corrispondono al profilo già documentato. I post pubblici visibili al controllo:
+
+- Circa 10 ore prima: la promozione cocktail 3+1 già riportata sopra, fino al 30 novembre 2026.
+- Circa 2 giorni prima: [video sui weekend con musica live](https://www.facebook.com/reel/1800533357657495/), da venerdì a domenica; il testo invita anche a partecipare “stasera”, senza dare orari o un calendario futuro.
+- Circa 4 giorni prima: [video sulle opzioni del ristorante](https://www.facebook.com/reel/1038477139209678/). La didascalia completa nomina “Cheeseburger” e “pinsa Romana”, con indirizzo e telefono. Non specifica ingredienti, prezzi, allergeni, disponibilità futura o varianti.
+
+La pagina menu riporta solo i due nomi del terzo post, lo collega alla fonte e invita a telefonare per disponibilità e prezzo. Non presenta la selezione come menu completo né attribuisce la musica live a un calendario permanente.
