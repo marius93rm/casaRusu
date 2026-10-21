@@ -244,11 +244,27 @@ async function main() {
           report(relativeFile, 'JSON-LD Restaurant.name deve essere valorizzato.');
         }
 
-        const phoneDigits = typeof restaurant.telephone === 'string'
-          ? restaurant.telephone.replace(/\s+/g, '')
+        const normalizeTelephone = (value) => typeof value === 'string'
+          ? value.replace(/[^\d+]/g, '')
           : '';
+        const phoneDigits = normalizeTelephone(restaurant.telephone);
         if (!/^\+[1-9]\d{7,14}$/.test(phoneDigits)) {
           report(relativeFile, 'JSON-LD Restaurant.telephone deve includere un prefisso internazionale e un numero valido.');
+        }
+
+        const telephoneLinks = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
+          .map(([, rawAttributes, innerHtml]) => {
+            const href = parseAttributes(rawAttributes).href ?? '';
+            return href.toLowerCase().startsWith('tel:')
+              ? { number: normalizeTelephone(href.slice(4)), text: normalizedText(innerHtml) }
+              : undefined;
+          })
+          .filter(Boolean);
+        if (telephoneLinks.length === 0 || telephoneLinks.some((link) => link.number !== phoneDigits)) {
+          report(relativeFile, 'JSON-LD Restaurant.telephone deve corrispondere a tutti i link telefonici della homepage.');
+        }
+        if (!telephoneLinks.some((link) => link.number === phoneDigits && normalizeTelephone(link.text) === phoneDigits)) {
+          report(relativeFile, 'JSON-LD Restaurant.telephone deve essere visibile nel testo di un link telefonico della homepage.');
         }
 
         const address = restaurant.address;
