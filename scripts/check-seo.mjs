@@ -233,6 +233,50 @@ async function main() {
       if (!restaurant) {
         report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');
       } else {
+        if (typeof restaurant.name !== 'string' || !restaurant.name.trim()) {
+          report(relativeFile, 'JSON-LD Restaurant.name deve essere valorizzato.');
+        }
+
+        const phoneDigits = typeof restaurant.telephone === 'string'
+          ? restaurant.telephone.replace(/\s+/g, '')
+          : '';
+        if (!/^\+[1-9]\d{7,14}$/.test(phoneDigits)) {
+          report(relativeFile, 'JSON-LD Restaurant.telephone deve includere un prefisso internazionale e un numero valido.');
+        }
+
+        const address = restaurant.address;
+        if (!address || address['@type'] !== 'PostalAddress') {
+          report(relativeFile, 'JSON-LD Restaurant.address deve usare PostalAddress.');
+        } else {
+          for (const field of ['streetAddress', 'addressLocality', 'postalCode', 'addressCountry']) {
+            if (typeof address[field] !== 'string' || !address[field].trim()) {
+              report(relativeFile, `JSON-LD Restaurant.address.${field} deve essere valorizzato.`);
+            }
+          }
+        }
+
+        const openingHours = Array.isArray(restaurant.openingHoursSpecification)
+          ? restaurant.openingHoursSpecification
+          : restaurant.openingHoursSpecification ? [restaurant.openingHoursSpecification] : [];
+        const daysOfWeek = new Set([
+          'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+        ].map((day) => `https://schema.org/${day}`));
+        if (openingHours.length === 0) {
+          report(relativeFile, 'JSON-LD Restaurant.openingHoursSpecification deve contenere almeno un gruppo orario.');
+        }
+        for (const hours of openingHours) {
+          const validObject = hours && typeof hours === 'object';
+          const days = validObject
+            ? Array.isArray(hours.dayOfWeek) ? hours.dayOfWeek : [hours.dayOfWeek]
+            : [];
+          if (!validObject || hours['@type'] !== 'OpeningHoursSpecification' || days.length === 0
+            || days.some((day) => !daysOfWeek.has(day))
+            || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.opens)
+            || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.closes)) {
+            report(relativeFile, 'Ogni gruppo di openingHoursSpecification deve contenere giorni Schema.org e orari HH:mm validi.');
+          }
+        }
+
         if (restaurant.acceptsReservations !== true) {
           report(relativeFile, 'JSON-LD Restaurant.acceptsReservations deve riflettere la prenotazione telefonica dichiarata sul sito.');
         }
