@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import '../styles/menu.css';
+import { menuCopy, menuPages, menuSrcset } from '../data/menu';
+import { localizedPath } from '../i18n';
+import type { SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = menuCopy[locale];
+const href = `${localizedPath('/meniu', locale)}/`;
+---
+
+<section class="menu-preview" aria-labelledby="menu-preview-title">
+  <div class="container menu-preview-inner">
+    <div class="menu-preview-copy">
+      <p class="eyebrow">{locale === 'ro' ? 'Meniu Casa Rusu' : 'The Casa Rusu menu'}</p>
+      <h2 id="menu-preview-title">{copy.previewTitle}</h2>
+      <p>{copy.previewBody}</p>
+      <a class="button button-outline" href={href}>{copy.action}<Icon name="arrow" size={18} /></a>
+    </div>
+    <a class="menu-preview-pages" href={href} aria-label={copy.action}>
+      {[menuPages[0], menuPages[1]].map((page) => (
+        <picture>
+          <source type="image/webp" srcset={menuSrcset(page)} sizes="(max-width: 760px) 40vw, 280px" />
+          <img src={`/images/menu/${page.id}-480.webp`} alt="" width={page.width} height={page.height} loading="lazy" decoding="async" />
+        </picture>
+      ))}
+    </a>
+  </div>
+</section>

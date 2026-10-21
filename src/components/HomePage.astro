@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Icon from './Icon.astro';
+import MenuPreview from './MenuPreview.astro';
+import { menuCopy } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
@@ -73,6 +75,9 @@ const structuredData = {
             <a class="button button-primary" href={siteData.company.phoneHref}>
               {copy.hero.primaryAction}<Icon name="phone" size={18} />
             </a>
+            <a class="button button-outline" href={`${localizedPath('/meniu', locale)}/`}>
+              {menuCopy[locale].action}<Icon name="arrow" size={18} />
+            </a>
             <a class="text-link" href="#vizita">{copy.hero.secondaryAction}<Icon name="diagonal" size={17} /></a>
           </div>
         </div>
@@ -103,6 +108,8 @@ const structuredData = {
         <a class="text-link story-link" href="#preparat">{copy.dish.eyebrow}<Icon name="arrow" size={18} /></a>
       </div>
     </section>
+
+    <MenuPreview {locale} />
 
     <section class="dish-section" id="preparat" aria-labelledby="dish-title">
       <div class="container dish-grid">
@@ -185,7 +192,9 @@ const structuredData = {
   </main>
 
   <Footer {locale} />
-  <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-    {copy.hero.primaryAction}<Icon name="phone" size={18} />
-  </a>
+  <aside class="mobile-booking" aria-label={locale === 'ro' ? 'Rezervări' : 'Reservations'}>
+    <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
+      {copy.hero.primaryAction}<Icon name="phone" size={18} />
+    </a>
+  </aside>
 </BaseLayout>

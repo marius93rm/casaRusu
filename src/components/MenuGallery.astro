@@ -1,0 +1,203 @@
+---
+import Icon from './Icon.astro';
+import '../styles/menu.css';
+import { menuPages, menuCopy, menuSrcset } from '../data/menu';
+import type { SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = menuCopy[locale];
+---
+
+<section class="menu-gallery" aria-label={copy.gallery} data-menu-gallery
+  data-page-label={copy.page} data-of-label={copy.of}>
+  <aside class="menu-gallery-index">
+    <p class="section-label" id="menu-index-label">{copy.index}</p>
+    <nav aria-labelledby="menu-index-label" class="menu-page-index">
+      <ol>
+        {menuPages.map((page, index) => (
+          <li>
+            <a href={`#menu-page-${page.id}`} data-menu-index={index} aria-current={index === 0 ? 'true' : undefined}>
+              <span class="menu-index-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              {page.title[locale]}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+    <label class="menu-mobile-index" hidden>
+      <span class="visually-hidden" id="menu-select-label">{copy.index}</span>
+      <select data-menu-select aria-labelledby="menu-select-label">
+        {menuPages.map((page, index) => <option value={index}>{String(index + 1).padStart(2, '0')} · {page.title[locale]}</option>)}
+      </select>
+    </label>
+    <a href="#read-menu" class="text-link menu-read-link">{copy.read}<Icon name="arrow" size={18} /></a>
+  </aside>
+
+  <div class="menu-gallery-stage">
+    <div class="menu-gallery-track" tabindex="0" role="group" aria-label={copy.gallery} aria-roledescription={locale === 'ro' ? 'carusel' : 'carousel'}>
+      {menuPages.map((page, index) => (
+        <div class="menu-gallery-slide" id={`menu-page-${page.id}`} data-menu-slide
+          data-label={page.title[locale]} role="group" aria-roledescription={locale === 'ro' ? 'pagină' : 'slide'}
+          aria-label={`${index + 1} ${copy.of} ${menuPages.length}: ${page.title[locale]}`}>
+          <a class="menu-page-image" href={page.image} data-menu-enlarge aria-haspopup="dialog">
+            <picture>
+              <source type="image/webp" srcset={menuSrcset(page)} sizes="(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1100px) 55vw, 550px" />
+              <img src={`/images/menu/${page.id}-800.webp`} alt={`${copy.page} ${index + 1}: ${page.title[locale]}. ${copy.enlarge}.`}
+                width={page.width} height={page.height} loading={index === 0 ? 'eager' : 'lazy'}
+                fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+            </picture>
+          </a>
+          <div class="menu-slide-fallback" hidden>
+            <p>{copy.fallback}</p><a href={page.image}>{copy.original}</a>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="menu-gallery-toolbar" hidden>
+      <div class="menu-page-stepper">
+        <button type="button" class="menu-icon-button" data-menu-previous aria-label={copy.previous} disabled><Icon name="previous" /></button>
+        <p class="menu-counter"><span data-menu-count>01</span><span aria-hidden="true"> / </span><span class="visually-hidden">{copy.of} </span>{String(menuPages.length).padStart(2, '0')}</p>
+        <button type="button" class="menu-icon-button" data-menu-next aria-label={copy.next}><Icon name="chevron" /></button>
+      </div>
+      <button type="button" class="menu-enlarge-button" data-menu-open><Icon name="zoom-in" size={19} /><span>{copy.enlarge}</span></button>
+    </div>
+    <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-menu-announcement></p>
+  </div>
+
+  <dialog class="menu-lightbox" aria-labelledby="menu-lightbox-title">
+    <div class="menu-lightbox-toolbar">
+      <p id="menu-lightbox-title"></p>
+      <div class="menu-zoom-controls">
+        <button type="button" class="menu-icon-button" data-zoom-out aria-label={copy.zoomOut}><Icon name="zoom-out" /></button>
+        <button type="button" class="menu-icon-button" data-zoom-reset aria-label={copy.reset}><Icon name="fit" /></button>
+        <button type="button" class="menu-icon-button" data-zoom-in aria-label={copy.zoomIn}><Icon name="zoom-in" /></button>
+        <form method="dialog"><button type="submit" class="menu-icon-button" aria-label={copy.close} autofocus><Icon name="close" /></button></form>
+      </div>
+    </div>
+    <div class="menu-lightbox-scroll" tabindex="0" role="region" aria-label={copy.enlarge}>
+      <img class="menu-lightbox-image" alt="" width="1448" height="2048" />
+    </div>
+    <a class="menu-original-link" href={menuPages[0].image} target="_blank" rel="noopener noreferrer">{copy.original}<Icon name="diagonal" size={16} /></a>
+  </dialog>
+</section>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>('[data-menu-gallery]');
+  if (gallery) {
+    const track = gallery.querySelector<HTMLElement>('.menu-gallery-track')!;
+    const slides = [...gallery.querySelectorAll<HTMLElement>('[data-menu-slide]')];
+    const links = [...gallery.querySelectorAll<HTMLAnchorElement>('[data-menu-index]')];
+    const select = gallery.querySelector<HTMLSelectElement>('[data-menu-select]')!;
+    const previous = gallery.querySelector<HTMLButtonElement>('[data-menu-previous]')!;
+    const next = gallery.querySelector<HTMLButtonElement>('[data-menu-next]')!;
+    const count = gallery.querySelector<HTMLElement>('[data-menu-count]')!;
+    const announcement = gallery.querySelector<HTMLElement>('[data-menu-announcement]')!;
+    const dialog = gallery.querySelector<HTMLDialogElement>('dialog')!;
+    const lightboxImage = dialog.querySelector<HTMLImageElement>('img')!;
+    const lightboxScroll = dialog.querySelector<HTMLElement>('.menu-lightbox-scroll')!;
+    const original = dialog.querySelector<HTMLAnchorElement>('.menu-original-link')!;
+    const zoomIn = dialog.querySelector<HTMLButtonElement>('[data-zoom-in]')!;
+    const zoomOut = dialog.querySelector<HTMLButtonElement>('[data-zoom-out]')!;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let current = 0;
+    let zoom = 1;
+    let opener: HTMLElement | null = null;
+    let previousOverflow = '';
+
+    const update = (index: number, announce = true) => {
+      current = index;
+      links.forEach((link, i) => {
+        if (i === current) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+      slides.forEach((slide, i) => {
+        slide.inert = i !== current;
+        slide.setAttribute('aria-hidden', String(i !== current));
+      });
+      select.value = String(index);
+      previous.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+      count.textContent = String(index + 1).padStart(2, '0');
+      if (announce) announcement.textContent = `${gallery.dataset.pageLabel} ${index + 1} ${gallery.dataset.ofLabel} ${slides.length}: ${slides[index].dataset.label}`;
+      // Start loading the neighbour before the next swipe, without fetching originals.
+      const neighbour = slides[index + 1]?.querySelector('img');
+      if (neighbour) neighbour.loading = 'eager';
+    };
+    const go = (index: number, smooth = true) => {
+      const bounded = Math.max(0, Math.min(slides.length - 1, index));
+      const left = slides[bounded].getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+      track.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'instant' });
+    };
+
+    gallery.dataset.enhanced = 'true';
+    gallery.querySelector<HTMLElement>('.menu-gallery-toolbar')!.hidden = false;
+    gallery.querySelector<HTMLElement>('.menu-mobile-index')!.hidden = false;
+    previous.addEventListener('click', () => go(current - 1));
+    next.addEventListener('click', () => go(current + 1));
+    select.addEventListener('change', () => go(Number(select.value)));
+    links.forEach((link, index) => link.addEventListener('click', (event) => {
+      event.preventDefault();
+      go(index);
+    }));
+    track.addEventListener('keydown', (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      const target = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: slides.length - 1 }[event.key];
+      if (target !== undefined) { event.preventDefault(); track.focus({ preventScroll: true }); go(target); }
+    });
+    let scrollFrame = 0;
+    track.addEventListener('scroll', () => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
+        if (!track.clientWidth) return;
+        const index = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / track.clientWidth)));
+        if (index !== current) update(index);
+      });
+    }, { passive: true });
+    slides.forEach((slide) => {
+      const image = slide.querySelector('img')!;
+      const failed = () => { slide.querySelector<HTMLElement>('.menu-slide-fallback')!.hidden = false; };
+      image.addEventListener('error', failed);
+      if (image.complete && !image.naturalWidth) failed();
+    });
+    new ResizeObserver(() => go(current, false)).observe(track);
+
+    const setZoom = (value: number) => {
+      zoom = Math.max(1, Math.min(4, value));
+      lightboxImage.style.width = `${zoom * 100}%`;
+      lightboxImage.style.maxHeight = zoom === 1 ? '100%' : 'none';
+      zoomOut.disabled = zoom === 1;
+      zoomIn.disabled = zoom === 4;
+      if (zoom === 1) lightboxScroll.scrollTo(0, 0);
+    };
+    const open = (trigger: HTMLElement) => {
+      const link = slides[current].querySelector<HTMLAnchorElement>('[data-menu-enlarge]')!;
+      opener = trigger;
+      lightboxImage.src = link.href;
+      lightboxImage.alt = slides[current].dataset.label ?? '';
+      original.href = link.href;
+      dialog.querySelector<HTMLElement>('#menu-lightbox-title')!.textContent = `${gallery.dataset.pageLabel} ${current + 1} · ${slides[current].dataset.label}`;
+      setZoom(1);
+      previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      dialog.showModal();
+    };
+    gallery.querySelector<HTMLButtonElement>('[data-menu-open]')!.addEventListener('click', (event) => open(event.currentTarget as HTMLElement));
+    slides.forEach((slide) => slide.querySelector<HTMLAnchorElement>('[data-menu-enlarge]')!.addEventListener('click', (event) => {
+      // Preserve opening an original in a new tab with the usual browser modifiers.
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault(); open(event.currentTarget as HTMLElement);
+    }));
+    zoomIn.addEventListener('click', () => setZoom(zoom + .5));
+    zoomOut.addEventListener('click', () => setZoom(zoom - .5));
+    dialog.querySelector('[data-zoom-reset]')!.addEventListener('click', () => setZoom(1));
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = previousOverflow;
+      opener?.focus({ preventScroll: true });
+    });
+    const initial = slides.findIndex((slide) => `#${slide.id}` === window.location.hash);
+    update(Math.max(0, initial), false);
+    if (initial > 0) go(initial, false);
+  }
+</script>

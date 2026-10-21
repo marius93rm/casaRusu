@@ -1,0 +1,39 @@
+---
+import { menuPages, menuCopy } from '../data/menu';
+import type { SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = menuCopy[locale];
+---
+
+<section class="menu-transcript" id="read-menu" aria-labelledby="menu-transcript-title">
+  <header class="menu-transcript-heading">
+    <p class="eyebrow">{copy.read}</p>
+    <h2 id="menu-transcript-title">{copy.readTitle}</h2>
+    <p>{copy.readBody}</p>
+    <p class="menu-language-note">{copy.languageNote}</p>
+  </header>
+  <div class="menu-transcript-pages">
+    {menuPages.filter((page) => page.sections.length > 0).map((page) => (
+      <details class="menu-transcript-page" id={`read-${page.id}`}>
+        <summary>{page.title[locale]}</summary>
+        <div class="menu-transcript-sections">
+          {page.sections.map((section) => (
+            <section class="menu-transcript-section" aria-label={section.title[locale]}>
+              <h3>{section.title[locale]}</h3>
+              <ul lang="ro">
+                {section.items.map((item) => (
+                  <li data-menu-item>
+                    <div class="menu-item-heading"><h4>{item.name}</h4><span class="menu-item-price">{item.price} lei</span></div>
+                    {item.ingredients && <p>{item.ingredients}</p>}
+                    <span class="menu-item-quantity">{item.quantity}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </details>
+    ))}
+  </div>
+</section>

@@ -70,7 +70,9 @@ const menuHref = localizedPath('/meniu', locale);
   </main>
 
   <Footer {locale} />
-  <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-    {copy.hero.primaryAction}<Icon name="phone" size={18} />
-  </a>
+  <aside class="mobile-booking" aria-label={locale === 'ro' ? 'Rezervări' : 'Reservations'}>
+    <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
+      {copy.hero.primaryAction}<Icon name="phone" size={18} />
+    </a>
+  </aside>
 </BaseLayout>

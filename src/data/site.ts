@@ -66,21 +66,13 @@ export const siteData = {
       menu: {
         eyebrow: 'Meniu',
         title: 'Meniu Restaurant Casa Rusu',
-        body: 'Meniul complet urmează. Până atunci, descoperă preparatul prezentat și alte opțiuni menționate în postările publice ale restaurantului.',
+        body: 'Răsfoiește meniul nostru, de la aperitive la deserturi și băuturi. Alege o pagină sau citește preparatele și prețurile pe îndelete.',
         seo: {
-          title: 'Meniu Restaurant Casa Rusu din Codlea | Șnițel de porc',
-          description: 'Șnițel, cheeseburger și pinsa Romana menționate de Restaurant Casa Rusu din Codlea. Sună pentru disponibilitate și preț; meniul complet urmează.',
+          title: 'Meniu Restaurant Casa Rusu Codlea | Preparate și prețuri',
+          description: 'Descoperă meniul Restaurant Casa Rusu din Codlea: aperitive, paste, pește, preparate la grătar, deserturi și băuturi, cu ingrediente, cantități și prețuri în lei.',
         },
         dishAction: 'Vezi preparatul',
         backAction: 'Înapoi la meniu',
-        recentOptions: {
-          eyebrow: 'Menționate de restaurant',
-          title: 'Cheeseburger și pinsa Romana',
-          body: 'Într-o postare publică, restaurantul a menționat aceste două opțiuni. Sună pentru disponibilitate și preț.',
-          dishes: ['Cheeseburger', 'Pinsa Romana'],
-          callAction: 'Sună pentru disponibilitate și preț',
-          sourceAction: 'Vezi postarea pe Facebook',
-        },
         offer: {
           eyebrow: 'Ofertă publicată · valabilă până la 30 noiembrie 2026',
           title: '3 cocktailuri + 1 din partea casei',
@@ -142,21 +134,13 @@ export const siteData = {
       menu: {
         eyebrow: 'Menu',
         title: 'Casa Rusu Restaurant Menu',
-        body: 'The full menu is coming soon. For now, explore our featured dish and other options mentioned in the restaurant’s public posts.',
+        body: 'Browse our menu, from starters to desserts and drinks. Choose a page or take your time reading the dishes and prices in the original Romanian menu.',
         seo: {
-          title: 'Restaurant Casa Rusu Menu in Codlea | Pork Schnitzel',
-          description: 'Schnitzel, cheeseburger and Pinsa Romana mentioned by Restaurant Casa Rusu in Codlea. Call for availability and price; full menu coming soon.',
+          title: 'Casa Rusu Restaurant Menu in Codlea | Dishes & Prices',
+          description: 'Browse the Casa Rusu menu in Codlea: starters, pasta, fish, grilled dishes, desserts and drinks. Original Romanian menu with ingredients, portions and prices.',
         },
         dishAction: 'See the dish',
         backAction: 'Back to menu',
-        recentOptions: {
-          eyebrow: 'Mentioned by the restaurant',
-          title: 'Cheeseburger and Pinsa Romana',
-          body: 'In a public post, the restaurant mentioned these two options. Call to check availability and price.',
-          dishes: ['Cheeseburger', 'Pinsa Romana'],
-          callAction: 'Call to check availability and price',
-          sourceAction: 'See the post on Facebook',
-        },
         offer: {
           eyebrow: 'Published offer · valid through 30 November 2026',
           title: '3 cocktails + 1 on the house',

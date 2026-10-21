@@ -30,6 +30,12 @@ npm run check
 npm run build
 ```
 
+## Menu completo
+
+Le pagine `/meniu/` e `/en/meniu/` includono il menu originale in 14 immagini, con galleria sfogliabile, indice, ingrandimento e trascrizione delle 200 voci. Interfaccia e categorie sono RO/EN; il menu originale rimane in romeno in entrambe le lingue. La home contiene un pulsante e un'anteprima dedicati. Le schede speciali dei piatti restano disponibili.
+
+Catalogo e trascrizione sono in `src/data/menu.ts`; gli originali e le varianti responsive sono in `public/images/menu/`. La build esegue anche `npm run check:menu`. Provenienza, comportamento e verifiche sono descritti in [docs/menu.md](docs/menu.md).
+
 Indirizzo, CAP, telefono e orari sono stati verificati sulla [pagina Facebook ufficiale](https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/) il 30 settembre 2026; il monogramma è coerente anche con il [profilo Instagram](https://www.instagram.com/restaurant.casarusu/). Gli orari pubblicati sono lunedì–venerdì 11:00–22:30 e sabato–domenica 11:00–23:00. Prima della pubblicazione definitiva, verificare che il ristorante approvi i materiali e i testi.
 
 Per abilitare canonical assoluti, hreflang, immagini Open Graph assolute e `sitemap.xml`, impostare l'origine pubblica HTTPS in `src/config/site.ts` (`seo.siteUrl`). Finché il dominio non è configurato, il sito evita di generare URL assoluti non verificati; la sitemap non viene prodotta.
