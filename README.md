@@ -42,4 +42,4 @@ Per abilitare canonical assoluti, hreflang, immagini Open Graph assolute e `site
 
 ## Verifica del redesign
 
-`npm run build` completa il controllo Astro e genera le pagine `/` e `/en/`. Verifica nel browser Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Menu mobile verificato in apertura e chiusura con Escape e ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.
+`npm run build` esegue il controllo Astro, genera le sei rotte (home, menu e scheda del piatto in RO/EN) e avvia `check:seo` e `check:menu`. Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.
