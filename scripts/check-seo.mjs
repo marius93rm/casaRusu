@@ -236,6 +236,10 @@ async function main() {
       } else {
         restaurantEntities.push({ route, relativeFile, restaurant });
 
+        if (restaurant['@context'] !== 'https://schema.org') {
+          report(relativeFile, 'JSON-LD Restaurant.@context deve essere https://schema.org.');
+        }
+
         if (typeof restaurant.name !== 'string' || !restaurant.name.trim()) {
           report(relativeFile, 'JSON-LD Restaurant.name deve essere valorizzato.');
         }
