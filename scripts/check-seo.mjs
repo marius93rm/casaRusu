@@ -311,6 +311,10 @@ async function main() {
           report(relativeFile, 'JSON-LD Restaurant.servesCuisine deve includere i tipi di cucina documentati nel menu.');
         }
 
+        if (restaurant.priceRange !== '2–340 lei' || restaurant.priceRange.length >= 100) {
+          report(relativeFile, 'JSON-LD Restaurant.priceRange deve riflettere l’intero intervallo del menu fornito e restare sotto 100 caratteri.');
+        }
+
         const geo = restaurant.geo;
         if (!geo || geo['@type'] !== 'GeoCoordinates') {
           report(relativeFile, 'JSON-LD Restaurant senza geo GeoCoordinates.');
@@ -405,7 +409,7 @@ async function main() {
     // These fields identify the same physical business in both locales. `menu`
     // is intentionally excluded because it points to a localized page.
     for (const field of [
-      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations', 'servesCuisine',
+      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations', 'servesCuisine', 'priceRange',
       'address', 'geo', 'hasMap', 'openingHoursSpecification', 'sameAs', 'image', 'logo',
     ]) {
       if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(englishRestaurant.restaurant[field])) {

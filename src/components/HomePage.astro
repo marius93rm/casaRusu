@@ -4,7 +4,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import MenuPreview from './MenuPreview.astro';
-import { menuCopy } from '../data/menu';
+import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
@@ -21,6 +21,8 @@ const socialImage = {
 };
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 const openingHours = formatOpeningHours(siteData.company.openingHours, locale);
+const menuPrices = menuPages.flatMap((page) => page.sections.flatMap((section) => section.items.map((item) => item.price)));
+const menuPriceRange = `${Math.min(...menuPrices)}–${Math.max(...menuPrices)} lei`;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
@@ -28,6 +30,7 @@ const structuredData = {
   telephone: siteData.company.phone,
   acceptsReservations: true,
   servesCuisine: siteData.company.cuisines,
+  priceRange: menuPriceRange,
   address: {
     '@type': 'PostalAddress',
     streetAddress: siteData.company.address,
