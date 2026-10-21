@@ -7,6 +7,8 @@ export const siteData = {
     postalCode: '505100',
     city: 'Codlea',
     country: 'România',
+    // Based on the printed menu's explicitly traditional and Italian platters.
+    cuisines: ['Romanian', 'Italian'],
     geo: {
       latitude: 45.697789,
       longitude: 25.449737,

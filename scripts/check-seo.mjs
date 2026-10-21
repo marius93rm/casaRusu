@@ -304,6 +304,13 @@ async function main() {
           report(relativeFile, 'JSON-LD Restaurant.acceptsReservations deve riflettere la prenotazione telefonica dichiarata sul sito.');
         }
 
+        const expectedCuisines = ['Romanian', 'Italian'];
+        if (!Array.isArray(restaurant.servesCuisine)
+          || restaurant.servesCuisine.length !== expectedCuisines.length
+          || expectedCuisines.some((cuisine) => !restaurant.servesCuisine.includes(cuisine))) {
+          report(relativeFile, 'JSON-LD Restaurant.servesCuisine deve includere i tipi di cucina documentati nel menu.');
+        }
+
         const geo = restaurant.geo;
         if (!geo || geo['@type'] !== 'GeoCoordinates') {
           report(relativeFile, 'JSON-LD Restaurant senza geo GeoCoordinates.');
@@ -398,7 +405,7 @@ async function main() {
     // These fields identify the same physical business in both locales. `menu`
     // is intentionally excluded because it points to a localized page.
     for (const field of [
-      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations',
+      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations', 'servesCuisine',
       'address', 'geo', 'hasMap', 'openingHoursSpecification', 'sameAs', 'image', 'logo',
     ]) {
       if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(englishRestaurant.restaurant[field])) {
