@@ -29,11 +29,11 @@ export const siteData = {
     indexable: true,
     ro: {
       title: 'Restaurant Casa Rusu în Codlea | Adresă și program',
-      description: 'Gusturi care aduc oamenii împreună! Te așteptăm pe Strada Laterală nr. 42, în Codlea. Sună-ne pentru o rezervare.',
+      description: 'Meniu Casa Rusu în Codlea: ciorbe de la 25 lei, paste de la 33 lei, carne de la 36 lei, pește de la 55 lei și Platoul Boieresc de 2,4 kg pentru patru persoane.',
     },
     en: {
       title: 'Restaurant Casa Rusu in Codlea | Hours & Location',
-      description: 'Flavours that bring people together! Join us at Strada Laterală 42 in Codlea. Call us to book a table.',
+      description: 'Casa Rusu menu in Codlea: soups from 25 lei, pasta from 33 lei, meat from 36 lei, fish from 55 lei and a 2.4 kg platter for four.',
     },
   },
   links: {
@@ -93,7 +93,7 @@ export const siteData = {
       },
       story: {
         title: 'La masă, cu oameni dragi.',
-        body: 'Vino cu familia sau prietenii la Restaurant Casa Rusu. Te așteptăm în Codlea cu mâncare bună și timp pentru cei dragi.',
+        body: 'Meniul aduce ciorbe, gustări tradiționale, paste, pinsa, pește, carne și deserturi. Ciorbele pornesc de la 25 lei, pastele de la 33 lei, carnea de la 36 lei și peștele de la 55 lei. Platoul Boieresc Casa Rusu (2,4 kg, pentru patru persoane) costă 340 lei.',
       },
       dish: {
         eyebrow: 'Din bucătăria noastră',
@@ -161,7 +161,7 @@ export const siteData = {
       },
       story: {
         title: 'Come for a good meal. Bring your favourite people.',
-        body: 'Bring your family or friends to Casa Rusu. We’ll welcome you in Codlea with good food and time together.',
+        body: 'The menu brings together soups, traditional starters, pasta, pinsa, fish, meat dishes and desserts. Soups start at 25 lei, pasta at 33 lei, meat at 36 lei and fish at 55 lei. The Casa Rusu Boieresc platter (2.4 kg, for four) costs 340 lei.',
       },
       dish: {
         eyebrow: 'From our kitchen',
