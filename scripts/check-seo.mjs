@@ -163,6 +163,7 @@ async function main() {
   if (relativeFiles.length === 0) throw new Error('Nessun file HTML trovato in dist/.');
 
   const pages = [];
+  const restaurantEntities = [];
   for (const relativeFile of relativeFiles) {
     const fullPath = path.join(outputDirectory, relativeFile);
     const html = await readFile(fullPath, 'utf8');
@@ -233,6 +234,8 @@ async function main() {
       if (!restaurant) {
         report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');
       } else {
+        restaurantEntities.push({ route, relativeFile, restaurant });
+
         if (typeof restaurant.name !== 'string' || !restaurant.name.trim()) {
           report(relativeFile, 'JSON-LD Restaurant.name deve essere valorizzato.');
         }
@@ -367,6 +370,21 @@ async function main() {
     }
 
     pages.push({ relativeFile, fullPath, html, route, expectedLanguage, metadata, ids, metaTags, linkTags });
+  }
+
+  const romanianRestaurant = restaurantEntities.find((entry) => entry.route === '/');
+  const englishRestaurant = restaurantEntities.find((entry) => entry.route === '/en/');
+  if (romanianRestaurant && englishRestaurant) {
+    // These fields identify the same physical business in both locales. `menu`
+    // is intentionally excluded because it points to a localized page.
+    for (const field of [
+      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations',
+      'address', 'geo', 'hasMap', 'openingHoursSpecification', 'sameAs', 'image', 'logo',
+    ]) {
+      if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(englishRestaurant.restaurant[field])) {
+        report(englishRestaurant.relativeFile, `JSON-LD Restaurant.${field} deve essere uguale alla homepage rumena per la stessa attività.`);
+      }
+    }
   }
 
   for (const field of ['title', 'description']) {
