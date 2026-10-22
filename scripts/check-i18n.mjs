@@ -11,6 +11,9 @@ function leaves(value, prefix = '') {
   });
 }
 const base = new Map(leaves(dictionaries[defaultLocale]));
+const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
+assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
+assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
 assert.deepEqual(Object.keys(dictionaries), [...locales], 'All supported languages need a dictionary');
 for (const locale of locales) {
   const dictionary = dictionaries[locale];
@@ -34,6 +37,11 @@ for (const locale of locales) {
     }
     const html = await readFile(new URL(`../dist/${prefixFor(locale)}${route.slice(1)}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`<html lang="${locale}">`));
+    if (route === '/') {
+      for (const id of ['poveste', 'preparat', 'vizita']) {
+        assert.match(html, new RegExp(`<section\\b(?=[^>]*\\bid="${id}")(?=[^>]*\\btabindex="-1")[^>]*>`), `${locale}: in-page navigation target ${id} must be programmatically focusable`);
+      }
+    }
     assert.ok(html.includes(`property="og:locale" content="${socialLocales[locale]}"`));
     const switchers = [...html.matchAll(/<details\b[^>]*data-language-switcher[^>]*>([\s\S]*?)<\/details>/g)];
     assert.equal(switchers.length, 2, 'Header and footer need language selection');

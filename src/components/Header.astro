@@ -82,7 +82,18 @@ const homeHref = localizedPath('/', locale);
 
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     nav.addEventListener('click', (event) => {
-      if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('a');
+      if (!link) return;
+
+      setOpen(false);
+      const targetUrl = new URL(link.href, window.location.href);
+      if (targetUrl.origin !== window.location.origin || targetUrl.pathname !== window.location.pathname || !targetUrl.hash) return;
+
+      const target = document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)));
+      if (!(target instanceof HTMLElement)) return;
+
+      window.requestAnimationFrame(() => target.focus({ preventScroll: true }));
     });
     document.addEventListener('click', (event) => {
       if (
