@@ -48,6 +48,7 @@
 .menu-lightbox::backdrop { background: rgb(0 0 0 / .8); }
 .menu-lightbox-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; padding: .65rem 1rem; border-bottom: 1px solid var(--border); }
 .menu-lightbox-toolbar > p { font-size: 1rem; }
+.menu-lightbox-controls, .menu-lightbox-page-controls { display: flex; align-items: center; gap: .35rem; }
 .menu-zoom-controls { display: flex; gap: .35rem; }
 .menu-zoom-controls form { margin: 0; }
 .menu-lightbox-scroll { overflow: auto; min-width: 0; min-height: 0; background: var(--surface); overscroll-behavior: contain; }
@@ -121,7 +122,8 @@
   .menu-lightbox { width: 100vw; height: 100dvh; margin: 0; border: 0; }
   .menu-lightbox-toolbar { padding: .5rem; }
   .menu-lightbox-toolbar > p { flex-basis: 100%; font-size: 1.0625rem; }
-  .menu-zoom-controls { width: 100%; justify-content: space-between; }
+  .menu-lightbox-controls { width: 100%; justify-content: space-between; gap: .25rem; }
+  .menu-lightbox-page-controls, .menu-zoom-controls { gap: .2rem; }
   .menu-original-link { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); font-size: 1.0625rem; }
   .menu-transcript-sections { grid-template-columns: minmax(0, 1fr); }
   .menu-transcript-heading > p:not(.eyebrow), .menu-transcript-heading .menu-language-note { font-size: 1.0625rem; }

@@ -67,12 +67,18 @@ const copy = menuCopy[locale];
 
   <dialog class="menu-lightbox" aria-labelledby="menu-lightbox-title">
     <div class="menu-lightbox-toolbar">
-      <p id="menu-lightbox-title"></p>
-      <div class="menu-zoom-controls">
-        <button type="button" class="menu-icon-button" data-zoom-out aria-label={copy.zoomOut}><Icon name="zoom-out" /></button>
-        <button type="button" class="menu-icon-button" data-zoom-reset aria-label={copy.reset}><Icon name="fit" /></button>
-        <button type="button" class="menu-icon-button" data-zoom-in aria-label={copy.zoomIn}><Icon name="zoom-in" /></button>
-        <form method="dialog"><button type="submit" class="menu-icon-button" aria-label={copy.close} autofocus><Icon name="close" /></button></form>
+      <p id="menu-lightbox-title" aria-live="polite" aria-atomic="true"></p>
+      <div class="menu-lightbox-controls">
+        <div class="menu-lightbox-page-controls">
+          <button type="button" class="menu-icon-button" data-lightbox-previous aria-label={copy.previous} disabled><Icon name="previous" /></button>
+          <button type="button" class="menu-icon-button" data-lightbox-next aria-label={copy.next} disabled><Icon name="chevron" /></button>
+        </div>
+        <div class="menu-zoom-controls">
+          <button type="button" class="menu-icon-button" data-zoom-out aria-label={copy.zoomOut}><Icon name="zoom-out" /></button>
+          <button type="button" class="menu-icon-button" data-zoom-reset aria-label={copy.reset}><Icon name="fit" /></button>
+          <button type="button" class="menu-icon-button" data-zoom-in aria-label={copy.zoomIn}><Icon name="zoom-in" /></button>
+          <form method="dialog"><button type="submit" class="menu-icon-button" aria-label={copy.close} autofocus><Icon name="close" /></button></form>
+        </div>
       </div>
     </div>
     <div class="menu-lightbox-scroll" tabindex="0" role="region" aria-label={copy.enlarge}>
@@ -99,6 +105,9 @@ const copy = menuCopy[locale];
     const original = dialog.querySelector<HTMLAnchorElement>('.menu-original-link')!;
     const zoomIn = dialog.querySelector<HTMLButtonElement>('[data-zoom-in]')!;
     const zoomOut = dialog.querySelector<HTMLButtonElement>('[data-zoom-out]')!;
+    const lightboxPrevious = dialog.querySelector<HTMLButtonElement>('[data-lightbox-previous]')!;
+    const lightboxNext = dialog.querySelector<HTMLButtonElement>('[data-lightbox-next]')!;
+    const lightboxTitle = dialog.querySelector<HTMLElement>('#menu-lightbox-title')!;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current = 0;
     let zoom = 1;
@@ -213,14 +222,28 @@ const copy = menuCopy[locale];
       zoomIn.disabled = zoom === 4;
       if (zoom === 1) lightboxScroll.scrollTo(0, 0);
     };
-    const open = (trigger: HTMLElement) => {
-      const link = slides[current].querySelector<HTMLAnchorElement>('[data-menu-enlarge]')!;
-      opener = trigger;
+    const showLightboxPage = (index: number) => {
+      const link = slides[index].querySelector<HTMLAnchorElement>('[data-menu-enlarge]')!;
       lightboxImage.src = link.href;
-      lightboxImage.alt = slides[current].dataset.label ?? '';
+      lightboxImage.alt = slides[index].dataset.label ?? '';
       original.href = link.href;
-      dialog.querySelector<HTMLElement>('#menu-lightbox-title')!.textContent = `${gallery.dataset.pageLabel} ${current + 1} · ${slides[current].dataset.label}`;
+      lightboxTitle.textContent = `${gallery.dataset.pageLabel} ${index + 1} · ${slides[index].dataset.label}`;
+      lightboxPrevious.disabled = index === 0;
+      lightboxNext.disabled = index === slides.length - 1;
       setZoom(1);
+    };
+    const moveLightbox = (index: number) => {
+      if (!dialog.open) return;
+      const bounded = Math.max(0, Math.min(slides.length - 1, index));
+      if (bounded === current) return;
+      go(bounded, false, 'push');
+      update(bounded, false);
+      opener = slides[bounded].querySelector<HTMLAnchorElement>('[data-menu-enlarge]')!;
+      showLightboxPage(bounded);
+    };
+    const open = (trigger: HTMLElement) => {
+      opener = trigger;
+      showLightboxPage(current);
       previousOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       dialog.showModal();
@@ -233,6 +256,13 @@ const copy = menuCopy[locale];
     }));
     zoomIn.addEventListener('click', () => setZoom(zoom + .5));
     zoomOut.addEventListener('click', () => setZoom(zoom - .5));
+    lightboxPrevious.addEventListener('click', () => moveLightbox(current - 1));
+    lightboxNext.addEventListener('click', () => moveLightbox(current + 1));
+    dialog.addEventListener('keydown', (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || zoom > 1) return;
+      if (event.key === 'ArrowLeft' && current > 0) { event.preventDefault(); moveLightbox(current - 1); }
+      if (event.key === 'ArrowRight' && current < slides.length - 1) { event.preventDefault(); moveLightbox(current + 1); }
+    });
     dialog.querySelector('[data-zoom-reset]')!.addEventListener('click', () => setZoom(1));
     dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
     dialog.addEventListener('close', () => {

@@ -16,6 +16,9 @@ assert.match(gallerySource, /window\.history\.replaceState/, 'Swipe navigation m
 assert.match(gallerySource, /window\.addEventListener\('popstate', followLocation\)/, 'Browser back and forward must restore the selected menu page');
 assert.match(gallerySource, /window\.addEventListener\('hashchange', followLocation\)/, 'Menu page fragments must open their matching image');
 assert.match(gallerySource, /requestAnimationFrame\(\(\) => \{[\s\S]*window\.scrollTo\(\{ top: Math\.max\(0, top\), behavior: 'instant' \}\)/, 'Direct menu links must reveal the page heading below the sticky header');
+assert.match(gallerySource, /data-lightbox-previous[\s\S]*data-lightbox-next/, 'The enlarged menu page needs previous and next controls');
+assert.match(gallerySource, /const moveLightbox = \(index: number\) => \{[\s\S]*go\(bounded, false, 'push'\)[\s\S]*showLightboxPage\(bounded\)/, 'Lightbox page navigation must update the gallery, URL, and enlarged image together');
+assert.match(gallerySource, /dialog\.addEventListener\('keydown'[\s\S]*ArrowLeft[\s\S]*ArrowRight/, 'The enlarged menu pages must support keyboard navigation');
 
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
@@ -38,6 +41,11 @@ for (const { file, html } of menus) {
   const transcript = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
   assert.equal(slides.length, 14, `${file}: all 14 supplied pages must be rendered`);
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
+  const labels = file.startsWith('en/')
+    ? { previous: 'Previous page', next: 'Next page' }
+    : { previous: 'Pagina anterioară', next: 'Pagina următoare' };
+  assert.ok(html.includes(`data-lightbox-previous aria-label="${labels.previous}"`), `${file}: enlarged gallery needs a localized previous-page control`);
+  assert.ok(html.includes(`data-lightbox-next aria-label="${labels.next}"`), `${file}: enlarged gallery needs a localized next-page control`);
   assert.ok(enlargeLinks.every((tag) => /\bhref="\/images\/menu\/[^\"]+"/.test(tag) && !/\baria-haspopup\s*=/.test(tag)), `${file}: static fallback links must target their image without claiming a dialog`);
   assert.equal(new Set(slides.map((match) => match[1])).size, 14, `${file}: page IDs must be unique`);
   assert.equal(transcript.length, 200, `${file}: all 200 printed items must be present in the static HTML`);
