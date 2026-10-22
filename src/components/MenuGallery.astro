@@ -105,6 +105,15 @@ const copy = menuCopy[locale];
     let opener: HTMLElement | null = null;
     let previousOverflow = '';
 
+    const syncPageHash = (index: number, mode: 'push' | 'replace') => {
+      const url = new URL(window.location.href);
+      const hash = `#${slides[index].id}`;
+      if (url.hash === hash) return;
+      url.hash = slides[index].id;
+      if (mode === 'push') window.history.pushState(window.history.state, '', url);
+      else window.history.replaceState(window.history.state, '', url);
+    };
+
     const ensureSlide = (index: number, priority: 'high' | 'low' = 'high') => {
       const slide = slides[index];
       if (!slide) return;
@@ -122,6 +131,7 @@ const copy = menuCopy[locale];
 
     const update = (index: number, announce = true) => {
       current = index;
+      if (announce) syncPageHash(index, 'replace');
       links.forEach((link, i) => {
         if (i === current) link.setAttribute('aria-current', 'true');
         else link.removeAttribute('aria-current');
@@ -145,8 +155,9 @@ const copy = menuCopy[locale];
       if (image.complete) preload();
       else image.addEventListener('load', preload, { once: true });
     };
-    const go = (index: number, smooth = true) => {
+    const go = (index: number, smooth = true, historyMode: 'push' | 'replace' | null = null) => {
       const bounded = Math.max(0, Math.min(slides.length - 1, index));
+      if (historyMode) syncPageHash(bounded, historyMode);
       ensureSlide(bounded);
       const left = slides[bounded].getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
       track.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'instant' });
@@ -155,17 +166,17 @@ const copy = menuCopy[locale];
     gallery.dataset.enhanced = 'true';
     gallery.querySelector<HTMLElement>('.menu-gallery-toolbar')!.hidden = false;
     gallery.querySelector<HTMLElement>('.menu-mobile-index')!.hidden = false;
-    previous.addEventListener('click', () => go(current - 1));
-    next.addEventListener('click', () => go(current + 1));
-    select.addEventListener('change', () => go(Number(select.value)));
+    previous.addEventListener('click', () => go(current - 1, true, 'push'));
+    next.addEventListener('click', () => go(current + 1, true, 'push'));
+    select.addEventListener('change', () => go(Number(select.value), true, 'push'));
     links.forEach((link, index) => link.addEventListener('click', (event) => {
       event.preventDefault();
-      go(index);
+      go(index, true, 'push');
     }));
     track.addEventListener('keydown', (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       const target = { ArrowLeft: current - 1, ArrowRight: current + 1, Home: 0, End: slides.length - 1 }[event.key];
-      if (target !== undefined) { event.preventDefault(); track.focus({ preventScroll: true }); go(target); }
+      if (target !== undefined) { event.preventDefault(); track.focus({ preventScroll: true }); go(target, true, 'push'); }
     });
     let scrollFrame = 0;
     track.addEventListener('scroll', () => {
@@ -177,6 +188,14 @@ const copy = menuCopy[locale];
         if (index !== current) update(index);
       });
     }, { passive: true });
+    const followLocation = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) { go(0, false); return; }
+      const index = slides.findIndex((slide) => slide.id === hash);
+      if (index >= 0) go(index, false);
+    };
+    window.addEventListener('hashchange', followLocation);
+    window.addEventListener('popstate', followLocation);
     slides.forEach((slide) => {
       const image = slide.querySelector('img');
       if (!image) return;
@@ -225,6 +244,15 @@ const copy = menuCopy[locale];
     });
     const initial = slides.findIndex((slide) => `#${slide.id}` === window.location.hash);
     update(Math.max(0, initial), false);
-    if (initial > 0) go(initial, false);
+    if (initial >= 0) {
+      if (initial > 0) go(initial, false);
+      requestAnimationFrame(() => {
+        const heading = document.querySelector<HTMLElement>('.menu-page-heading');
+        const target = document.querySelector<HTMLElement>('.menu-page .breadcrumbs') ?? heading;
+        if (!target) return;
+        const top = window.scrollY + target.getBoundingClientRect().top - 112;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+      });
+    }
   }
 </script>

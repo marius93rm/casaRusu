@@ -9,6 +9,13 @@ const dist = path.join(root, 'dist');
 const menus = await Promise.all(['meniu/index.html', 'en/meniu/index.html'].map(async (file) => ({
   file, html: await readFile(path.join(dist, file), 'utf8'),
 })));
+const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
+
+assert.match(gallerySource, /window\.history\.pushState/, 'Explicit menu navigation must create a shareable history entry');
+assert.match(gallerySource, /window\.history\.replaceState/, 'Swipe navigation must update the shareable page without flooding browser history');
+assert.match(gallerySource, /window\.addEventListener\('popstate', followLocation\)/, 'Browser back and forward must restore the selected menu page');
+assert.match(gallerySource, /window\.addEventListener\('hashchange', followLocation\)/, 'Menu page fragments must open their matching image');
+assert.match(gallerySource, /requestAnimationFrame\(\(\) => \{[\s\S]*window\.scrollTo\(\{ top: Math\.max\(0, top\), behavior: 'instant' \}\)/, 'Direct menu links must reveal the page heading below the sticky header');
 
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
@@ -72,4 +79,4 @@ for (const prefix of ['', 'en/']) {
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile e verificata, asset responsive, collegamenti home e schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
