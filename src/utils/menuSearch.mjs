@@ -6,6 +6,9 @@ export function normalizeMenuSearchText(value) {
 }
 
 export function menuSearchMatches(query, searchableText) {
-  const normalizedQuery = normalizeMenuSearchText(query.trim());
-  return !normalizedQuery || normalizeMenuSearchText(searchableText).includes(normalizedQuery);
+  const queryTerms = normalizeMenuSearchText(query).trim().split(/\s+/).filter(Boolean);
+  if (queryTerms.length === 0) return true;
+
+  const normalizedText = normalizeMenuSearchText(searchableText);
+  return queryTerms.every((term) => normalizedText.includes(term));
 }

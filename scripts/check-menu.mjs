@@ -16,6 +16,9 @@ assert.notEqual('ITALIAN'.toLocaleLowerCase('tr'), normalizeMenuSearchText('ITAL
 const sampleMenuItem = 'Salată „Casa Rusu” · piept de rață afumat, mixt salată · 69 lei · 420g · Salate · Meniul';
 assert.ok(menuSearchMatches('SALATA', sampleMenuItem), 'Search should match dish names with case and diacritic differences');
 assert.ok(menuSearchMatches('rata afumat', sampleMenuItem), 'Search should match ingredients without Romanian diacritics');
+assert.ok(menuSearchMatches('afumat rata', sampleMenuItem), 'Search should match all query terms regardless of order');
+assert.ok(menuSearchMatches('  RĂȚĂ   afumat  ', sampleMenuItem), 'Search should ignore extra whitespace and diacritics between terms');
+assert.equal(menuSearchMatches('rata missing', sampleMenuItem), false, 'Search should require every query term to match');
 assert.ok(menuSearchMatches('Salate', sampleMenuItem), 'Search should match a category');
 assert.ok(menuSearchMatches('69 lei', sampleMenuItem), 'Search should match a price');
 assert.ok(menuSearchMatches('  ', sampleMenuItem), 'An empty search should keep all menu items');
