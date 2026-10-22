@@ -2,12 +2,17 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { normalizeMenuSearchText } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const menus = await Promise.all(['meniu/index.html', 'en/meniu/index.html'].map(async (file) => ({
   file, html: await readFile(path.join(dist, file), 'utf8'),
 })));
+
+assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
+assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
+assert.notEqual('ITALIAN'.toLocaleLowerCase('tr'), normalizeMenuSearchText('ITALIAN'), 'Locale-neutral normalization should remain stable under Turkish case rules');
 
 let originalItems;
 for (const { file, html } of menus) {
@@ -47,4 +52,4 @@ for (const prefix of ['', 'en/']) {
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile, asset responsive, collegamenti home e schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile e normalizzazione stabile, asset responsive, collegamenti home e schede speciali.');

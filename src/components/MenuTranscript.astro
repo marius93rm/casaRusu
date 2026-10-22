@@ -60,6 +60,8 @@ const copy = menuCopy[locale];
 </section>
 
 <script>
+  import { normalizeMenuSearchText } from '../utils/menuSearch.mjs';
+
   const search = document.querySelector<HTMLElement>('[data-menu-search]');
   if (search) {
     const input = search.querySelector<HTMLInputElement>('[data-menu-search-input]')!;
@@ -69,14 +71,9 @@ const copy = menuCopy[locale];
       items: [...page.querySelectorAll<HTMLElement>('[data-menu-item]')],
       sections: [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')],
     }));
-    const normalize = (value: string) => value
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLocaleLowerCase();
-
     search.hidden = false;
     input.addEventListener('input', () => {
-      const query = normalize(input.value.trim());
+      const query = normalizeMenuSearchText(input.value.trim());
       let resultCount = 0;
 
       pages.forEach(({ page, items, sections }) => {
@@ -85,7 +82,7 @@ const copy = menuCopy[locale];
           const section = item.closest('.menu-transcript-section');
           const sectionTitle = section?.querySelector('h3')?.textContent ?? '';
           const pageTitle = page.querySelector('summary')?.textContent ?? '';
-          const matches = !query || normalize(`${item.textContent} ${sectionTitle} ${pageTitle}`).includes(query);
+          const matches = !query || normalizeMenuSearchText(`${item.textContent} ${sectionTitle} ${pageTitle}`).includes(query);
           item.hidden = !matches;
           if (matches) {
             pageResultCount += 1;
