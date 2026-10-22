@@ -6,6 +6,7 @@ import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
+import { menuPages } from '../data/menu';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -17,6 +18,13 @@ const socialImage = {
   height: 1366,
 };
 const menuHref = localizedPath('/meniu', locale);
+const printedDishPage = menuPages.find((page) => page.id === 'porc');
+const printedDish = printedDishPage?.sections.flatMap((section) => section.items)
+  .find((item) => item.name === 'Șnițel din cotlet de porc cu os');
+
+if (!printedDishPage || !printedDish) {
+  throw new Error('The schnitzel listing must exist in the printed menu data.');
+}
 ---
 
 <BaseLayout
@@ -60,7 +68,19 @@ const menuHref = localizedPath('/meniu', locale);
             <p class="section-label">{copy.dish.eyebrow}</p>
             <h1 id="dish-detail-title">{copy.dish.title}</h1>
             <p class="dish-detail-body">{copy.dish.body}</p>
-            <p class="dish-detail-note">{copy.dish.note}</p>
+            <aside class="dish-menu-listing" aria-labelledby="dish-menu-listing-title">
+              <div class="dish-menu-listing-heading">
+                <p class="section-label" id="dish-menu-listing-title">{copy.dish.menuListingLabel}</p>
+                <p class="dish-menu-listing-price">
+                  <span>{printedDish.quantity}</span>
+                  <strong>{printedDish.price} lei</strong>
+                </p>
+              </div>
+              <p class="dish-menu-listing-note">{copy.dish.menuListingNote}</p>
+              <a class="text-link" href={`${menuHref}/#menu-page-${printedDishPage.id}`}>
+                {copy.dish.menuListingAction}<Icon name="arrow" size={18} />
+              </a>
+            </aside>
             <div class="dish-detail-actions">
               <a class="button button-primary" href={siteData.company.phoneHref}>
                 {copy.hero.primaryAction}<Icon name="phone" size={18} />

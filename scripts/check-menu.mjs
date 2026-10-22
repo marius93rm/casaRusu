@@ -85,6 +85,14 @@ for (const prefix of ['', 'en/']) {
     assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${prefix || 'RO'} home: menu preview is missing AVIF for ${id}`);
   }
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
-  await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
+  const dishHtml = await readFile(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'), 'utf8');
+  const dishCopy = prefix
+    ? { label: 'Printed menu listing', note: 'The printed menu lists the schnitzel separately from side dishes.', action: 'See this menu entry' }
+    : { label: 'În meniul tipărit', note: 'Meniul tipărit listează șnițelul separat de garnituri.', action: 'Vezi poziția în meniu' };
+  const dishMenuHref = `/${prefix}meniu/#menu-page-porc`;
+  assert.ok(dishHtml.includes(`id="dish-menu-listing-title">${dishCopy.label}</p>`), `${prefix || 'RO'} dish: printed-menu price must be clearly labelled`);
+  assert.match(dishHtml, /class="dish-menu-listing-price">\s*<span>300g<\/span>\s*<strong>54 lei<\/strong>/, `${prefix || 'RO'} dish: show the printed schnitzel portion and price`);
+  assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
+  assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
 console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');

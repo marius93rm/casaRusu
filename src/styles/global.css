@@ -242,7 +242,14 @@ h1, h2, h3 {
 .dish-detail-copy { max-width: 32rem; }
 .dish-detail-copy h1 { margin-bottom: 1.5rem; font-size: clamp(2.8rem, 5vw, 4.5rem); }
 .dish-detail-body { margin-bottom: 1rem; color: var(--muted); font-size: 1.0625rem; }
-.dish-detail-note { margin-bottom: 1.8rem; color: var(--muted); font-size: 1rem; }
+.dish-menu-listing { margin-block: 1.6rem 1.8rem; padding: 1.2rem; border: 1px solid var(--border); background: var(--surface); }
+.dish-menu-listing-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; margin-bottom: .75rem; }
+.dish-menu-listing-heading .section-label { margin: 0; }
+.dish-menu-listing-price { display: flex; align-items: baseline; gap: .75rem; margin: 0; }
+.dish-menu-listing-price span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.dish-menu-listing-price strong { color: var(--accent); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.dish-menu-listing-note { margin-bottom: 1rem; color: var(--muted); font-size: .9375rem; }
+.dish-menu-listing .text-link { display: inline-flex; align-items: center; gap: .4rem; }
 .dish-detail-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
 
 .visit-section { border-top: 1px solid var(--border); padding-block: var(--section-space); background: var(--surface); }
