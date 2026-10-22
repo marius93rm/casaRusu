@@ -113,8 +113,11 @@ h1, h2, h3 {
 }
 .header-inner, .main-navigation, .header-actions { display: flex; align-items: center; }
 .header-inner { height: 79px; justify-content: space-between; gap: 2rem; }
-.brand { display: inline-flex; flex-shrink: 0; align-items: center; text-decoration: none; }
-.brand img { width: 76px; height: 76px; object-fit: contain; mix-blend-mode: multiply; }
+.brand { display: inline-flex; flex-shrink: 0; align-items: center; gap: .8rem; min-height: 52px; color: var(--primary); text-decoration: none; }
+.brand-mark { flex: none; width: 34px; height: 51px; overflow: visible; color: var(--accent); }
+.brand-lettering { display: grid; gap: .3rem; }
+.brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.15rem; font-weight: 500; letter-spacing: -.035em; line-height: .95; white-space: nowrap; }
+.brand-descriptor { padding-left: .12em; color: var(--accent); font-size: .55rem; font-weight: 500; letter-spacing: .32em; line-height: 1.2; text-transform: uppercase; }
 .main-navigation { gap: clamp(1.5rem, 3vw, 3rem); }
 .main-navigation ul { display: flex; gap: clamp(1.5rem, 2.6vw, 2.5rem); padding: 0; margin: 0; list-style: none; }
 .main-navigation a { text-decoration: none; }
@@ -265,8 +268,7 @@ h1, h2, h3 {
 
 .site-footer { border-top: 1px solid var(--border); }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: 2rem; }
-.footer-brand { display: flex; align-items: center; gap: 1rem; }
-.footer-brand .brand img { width: 90px; height: 90px; }
+.footer-brand { display: flex; align-items: center; gap: 1.75rem; }
 .footer-brand p { color: var(--muted); font-size: .7rem; }
 .footer-links { display: flex; align-items: center; gap: 1.5rem; }
 .footer-links a { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; font-size: .72rem; text-decoration: none; }
@@ -289,6 +291,10 @@ h1, h2, h3 {
   .menu-feature, .dish-detail-grid { column-gap: 3rem; }
 }
 @media (max-width: 900px) and (min-width: 761px) {
+  .brand { gap: .55rem; }
+  .brand-mark { width: 28px; height: 42px; }
+  .brand-name { font-size: 1.8rem; }
+  .brand-descriptor { font-size: .5rem; letter-spacing: .25em; }
   .header-inner { gap: 1rem; }
   .main-navigation { gap: 1rem; }
   .main-navigation ul { gap: .8rem; }
@@ -301,7 +307,7 @@ h1, h2, h3 {
   .hero h1 { font-size: 2.8rem; }
   .hero-actions { align-items: start; flex-direction: column; }
   .visit-details { grid-template-columns: 1fr; gap: 1.5rem; }
-  .footer-brand { gap: .5rem; }
+  .footer-brand { align-items: start; flex-direction: column; gap: .75rem; }
   .footer-links { gap: 1rem; }
 }
 @media (max-width: 760px) {
@@ -329,7 +335,9 @@ h1, h2, h3 {
   .mobile-booking-cta:hover { background: var(--primary); }
   .container { width: calc(100% - 2.5rem); }
   .header-inner { height: 72px; gap: 1rem; flex-wrap: wrap; }
-  .brand img { height: 68px; width: 68px; }
+  .brand { gap: .65rem; }
+  .brand-mark { width: 29px; height: 44px; }
+  .brand-name { font-size: 2rem; }
   .main-navigation:not([data-enhanced='true']) { display: flex; flex: 1 0 100%; flex-direction: column; align-items: stretch; gap: 1rem; padding-bottom: 1rem; background: var(--background); }
   .header-inner:has(.main-navigation:not([data-enhanced='true'])) { height: auto; }
   .main-navigation[data-enhanced='true'] { position: absolute; inset: 100% 0 auto; display: none; flex-direction: column; align-items: stretch; gap: 1.25rem; padding: 1.25rem; border-bottom: 1px solid var(--border); background: var(--background); }
@@ -383,7 +391,6 @@ h1, h2, h3 {
   .visit-details { column-gap: 1.25rem; }
   .footer-inner { flex-wrap: wrap; gap: 1rem; padding-block: 1.5rem; }
   .footer-brand { width: 100%; }
-  .footer-brand .brand img { width: 76px; height: 76px; }
   .footer-links { flex-wrap: wrap; gap: 1rem; }
 }
 @media (max-width: 380px) {
@@ -402,7 +409,6 @@ h1, h2, h3 {
     --accent: #d1ac7f !important;
     --border: #484036 !important;
   }
-  .brand img { mix-blend-mode: normal; }
   .button-primary { color: var(--background); }
   .button-primary:hover { background: var(--primary); }
 }

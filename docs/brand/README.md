@@ -1,5 +1,7 @@
 # Casa Rusu brand variants
 
+For the current website identity, rationale, research and light/dark previews, see [Digital identity](digital-identity.md). The notes below document the earlier raster experiments; the website now uses a simplified SVG monogram and live typography in its header and footer.
+
 These additive PNG variants were made on 2026-10-13 from the official source image at `public/brand/casa-rusu-logo.jpg` (720×720). The repository JPG is the source of truth and remains byte-for-byte unchanged; `src/data/site.ts` still references `/brand/casa-rusu-logo.jpg`. The official Facebook profile image was visually verified as the same artwork.
 
 Files in `public/brand/variants/`:
