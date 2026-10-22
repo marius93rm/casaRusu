@@ -84,6 +84,16 @@ const homeHref = localizedPath('/', locale);
     nav.addEventListener('click', (event) => {
       if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
     });
+    document.addEventListener('click', (event) => {
+      if (
+        toggle.getAttribute('aria-expanded') === 'true'
+        && event.target instanceof Node
+        && !toggle.contains(event.target)
+        && !nav.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    });
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
         setOpen(false);
