@@ -18,6 +18,8 @@ Homepage catturata in locale nelle versioni desktop e mobile, presentata in mock
 
 ## Avvio
 
+Testi ingranditi, collegamento TikTok e animazioni rispettose di `prefers-reduced-motion` sono descritti in [Qualità e accessibilità](docs/quality.md), insieme ai report Lighthouse desktop/mobile sulle sei pagine (mediana di tre prove) e ai controlli al 200%.
+
 ```bash
 npm install
 npm run dev

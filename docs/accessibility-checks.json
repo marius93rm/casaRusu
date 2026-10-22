@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-22",
+  "engine": "axe-core 4.14.0 in local Paseo browser",
+  "viewport": {
+    "width": 320,
+    "height": 844
+  },
+  "lightTheme": "Temporarily applied production light palette; color transitions allowed to finish before auditing.",
+  "rules": "Default axe rules plus label-content-name-mismatch.",
+  "results": [
+    {
+      "path": "/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 41,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 41,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    },
+    {
+      "path": "/en/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 41,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 41,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    },
+    {
+      "path": "/meniu/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 48,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 48,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    },
+    {
+      "path": "/en/meniu/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 48,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 48,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    },
+    {
+      "path": "/preparate/snitel-cotlet-porc/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 38,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 38,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    },
+    {
+      "path": "/en/preparate/snitel-cotlet-porc/",
+      "themes": [
+        {
+          "theme": "dark",
+          "passes": 38,
+          "violations": [],
+          "incomplete": []
+        },
+        {
+          "theme": "light",
+          "passes": 38,
+          "violations": [],
+          "incomplete": []
+        }
+      ],
+      "text200": {
+        "client": 305,
+        "scroll": 305
+      }
+    }
+  ]
+}
