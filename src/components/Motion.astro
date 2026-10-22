@@ -1,0 +1,31 @@
+<script>
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const targets = document.querySelectorAll<HTMLElement>('.story-inner, .menu-preview-inner, .dish-grid, .visit-heading, .visit-visual, .visit-content, .menu-extras-heading, .menu-feature');
+  const animations = new Set<Animation>();
+  if (!preference.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        // Above-the-fold content is always immediate, including on hash navigation.
+        if (entry.boundingClientRect.top < 80 || preference.matches) continue;
+        const animation = entry.target.animate([
+          { opacity: 0, transform: 'translateY(18px)' },
+          { opacity: 1, transform: 'translateY(0)' },
+        ], { duration: 560, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        animations.add(animation);
+        animation.finished.then(() => animations.delete(animation), () => animations.delete(animation));
+      }
+    }, { threshold: .08 });
+    targets.forEach(target => observer.observe(target));
+    const finishAnimations = () => animations.forEach(animation => animation.finish());
+    // Keyboard users never have to wait for a focused control to appear.
+    document.addEventListener('focusin', finishAnimations);
+    preference.addEventListener('change', () => {
+      if (preference.matches) {
+        observer.disconnect();
+        finishAnimations();
+      }
+    });
+  }
+</script>

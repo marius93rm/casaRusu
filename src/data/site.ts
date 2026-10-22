@@ -41,6 +41,7 @@ export const siteData = {
   links: {
     facebook: 'https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/',
     instagram: 'https://www.instagram.com/restaurant.casarusu/',
+    tiktok: 'https://www.tiktok.com/@restaurant.casarusu',
     recentFoodPost: 'https://www.facebook.com/reel/1038477139209678/',
     map: 'https://www.google.com/maps/search/?api=1&query=Strada+Lateral%C4%83%2C+nr.+42%2C+Codlea%2C+Romania',
     googleBusiness: 'https://www.google.com/maps?cid=8243879332869202835',

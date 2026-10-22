@@ -6,6 +6,7 @@ const siteUrl = process.env.SITE_URL?.trim() || siteConfig.seo.siteUrl;
 
 export default defineConfig({
   output: 'static',
+  build: { inlineStylesheets: 'always' },
   ...(siteUrl
     ? { site: siteUrl, integrations: [sitemap()] }
     : {}),

@@ -17,6 +17,7 @@ const copy = siteData.copy[locale].footer;
     <div class="footer-links">
       <a href={siteData.links.facebook} target="_blank" rel="noreferrer">{copy.facebook}<Icon name="diagonal" size={15} /></a>
       <a href={siteData.links.instagram} target="_blank" rel="noreferrer">{copy.instagram}<Icon name="diagonal" size={15} /></a>
+      <a href={siteData.links.tiktok} target="_blank" rel="noreferrer"><Icon name="tiktok" size={18} />TikTok<Icon name="diagonal" size={15} /></a>
       <a href={switchLocalePath(Astro.url, locale === 'ro' ? 'en' : 'ro')}>
         {locale === 'ro' ? 'English' : 'Română'}
       </a>

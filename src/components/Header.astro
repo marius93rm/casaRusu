@@ -73,7 +73,7 @@ const homeHref = localizedPath('/', locale);
     };
 
     nav.dataset.enhanced = 'true';
-    const desktop = window.matchMedia('(min-width: 761px)');
+    const desktop = window.matchMedia('(min-width: 1101px)');
     const syncViewport = () => {
       toggle.hidden = desktop.matches;
       setOpen(false);
