@@ -1,0 +1,52 @@
+---
+import { siteData, type SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = siteData.copy[locale].visit.openingStatus;
+---
+
+<p
+  class="opening-status"
+  role="status"
+  data-opening-status
+  data-opening-hours={JSON.stringify(siteData.company.openingHours)}
+  data-opening-copy={JSON.stringify(copy)}
+  hidden
+></p>
+
+<script>
+  import { calculateOpeningStatus } from '../utils/openingStatus.mjs';
+
+  const status = document.querySelector<HTMLElement>('[data-opening-status]');
+  if (status) {
+    const hours = JSON.parse(status.dataset.openingHours ?? '[]');
+    const copy = JSON.parse(status.dataset.openingCopy ?? '{}');
+
+    const updateStatus = () => {
+      const current = calculateOpeningStatus(hours);
+      if (!current) return;
+
+      const day = current.daysAhead === 0
+        ? copy.today
+        : current.daysAhead === 1
+          ? copy.tomorrow
+          : current.weekday
+            ? copy.weekdays[current.weekday]
+            : '';
+      const message = current.state === 'open'
+        ? `${copy.open} · ${copy.closes.replace('{time}', current.closesAt)} · ${copy.regular}`
+        : current.opensAt
+          ? `${copy.closed} · ${copy.opens.replace('{day}', day).replace('{time}', current.opensAt)} · ${copy.regular}`
+          : `${copy.closed} · ${copy.regular}`;
+
+      if (status.textContent !== message || status.dataset.state !== current.state) {
+        status.textContent = message;
+        status.dataset.state = current.state;
+      }
+      status.hidden = false;
+    };
+
+    updateStatus();
+    window.setInterval(updateStatus, 60_000);
+  }
+</script>

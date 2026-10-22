@@ -119,6 +119,16 @@ export const siteData = {
         hoursLabel: 'Program',
         mapAction: 'Deschide harta',
         reviewsAction: 'Citește recenziile pe Google',
+        openingStatus: {
+          open: 'Deschis acum',
+          closed: 'Închis acum',
+          closes: 'închide la {time}',
+          opens: 'se deschide {day} la {time}',
+          today: 'astăzi',
+          tomorrow: 'mâine',
+          regular: 'conform programului obișnuit',
+          weekdays: { Monday: 'luni', Tuesday: 'marți', Wednesday: 'miercuri', Thursday: 'joi', Friday: 'vineri', Saturday: 'sâmbătă', Sunday: 'duminică' },
+        },
       },
       footer: {
         location: 'Codlea · România',
@@ -187,6 +197,16 @@ export const siteData = {
         hoursLabel: 'Opening hours',
         mapAction: 'Open in Google Maps',
         reviewsAction: 'Read reviews on Google',
+        openingStatus: {
+          open: 'Open now',
+          closed: 'Closed now',
+          closes: 'closes at {time}',
+          opens: 'opens {day} at {time}',
+          today: 'today',
+          tomorrow: 'tomorrow',
+          regular: 'based on regular hours',
+          weekdays: { Monday: 'Monday', Tuesday: 'Tuesday', Wednesday: 'Wednesday', Thursday: 'Thursday', Friday: 'Friday', Saturday: 'Saturday', Sunday: 'Sunday' },
+        },
       },
       footer: {
         location: 'Codlea · Romania',

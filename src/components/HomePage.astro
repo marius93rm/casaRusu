@@ -4,6 +4,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import MenuPreview from './MenuPreview.astro';
+import OpeningStatus from './OpeningStatus.astro';
 import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
@@ -150,6 +151,7 @@ const structuredData = {
         <div class="visit-heading">
           <h2 id="visit-title">{copy.visit.titleFirst}{' '}<span>{copy.visit.titleSecond}</span></h2>
           <p>{copy.visit.body}</p>
+          <OpeningStatus {locale} />
         </div>
         <figure class="visit-visual">
           <picture>
