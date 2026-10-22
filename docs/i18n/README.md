@@ -19,6 +19,22 @@ Home, navigazione, contatti, orari statici e stato di apertura, promozione con s
 
 Gli URL esistenti RO/EN continuano a funzionare. Le nuove rotte sono generate staticamente dai componenti condivisi. Non sono richiesti servizi esterni, richieste di traduzione nel browser o nuove dipendenze.
 
+## Rilevamento automatico
+
+Dal 22/10/2026, sui percorsi senza prefisso lingua (`/`, `/meniu/` e scheda del piatto), uno script immediato nel `<head>` sceglie la lingua prima di mostrare il contenuto:
+
+1. Una scelta manuale salvata nel browser ha precedenza sulle preferenze del browser.
+2. Senza una scelta salvata, si usa la prima lingua supportata in `navigator.languages`, rispettandone l’ordine. Varianti regionali come `en-US`, `es-MX` e `fr-CA` corrispondono a EN, ES e FR; `navigator.language` è il fallback se l’elenco non è disponibile.
+3. Se nessuna lingua è supportata, rimane il romeno.
+
+Gli URL che hanno già un prefisso, per esempio `/fr/meniu/`, aprono sempre quella versione: i link condivisi e i segnalibri conservano la lingua esplicita. Il rilevamento mantiene percorso, query e ancora, e usa `location.replace` per evitare una voce aggiuntiva nella cronologia e loop di reindirizzamento. Il rilevamento automatico non salva una preferenza: un successivo cambio della lingua del browser potrà essere rilevato, finché l’utente non sceglie manualmente.
+
+La scelta nel selettore dell’header o del footer viene salvata in `localStorage` con la chiave `casa-rusu-language`. Si applica alle visite successive dallo stesso browser. Se lo storage è bloccato il rilevamento continua a funzionare; la scelta manuale del romeno aggiunge `lang=ro` all’URL per impedirne l’immediato reindirizzamento. Il cambio successivo rimuove questo parametro. Senza JavaScript rimangono disponibili le pagine statiche e il selettore manuale.
+
+La logica è in `src/i18n/detect-language.js`, inserita da `LanguageDetection.astro`. `scripts/check-language-detection.mjs` esegue lo stesso script con preferenze, lingue regionali, storage bloccato e URL espliciti; verifica anche la sua inclusione immediata negli HTML delle 18 pagine. Per controllare la versione romena in un browser non romeno, selezionare prima Română.
+
+Verifica Paseo: browser `en-US` senza preferenza → `/en/meniu/?source=qr#menu-page-porc`, scansione 06/14; tutte le sei preferenze salvate applicate all’apertura della scheda del piatto; click FR → IT salva `it` e conserva menu, query e scansione; successivo accesso alla radice → `/it/`. La scelta romena è stata verificata anche con scrittura nello storage negata. Screenshot: [accesso automatico italiano su mobile](automatic-it-mobile.png).
+
 ## Manutenzione
 
 - `src/i18n/config.ts`: codici ISO, lingua predefinita e locale Open Graph.
@@ -27,6 +43,7 @@ Gli URL esistenti RO/EN continuano a funzionare. Le nuove rotte sono generate st
 - `src/data/menu.ts`: unica fonte per ordine delle pagine, voci originali, ingredienti, quantità e prezzi.
 - `src/i18n/menu-translations.json`: traduzioni esatte dei titoli, nomi e singoli ingredienti. I nomi commerciali invariati sono elencati esplicitamente. Una nuova voce non tradotta provoca un errore di build; aggiungere le traduzioni insieme all’aggiornamento del catalogo.
 - `src/i18n/paths.ts`: riconoscimento delle lingue e cambio del prefisso URL.
+- `src/i18n/detect-language.js` e `LanguageDetection.astro`: rilevamento immediato e preferenze del browser.
 
 Con `SITE_URL` configurata, ogni pagina genera canonical, sei hreflang reciproci e `x-default` romeno. La sitemap associa le sei versioni di ciascuna pagina; il JSON-LD `Restaurant.menu` punta al menu nella lingua corrente. L’origine di produzione resta da configurare quando sarà disponibile il dominio, come tracciato in CR-03.
 

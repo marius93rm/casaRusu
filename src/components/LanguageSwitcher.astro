@@ -23,6 +23,8 @@ const dictionary = getDictionary(locale);
 </details>
 
 <script>
+  import { languagePreferenceKey, defaultLocale } from '../i18n/config';
+
   document.querySelectorAll<HTMLDetailsElement>('[data-language-switcher]').forEach((switcher) => {
     const summary = switcher.querySelector('summary')!;
     const links = switcher.querySelectorAll<HTMLAnchorElement>('[data-language-link]');
@@ -35,7 +37,27 @@ const dictionary = getDictionary(locale);
     switcher.addEventListener('toggle', () => {
       if (switcher.open) syncLinks();
     });
-    links.forEach((link) => link.addEventListener('click', syncLinks));
+    const rememberChoice = (event: MouseEvent) => {
+      if (event.type === 'auxclick' && event.button !== 1) return;
+      syncLinks();
+      const link = event.currentTarget as HTMLAnchorElement;
+      const url = new URL(link.href);
+      url.searchParams.delete('lang');
+      try {
+        window.localStorage.setItem(languagePreferenceKey, link.lang);
+      } catch {
+        // Romanian has no URL prefix: preserve an explicit choice even when
+        // storage is unavailable, rather than immediately detecting again.
+        if (link.lang === defaultLocale) {
+          url.searchParams.set('lang', defaultLocale);
+        }
+      }
+      link.href = url.href;
+    };
+    links.forEach((link) => {
+      link.addEventListener('click', rememberChoice);
+      link.addEventListener('auxclick', rememberChoice);
+    });
     document.addEventListener('click', (event) => {
       if (event.target instanceof Node && !switcher.contains(event.target)) switcher.open = false;
     });

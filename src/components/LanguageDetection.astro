@@ -1,0 +1,13 @@
+---
+import script from '../i18n/detect-language.js?raw';
+import { locales, defaultLocale, languagePreferenceKey } from '../i18n/config';
+---
+
+<script
+  is:inline
+  data-language-detection
+  data-locales={JSON.stringify(locales)}
+  data-default-locale={defaultLocale}
+  data-preference-key={languagePreferenceKey}
+  set:html={script}
+/>

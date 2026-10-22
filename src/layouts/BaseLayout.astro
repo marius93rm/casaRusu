@@ -4,6 +4,7 @@ import { siteConfig } from '../config/site';
 import type { SiteLocale } from '../data/site';
 import { locales, socialLocales, switchLocalePath } from '../i18n';
 import Motion from '../components/Motion.astro';
+import LanguageDetection from '../components/LanguageDetection.astro';
 
 interface Props {
   title?: string;
@@ -53,6 +54,7 @@ const socialLocale = socialLocales[lang];
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
+    <LanguageDetection />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     {criticalImage && <link rel="preload" as="image" type={criticalImage.type} imagesrcset={criticalImage.srcset} imagesizes={criticalImage.sizes} fetchpriority="high" />}

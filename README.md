@@ -34,7 +34,7 @@ npm run build
 
 ## Lingue
 
-Il sito è disponibile in romeno (predefinito), inglese, italiano, spagnolo, francese e tedesco. I prefissi sono `/en/`, `/it/`, `/es/`, `/fr/` e `/de/`; il selettore nell’header e nel footer mantiene la pagina e, con JavaScript, query e ancora correnti. Home, menu, scheda del piatto, contatti, orari e metadati sono tradotti. Le 200 voci del menu conservano prezzi e quantità originali in lei romeni.
+Il sito è disponibile in romeno (predefinito), inglese, italiano, spagnolo, francese e tedesco. Al primo accesso il sito rileva automaticamente la lingua del browser; la scelta manuale viene ricordata nelle visite successive. Gli URL con lingua esplicita restano nella lingua indicata e le lingue non supportate usano il romeno. I prefissi sono `/en/`, `/it/`, `/es/`, `/fr/` e `/de/`; il selettore nell’header e nel footer mantiene la pagina e, con JavaScript, query e ancora correnti. Home, menu, scheda del piatto, contatti, orari e metadati sono tradotti. Le 200 voci del menu conservano prezzi e quantità originali in lei romeni.
 
 Struttura, manutenzione e verifiche sono in [Multilingua](docs/i18n/README.md).
 
