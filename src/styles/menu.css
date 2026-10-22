@@ -18,7 +18,9 @@
 .menu-page-index a:hover { color: var(--accent); background: var(--surface); }
 .menu-page-index a[aria-current='true'] { color: var(--primary); background: var(--surface); border-left-color: var(--accent); font-weight: 600; }
 .menu-index-number { flex-shrink: 0; color: var(--accent); font-size: .875rem; font-variant-numeric: tabular-nums; }
-.menu-read-link { margin-top: 1.5rem; }
+.menu-gallery-actions { display: grid; justify-items: start; gap: .25rem; margin-top: 1.5rem; }
+.menu-gallery-actions .text-link { margin-top: 0; }
+.menu-search-link { color: var(--accent); }
 .menu-gallery-stage { min-width: 0; padding: clamp(.75rem, 2vw, 1.5rem); border: 1px solid var(--border); background: var(--surface); }
 .menu-gallery-track { min-width: 0; }
 .menu-gallery-slide { position: relative; min-width: 0; margin: 0 0 1rem; scroll-margin-block: 7rem; }
@@ -114,7 +116,8 @@
   .menu-gallery[data-enhanced] .menu-mobile-index { display: block; }
   .menu-mobile-index select { width: 100%; min-height: 48px; padding: .65rem 2rem .65rem .75rem; border: 1px solid var(--border); border-radius: 0; background: var(--background); color: var(--text); font: inherit; font-size: 1rem; }
   .menu-mobile-index select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-  .menu-read-link { margin-top: .65rem; font-size: 1.0625rem; }
+  .menu-gallery-actions { gap: 0; margin-top: .65rem; }
+  .menu-gallery-actions .text-link { font-size: 1.0625rem; }
   .menu-gallery-stage { padding: .65rem; }
   .menu-gallery[data-enhanced] .menu-gallery-track { height: auto; max-height: 68svh; aspect-ratio: 1448 / 2048; }
   .menu-gallery-toolbar { gap: .5rem; }

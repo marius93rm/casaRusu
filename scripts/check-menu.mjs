@@ -46,6 +46,7 @@ assert.equal(clearedMenuUrl.hash, '#menu-page-porc', 'Clearing search should pre
 assert.match(transcriptSource, /searchParams\.get\(menuSearchQueryParam\)/, 'The menu should restore a shared query from its URL');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
 assert.match(transcriptSource, /if \(initialQuery !== null\) input\.dispatchEvent\(new Event\('input'\)\)/, 'A shared query should immediately restore its filtered results');
+assert.match(transcriptSource, /if \(searchShortcut\) searchShortcut\.hidden = false/, 'The menu search shortcut should appear only when the search enhancement is available');
 
 let originalItems;
 for (const { file, html } of menus) {
@@ -66,6 +67,10 @@ for (const { file, html } of menus) {
   assert.deepEqual(transcriptScanLinks, slides.slice(1).map(([, id]) => id), `${file}: every transcript page needs a link to its matching scan`);
   assert.match(html, /<search\b[^>]*aria-label="[^"]+"[^>]*hidden[^>]*data-menu-search/, `${file}: search should be available as progressive enhancement`);
   assert.match(html, /<label for="menu-dish-search">[^<]+<\/label>[\s\S]*?<input\b[^>]*type="search"[^>]*aria-controls="menu-transcript-pages"/, `${file}: search needs an associated label and results target`);
+  const searchShortcut = html.match(/<a\b(?=[^>]*data-menu-search-link)[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
+  assert.match(searchShortcut, /href="#menu-dish-search"/, `${file}: the menu gallery should offer a direct route to dish search`);
+  assert.match(searchShortcut, /\shidden(?:="")?(?:\s|>)/, `${file}: the search shortcut must stay hidden when scripts are unavailable`);
+  assert.ok(searchShortcut.includes(labels.searchLabel), `${file}: dish search shortcut should be localized`);
   assert.match(html, /data-menu-search-status[^>]*role="status"[^>]*aria-live="polite"/, `${file}: search results must be announced politely`);
   assert.ok(html.includes(`<ul lang="${locale}">`), `${file}: translated content needs its language declared`);
   assert.doesNotMatch(html, /Meniul complet urmează|full menu (?:is )?coming soon/i, `${file}: outdated placeholder`);
