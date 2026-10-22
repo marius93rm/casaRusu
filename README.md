@@ -1,6 +1,6 @@
 # Restaurant Casa Rusu · Codlea
 
-Sito Astro indipendente per Restaurant Casa Rusu. Testi, contatti, colori e collegamenti sono in `src/data/site.ts`; logo, fotografie e font sono locali in `public/brand/`, `public/images/` e `public/fonts/`. I font DM Sans e Cormorant Garamond sono ospitati localmente; le licenze sono in `public/fonts/OFL.txt` e `public/fonts/Cormorant-Garamond-OFL.txt`.
+Sito Astro indipendente per Restaurant Casa Rusu. Contatti, colori e collegamenti sono in `src/data/site.ts`; i testi sono nei dizionari `src/i18n/locales/`; logo, fotografie e font sono locali in `public/brand/`, `public/images/` e `public/fonts/`. I font DM Sans e Cormorant Garamond sono ospitati localmente; le licenze sono in `public/fonts/OFL.txt` e `public/fonts/Cormorant-Garamond-OFL.txt`.
 
 ## Anteprima
 
@@ -32,9 +32,15 @@ npm run check
 npm run build
 ```
 
+## Lingue
+
+Il sito è disponibile in romeno (predefinito), inglese, italiano, spagnolo, francese e tedesco. I prefissi sono `/en/`, `/it/`, `/es/`, `/fr/` e `/de/`; il selettore nell’header e nel footer mantiene la pagina e, con JavaScript, query e ancora correnti. Home, menu, scheda del piatto, contatti, orari e metadati sono tradotti. Le 200 voci del menu conservano prezzi e quantità originali in lei romeni.
+
+Struttura, manutenzione e verifiche sono in [Multilingua](docs/i18n/README.md).
+
 ## Menu completo
 
-Le pagine `/meniu/` e `/en/meniu/` includono il menu originale in 14 immagini, con galleria sfogliabile, indice, ingrandimento e trascrizione delle 200 voci. Interfaccia e categorie sono RO/EN; il menu originale rimane in romeno in entrambe le lingue. La home contiene un pulsante e un'anteprima dedicati. Le schede speciali dei piatti restano disponibili.
+Le pagine menu in RO/EN/IT/ES/FR/DE includono il menu originale in 14 immagini, con galleria sfogliabile, indice, ingrandimento e trascrizione delle 200 voci. Interfaccia, categorie, piatti e ingredienti sono localizzati; le scansioni conservano il menu originale romeno e prezzi e quantità provengono dalla stessa fonte. La home contiene un pulsante e un'anteprima dedicati. Le schede speciali dei piatti restano disponibili.
 
 Catalogo e trascrizione sono in `src/data/menu.ts`; gli originali e le varianti responsive sono in `public/images/menu/`. La build esegue anche `npm run check:menu`. Provenienza, comportamento e verifiche sono descritti in [docs/menu.md](docs/menu.md).
 
@@ -44,4 +50,4 @@ Per abilitare canonical assoluti, hreflang, immagini Open Graph assolute e sitem
 
 ## Verifica del redesign
 
-`npm run build` esegue il controllo Astro, genera le sei rotte (home, menu e scheda del piatto in RO/EN) e avvia `check:seo` e `check:menu`. Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.
+`npm run build` esegue il controllo Astro, genera le 18 rotte (home, menu e scheda del piatto in RO/EN/IT/ES/FR/DE) e avvia `check:seo`, `check:menu`, `check:hours` e `check:i18n`. Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.

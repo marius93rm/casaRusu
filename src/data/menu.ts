@@ -1,3 +1,10 @@
+import { ro } from '../i18n/locales/ro';
+import { en } from '../i18n/locales/en';
+import { it } from '../i18n/locales/it';
+import { es } from '../i18n/locales/es';
+import { fr } from '../i18n/locales/fr';
+import { de } from '../i18n/locales/de';
+import { menuTitles } from '../i18n/menu';
 import type { SiteLocale } from './site';
 
 export interface MenuItem {
@@ -22,11 +29,11 @@ export interface MenuPage {
 
 type PrintedItem = [name: string, quantity: string, price: number, ingredients?: string];
 const section = (ro: string, en: string, rows: PrintedItem[]): MenuSection => ({
-  title: { ro, en },
+  title: menuTitles(ro, en),
   items: rows.map(([name, quantity, price, ingredients = '']) => ({ name, quantity, price, ingredients })),
 });
 const page = (id: string, source: string, ro: string, en: string, sections: MenuSection[]): MenuPage => ({
-  id, source, title: { ro, en }, image: `/images/menu/${id}.jpg`, width: 1448, height: 2048, sections,
+  id, source, title: menuTitles(ro, en), image: `/images/menu/${id}.jpg`, width: 1448, height: 2048, sections,
 });
 
 // Source: the 14 menu images supplied by Marius on 21 October 2026.
@@ -279,39 +286,4 @@ export const menuPages: MenuPage[] = [
 export const menuSrcset = (page: MenuPage, format: 'webp' | 'avif' = 'webp') => [480, 800, 1200, 1448]
   .map((width) => `/images/menu/${page.id}-${width}.${format} ${width}w`).join(', ');
 
-export const menuCopy = {
-  ro: {
-    action: 'Vezi meniul', previewTitle: 'Poftă de ceva bun?',
-    previewBody: 'De la aperitive și preparate la grătar, până la desert și un pahar de vin. Răsfoiește meniul și alege ce îți face poftă.',
-    index: 'Alege o pagină', gallery: 'Meniul în imagini', page: 'Pagina', of: 'din',
-    previous: 'Pagina anterioară', next: 'Pagina următoare', enlarge: 'Mărește pagina',
-    original: 'Deschide imaginea originală', close: 'Închide imaginea', zoomIn: 'Mărește', zoomOut: 'Micșorează', reset: 'Încadrează pagina',
-    read: 'Citește meniul', readTitle: 'Meniul, pe îndelete',
-    readBody: 'Preparatele, ingredientele, cantitățile și prețurile din meniul original, într-un format ușor de citit.',
-    languageNote: 'Meniul este în limba română. Prețurile sunt în lei.',
-    searchLandmark: 'Căutare în meniu', searchLabel: 'Găsește rapid un preparat',
-    searchPlaceholder: 'Preparat, ingredient, categorie sau preț',
-    searchHint: 'Caută după denumire, ingredient, categorie sau preț în lei.',
-    searchNoResults: 'Nu am găsit preparate potrivite.', searchOneResult: 'Un preparat găsit.',
-    searchManyResults: '{count} preparate găsite.',
-    extras: 'Din bucătăria noastră', extrasTitle: 'Mai aproape de preparatele noastre',
-    fallback: 'Imaginea nu s-a încărcat. Poți deschide originalul sau citi meniul de mai jos.',
-  },
-  en: {
-    action: 'View menu', previewTitle: 'What are you in the mood for?',
-    previewBody: 'From starters and grilled dishes to dessert and a glass of wine. Browse the menu and find something you’ll enjoy.',
-    index: 'Choose a page', gallery: 'Menu in pictures', page: 'Page', of: 'of',
-    previous: 'Previous page', next: 'Next page', enlarge: 'Enlarge page',
-    original: 'Open original image', close: 'Close image', zoomIn: 'Zoom in', zoomOut: 'Zoom out', reset: 'Fit page',
-    read: 'Read the menu', readTitle: 'Take your time with the menu',
-    readBody: 'Dishes, ingredients, quantities and prices from the original menu, in an easy-to-read format.',
-    languageNote: 'The original menu is in Romanian. Prices are in Romanian lei.',
-    searchLandmark: 'Search the menu', searchLabel: 'Find a dish',
-    searchPlaceholder: 'Dish, ingredient, category, or price',
-    searchHint: 'Dish names and ingredients are in Romanian; categories follow the selected language. Prices are in lei.',
-    searchNoResults: 'No matching dishes found.', searchOneResult: 'One dish found.',
-    searchManyResults: '{count} dishes found.',
-    extras: 'From our kitchen', extrasTitle: 'A closer look at our dishes',
-    fallback: 'This image could not load. Open the original or read the menu below.',
-  },
-} as const;
+export const menuCopy = { ro: ro.menu, en: en.menu, it: it.menu, es: es.menu, fr: fr.menu, de: de.menu } as const;

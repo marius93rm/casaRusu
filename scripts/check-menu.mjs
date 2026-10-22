@@ -1,3 +1,4 @@
+import { dictionaries, locales, prefixFor } from './i18n.mjs';
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -6,7 +7,7 @@ import { menuSearchMatches, normalizeMenuSearchText } from '../src/utils/menuSea
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const menus = await Promise.all(['meniu/index.html', 'en/meniu/index.html'].map(async (file) => ({
+const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}meniu/index.html`).map(async (file) => ({
   file, html: await readFile(path.join(dist, file), 'utf8'),
 })));
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
@@ -41,9 +42,8 @@ for (const { file, html } of menus) {
   const transcript = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
   assert.equal(slides.length, 14, `${file}: all 14 supplied pages must be rendered`);
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
-  const labels = file.startsWith('en/')
-    ? { previous: 'Previous page', next: 'Next page' }
-    : { previous: 'Pagina anterioară', next: 'Pagina următoare' };
+  const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
+  const labels = dictionaries[locale].menu;
   assert.ok(html.includes(`data-lightbox-previous aria-label="${labels.previous}"`), `${file}: enlarged gallery needs a localized previous-page control`);
   assert.ok(html.includes(`data-lightbox-next aria-label="${labels.next}"`), `${file}: enlarged gallery needs a localized next-page control`);
   assert.ok(enlargeLinks.every((tag) => /\bhref="\/images\/menu\/[^\"]+"/.test(tag) && !/\baria-haspopup\s*=/.test(tag)), `${file}: static fallback links must target their image without claiming a dialog`);
@@ -53,11 +53,15 @@ for (const { file, html } of menus) {
   assert.match(html, /<search\b[^>]*aria-label="[^"]+"[^>]*hidden[^>]*data-menu-search/, `${file}: search should be available as progressive enhancement`);
   assert.match(html, /<label for="menu-dish-search">[^<]+<\/label>[\s\S]*?<input\b[^>]*type="search"[^>]*aria-controls="menu-transcript-pages"/, `${file}: search needs an associated label and results target`);
   assert.match(html, /data-menu-search-status[^>]*role="status"[^>]*aria-live="polite"/, `${file}: search results must be announced politely`);
-  assert.match(html, /<ul lang="ro">/, `${file}: original Romanian content needs its language declared`);
+  assert.ok(html.includes(`<ul lang="${locale}">`), `${file}: translated content needs its language declared`);
   assert.doesNotMatch(html, /Meniul complet urmează|full menu (?:is )?coming soon/i, `${file}: outdated placeholder`);
-  assert.match(html, /href="\/(?:en\/)?preparate\/snitel-cotlet-porc\/?"/, `${file}: keep the special dish page linked`);
-  if (originalItems) assert.deepEqual(transcript, originalItems, 'RO and EN must show identical original Romanian menu items and prices');
-  originalItems = transcript;
+  assert.match(html, /href="\/(?:(?:en|it|es|fr|de)\/)?preparate\/snitel-cotlet-porc\/?"/, `${file}: keep the special dish page linked`);
+  const commercialData = transcript.map((row) => ({
+    price: row.match(/class="menu-item-price">([^<]+)/)?.[1],
+    quantity: row.match(/class="menu-item-quantity">([^<]+)/)?.[1],
+  }));
+  if (originalItems) assert.deepEqual(commercialData, originalItems, 'All locales must preserve printed portions, prices and ordering');
+  else originalItems = commercialData;
   for (const [, id] of slides) {
     assert.match(html, new RegExp(`href="#menu-page-${id}"`), `${file}: missing index link for ${id}`);
     assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${file}: missing responsive AVIF source for ${id}`);
@@ -75,7 +79,8 @@ for (const { file, html } of menus) {
   }
 }
 
-for (const prefix of ['', 'en/']) {
+for (const locale of locales) {
+  const prefix = prefixFor(locale);
   const html = await readFile(path.join(dist, prefix, 'index.html'), 'utf8');
   const menuHref = `/${prefix}meniu/`;
   const hero = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1] ?? '';
@@ -86,13 +91,15 @@ for (const prefix of ['', 'en/']) {
   }
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   const dishHtml = await readFile(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'), 'utf8');
-  const dishCopy = prefix
-    ? { label: 'Printed menu listing', note: 'The printed menu lists the schnitzel separately from side dishes.', action: 'See this menu entry' }
-    : { label: 'În meniul tipărit', note: 'Meniul tipărit listează șnițelul separat de garnituri.', action: 'Vezi poziția în meniu' };
+  const dishCopy = {
+    label: dictionaries[locale].copy.dish.menuListingLabel,
+    note: dictionaries[locale].copy.dish.menuListingNote,
+    action: dictionaries[locale].copy.dish.menuListingAction,
+  };
   const dishMenuHref = `/${prefix}meniu/#menu-page-porc`;
   assert.ok(dishHtml.includes(`id="dish-menu-listing-title">${dishCopy.label}</p>`), `${prefix || 'RO'} dish: printed-menu price must be clearly labelled`);
   assert.match(dishHtml, /class="dish-menu-listing-price">\s*<span>300g<\/span>\s*<strong>54 lei<\/strong>/, `${prefix || 'RO'} dish: show the printed schnitzel portion and price`);
   assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
   assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca accessibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');

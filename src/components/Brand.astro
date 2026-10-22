@@ -1,5 +1,6 @@
 ---
 import type { SiteLocale } from '../data/site';
+import { getDictionary } from '../i18n';
 import BrandMark from './BrandMark.astro';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
   locale?: SiteLocale;
 }
 
-const { href = '/', locale = 'ro', label = `Casa Rusu Restaurant — ${locale === 'en' ? 'Home' : 'Acasă'}` } = Astro.props;
+const { href = '/', locale = 'ro', label = `Casa Rusu Restaurant — ${getDictionary(locale).ui.home}` } = Astro.props;
 ---
 
 <a class="brand" {href} aria-label={label}>

@@ -1,0 +1,856 @@
+{
+  "date": "2026-10-22",
+  "engine": "local_browser / Paseo on Linux",
+  "routes": 18,
+  "homeResponsive": [
+    {
+      "locale": "ro",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu în Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "ro",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu în Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "ro",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu în Codlea",
+      "navWidth": 765,
+      "images": 0
+    },
+    {
+      "locale": "ro",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu în Codlea",
+      "navWidth": 801,
+      "images": 0
+    },
+    {
+      "locale": "en",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "en",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 681,
+      "images": 0
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 718,
+      "images": 0
+    },
+    {
+      "locale": "it",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Ristorante Casa Rusu a Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "it",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Ristorante Casa Rusu a Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "it",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Ristorante Casa Rusu a Codlea",
+      "navWidth": 781,
+      "images": 0
+    },
+    {
+      "locale": "it",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Ristorante Casa Rusu a Codlea",
+      "navWidth": 831,
+      "images": 0
+    },
+    {
+      "locale": "es",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Restaurante Casa Rusu en Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "es",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Restaurante Casa Rusu en Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "es",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Restaurante Casa Rusu en Codlea",
+      "navWidth": 777,
+      "images": 0
+    },
+    {
+      "locale": "es",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Restaurante Casa Rusu en Codlea",
+      "navWidth": 814,
+      "images": 0
+    },
+    {
+      "locale": "fr",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu à Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu à Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "fr",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu à Codlea",
+      "navWidth": 770,
+      "images": 0
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu à Codlea",
+      "navWidth": 807,
+      "images": 0
+    },
+    {
+      "locale": "de",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "de",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 0,
+      "images": 0
+    },
+    {
+      "locale": "de",
+      "width": 1101,
+      "doc": 1086,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 781,
+      "images": 0
+    },
+    {
+      "locale": "de",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "h1": "Restaurant Casa Rusu in Codlea",
+      "navWidth": 850,
+      "images": 0
+    }
+  ],
+  "internalResponsive": [
+    {
+      "locale": "ro",
+      "path": "/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un preparat găsit."
+    },
+    {
+      "locale": "ro",
+      "path": "/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un preparat găsit."
+    },
+    {
+      "locale": "ro",
+      "path": "/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un preparat găsit."
+    },
+    {
+      "locale": "ro",
+      "path": "/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "ro",
+      "path": "/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "ro",
+      "path": "/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "en",
+      "path": "/en/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "One dish found."
+    },
+    {
+      "locale": "en",
+      "path": "/en/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "One dish found."
+    },
+    {
+      "locale": "en",
+      "path": "/en/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "One dish found."
+    },
+    {
+      "locale": "en",
+      "path": "/en/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "en",
+      "path": "/en/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "en",
+      "path": "/en/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "it",
+      "path": "/it/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un piatto trovato."
+    },
+    {
+      "locale": "it",
+      "path": "/it/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un piatto trovato."
+    },
+    {
+      "locale": "it",
+      "path": "/it/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un piatto trovato."
+    },
+    {
+      "locale": "it",
+      "path": "/it/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "it",
+      "path": "/it/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "it",
+      "path": "/it/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "es",
+      "path": "/es/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plato encontrado."
+    },
+    {
+      "locale": "es",
+      "path": "/es/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plato encontrado."
+    },
+    {
+      "locale": "es",
+      "path": "/es/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plato encontrado."
+    },
+    {
+      "locale": "es",
+      "path": "/es/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "es",
+      "path": "/es/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "es",
+      "path": "/es/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plat trouvé."
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plat trouvé."
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Un plat trouvé."
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "fr",
+      "path": "/fr/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "de",
+      "path": "/de/meniu/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Ein Gericht gefunden."
+    },
+    {
+      "locale": "de",
+      "path": "/de/meniu/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Ein Gericht gefunden."
+    },
+    {
+      "locale": "de",
+      "path": "/de/meniu/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 200,
+      "visibleItems": 1,
+      "search": "Ein Gericht gefunden."
+    },
+    {
+      "locale": "de",
+      "path": "/de/preparate/snitel-cotlet-porc/",
+      "width": 320,
+      "doc": 305,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "de",
+      "path": "/de/preparate/snitel-cotlet-porc/",
+      "width": 768,
+      "doc": 753,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    },
+    {
+      "locale": "de",
+      "path": "/de/preparate/snitel-cotlet-porc/",
+      "width": 1440,
+      "doc": 1425,
+      "overflow": false,
+      "items": 0,
+      "visibleItems": 0
+    }
+  ],
+  "search": [
+    {
+      "locale": "en",
+      "data": [
+        {
+          "query": "chicken",
+          "visible": 15,
+          "status": "15 dishes found."
+        },
+        {
+          "query": "telina",
+          "visible": 7,
+          "status": "7 dishes found."
+        },
+        {
+          "query": "340",
+          "visible": 1,
+          "status": "One dish found."
+        },
+        {
+          "query": "zzzz-no-dish",
+          "visible": 0,
+          "status": "No matching dishes found."
+        },
+        {
+          "query": "",
+          "visible": 200,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "locale": "it",
+      "data": [
+        {
+          "query": "pollo",
+          "visible": 15,
+          "status": "15 piatti trovati."
+        },
+        {
+          "query": "telina",
+          "visible": 7,
+          "status": "7 piatti trovati."
+        },
+        {
+          "query": "340",
+          "visible": 1,
+          "status": "Un piatto trovato."
+        },
+        {
+          "query": "zzzz-no-dish",
+          "visible": 0,
+          "status": "Nessun piatto trovato."
+        },
+        {
+          "query": "",
+          "visible": 200,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "locale": "es",
+      "data": [
+        {
+          "query": "pollo",
+          "visible": 15,
+          "status": "15 platos encontrados."
+        },
+        {
+          "query": "telina",
+          "visible": 7,
+          "status": "7 platos encontrados."
+        },
+        {
+          "query": "340",
+          "visible": 1,
+          "status": "Un plato encontrado."
+        },
+        {
+          "query": "zzzz-no-dish",
+          "visible": 0,
+          "status": "No se han encontrado platos."
+        },
+        {
+          "query": "",
+          "visible": 200,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "locale": "fr",
+      "data": [
+        {
+          "query": "poulet",
+          "visible": 15,
+          "status": "15 plats trouvés."
+        },
+        {
+          "query": "telina",
+          "visible": 7,
+          "status": "7 plats trouvés."
+        },
+        {
+          "query": "340",
+          "visible": 1,
+          "status": "Un plat trouvé."
+        },
+        {
+          "query": "zzzz-no-dish",
+          "visible": 0,
+          "status": "Aucun plat trouvé."
+        },
+        {
+          "query": "",
+          "visible": 200,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "locale": "de",
+      "data": [
+        {
+          "query": "hahnchen",
+          "visible": 15,
+          "status": "15 Gerichte gefunden."
+        },
+        {
+          "query": "telina",
+          "visible": 7,
+          "status": "7 Gerichte gefunden."
+        },
+        {
+          "query": "340",
+          "visible": 1,
+          "status": "Ein Gericht gefunden."
+        },
+        {
+          "query": "zzzz-no-dish",
+          "visible": 0,
+          "status": "Keine passenden Gerichte gefunden."
+        },
+        {
+          "query": "",
+          "visible": 200,
+          "status": ""
+        }
+      ]
+    }
+  ],
+  "accessibility": {
+    "tool": "axe-core 4.14.0",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "state": "Mobile navigation and language list open. RO home rechecked after its entrance animation completed.",
+    "results": [
+      {
+        "locale": "ro",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "ro",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "ro",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      },
+      {
+        "locale": "en",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "en",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "en",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      },
+      {
+        "locale": "it",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "it",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "it",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      },
+      {
+        "locale": "es",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "es",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "es",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      },
+      {
+        "locale": "fr",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "fr",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "fr",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      },
+      {
+        "locale": "de",
+        "route": "/",
+        "violations": [],
+        "passes": 45
+      },
+      {
+        "locale": "de",
+        "route": "meniu/",
+        "violations": [],
+        "passes": 49
+      },
+      {
+        "locale": "de",
+        "route": "preparate/snitel-cotlet-porc/",
+        "violations": [],
+        "passes": 40
+      }
+    ]
+  },
+  "withoutJavaScript": {
+    "lang": "it",
+    "languageOpen": true,
+    "links": 6,
+    "items": 200,
+    "galleryImages": 14,
+    "firstCategoryOpen": true,
+    "searchHidden": true,
+    "scriptsEnhanced": false
+  },
+  "languageNavigation": {
+    "from": "/it/meniu/?ref=test#menu-page-porc",
+    "to": "/fr/meniu?ref=test#menu-page-porc",
+    "selectedSlide": "menu-page-porc",
+    "headerEscape": {
+      "closed": true,
+      "focus": "SUMMARY"
+    }
+  }
+}

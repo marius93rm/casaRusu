@@ -8,11 +8,12 @@ import MenuGallery from './MenuGallery.astro';
 import MenuTranscript from './MenuTranscript.astro';
 import { menuCopy, menuPages, menuSrcset } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
-import { localizedPath } from '../i18n';
+import { getDictionary, localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const { ui } = getDictionary(locale);
 const menu = menuCopy[locale];
 const offer = copy.menu.offer;
 const offerActive = Date.now() < Date.parse(siteData.promotions.cocktailOffer.expiresAt);
@@ -32,7 +33,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
   description={copy.menu.seo.description}
   {socialImage}
 >
-  <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
+  <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
 
   <main id="main-content" tabindex="-1">
@@ -115,7 +116,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
   </main>
 
   <Footer {locale} />
-  <aside class="mobile-booking" aria-label={locale === 'ro' ? 'Rezervări' : 'Reservations'}>
+  <aside class="mobile-booking" aria-label={ui.reservations}>
     <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
       {copy.hero.primaryAction}<Icon name="phone" size={18} />
     </a>

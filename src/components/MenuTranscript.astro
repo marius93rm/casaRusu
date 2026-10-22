@@ -1,5 +1,6 @@
 ---
 import { menuPages, menuCopy } from '../data/menu';
+import { localizedMenuItem } from '../i18n/menu';
 import type { SiteLocale } from '../data/site';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -42,14 +43,18 @@ const copy = menuCopy[locale];
           {page.sections.map((section) => (
             <section class="menu-transcript-section" aria-label={section.title[locale]}>
               <h3>{section.title[locale]}</h3>
-              <ul lang="ro">
-                {section.items.map((item) => (
-                  <li data-menu-item>
-                    <div class="menu-item-heading"><h4>{item.name}</h4><span class="menu-item-price">{item.price} lei</span></div>
-                    {item.ingredients && <p>{item.ingredients}</p>}
-                    <span class="menu-item-quantity">{item.quantity}</span>
-                  </li>
-                ))}
+              <ul lang={locale}>
+                {section.items.map((original) => {
+                  const item = localizedMenuItem(original, locale);
+                  return (
+                    <li data-menu-item data-menu-original={`${original.name} ${original.ingredients}`}>
+                      <div class="menu-item-heading"><h4>{item.name}</h4><span class="menu-item-price">{item.price} lei</span></div>
+                      {item.name !== original.name && <p class="menu-item-original" lang="ro">{original.name}</p>}
+                      {item.ingredients && <p>{item.ingredients}</p>}
+                      <span class="menu-item-quantity">{item.quantity}</span>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ))}
@@ -82,7 +87,7 @@ const copy = menuCopy[locale];
           const section = item.closest('.menu-transcript-section');
           const sectionTitle = section?.querySelector('h3')?.textContent ?? '';
           const pageTitle = page.querySelector('summary')?.textContent ?? '';
-          const matches = menuSearchMatches(query, `${item.textContent} ${sectionTitle} ${pageTitle}`);
+          const matches = menuSearchMatches(query, `${item.textContent} ${item.dataset.menuOriginal ?? ''} ${sectionTitle} ${pageTitle}`);
           item.hidden = !matches;
           if (matches) {
             pageResultCount += 1;

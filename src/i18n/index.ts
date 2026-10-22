@@ -1,34 +1,17 @@
 import { en } from './locales/en';
 import { ro } from './locales/ro';
-import { siteData, type SiteLocale } from '../data/site';
+import { it } from './locales/it';
+import { es } from './locales/es';
+import { fr } from './locales/fr';
+import { de } from './locales/de';
+import type { Locale } from './config';
+import type { Translation } from './types';
 
-export const locales = Object.keys(siteData.copy) as SiteLocale[];
-export type Locale = SiteLocale;
-export const defaultLocale: Locale = 'ro';
+export { locales, defaultLocale, socialLocales, type Locale } from './config';
+export { isLocale, getLocaleFromUrl, localizedPath, switchLocalePath } from './paths';
 
-const dictionaries = { ro, en } as const;
+const dictionaries = { ro, en, it, es, fr, de } as const satisfies Record<Locale, Translation>;
 
 export function getDictionary(locale: Locale) {
   return dictionaries[locale];
-}
-
-export function isLocale(value: string | undefined): value is Locale {
-  return !!value && locales.includes(value as Locale);
-}
-
-export function getLocaleFromUrl(url: URL): Locale {
-  const [firstSegment] = url.pathname.split('/').filter(Boolean);
-  return isLocale(firstSegment) ? firstSegment : defaultLocale;
-}
-
-export function localizedPath(path: string, locale: Locale): string {
-  const normalized = path === '/' ? '' : `/${path.replace(/^\/+|\/+$/g, '')}`;
-  return locale === defaultLocale ? `${normalized || '/'}` : `/${locale}${normalized || '/'}`;
-}
-
-export function switchLocalePath(url: URL, targetLocale: Locale): string {
-  const segments = url.pathname.split('/').filter(Boolean);
-  if (isLocale(segments[0])) segments.shift();
-  const path = segments.join('/');
-  return localizedPath(path, targetLocale);
 }

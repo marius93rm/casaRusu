@@ -3,6 +3,7 @@ import Icon from './Icon.astro';
 import MenuPageImage from './MenuPageImage.astro';
 import '../styles/menu.css';
 import { menuPages, menuCopy } from '../data/menu';
+import { getDictionary } from '../i18n';
 import type { SiteLocale } from '../data/site';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -35,10 +36,10 @@ const copy = menuCopy[locale];
   </aside>
 
   <div class="menu-gallery-stage">
-    <div class="menu-gallery-track" tabindex="0" role="group" aria-label={copy.gallery} aria-roledescription={locale === 'ro' ? 'carusel' : 'carousel'}>
+    <div class="menu-gallery-track" tabindex="0" role="group" aria-label={copy.gallery} aria-roledescription={getDictionary(locale).ui.carousel}>
       {menuPages.map((page, index) => (
         <div class="menu-gallery-slide" id={`menu-page-${page.id}`} data-menu-slide
-          data-label={page.title[locale]} role="group" aria-roledescription={locale === 'ro' ? 'pagină' : 'slide'}
+          data-label={page.title[locale]} role="group" aria-roledescription={getDictionary(locale).ui.slide}
           aria-label={`${index + 1} ${copy.of} ${menuPages.length}: ${page.title[locale]}`}>
           <a class="menu-page-image" href={page.image} data-menu-enlarge>
             {index === 0

@@ -1,6 +1,6 @@
 ---
 import type { SiteLocale } from '../data/site';
-import { localizedPath } from '../i18n';
+import { getDictionary, localizedPath } from '../i18n';
 
 interface Props {
   locale: SiteLocale;
@@ -9,8 +9,9 @@ interface Props {
 }
 
 const { locale, currentLabel, level } = Astro.props;
-const homeLabel = locale === 'ro' ? 'Acasă' : 'Home';
-const menuLabel = locale === 'ro' ? 'Meniu' : 'Menu';
+const { ui } = getDictionary(locale);
+const homeLabel = ui.home;
+const menuLabel = ui.menu;
 const items: Array<{ name: string; href?: string }> = [
   { name: homeLabel, href: localizedPath('/', locale) },
 ];
@@ -38,7 +39,7 @@ const breadcrumbData = siteUrl
 ---
 
 {breadcrumbData && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />}
-<nav class="breadcrumbs" aria-label={locale === 'ro' ? 'Navigare' : 'Breadcrumb'}>
+<nav class="breadcrumbs" aria-label={ui.breadcrumbs}>
   <ol>
     {items.map((item, index) => (
       <li>

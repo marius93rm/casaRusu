@@ -1,25 +1,50 @@
 ---
 import { getDictionary, locales, switchLocalePath, type Locale } from '../i18n';
 
-interface Props {
-  locale: Locale;
-}
-
+interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const dictionary = getDictionary(locale);
 ---
 
-<nav class="language-switcher" aria-label={dictionary.ui.languageSwitcher}>
-  {locales.map((targetLocale) => {
-    const target = getDictionary(targetLocale);
-    return (
-      <a
-        href={switchLocalePath(Astro.url, targetLocale)}
-        lang={targetLocale}
-        aria-current={targetLocale === locale ? 'page' : undefined}
-      >
-        {target.languageName}
+<details class="language-switcher" data-language-switcher>
+  <summary aria-label={`${dictionary.ui.languageSwitcher}: ${locale.toUpperCase()} (${dictionary.languageName})`}>
+    <span aria-hidden="true">{locale.toUpperCase()}</span>
+    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12"><path d="m3 4.5 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
+  </summary>
+  <nav class="language-options" aria-label={dictionary.ui.languageSwitcher}>
+    {locales.map((targetLocale) => (
+      <a href={switchLocalePath(Astro.url, targetLocale)} lang={targetLocale} hreflang={targetLocale}
+        aria-current={targetLocale === locale ? 'page' : undefined} data-language-link>
+        <span aria-hidden="true">{targetLocale.toUpperCase()}</span>
+        {getDictionary(targetLocale).languageName}
       </a>
-    );
-  })}
-</nav>
+    ))}
+  </nav>
+</details>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-language-switcher]').forEach((switcher) => {
+    const summary = switcher.querySelector('summary')!;
+    const links = switcher.querySelectorAll<HTMLAnchorElement>('[data-language-link]');
+    const syncLinks = () => links.forEach((link) => {
+      const url = new URL(link.href);
+      url.search = window.location.search;
+      url.hash = window.location.hash;
+      link.href = url.href;
+    });
+    switcher.addEventListener('toggle', () => {
+      if (switcher.open) syncLinks();
+    });
+    links.forEach((link) => link.addEventListener('click', syncLinks));
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !switcher.contains(event.target)) switcher.open = false;
+    });
+    switcher.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && switcher.open) {
+        event.stopPropagation();
+        switcher.open = false;
+        summary.focus();
+      }
+    });
+  });
+</script>

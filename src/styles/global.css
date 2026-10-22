@@ -137,9 +137,18 @@ h1, h2, h3 {
   text-underline-offset: .35rem;
 }
 .header-actions { gap: 1.5rem; }
-.language-switcher { display: flex; align-items: center; gap: .6rem; }
-.language-switcher a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); font-size: 1rem; }
+/* Native disclosure keeps all six language links available without JavaScript. */
+.language-switcher { position: relative; flex: none; align-self: start; }
+.language-switcher summary { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-width: 64px; min-height: 44px; padding: .5rem; color: var(--primary); font-size: 1rem; font-weight: 600; cursor: pointer; list-style: none; }
+.language-switcher summary::-webkit-details-marker { display: none; }
+.language-switcher summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.language-switcher[open] summary svg { transform: rotate(180deg); }
+.language-options { position: absolute; z-index: 25; inset: calc(100% + .4rem) 0 auto auto; display: grid; min-width: 11rem; padding: .4rem; border: 1px solid var(--border); background: var(--background); box-shadow: 0 .5rem 1.5rem rgb(0 0 0 / .1); }
+.language-switcher a { display: flex; align-items: center; gap: .75rem; min-height: 44px; padding: .45rem .7rem; color: var(--muted); font-size: 1rem; text-decoration: none; }
+.language-switcher a > span { width: 1.5rem; font-size: .75rem; }
+.language-switcher a:hover, .language-switcher a:focus-visible { color: var(--primary); background: var(--surface); }
 .language-switcher a[aria-current='page'] { color: var(--primary); font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+.site-footer .language-options { inset: auto 0 calc(100% + .4rem) auto; }
 .header-cta {
   max-width: 100%;
   overflow-wrap: anywhere;
@@ -306,7 +315,7 @@ h1, h2, h3 {
   .main-navigation ul { flex-direction: column; align-items: stretch; gap: .1rem; }
   .main-navigation ul a { display: flex; font-size: 1.0625rem; }
   .header-actions { align-items: stretch; flex-direction: column; gap: 1rem; }
-  .language-switcher { flex-direction: row; gap: 1.25rem; }
+  .main-navigation .language-options { position: static; margin-top: .35rem; box-shadow: none; }
   .language-switcher a { font-size: 1rem; }
   .header-cta { font-size: 1.0625rem; }
 
@@ -333,7 +342,7 @@ h1, h2, h3 {
   .main-navigation ul { gap: .8rem; }
   .main-navigation ul a { font-size: 1rem; }
   .header-actions { gap: .8rem; }
-  .language-switcher { flex-direction: row; gap: 1.25rem; }
+  .main-navigation .language-options { position: static; margin-top: .35rem; box-shadow: none; }
   .language-switcher a { min-height: 44px; font-size: 1rem; }
   .header-cta { font-size: 1rem; }
   .hero-visual { height: 30rem; }

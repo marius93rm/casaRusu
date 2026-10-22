@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { siteConfig } from '../config/site';
 import type { SiteLocale } from '../data/site';
-import { switchLocalePath } from '../i18n';
+import { locales, socialLocales, switchLocalePath } from '../i18n';
 import Motion from '../components/Motion.astro';
 
 interface Props {
@@ -39,15 +39,14 @@ const themeStyle = [
 const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const localizedUrl = (locale: SiteLocale) => {
   if (!Astro.site) return undefined;
-  const path = switchLocalePath(Astro.url, locale);
+  const path = switchLocalePath(new URL(Astro.url.pathname, Astro.url), locale);
   return new URL(path === '/' || path.endsWith('/') ? path : `${path}/`, Astro.site).toString();
 };
 const romanianUrl = localizedUrl('ro');
-const englishUrl = localizedUrl('en');
 const socialImageUrl = Astro.site && socialImageData
   ? new URL(socialImageData.src, Astro.site).toString()
   : undefined;
-const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
+const socialLocale = socialLocales[lang];
 ---
 
 <!doctype html>
@@ -70,6 +69,7 @@ const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:locale" content={socialLocale} />
+    {locales.filter((locale) => locale !== lang).map((locale) => <meta property="og:locale:alternate" content={socialLocales[locale]} />)}
     {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta property="og:image:alt" content={socialImageData.alt} />}
     {socialImageUrl && socialImageData && <meta property="og:image:width" content={String(socialImageData.width)} />}
@@ -81,8 +81,7 @@ const socialLocale = lang === 'ro' ? 'ro_RO' : 'en_GB';
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {romanianUrl && <link rel="alternate" hreflang="ro-RO" href={romanianUrl} />}
-    {englishUrl && <link rel="alternate" hreflang="en" href={englishUrl} />}
+    {Astro.site && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
     {romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     {!siteConfig.seo.indexable && <meta name="robots" content="noindex,nofollow" />}

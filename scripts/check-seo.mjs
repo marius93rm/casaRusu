@@ -1,3 +1,4 @@
+import { locales, prefixFor, homeFor, localeFor, unlocalizedRoute } from './i18n.mjs';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -172,7 +173,7 @@ async function main() {
     const html = await readFile(fullPath, 'utf8');
     const route = routeFromFile(relativeFile);
     const htmlTag = openingTags(html, 'html')[0];
-    const expectedLanguage = route === '/en/' || route.startsWith('/en/') ? 'en' : 'ro';
+    const expectedLanguage = localeFor(route);
     const metaTags = openingTags(html, 'meta').map((tag) => tag.attributes);
     const linkTags = openingTags(html, 'link').map((tag) => tag.attributes);
     const titleMatches = [...html.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/gi)];
@@ -197,7 +198,7 @@ async function main() {
     } else {
       const primaryLinks = [...primaryNavigationMatch[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
         .map(([, rawAttributes]) => parseAttributes(rawAttributes));
-      const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
+      const expectedMenuPath = `/${prefixFor(expectedLanguage)}meniu/`;
       const menuLink = primaryLinks.find((attributes) => attributes.href === expectedMenuPath);
       const shouldMarkMenuCurrent = route === expectedMenuPath;
 
@@ -253,7 +254,7 @@ async function main() {
       }
     }
 
-    if (route === '/' || route === '/en/') {
+    if (route === homeFor(expectedLanguage)) {
       const restaurant = parsedJsonLd.find((entry) => entry['@type'] === 'Restaurant');
       if (!restaurant) {
         report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');
@@ -412,7 +413,7 @@ async function main() {
             report(relativeFile, `JSON-LD Restaurant.logo non punta a un asset generato: ${logoUrl.pathname}.`);
           }
 
-          const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
+          const expectedMenuPath = `/${prefixFor(expectedLanguage)}meniu/`;
           const menuUrl = parseUrl(restaurant.menu);
           if (!menuUrl || menuUrl.origin !== productionOrigin || menuUrl.pathname !== expectedMenuPath
             || menuUrl.search || menuUrl.hash) {
@@ -428,16 +429,16 @@ async function main() {
   }
 
   const romanianRestaurant = restaurantEntities.find((entry) => entry.route === '/');
-  const englishRestaurant = restaurantEntities.find((entry) => entry.route === '/en/');
-  if (romanianRestaurant && englishRestaurant) {
+  for (const translatedRestaurant of restaurantEntities.filter((entry) => entry.route !== '/')) {
+    if (!romanianRestaurant) continue;
     // These fields identify the same physical business in both locales. `menu`
     // is intentionally excluded because it points to a localized page.
     for (const field of [
       '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations', 'servesCuisine', 'priceRange',
       'address', 'geo', 'hasMap', 'openingHoursSpecification', 'sameAs', 'image', 'logo',
     ]) {
-      if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(englishRestaurant.restaurant[field])) {
-        report(englishRestaurant.relativeFile, `JSON-LD Restaurant.${field} deve essere uguale alla homepage rumena per la stessa attività.`);
+      if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(translatedRestaurant.restaurant[field])) {
+        report(translatedRestaurant.relativeFile, `JSON-LD Restaurant.${field} deve essere uguale alla homepage rumena per la stessa attività.`);
       }
     }
   }
@@ -449,6 +450,13 @@ async function main() {
       if (!value) continue;
       if (seen.has(value)) report(page.relativeFile, `${field} duplicato anche in ${seen.get(value)}.`);
       else seen.set(value, page.relativeFile);
+    }
+  }
+
+  for (const locale of locales) {
+    for (const suffix of ['', 'meniu/', 'preparate/snitel-cotlet-porc/']) {
+      const expected = `${homeFor(locale)}${suffix}`;
+      if (!pages.some((page) => page.route === expected)) report('dist/', `pagina localizzata mancante: ${expected}.`);
     }
   }
 
@@ -505,7 +513,7 @@ async function main() {
     const pagesByRoute = new Map(pages.map((page) => [page.route, page]));
     const pagesByCanonical = new Map();
     for (const page of pages) {
-      const expectedSocialImagePath = page.route === '/' || page.route === '/en/'
+      const expectedSocialImagePath = page.route === homeFor(page.expectedLanguage)
         ? '/images/casa-rusu-interior.jpg'
         : '/images/casa-rusu-preparat.jpg';
       const socialImage = singleMetaContent(page, 'property', 'og:image');
@@ -558,18 +566,17 @@ async function main() {
         alternates.set(language, alternate.href);
       }
 
-      const romanianRoute = page.route === '/en/' ? '/' : page.route.startsWith('/en/') ? page.route.slice(3) : page.route;
-      const englishRoute = romanianRoute === '/' ? '/en/' : `/en${romanianRoute}`;
-      const expectedAlternates = {
-        'ro-ro': `${productionOrigin}${romanianRoute}`,
-        en: `${productionOrigin}${englishRoute}`,
-        'x-default': `${productionOrigin}${romanianRoute}`,
-      };
+      const romanianRoute = unlocalizedRoute(page.route);
+      const expectedAlternates = Object.fromEntries(locales.map((locale) => [
+        locale === 'ro' ? 'ro-ro' : locale,
+        `${productionOrigin}${locale === 'ro' ? romanianRoute : `/${locale}${romanianRoute}`}`,
+      ]));
+      expectedAlternates['x-default'] = `${productionOrigin}${romanianRoute}`;
       for (const [language, expectedHref] of Object.entries(expectedAlternates)) {
         if (alternates.get(language) !== expectedHref) {
           report(page.relativeFile, `hreflang ${language} atteso ${expectedHref}, trovato ${alternates.get(language) ?? '(assente)'}.`);
         }
-        const targetRoute = language === 'en' ? englishRoute : romanianRoute;
+        const targetRoute = new URL(expectedHref).pathname;
         if (!pagesByRoute.has(targetRoute)) report(page.relativeFile, `pagina hreflang mancante per ${language}: ${targetRoute}.`);
       }
       for (const language of alternates.keys()) {

@@ -1,0 +1,2801 @@
+{
+  "headings": {
+    "Cover": {
+      "en": "Cover",
+      "it": "Copertina",
+      "es": "Portada",
+      "fr": "Couverture",
+      "de": "Titelseite"
+    },
+    "Starters & warm bites": {
+      "en": "Starters & warm bites",
+      "it": "Antipasti e piatti caldi",
+      "es": "Entrantes y aperitivos calientes",
+      "fr": "Entrées et bouchées chaudes",
+      "de": "Vorspeisen und warme Kleinigkeiten"
+    },
+    "Starters": {
+      "en": "Starters",
+      "it": "Antipasti",
+      "es": "Entrantes",
+      "fr": "Entrées",
+      "de": "Vorspeisen"
+    },
+    "Warm bites": {
+      "en": "Warm bites",
+      "it": "Piatti caldi",
+      "es": "Aperitivos calientes",
+      "fr": "Bouchées chaudes",
+      "de": "Warme Kleinigkeiten"
+    },
+    "Salads & soups": {
+      "en": "Salads & soups",
+      "it": "Insalate e zuppe",
+      "es": "Ensaladas y sopas",
+      "fr": "Salades et soupes",
+      "de": "Salate und Suppen"
+    },
+    "Salads": {
+      "en": "Salads",
+      "it": "Insalate",
+      "es": "Ensaladas",
+      "fr": "Salades",
+      "de": "Salate"
+    },
+    "Soups": {
+      "en": "Soups",
+      "it": "Zuppe",
+      "es": "Sopas",
+      "fr": "Soupes",
+      "de": "Suppen"
+    },
+    "Pasta & fish": {
+      "en": "Pasta & fish",
+      "it": "Pasta e pesce",
+      "es": "Pasta y pescado",
+      "fr": "Pâtes et poissons",
+      "de": "Pasta und Fisch"
+    },
+    "Pasta": {
+      "en": "Pasta",
+      "it": "Pasta",
+      "es": "Pasta",
+      "fr": "Pâtes",
+      "de": "Pasta"
+    },
+    "Fish": {
+      "en": "Fish",
+      "it": "Pesce",
+      "es": "Pescado",
+      "fr": "Poissons",
+      "de": "Fisch"
+    },
+    "Chicken, duck & lamb": {
+      "en": "Chicken, duck & lamb",
+      "it": "Pollo, anatra e ovino",
+      "es": "Pollo, pato y ovino",
+      "fr": "Poulet, canard et mouton",
+      "de": "Hähnchen, Ente und Schaf"
+    },
+    "Chicken / Duck": {
+      "en": "Chicken / Duck",
+      "it": "Pollo / Anatra",
+      "es": "Pollo / Pato",
+      "fr": "Poulet / Canard",
+      "de": "Hähnchen / Ente"
+    },
+    "Lamb / Mutton": {
+      "en": "Lamb / Mutton",
+      "it": "Agnello / Pecora",
+      "es": "Cordero / Ovino",
+      "fr": "Agneau / Mouton",
+      "de": "Lamm / Schaf"
+    },
+    "Pork": {
+      "en": "Pork",
+      "it": "Maiale",
+      "es": "Cerdo",
+      "fr": "Porc",
+      "de": "Schwein"
+    },
+    "Beef": {
+      "en": "Beef",
+      "it": "Manzo",
+      "es": "Ternera",
+      "fr": "Bœuf",
+      "de": "Rind"
+    },
+    "Sides & side salads": {
+      "en": "Sides & side salads",
+      "it": "Contorni e insalate",
+      "es": "Guarniciones y ensaladas",
+      "fr": "Garnitures et salades d’accompagnement",
+      "de": "Beilagen und Beilagensalate"
+    },
+    "Sides": {
+      "en": "Sides",
+      "it": "Contorni",
+      "es": "Guarniciones",
+      "fr": "Garnitures",
+      "de": "Beilagen"
+    },
+    "Side salads": {
+      "en": "Side salads",
+      "it": "Insalate di contorno",
+      "es": "Ensaladas de acompañamiento",
+      "fr": "Salades d’accompagnement",
+      "de": "Beilagensalate"
+    },
+    "Sauces & desserts": {
+      "en": "Sauces & desserts",
+      "it": "Salse e dolci",
+      "es": "Salsas y postres",
+      "fr": "Sauces et desserts",
+      "de": "Saucen und Desserts"
+    },
+    "Sauces & extras": {
+      "en": "Sauces & extras",
+      "it": "Salse ed extra",
+      "es": "Salsas y extras",
+      "fr": "Sauces et suppléments",
+      "de": "Saucen und Extras"
+    },
+    "Desserts": {
+      "en": "Desserts",
+      "it": "Dolci",
+      "es": "Postres",
+      "fr": "Desserts",
+      "de": "Desserts"
+    },
+    "Coffee, tea & soft drinks": {
+      "en": "Coffee, tea & soft drinks",
+      "it": "Caffè, tè e bibite",
+      "es": "Café, té y refrescos",
+      "fr": "Café, thé et boissons sans alcool",
+      "de": "Kaffee, Tee und Erfrischungsgetränke"
+    },
+    "Coffee / Tea": {
+      "en": "Coffee / Tea",
+      "it": "Caffè / Tè",
+      "es": "Café / Té",
+      "fr": "Café / Thé",
+      "de": "Kaffee / Tee"
+    },
+    "Soft drinks": {
+      "en": "Soft drinks",
+      "it": "Bibite",
+      "es": "Refrescos",
+      "fr": "Boissons sans alcool",
+      "de": "Erfrischungsgetränke"
+    },
+    "Beer & spirits": {
+      "en": "Beer & spirits",
+      "it": "Birra e distillati",
+      "es": "Cerveza y destilados",
+      "fr": "Bières et spiritueux",
+      "de": "Bier und Spirituosen"
+    },
+    "Beer": {
+      "en": "Beer",
+      "it": "Birra",
+      "es": "Cerveza",
+      "fr": "Bières",
+      "de": "Bier"
+    },
+    "Whiskey": {
+      "en": "Whiskey",
+      "it": "Whisky",
+      "es": "Whisky",
+      "fr": "Whisky",
+      "de": "Whisky"
+    },
+    "Rum": {
+      "en": "Rum",
+      "it": "Rum",
+      "es": "Ron",
+      "fr": "Rhum",
+      "de": "Rum"
+    },
+    "Cognac / Brandy": {
+      "en": "Cognac / Brandy",
+      "it": "Cognac / Brandy",
+      "es": "Coñac / Brandy",
+      "fr": "Cognac / Brandy",
+      "de": "Cognac / Weinbrand"
+    },
+    "Wines": {
+      "en": "Wines",
+      "it": "Vini",
+      "es": "Vinos",
+      "fr": "Vins",
+      "de": "Weine"
+    },
+    "Wine by the glass": {
+      "en": "Wine by the glass",
+      "it": "Vino al calice",
+      "es": "Vino por copas",
+      "fr": "Vin au verre",
+      "de": "Wein im Glas"
+    },
+    "Sparkling wine": {
+      "en": "Sparkling wine",
+      "it": "Spumante",
+      "es": "Vino espumoso",
+      "fr": "Vin effervescent",
+      "de": "Schaumwein"
+    },
+    "Prosecco": {
+      "en": "Prosecco",
+      "it": "Prosecco",
+      "es": "Prosecco",
+      "fr": "Prosecco",
+      "de": "Prosecco"
+    },
+    "Cocktails, spritz & gin": {
+      "en": "Cocktails, spritz & gin",
+      "it": "Cocktail, spritz e gin",
+      "es": "Cócteles, spritz y ginebra",
+      "fr": "Cocktails, spritz et gin",
+      "de": "Cocktails, Spritz und Gin"
+    },
+    "Vodka": {
+      "en": "Vodka",
+      "it": "Vodka",
+      "es": "Vodka",
+      "fr": "Vodka",
+      "de": "Wodka"
+    },
+    "Tequila": {
+      "en": "Tequila",
+      "it": "Tequila",
+      "es": "Tequila",
+      "fr": "Tequila",
+      "de": "Tequila"
+    },
+    "Spritz": {
+      "en": "Spritz",
+      "it": "Spritz",
+      "es": "Spritz",
+      "fr": "Spritz",
+      "de": "Spritz"
+    },
+    "Gin & tonic": {
+      "en": "Gin & tonic",
+      "it": "Gin tonic",
+      "es": "Gin-tonic",
+      "fr": "Gin tonic",
+      "de": "Gin Tonic"
+    },
+    "Cocktails": {
+      "en": "Cocktails",
+      "it": "Cocktail",
+      "es": "Cócteles",
+      "fr": "Cocktails",
+      "de": "Cocktails"
+    },
+    "Mocktails, liqueurs & shots": {
+      "en": "Mocktails, liqueurs & shots",
+      "it": "Mocktail, liquori e shot",
+      "es": "Cócteles sin alcohol, licores y chupitos",
+      "fr": "Cocktails sans alcool, liqueurs et shots",
+      "de": "Alkoholfreie Cocktails, Liköre und Shots"
+    },
+    "Mocktails": {
+      "en": "Mocktails",
+      "it": "Cocktail analcolici",
+      "es": "Cócteles sin alcohol",
+      "fr": "Cocktails sans alcool",
+      "de": "Alkoholfreie Cocktails"
+    },
+    "Liqueurs / Digestifs": {
+      "en": "Liqueurs / Digestifs",
+      "it": "Liquori / Digestivi",
+      "es": "Licores / Digestivos",
+      "fr": "Liqueurs / Digestifs",
+      "de": "Liköre / Digestifs"
+    },
+    "Traditional spirits": {
+      "en": "Traditional spirits",
+      "it": "Distillati e liquori tradizionali",
+      "es": "Destilados y licores tradicionales",
+      "fr": "Spiritueux traditionnels",
+      "de": "Traditionelle Spirituosen"
+    },
+    "Shots": {
+      "en": "Shots",
+      "it": "Shot",
+      "es": "Chupitos",
+      "fr": "Shots",
+      "de": "Shots"
+    }
+  },
+  "names": {
+    "Platou Brânzeturi": {
+      "en": "Cheese platter",
+      "it": "Tagliere di formaggi",
+      "es": "Tabla de quesos",
+      "fr": "Plateau de fromages",
+      "de": "Käseplatte"
+    },
+    "Platou Italienesc": {
+      "en": "Italian platter",
+      "it": "Tagliere italiano",
+      "es": "Tabla italiana",
+      "fr": "Plateau italien",
+      "de": "Italienische Platte"
+    },
+    "Platou Tradițional": {
+      "en": "Traditional platter",
+      "it": "Tagliere tradizionale",
+      "es": "Tabla tradicional",
+      "fr": "Plateau traditionnel",
+      "de": "Traditionelle Platte"
+    },
+    "Bruschete cu roșii și mozzarella": {
+      "en": "Tomato and mozzarella bruschetta",
+      "it": "Bruschette con pomodoro e mozzarella",
+      "es": "Bruschettas con tomate y mozzarella",
+      "fr": "Bruschettas aux tomates et à la mozzarella",
+      "de": "Bruschetta mit Tomaten und Mozzarella"
+    },
+    "Bruschete cu somon fume": {
+      "en": "Smoked salmon bruschetta",
+      "it": "Bruschette con salmone affumicato",
+      "es": "Bruschettas con salmón ahumado",
+      "fr": "Bruschettas au saumon fumé",
+      "de": "Bruschetta mit Räucherlachs"
+    },
+    "Bruschete cu prosciutto": {
+      "en": "Prosciutto bruschetta",
+      "it": "Bruschette con prosciutto",
+      "es": "Bruschettas con prosciutto",
+      "fr": "Bruschettas au prosciutto",
+      "de": "Bruschetta mit Prosciutto"
+    },
+    "Bulz ciobănesc": {
+      "en": "Shepherd’s bulz (polenta with cheese)",
+      "it": "Bulz del pastore (polenta con formaggio)",
+      "es": "Bulz del pastor (polenta con queso)",
+      "fr": "Bulz du berger (polenta au fromage)",
+      "de": "Hirten-Bulz (Polenta mit Käse)"
+    },
+    "Mămăligă cu brânză și smântână": {
+      "en": "Polenta with cheese and sour cream",
+      "it": "Polenta con formaggio e panna acida",
+      "es": "Polenta con queso y nata agria",
+      "fr": "Polenta au fromage et à la crème aigre",
+      "de": "Polenta mit Käse und Sauerrahm"
+    },
+    "Pinsa Clasică": {
+      "en": "Classic pinsa",
+      "it": "Pinsa classica",
+      "es": "Pinsa clásica",
+      "fr": "Pinsa classique",
+      "de": "Klassische Pinsa"
+    },
+    "Pinsa Siciliană": {
+      "en": "Sicilian pinsa",
+      "it": "Pinsa siciliana",
+      "es": "Pinsa siciliana",
+      "fr": "Pinsa sicilienne",
+      "de": "Sizilianische Pinsa"
+    },
+    "Salată „Casa Rusu”": {
+      "en": "Casa Rusu salad",
+      "it": "Insalata Casa Rusu",
+      "es": "Ensalada Casa Rusu",
+      "fr": "Salade Casa Rusu",
+      "de": "Casa Rusu Salat"
+    },
+    "Salată cu Pui": {
+      "en": "Chicken salad",
+      "it": "Insalata di pollo",
+      "es": "Ensalada de pollo",
+      "fr": "Salade au poulet",
+      "de": "Hähnchensalat"
+    },
+    "Salată Grecească": {
+      "en": "Greek salad",
+      "it": "Insalata greca",
+      "es": "Ensalada griega",
+      "fr": "Salade grecque",
+      "de": "Griechischer Salat"
+    },
+    "Salată Beefsteak": {
+      "en": "Beefsteak salad",
+      "it": "Insalata beefsteak",
+      "es": "Ensalada beefsteak",
+      "fr": "Salade beefsteak",
+      "de": "Beefsteak-Salat"
+    },
+    "Salată cu rucola și parmezan": {
+      "en": "Rocket and parmesan salad",
+      "it": "Insalata con rucola e parmigiano",
+      "es": "Ensalada de rúcula y parmesano",
+      "fr": "Salade à la roquette et au parmesan",
+      "de": "Rucola-Parmesan-Salat"
+    },
+    "Salată cu Ton": {
+      "en": "Tuna salad",
+      "it": "Insalata di tonno",
+      "es": "Ensalada de atún",
+      "fr": "Salade au thon",
+      "de": "Thunfischsalat"
+    },
+    "Ciorbă de burtă": {
+      "en": "Tripe soup",
+      "it": "Zuppa di trippa",
+      "es": "Sopa de callos",
+      "fr": "Soupe de tripes",
+      "de": "Kuttelsuppe"
+    },
+    "Ciorbă de pui cu tăieței": {
+      "en": "Chicken noodle soup",
+      "it": "Zuppa di pollo con tagliolini",
+      "es": "Sopa de pollo con fideos",
+      "fr": "Soupe de poulet aux nouilles",
+      "de": "Hühnersuppe mit Nudeln"
+    },
+    "Supă cremă de legume": {
+      "en": "Cream of vegetable soup",
+      "it": "Vellutata di verdure",
+      "es": "Crema de verduras",
+      "fr": "Velouté de légumes",
+      "de": "Gemüsecremesuppe"
+    },
+    "Ciorbă de văcuță": {
+      "en": "Beef soup",
+      "it": "Zuppa di manzo",
+      "es": "Sopa de ternera",
+      "fr": "Soupe de bœuf",
+      "de": "Rindfleischsuppe"
+    },
+    "Ciorbă de legume": {
+      "en": "Vegetable soup",
+      "it": "Zuppa di verdure",
+      "es": "Sopa de verduras",
+      "fr": "Soupe de légumes",
+      "de": "Gemüsesuppe"
+    },
+    "Quatro Formaggi": {
+      "en": "Four-cheese pasta",
+      "it": "Pasta ai quattro formaggi",
+      "es": "Pasta cuatro quesos",
+      "fr": "Pâtes aux quatre fromages",
+      "de": "Vier-Käse-Pasta"
+    },
+    "Tagliatelle Beefsteak": {
+      "en": "Beefsteak tagliatelle",
+      "it": "Tagliatelle al manzo",
+      "es": "Tagliatelle con ternera",
+      "fr": "Tagliatelles au bœuf",
+      "de": "Tagliatelle mit Rindfleisch"
+    },
+    "Tagliatelle Porcini": {
+      "en": "Porcini tagliatelle",
+      "it": "Tagliatelle ai porcini",
+      "es": "Tagliatelle con boletus",
+      "fr": "Tagliatelles aux cèpes",
+      "de": "Tagliatelle mit Steinpilzen"
+    },
+    "Tagliatelle cu Ton": {
+      "en": "Tuna tagliatelle",
+      "it": "Tagliatelle al tonno",
+      "es": "Tagliatelle con atún",
+      "fr": "Tagliatelles au thon",
+      "de": "Tagliatelle mit Thunfisch"
+    },
+    "Pene cu Somon": {
+      "en": "Salmon penne",
+      "it": "Penne al salmone",
+      "es": "Penne con salmón",
+      "fr": "Penne au saumon",
+      "de": "Penne mit Lachs"
+    },
+    "Gnocchi cu roșii și parmezan": {
+      "en": "Gnocchi with tomato and parmesan",
+      "it": "Gnocchi al pomodoro e parmigiano",
+      "es": "Ñoquis con tomate y parmesano",
+      "fr": "Gnocchis aux tomates et au parmesan",
+      "de": "Gnocchi mit Tomaten und Parmesan"
+    },
+    "Gnocchi cu creveți în sos de unt și roșii cherry": {
+      "en": "Gnocchi with prawns in butter sauce and cherry tomatoes",
+      "it": "Gnocchi con gamberi in salsa al burro e pomodorini",
+      "es": "Ñoquis con gambas en salsa de mantequilla y tomates cherry",
+      "fr": "Gnocchis aux crevettes, sauce au beurre et tomates cerises",
+      "de": "Gnocchi mit Garnelen in Buttersauce und Kirschtomaten"
+    },
+    "File de biban la grătar": {
+      "en": "Grilled perch fillet",
+      "it": "Filetto di persico alla griglia",
+      "es": "Filete de perca a la parrilla",
+      "fr": "Filet de perche grillé",
+      "de": "Gegrilltes Barschfilet"
+    },
+    "File de biban în fulgi de porumb cu cartofi natur": {
+      "en": "Cornflake-crusted perch fillet with boiled potatoes",
+      "it": "Filetto di persico in crosta di corn flakes con patate lesse",
+      "es": "Filete de perca rebozado en copos de maíz con patatas cocidas",
+      "fr": "Filet de perche en croûte de corn flakes et pommes de terre vapeur",
+      "de": "Barschfilet in Cornflakes-Kruste mit Salzkartoffeln"
+    },
+    "Crap prăjit cu mămăligă și usturoi": {
+      "en": "Fried carp with polenta and garlic",
+      "it": "Carpa fritta con polenta e aglio",
+      "es": "Carpa frita con polenta y ajo",
+      "fr": "Carpe frite avec polenta et ail",
+      "de": "Gebratener Karpfen mit Polenta und Knoblauch"
+    },
+    "Somon la grătar": {
+      "en": "Grilled salmon",
+      "it": "Salmone alla griglia",
+      "es": "Salmón a la parrilla",
+      "fr": "Saumon grillé",
+      "de": "Gegrillter Lachs"
+    },
+    "Platou cu fructe de mare": {
+      "en": "Seafood platter",
+      "it": "Vassoio di frutti di mare",
+      "es": "Fuente de marisco",
+      "fr": "Plateau de fruits de mer",
+      "de": "Meeresfrüchteplatte"
+    },
+    "Piept de pui cu sos gorgonzola": {
+      "en": "Chicken breast with gorgonzola sauce",
+      "it": "Petto di pollo con salsa al gorgonzola",
+      "es": "Pechuga de pollo con salsa de gorgonzola",
+      "fr": "Blanc de poulet à la sauce gorgonzola",
+      "de": "Hähnchenbrust mit Gorgonzolasauce"
+    },
+    "Piept de pui la grătar": {
+      "en": "Grilled chicken breast",
+      "it": "Petto di pollo alla griglia",
+      "es": "Pechuga de pollo a la parrilla",
+      "fr": "Blanc de poulet grillé",
+      "de": "Gegrillte Hähnchenbrust"
+    },
+    "Șnițel din piept de pui": {
+      "en": "Chicken breast schnitzel",
+      "it": "Cotoletta di petto di pollo",
+      "es": "Escalope de pechuga de pollo",
+      "fr": "Escalope panée de poulet",
+      "de": "Hähnchenbrustschnitzel"
+    },
+    "Șnițel mexican": {
+      "en": "Mexican schnitzel",
+      "it": "Cotoletta messicana",
+      "es": "Escalope mexicano",
+      "fr": "Escalope à la mexicaine",
+      "de": "Mexikanisches Schnitzel"
+    },
+    "Pui cu smântână și ciuperci": {
+      "en": "Chicken with sour cream and mushrooms",
+      "it": "Pollo con panna acida e funghi",
+      "es": "Pollo con nata agria y champiñones",
+      "fr": "Poulet à la crème aigre et aux champignons",
+      "de": "Hähnchen mit Sauerrahm und Pilzen"
+    },
+    "Pui țărănesc cu cartofi aurii și mujdei de usturoi": {
+      "en": "Country-style chicken with golden potatoes and garlic sauce",
+      "it": "Pollo alla contadina con patate dorate e salsa all’aglio",
+      "es": "Pollo campero con patatas doradas y salsa de ajo",
+      "fr": "Poulet rustique avec pommes de terre dorées et sauce à l’ail",
+      "de": "Hähnchen nach Bauernart mit goldenen Kartoffeln und Knoblauchsauce"
+    },
+    "Piept de rață cu piure de țelină": {
+      "en": "Duck breast with celeriac purée",
+      "it": "Petto d’anatra con purè di sedano rapa",
+      "es": "Pechuga de pato con puré de apionabo",
+      "fr": "Magret de canard et purée de céleri-rave",
+      "de": "Entenbrust mit Selleriepüree"
+    },
+    "Confit din pulpă de rață cu piure de cartofi și sos de portocale": {
+      "en": "Duck leg confit with mashed potatoes and orange sauce",
+      "it": "Coscia d’anatra confit con purè e salsa all’arancia",
+      "es": "Muslo de pato confitado con puré de patatas y salsa de naranja",
+      "fr": "Confit de cuisse de canard, purée de pommes de terre et sauce à l’orange",
+      "de": "Entenkeulen-Confit mit Kartoffelpüree und Orangensauce"
+    },
+    "Cocoșel de munte cu cartofi cu usturoi și rozmarin": {
+      "en": "Cockerel with garlic and rosemary potatoes",
+      "it": "Galletto con patate all’aglio e rosmarino",
+      "es": "Coquelet con patatas al ajo y romero",
+      "fr": "Coquelet et pommes de terre à l’ail et au romarin",
+      "de": "Hähnchen mit Knoblauch-Rosmarin-Kartoffeln"
+    },
+    "Cotlet de berbecuț cu cartofi la cuptor cu mozzarella și mujdei de usturoi": {
+      "en": "Lamb chop with mozzarella baked potatoes and garlic sauce",
+      "it": "Costolette d’agnello con patate al forno alla mozzarella e salsa all’aglio",
+      "es": "Chuleta de cordero con patatas al horno con mozzarella y salsa de ajo",
+      "fr": "Côtelette d’agneau, pommes de terre au four à la mozzarella et sauce à l’ail",
+      "de": "Lammkotelett mit Mozzarella-Ofenkartoffeln und Knoblauchsauce"
+    },
+    "Pastramă de oaie cu mămăligă și murături": {
+      "en": "Mutton pastrami with polenta and pickles",
+      "it": "Pastrami di pecora con polenta e sottaceti",
+      "es": "Pastrami de ovino con polenta y encurtidos",
+      "fr": "Pastrami de mouton, polenta et légumes marinés",
+      "de": "Schafspastrami mit Polenta und eingelegtem Gemüse"
+    },
+    "Ceafă de porc la grătar": {
+      "en": "Grilled pork neck",
+      "it": "Coppa di maiale alla griglia",
+      "es": "Cuello de cerdo a la parrilla",
+      "fr": "Échine de porc grillée",
+      "de": "Gegrillter Schweinenacken"
+    },
+    "Șnițel Domnesc cu cartofi cu usturoi și parmezan": {
+      "en": "Domnesc schnitzel with garlic and parmesan potatoes",
+      "it": "Cotoletta Domnesc con patate all’aglio e parmigiano",
+      "es": "Escalope Domnesc con patatas al ajo y parmesano",
+      "fr": "Escalope Domnesc et pommes de terre à l’ail et au parmesan",
+      "de": "Domnesc-Schnitzel mit Knoblauch-Parmesan-Kartoffeln"
+    },
+    "Platou Boieresc „Casa Rusu”": {
+      "en": "Casa Rusu Boieresc platter",
+      "it": "Tagliere Boieresc Casa Rusu",
+      "es": "Fuente Boieresc Casa Rusu",
+      "fr": "Plateau Boieresc Casa Rusu",
+      "de": "Boieresc-Platte Casa Rusu"
+    },
+    "Mușchiuleț de porc cu sos de hribi": {
+      "en": "Pork tenderloin with porcini sauce",
+      "it": "Filetto di maiale con salsa ai porcini",
+      "es": "Solomillo de cerdo con salsa de boletus",
+      "fr": "Filet mignon de porc à la sauce aux cèpes",
+      "de": "Schweinefilet mit Steinpilzsauce"
+    },
+    "Cotlet de porc cu os la grătar": {
+      "en": "Grilled bone-in pork chop",
+      "it": "Braciola di maiale con osso alla griglia",
+      "es": "Chuleta de cerdo con hueso a la parrilla",
+      "fr": "Côte de porc avec os grillée",
+      "de": "Gegrilltes Schweinekotelett mit Knochen"
+    },
+    "Șnițel din cotlet de porc cu os": {
+      "en": "Bone-in pork loin schnitzel",
+      "it": "Cotoletta di maiale con osso",
+      "es": "Escalope de lomo de cerdo con hueso",
+      "fr": "Escalope panée de porc avec os",
+      "de": "Paniertes Schweinekotelett mit Knochen"
+    },
+    "Aripioare de porc cu cartofi chips": {
+      "en": "Pork “wings” with potato chips",
+      "it": "“Alette” di maiale con chips di patate",
+      "es": "“Alitas” de cerdo con chips de patata",
+      "fr": "« Ailes » de porc et chips de pommes de terre",
+      "de": "Schweine-„Flügel“ mit Kartoffelchips"
+    },
+    "Ciolan de porc cu varză călită": {
+      "en": "Pork knuckle with braised cabbage",
+      "it": "Stinco di maiale con cavolo stufato",
+      "es": "Codillo de cerdo con col rehogada",
+      "fr": "Jarret de porc au chou braisé",
+      "de": "Schweinshaxe mit geschmortem Kohl"
+    },
+    "Platou mixt": {
+      "en": "Mixed platter",
+      "it": "Grigliata mista",
+      "es": "Fuente mixta",
+      "fr": "Plateau mixte",
+      "de": "Gemischte Platte"
+    },
+    "Bavetă la grătar": {
+      "en": "Grilled bavette steak",
+      "it": "Bavetta di manzo alla griglia",
+      "es": "Bavette de ternera a la parrilla",
+      "fr": "Bavette grillée",
+      "de": "Gegrilltes Bavette-Steak"
+    },
+    "Antricot de vită la grătar": {
+      "en": "Grilled rib-eye steak",
+      "it": "Costata di manzo alla griglia",
+      "es": "Entrecot de ternera a la parrilla",
+      "fr": "Entrecôte de bœuf grillée",
+      "de": "Gegrilltes Rinderentrecôte"
+    },
+    "Mușchi de vită": {
+      "en": "Beef tenderloin",
+      "it": "Filetto di manzo",
+      "es": "Solomillo de ternera",
+      "fr": "Filet de bœuf",
+      "de": "Rinderfilet"
+    },
+    "Gulaș de Vită": {
+      "en": "Beef goulash",
+      "it": "Gulasch di manzo",
+      "es": "Gulash de ternera",
+      "fr": "Goulasch de bœuf",
+      "de": "Rindergulasch"
+    },
+    "Burger de Vită cu cartofi cu usturoi și parmezan": {
+      "en": "Beef burger with garlic and parmesan potatoes",
+      "it": "Burger di manzo con patate all’aglio e parmigiano",
+      "es": "Hamburguesa de ternera con patatas al ajo y parmesano",
+      "fr": "Burger de bœuf et pommes de terre à l’ail et au parmesan",
+      "de": "Rindfleischburger mit Knoblauch-Parmesan-Kartoffeln"
+    },
+    "Cheeseburger de Vită cu cartofi prăjiți cu usturoi și parmezan": {
+      "en": "Beef cheeseburger with garlic and parmesan fries",
+      "it": "Cheeseburger di manzo con patatine all’aglio e parmigiano",
+      "es": "Hamburguesa de ternera con queso y patatas fritas al ajo y parmesano",
+      "fr": "Cheeseburger de bœuf et frites à l’ail et au parmesan",
+      "de": "Rindfleisch-Cheeseburger mit Knoblauch-Parmesan-Pommes"
+    },
+    "Hot Cheeseburger cu cartofi prăjiți cu usturoi și parmezan": {
+      "en": "Hot cheeseburger with garlic and parmesan fries",
+      "it": "Cheeseburger piccante con patatine all’aglio e parmigiano",
+      "es": "Hamburguesa picante con queso y patatas fritas al ajo y parmesano",
+      "fr": "Cheeseburger épicé et frites à l’ail et au parmesan",
+      "de": "Scharfer Cheeseburger mit Knoblauch-Parmesan-Pommes"
+    },
+    "Vițel la ceaun cu mămăligă și murături": {
+      "en": "Cauldron-cooked veal with polenta and pickles",
+      "it": "Vitello in umido con polenta e sottaceti",
+      "es": "Ternera a la cazuela con polenta y encurtidos",
+      "fr": "Veau mijoté, polenta et légumes marinés",
+      "de": "Kalb aus dem Kessel mit Polenta und eingelegtem Gemüse"
+    },
+    "Șnițel Vienez": {
+      "en": "Viennese schnitzel",
+      "it": "Cotoletta viennese",
+      "es": "Escalope vienés",
+      "fr": "Escalope viennoise",
+      "de": "Wiener Schnitzel"
+    },
+    "Cartofi aurii cu mozzarella": {
+      "en": "Golden potatoes with mozzarella",
+      "it": "Patate dorate con mozzarella",
+      "es": "Patatas doradas con mozzarella",
+      "fr": "Pommes de terre dorées à la mozzarella",
+      "de": "Goldene Kartoffeln mit Mozzarella"
+    },
+    "Cartofi prăjiți cu usturoi, parmezan și pătrunjel": {
+      "en": "Fries with garlic, parmesan and parsley",
+      "it": "Patatine fritte con aglio, parmigiano e prezzemolo",
+      "es": "Patatas fritas con ajo, parmesano y perejil",
+      "fr": "Frites à l’ail, au parmesan et au persil",
+      "de": "Pommes mit Knoblauch, Parmesan und Petersilie"
+    },
+    "Cartofi prăjiți": {
+      "en": "Fries",
+      "it": "Patatine fritte",
+      "es": "Patatas fritas",
+      "fr": "Frites",
+      "de": "Pommes frites"
+    },
+    "Cartofi gratinați": {
+      "en": "Potato gratin",
+      "it": "Patate gratinate",
+      "es": "Patatas gratinadas",
+      "fr": "Gratin de pommes de terre",
+      "de": "Kartoffelgratin"
+    },
+    "Cartofi natur": {
+      "en": "Boiled potatoes",
+      "it": "Patate lesse",
+      "es": "Patatas cocidas",
+      "fr": "Pommes de terre vapeur",
+      "de": "Salzkartoffeln"
+    },
+    "Piure de cartofi": {
+      "en": "Mashed potatoes",
+      "it": "Purè di patate",
+      "es": "Puré de patatas",
+      "fr": "Purée de pommes de terre",
+      "de": "Kartoffelpüree"
+    },
+    "Cartofi rustici": {
+      "en": "Rustic potatoes",
+      "it": "Patate rustiche",
+      "es": "Patatas rústicas",
+      "fr": "Pommes de terre rustiques",
+      "de": "Kartoffeln nach Bauernart"
+    },
+    "Orez cu legume": {
+      "en": "Rice with vegetables",
+      "it": "Riso con verdure",
+      "es": "Arroz con verduras",
+      "fr": "Riz aux légumes",
+      "de": "Reis mit Gemüse"
+    },
+    "Legume la grătar": {
+      "en": "Grilled vegetables",
+      "it": "Verdure grigliate",
+      "es": "Verduras a la parrilla",
+      "fr": "Légumes grillés",
+      "de": "Gegrilltes Gemüse"
+    },
+    "Legume tempura": {
+      "en": "Vegetable tempura",
+      "it": "Verdure in tempura",
+      "es": "Tempura de verduras",
+      "fr": "Tempura de légumes",
+      "de": "Gemüse-Tempura"
+    },
+    "Salată de varză": {
+      "en": "Cabbage salad",
+      "it": "Insalata di cavolo",
+      "es": "Ensalada de col",
+      "fr": "Salade de chou",
+      "de": "Krautsalat"
+    },
+    "Salată asortată": {
+      "en": "Mixed salad",
+      "it": "Insalata mista",
+      "es": "Ensalada mixta",
+      "fr": "Salade composée",
+      "de": "Gemischter Salat"
+    },
+    "Salată de roșii": {
+      "en": "Tomato salad",
+      "it": "Insalata di pomodori",
+      "es": "Ensalada de tomate",
+      "fr": "Salade de tomates",
+      "de": "Tomatensalat"
+    },
+    "Salată de murături": {
+      "en": "Pickled vegetable salad",
+      "it": "Insalata di sottaceti",
+      "es": "Ensalada de encurtidos",
+      "fr": "Salade de légumes marinés",
+      "de": "Salat aus eingelegtem Gemüse"
+    },
+    "Salată de sfeclă roșie cu hrean": {
+      "en": "Beetroot and horseradish salad",
+      "it": "Insalata di barbabietola e rafano",
+      "es": "Ensalada de remolacha con rábano picante",
+      "fr": "Salade de betteraves au raifort",
+      "de": "Rote-Bete-Salat mit Meerrettich"
+    },
+    "Salată de ardei copți": {
+      "en": "Roasted pepper salad",
+      "it": "Insalata di peperoni arrostiti",
+      "es": "Ensalada de pimientos asados",
+      "fr": "Salade de poivrons grillés",
+      "de": "Salat aus gerösteten Paprika"
+    },
+    "Sos de smântână cu usturoi": {
+      "en": "Sour cream and garlic sauce",
+      "it": "Salsa di panna acida e aglio",
+      "es": "Salsa de nata agria y ajo",
+      "fr": "Sauce à la crème aigre et à l’ail",
+      "de": "Sauerrahm-Knoblauchsauce"
+    },
+    "Sos „Casa Rusu”": {
+      "en": "Casa Rusu sauce",
+      "it": "Salsa Casa Rusu",
+      "es": "Salsa Casa Rusu",
+      "fr": "Sauce Casa Rusu",
+      "de": "Casa Rusu Sauce"
+    },
+    "Sos Barbeque": {
+      "en": "Barbecue sauce",
+      "it": "Salsa barbecue",
+      "es": "Salsa barbacoa",
+      "fr": "Sauce barbecue",
+      "de": "Barbecuesauce"
+    },
+    "Sos Maioneză": {
+      "en": "Mayonnaise",
+      "it": "Maionese",
+      "es": "Mayonesa",
+      "fr": "Mayonnaise",
+      "de": "Mayonnaise"
+    },
+    "Sos Remoulade": {
+      "en": "Remoulade sauce",
+      "it": "Salsa remoulade",
+      "es": "Salsa remoulade",
+      "fr": "Sauce rémoulade",
+      "de": "Remouladensauce"
+    },
+    "Sos Chili Dulce": {
+      "en": "Sweet chilli sauce",
+      "it": "Salsa chili dolce",
+      "es": "Salsa de chile dulce",
+      "fr": "Sauce au piment doux",
+      "de": "Süße Chilisauce"
+    },
+    "Mujdei de usturoi": {
+      "en": "Romanian garlic sauce",
+      "it": "Salsa romena all’aglio",
+      "es": "Salsa rumana de ajo",
+      "fr": "Sauce roumaine à l’ail",
+      "de": "Rumänische Knoblauchsauce"
+    },
+    "Sos gorgonzola": {
+      "en": "Gorgonzola sauce",
+      "it": "Salsa al gorgonzola",
+      "es": "Salsa de gorgonzola",
+      "fr": "Sauce au gorgonzola",
+      "de": "Gorgonzolasauce"
+    },
+    "Muștar": {
+      "en": "Mustard",
+      "it": "Senape",
+      "es": "Mostaza",
+      "fr": "Moutarde",
+      "de": "Senf"
+    },
+    "Pâine": {
+      "en": "Bread",
+      "it": "Pane",
+      "es": "Pan",
+      "fr": "Pain",
+      "de": "Brot"
+    },
+    "Smântână": {
+      "en": "Sour cream",
+      "it": "Panna acida",
+      "es": "Nata agria",
+      "fr": "Crème aigre",
+      "de": "Sauerrahm"
+    },
+    "Ardei iute": {
+      "en": "Chilli pepper",
+      "it": "Peperoncino",
+      "es": "Guindilla",
+      "fr": "Piment",
+      "de": "Chilischote"
+    },
+    "Papanași": {
+      "en": "Papanași (Romanian cheese doughnuts)",
+      "it": "Papanași (frittelle romene al formaggio)",
+      "es": "Papanași (buñuelos rumanos de queso)",
+      "fr": "Papanași (beignets roumains au fromage)",
+      "de": "Papanași (rumänische Quarkkrapfen)"
+    },
+    "Clătite cu dulceață": {
+      "en": "Pancakes with jam",
+      "it": "Crêpes con confettura",
+      "es": "Crepes con mermelada",
+      "fr": "Crêpes à la confiture",
+      "de": "Pfannkuchen mit Konfitüre"
+    },
+    "Clătite cu ciocolată": {
+      "en": "Chocolate pancakes",
+      "it": "Crêpes al cioccolato",
+      "es": "Crepes con chocolate",
+      "fr": "Crêpes au chocolat",
+      "de": "Pfannkuchen mit Schokolade"
+    },
+    "Clătite brașovene": {
+      "en": "Brașov-style pancakes",
+      "it": "Crêpes alla Brașov",
+      "es": "Crepes al estilo de Brașov",
+      "fr": "Crêpes à la mode de Brașov",
+      "de": "Pfannkuchen nach Brașover Art"
+    },
+    "Crème brûlée cu sos caramel": {
+      "en": "Crème brûlée with caramel sauce",
+      "it": "Crème brûlée con salsa al caramello",
+      "es": "Crème brûlée con salsa de caramelo",
+      "fr": "Crème brûlée à la sauce caramel",
+      "de": "Crème brûlée mit Karamellsauce"
+    },
+    "Espresso dublu": {
+      "en": "Double espresso",
+      "it": "Espresso doppio",
+      "es": "Espresso doble",
+      "fr": "Double espresso",
+      "de": "Doppelter Espresso"
+    },
+    "Espresso lung": {
+      "en": "Long espresso",
+      "it": "Espresso lungo",
+      "es": "Espresso largo",
+      "fr": "Espresso allongé",
+      "de": "Verlängerter Espresso"
+    },
+    "Ciocolată caldă": {
+      "en": "Hot chocolate",
+      "it": "Cioccolata calda",
+      "es": "Chocolate caliente",
+      "fr": "Chocolat chaud",
+      "de": "Heiße Schokolade"
+    },
+    "Ceai diverse arome": {
+      "en": "Assorted teas",
+      "it": "Tè di vari gusti",
+      "es": "Tés variados",
+      "fr": "Thés variés",
+      "de": "Verschiedene Teesorten"
+    },
+    "Apă minerală / plată": {
+      "en": "Sparkling / still water",
+      "it": "Acqua frizzante / naturale",
+      "es": "Agua con gas / sin gas",
+      "fr": "Eau gazeuse / plate",
+      "de": "Mineralwasser mit / ohne Kohlensäure"
+    },
+    "Limonadă": {
+      "en": "Lemonade",
+      "it": "Limonata",
+      "es": "Limonada",
+      "fr": "Citronnade",
+      "de": "Zitronenlimonade"
+    },
+    "Limonadă cu aromă": {
+      "en": "Flavoured lemonade",
+      "it": "Limonata aromatizzata",
+      "es": "Limonada de sabores",
+      "fr": "Citronnade aromatisée",
+      "de": "Limonade mit Fruchtgeschmack"
+    },
+    "Fresh portocale": {
+      "en": "Fresh orange juice",
+      "it": "Spremuta d’arancia",
+      "es": "Zumo de naranja natural",
+      "fr": "Jus d’orange pressé",
+      "de": "Frisch gepresster Orangensaft"
+    },
+    "Fresh grapefruit": {
+      "en": "Fresh grapefruit juice",
+      "it": "Spremuta di pompelmo",
+      "es": "Zumo de pomelo natural",
+      "fr": "Jus de pamplemousse pressé",
+      "de": "Frisch gepresster Grapefruitsaft"
+    },
+    "Fresh mixt": {
+      "en": "Mixed fresh juice",
+      "it": "Spremuta mista",
+      "es": "Zumo natural mixto",
+      "fr": "Jus de fruits pressés mélangés",
+      "de": "Frisch gepresster gemischter Saft"
+    },
+    "Bardar 7 ani": {
+      "en": "Bardar 7 years",
+      "it": "Bardar 7 anni",
+      "es": "Bardar 7 años",
+      "fr": "Bardar 7 ans",
+      "de": "Bardar 7 Jahre"
+    },
+    "Pălincă prune Bran": {
+      "en": "Bran plum brandy",
+      "it": "Distillato di prugne Bran",
+      "es": "Aguardiente de ciruela Bran",
+      "fr": "Eau-de-vie de prune Bran",
+      "de": "Bran Pflaumenbrand"
+    },
+    "Afinată Bran": {
+      "en": "Bran blueberry liqueur",
+      "it": "Liquore ai mirtilli Bran",
+      "es": "Licor de arándanos Bran",
+      "fr": "Liqueur de myrtille Bran",
+      "de": "Bran Heidelbeerlikör"
+    },
+    "Vișinată Bran": {
+      "en": "Bran sour cherry liqueur",
+      "it": "Liquore alle amarene Bran",
+      "es": "Licor de guindas Bran",
+      "fr": "Liqueur de griotte Bran",
+      "de": "Bran Sauerkirschlikör"
+    }
+  },
+  "ingredients": {
+    "2 mici": {
+      "en": "2 mici (Romanian grilled meat rolls)",
+      "it": "2 mici (salsicciotti romeni alla griglia)",
+      "es": "2 mici (rollitos rumanos de carne a la parrilla)",
+      "fr": "2 mici (rouleaux de viande roumains grillés)",
+      "de": "2 Mici (rumänische Hackfleischröllchen)"
+    },
+    "4 mici": {
+      "en": "4 mici (Romanian grilled meat rolls)",
+      "it": "4 mici (salsicciotti romeni alla griglia)",
+      "es": "4 mici (rollitos rumanos de carne a la parrilla)",
+      "fr": "4 mici (rouleaux de viande roumains grillés)",
+      "de": "4 Mici (rumänische Hackfleischröllchen)"
+    },
+    "alb": {
+      "en": "white",
+      "it": "bianco",
+      "es": "blanco",
+      "fr": "blanc",
+      "de": "weiß"
+    },
+    "albuș ou": {
+      "en": "egg white",
+      "it": "albume",
+      "es": "clara de huevo",
+      "fr": "blanc d’œuf",
+      "de": "Eiweiß"
+    },
+    "anghinare": {
+      "en": "artichoke",
+      "it": "carciofi",
+      "es": "alcachofa",
+      "fr": "artichaut",
+      "de": "Artischocke"
+    },
+    "antricot de vită": {
+      "en": "beef rib-eye",
+      "it": "costata di manzo",
+      "es": "entrecot de ternera",
+      "fr": "entrecôte de bœuf",
+      "de": "Rinderentrecôte"
+    },
+    "apă minerală": {
+      "en": "sparkling water",
+      "it": "acqua frizzante",
+      "es": "agua con gas",
+      "fr": "eau gazeuse",
+      "de": "Mineralwasser mit Kohlensäure"
+    },
+    "apă tonică": {
+      "en": "tonic water",
+      "it": "acqua tonica",
+      "es": "agua tónica",
+      "fr": "eau tonique",
+      "de": "Tonic Water"
+    },
+    "ardei": {
+      "en": "peppers",
+      "it": "peperoni",
+      "es": "pimientos",
+      "fr": "poivrons",
+      "de": "Paprika"
+    },
+    "ardei copți": {
+      "en": "roasted peppers",
+      "it": "peperoni arrostiti",
+      "es": "pimientos asados",
+      "fr": "poivrons grillés",
+      "de": "geröstete Paprika"
+    },
+    "ardei gras": {
+      "en": "bell pepper",
+      "it": "peperone",
+      "es": "pimiento",
+      "fr": "poivron",
+      "de": "Paprika"
+    },
+    "ardei iute": {
+      "en": "chilli pepper",
+      "it": "peperoncino",
+      "es": "guindilla",
+      "fr": "piment",
+      "de": "Chilischote"
+    },
+    "aripioare de porc": {
+      "en": "pork “wings”",
+      "it": "“alette” di maiale",
+      "es": "“alitas” de cerdo",
+      "fr": "« ailes » de porc",
+      "de": "Schweine-„Flügel“"
+    },
+    "baby morcovi": {
+      "en": "baby carrots",
+      "it": "carotine",
+      "es": "zanahorias baby",
+      "fr": "mini-carottes",
+      "de": "Babykarotten"
+    },
+    "bavetă": {
+      "en": "bavette steak",
+      "it": "bavetta di manzo",
+      "es": "bavette de ternera",
+      "fr": "bavette de bœuf",
+      "de": "Bavette-Steak"
+    },
+    "bere": {
+      "en": "beer",
+      "it": "birra",
+      "es": "cerveza",
+      "fr": "bière",
+      "de": "Bier"
+    },
+    "biban": {
+      "en": "perch",
+      "it": "persico",
+      "es": "perca",
+      "fr": "perche",
+      "de": "Barsch"
+    },
+    "bicarbonat": {
+      "en": "baking soda",
+      "it": "bicarbonato",
+      "es": "bicarbonato",
+      "fr": "bicarbonate",
+      "de": "Natron"
+    },
+    "biscuite cu migdale și vanilie": {
+      "en": "almond and vanilla biscuit",
+      "it": "biscotto alle mandorle e vaniglia",
+      "es": "galleta de almendra y vainilla",
+      "fr": "biscuit aux amandes et à la vanille",
+      "de": "Mandel-Vanille-Keks"
+    },
+    "boabe de ciocolată": {
+      "en": "chocolate pieces",
+      "it": "perle di cioccolato",
+      "es": "perlas de chocolate",
+      "fr": "perles de chocolat",
+      "de": "Schokoladenperlen"
+    },
+    "boia": {
+      "en": "paprika",
+      "it": "paprica",
+      "es": "pimentón",
+      "fr": "paprika",
+      "de": "Paprikapulver"
+    },
+    "borș": {
+      "en": "borș (fermented bran liquid)",
+      "it": "borș (liquido di crusca fermentata)",
+      "es": "borș (líquido de salvado fermentado)",
+      "fr": "borș (liquide de son fermenté)",
+      "de": "Borș (fermentierte Kleieflüssigkeit)"
+    },
+    "brânză de vaci": {
+      "en": "curd cheese",
+      "it": "formaggio fresco vaccino",
+      "es": "queso fresco de vaca",
+      "fr": "fromage frais de vache",
+      "de": "Quark"
+    },
+    "burduf": {
+      "en": "burduf cheese",
+      "it": "formaggio burduf",
+      "es": "queso burduf",
+      "fr": "fromage burduf",
+      "de": "Burduf-Käse"
+    },
+    "burtă": {
+      "en": "tripe",
+      "it": "trippa",
+      "es": "callos",
+      "fr": "tripes",
+      "de": "Kutteln"
+    },
+    "busuioc": {
+      "en": "basil",
+      "it": "basilico",
+      "es": "albahaca",
+      "fr": "basilic",
+      "de": "Basilikum"
+    },
+    "cacao": {
+      "en": "cocoa",
+      "it": "cacao",
+      "es": "cacao",
+      "fr": "cacao",
+      "de": "Kakao"
+    },
+    "cafea": {
+      "en": "coffee",
+      "it": "caffè",
+      "es": "café",
+      "fr": "café",
+      "de": "Kaffee"
+    },
+    "caju": {
+      "en": "cashews",
+      "it": "anacardi",
+      "es": "anacardos",
+      "fr": "noix de cajou",
+      "de": "Cashewkerne"
+    },
+    "calamar": {
+      "en": "squid",
+      "it": "calamari",
+      "es": "calamar",
+      "fr": "calmar",
+      "de": "Kalmar"
+    },
+    "caramel": {
+      "en": "caramel",
+      "it": "caramello",
+      "es": "caramelo",
+      "fr": "caramel",
+      "de": "Karamell"
+    },
+    "carne de vită": {
+      "en": "beef",
+      "it": "carne di manzo",
+      "es": "carne de ternera",
+      "fr": "viande de bœuf",
+      "de": "Rindfleisch"
+    },
+    "cartofi": {
+      "en": "potatoes",
+      "it": "patate",
+      "es": "patatas",
+      "fr": "pommes de terre",
+      "de": "Kartoffeln"
+    },
+    "cartofi cu parmezan și usturoi": {
+      "en": "potatoes with parmesan and garlic",
+      "it": "patate con parmigiano e aglio",
+      "es": "patatas con parmesano y ajo",
+      "fr": "pommes de terre au parmesan et à l’ail",
+      "de": "Kartoffeln mit Parmesan und Knoblauch"
+    },
+    "cartofi la cuptor cu mozzarella": {
+      "en": "baked potatoes with mozzarella",
+      "it": "patate al forno con mozzarella",
+      "es": "patatas al horno con mozzarella",
+      "fr": "pommes de terre au four à la mozzarella",
+      "de": "Ofenkartoffeln mit Mozzarella"
+    },
+    "cartofi prăjiți": {
+      "en": "fries",
+      "it": "patatine fritte",
+      "es": "patatas fritas",
+      "fr": "frites",
+      "de": "Pommes frites"
+    },
+    "castraveți": {
+      "en": "cucumbers",
+      "it": "cetrioli",
+      "es": "pepinos",
+      "fr": "concombres",
+      "de": "Gurken"
+    },
+    "castraveți murați": {
+      "en": "pickled cucumbers",
+      "it": "cetrioli sottaceto",
+      "es": "pepinillos encurtidos",
+      "fr": "cornichons",
+      "de": "Gewürzgurken"
+    },
+    "caș": {
+      "en": "caș cheese",
+      "it": "formaggio caș",
+      "es": "queso caș",
+      "fr": "fromage caș",
+      "de": "Caș-Käse"
+    },
+    "cașcaval": {
+      "en": "cașcaval cheese",
+      "it": "formaggio cașcaval",
+      "es": "queso cașcaval",
+      "fr": "fromage cașcaval",
+      "de": "Cașcaval-Käse"
+    },
+    "ceafă de porc": {
+      "en": "pork neck",
+      "it": "coppa di maiale",
+      "es": "cuello de cerdo",
+      "fr": "échine de porc",
+      "de": "Schweinenacken"
+    },
+    "ceapă": {
+      "en": "onion",
+      "it": "cipolla",
+      "es": "cebolla",
+      "fr": "oignon",
+      "de": "Zwiebel"
+    },
+    "ceapă roșie": {
+      "en": "red onion",
+      "it": "cipolla rossa",
+      "es": "cebolla roja",
+      "fr": "oignon rouge",
+      "de": "rote Zwiebel"
+    },
+    "chiflă": {
+      "en": "bread bun",
+      "it": "panino",
+      "es": "pan de hamburguesa",
+      "fr": "petit pain",
+      "de": "Brötchen"
+    },
+    "chimen": {
+      "en": "caraway",
+      "it": "cumino dei prati",
+      "es": "alcaravea",
+      "fr": "carvi",
+      "de": "Kümmel"
+    },
+    "ciocolată": {
+      "en": "chocolate",
+      "it": "cioccolato",
+      "es": "chocolate",
+      "fr": "chocolat",
+      "de": "Schokolade"
+    },
+    "ciolan de porc": {
+      "en": "pork knuckle",
+      "it": "stinco di maiale",
+      "es": "codillo de cerdo",
+      "fr": "jarret de porc",
+      "de": "Schweinshaxe"
+    },
+    "cireșe": {
+      "en": "cherries",
+      "it": "ciliegie",
+      "es": "cerezas",
+      "fr": "cerises",
+      "de": "Kirschen"
+    },
+    "ciuperci": {
+      "en": "mushrooms",
+      "it": "funghi",
+      "es": "champiñones",
+      "fr": "champignons",
+      "de": "Pilze"
+    },
+    "ciuperci cu ulei": {
+      "en": "mushrooms in oil",
+      "it": "funghi sott’olio",
+      "es": "champiñones en aceite",
+      "fr": "champignons à l’huile",
+      "de": "Pilze in Öl"
+    },
+    "ciuperci murate": {
+      "en": "pickled mushrooms",
+      "it": "funghi sottaceto",
+      "es": "champiñones encurtidos",
+      "fr": "champignons marinés",
+      "de": "eingelegte Pilze"
+    },
+    "coajă lămâie": {
+      "en": "lemon zest",
+      "it": "scorza di limone",
+      "es": "ralladura de limón",
+      "fr": "zeste de citron",
+      "de": "Zitronenschale"
+    },
+    "cocoșel": {
+      "en": "cockerel",
+      "it": "galletto",
+      "es": "coquelet",
+      "fr": "coquelet",
+      "de": "Hähnchen"
+    },
+    "coniac": {
+      "en": "brandy",
+      "it": "cognac",
+      "es": "coñac",
+      "fr": "cognac",
+      "de": "Weinbrand"
+    },
+    "cotlet": {
+      "en": "chop",
+      "it": "costoletta",
+      "es": "chuleta",
+      "fr": "côtelette",
+      "de": "Kotelett"
+    },
+    "cotlet de porc": {
+      "en": "pork loin",
+      "it": "lonza di maiale",
+      "es": "lomo de cerdo",
+      "fr": "côte de porc",
+      "de": "Schweinekotelett"
+    },
+    "cremă de brânză": {
+      "en": "cream cheese",
+      "it": "formaggio spalmabile",
+      "es": "queso crema",
+      "fr": "fromage à tartiner",
+      "de": "Frischkäse"
+    },
+    "cremă fistic": {
+      "en": "pistachio cream",
+      "it": "crema al pistacchio",
+      "es": "crema de pistacho",
+      "fr": "crème de pistache",
+      "de": "Pistaziencreme"
+    },
+    "cremă migdale": {
+      "en": "almond cream",
+      "it": "crema di mandorle",
+      "es": "crema de almendra",
+      "fr": "crème d’amande",
+      "de": "Mandelcreme"
+    },
+    "creveți": {
+      "en": "prawns",
+      "it": "gamberi",
+      "es": "gambas",
+      "fr": "crevettes",
+      "de": "Garnelen"
+    },
+    "creveți Tiger": {
+      "en": "tiger prawns",
+      "it": "gamberi tiger",
+      "es": "gambas tigre",
+      "fr": "crevettes tigrées",
+      "de": "Tigergarnelen"
+    },
+    "crutoane": {
+      "en": "croutons",
+      "it": "crostini",
+      "es": "picatostes",
+      "fr": "croûtons",
+      "de": "Croûtons"
+    },
+    "cârnați": {
+      "en": "sausages",
+      "it": "salsicce",
+      "es": "salchichas",
+      "fr": "saucisses",
+      "de": "Würste"
+    },
+    "dovlecei": {
+      "en": "courgettes",
+      "it": "zucchine",
+      "es": "calabacines",
+      "fr": "courgettes",
+      "de": "Zucchini"
+    },
+    "dovlecel": {
+      "en": "courgette",
+      "it": "zucchina",
+      "es": "calabacín",
+      "fr": "courgette",
+      "de": "Zucchini"
+    },
+    "dressing": {
+      "en": "dressing",
+      "it": "condimento",
+      "es": "aliño",
+      "fr": "vinaigrette",
+      "de": "Dressing"
+    },
+    "dulceață": {
+      "en": "jam",
+      "it": "confettura",
+      "es": "mermelada",
+      "fr": "confiture",
+      "de": "Konfitüre"
+    },
+    "dulceață de ceapă": {
+      "en": "onion jam",
+      "it": "confettura di cipolle",
+      "es": "mermelada de cebolla",
+      "fr": "confit d’oignon",
+      "de": "Zwiebelkonfitüre"
+    },
+    "esențe": {
+      "en": "flavourings",
+      "it": "aromi",
+      "es": "aromas",
+      "fr": "arômes",
+      "de": "Aromen"
+    },
+    "esență vanilie": {
+      "en": "vanilla flavouring",
+      "it": "aroma di vaniglia",
+      "es": "aroma de vainilla",
+      "fr": "arôme de vanille",
+      "de": "Vanillearoma"
+    },
+    "fasole verde": {
+      "en": "green beans",
+      "it": "fagiolini",
+      "es": "judías verdes",
+      "fr": "haricots verts",
+      "de": "grüne Bohnen"
+    },
+    "file de biban": {
+      "en": "perch fillet",
+      "it": "filetto di persico",
+      "es": "filete de perca",
+      "fr": "filet de perche",
+      "de": "Barschfilet"
+    },
+    "file de crap": {
+      "en": "carp fillet",
+      "it": "filetto di carpa",
+      "es": "filete de carpa",
+      "fr": "filet de carpe",
+      "de": "Karpfenfilet"
+    },
+    "fistic măcinat": {
+      "en": "ground pistachios",
+      "it": "pistacchi macinati",
+      "es": "pistachos molidos",
+      "fr": "pistaches moulues",
+      "de": "gemahlene Pistazien"
+    },
+    "fresh de lămâie": {
+      "en": "fresh lemon juice",
+      "it": "succo di limone fresco",
+      "es": "zumo de limón natural",
+      "fr": "jus de citron pressé",
+      "de": "frischer Zitronensaft"
+    },
+    "fresh lămâie": {
+      "en": "fresh lemon juice",
+      "it": "succo di limone fresco",
+      "es": "zumo de limón natural",
+      "fr": "jus de citron pressé",
+      "de": "frischer Zitronensaft"
+    },
+    "fructe": {
+      "en": "fruit",
+      "it": "frutta",
+      "es": "fruta",
+      "fr": "fruits",
+      "de": "Obst"
+    },
+    "fructe roșii": {
+      "en": "red berries",
+      "it": "frutti rossi",
+      "es": "frutos rojos",
+      "fr": "fruits rouges",
+      "de": "rote Beeren"
+    },
+    "fructul pasiunii": {
+      "en": "passion fruit",
+      "it": "frutto della passione",
+      "es": "maracuyá",
+      "fr": "fruit de la passion",
+      "de": "Passionsfrucht"
+    },
+    "fulgi": {
+      "en": "flakes",
+      "it": "fiocchi",
+      "es": "copos",
+      "fr": "flocons",
+      "de": "Flocken"
+    },
+    "fulgi de telemea": {
+      "en": "telemea cheese flakes",
+      "it": "scaglie di telemea",
+      "es": "lascas de queso telemea",
+      "fr": "copeaux de telemea",
+      "de": "Telemea-Käseflocken"
+    },
+    "făină": {
+      "en": "flour",
+      "it": "farina",
+      "es": "harina",
+      "fr": "farine",
+      "de": "Mehl"
+    },
+    "gelatină de vișine": {
+      "en": "sour cherry jelly",
+      "it": "gelatina di amarene",
+      "es": "gelatina de guindas",
+      "fr": "gelée de griottes",
+      "de": "Sauerkirschgelee"
+    },
+    "glazură mango": {
+      "en": "mango glaze",
+      "it": "glassa al mango",
+      "es": "glaseado de mango",
+      "fr": "glaçage à la mangue",
+      "de": "Mangoglasur"
+    },
+    "gogonele": {
+      "en": "pickled green tomatoes",
+      "it": "pomodori verdi sottaceto",
+      "es": "tomates verdes encurtidos",
+      "fr": "tomates vertes marinées",
+      "de": "eingelegte grüne Tomaten"
+    },
+    "gogoșari": {
+      "en": "round peppers",
+      "it": "peperoni tondi",
+      "es": "pimientos redondos",
+      "fr": "poivrons ronds",
+      "de": "runde Paprika"
+    },
+    "gălbenuș de ou": {
+      "en": "egg yolk",
+      "it": "tuorlo d’uovo",
+      "es": "yema de huevo",
+      "fr": "jaune d’œuf",
+      "de": "Eigelb"
+    },
+    "hrean": {
+      "en": "horseradish",
+      "it": "rafano",
+      "es": "rábano picante",
+      "fr": "raifort",
+      "de": "Meerrettich"
+    },
+    "hribi": {
+      "en": "porcini mushrooms",
+      "it": "funghi porcini",
+      "es": "boletus",
+      "fr": "cèpes",
+      "de": "Steinpilze"
+    },
+    "jumări": {
+      "en": "pork cracklings",
+      "it": "ciccioli",
+      "es": "chicharrones",
+      "fr": "grattons de porc",
+      "de": "Grieben"
+    },
+    "jumătate de pui": {
+      "en": "half chicken",
+      "it": "mezzo pollo",
+      "es": "medio pollo",
+      "fr": "demi-poulet",
+      "de": "halbes Hähnchen"
+    },
+    "lapte": {
+      "en": "milk",
+      "it": "latte",
+      "es": "leche",
+      "fr": "lait",
+      "de": "Milch"
+    },
+    "legume": {
+      "en": "vegetables",
+      "it": "verdure",
+      "es": "verduras",
+      "fr": "légumes",
+      "de": "Gemüse"
+    },
+    "leuștean": {
+      "en": "lovage",
+      "it": "levistico",
+      "es": "levístico",
+      "fr": "livèche",
+      "de": "Liebstöckel"
+    },
+    "lichior cafea": {
+      "en": "coffee liqueur",
+      "it": "liquore al caffè",
+      "es": "licor de café",
+      "fr": "liqueur de café",
+      "de": "Kaffeelikör"
+    },
+    "lichior fructul pasiunii": {
+      "en": "passion fruit liqueur",
+      "it": "liquore al frutto della passione",
+      "es": "licor de maracuyá",
+      "fr": "liqueur de fruit de la passion",
+      "de": "Passionsfruchtlikör"
+    },
+    "lămâie": {
+      "en": "lemon",
+      "it": "limone",
+      "es": "limón",
+      "fr": "citron",
+      "de": "Zitrone"
+    },
+    "maioneză": {
+      "en": "mayonnaise",
+      "it": "maionese",
+      "es": "mayonesa",
+      "fr": "mayonnaise",
+      "de": "Mayonnaise"
+    },
+    "mandarin": {
+      "en": "mandarin",
+      "it": "mandarino",
+      "es": "mandarina",
+      "fr": "mandarine",
+      "de": "Mandarine"
+    },
+    "mazăre": {
+      "en": "peas",
+      "it": "piselli",
+      "es": "guisantes",
+      "fr": "petits pois",
+      "de": "Erbsen"
+    },
+    "mentă": {
+      "en": "mint",
+      "it": "menta",
+      "es": "menta",
+      "fr": "menthe",
+      "de": "Minze"
+    },
+    "midii": {
+      "en": "mussels",
+      "it": "cozze",
+      "es": "mejillones",
+      "fr": "moules",
+      "de": "Miesmuscheln"
+    },
+    "mixt salată": {
+      "en": "mixed salad leaves",
+      "it": "insalata mista",
+      "es": "mezcla de lechugas",
+      "fr": "mélange de salades",
+      "de": "gemischte Salatblätter"
+    },
+    "morcovi": {
+      "en": "carrots",
+      "it": "carote",
+      "es": "zanahorias",
+      "fr": "carottes",
+      "de": "Karotten"
+    },
+    "mousse ciocolată albă cu fructul pasiunii": {
+      "en": "white chocolate mousse with passion fruit",
+      "it": "mousse al cioccolato bianco con frutto della passione",
+      "es": "mousse de chocolate blanco con maracuyá",
+      "fr": "mousse au chocolat blanc et au fruit de la passion",
+      "de": "weiße Schokoladenmousse mit Passionsfrucht"
+    },
+    "mousse ciocolată cu lapte": {
+      "en": "milk chocolate mousse",
+      "it": "mousse al cioccolato al latte",
+      "es": "mousse de chocolate con leche",
+      "fr": "mousse au chocolat au lait",
+      "de": "Milchschokoladenmousse"
+    },
+    "mousse de ciocolată neagră": {
+      "en": "dark chocolate mousse",
+      "it": "mousse al cioccolato fondente",
+      "es": "mousse de chocolate negro",
+      "fr": "mousse au chocolat noir",
+      "de": "Zartbitterschokoladenmousse"
+    },
+    "murături": {
+      "en": "pickles",
+      "it": "sottaceti",
+      "es": "encurtidos",
+      "fr": "légumes marinés",
+      "de": "eingelegtes Gemüse"
+    },
+    "mușchi": {
+      "en": "loin",
+      "it": "lonza",
+      "es": "lomo",
+      "fr": "filet",
+      "de": "Filet"
+    },
+    "mușchi de vită": {
+      "en": "beef tenderloin",
+      "it": "filetto di manzo",
+      "es": "solomillo de ternera",
+      "fr": "filet de bœuf",
+      "de": "Rinderfilet"
+    },
+    "mușchiuleț de porc": {
+      "en": "pork tenderloin",
+      "it": "filetto di maiale",
+      "es": "solomillo de cerdo",
+      "fr": "filet mignon de porc",
+      "de": "Schweinefilet"
+    },
+    "muștar": {
+      "en": "mustard",
+      "it": "senape",
+      "es": "mostaza",
+      "fr": "moutarde",
+      "de": "Senf"
+    },
+    "mălai": {
+      "en": "cornmeal",
+      "it": "farina di mais",
+      "es": "harina de maíz",
+      "fr": "farine de maïs",
+      "de": "Maismehl"
+    },
+    "mămăligă": {
+      "en": "polenta",
+      "it": "polenta",
+      "es": "polenta",
+      "fr": "polenta",
+      "de": "Polenta"
+    },
+    "măsline": {
+      "en": "olives",
+      "it": "olive",
+      "es": "aceitunas",
+      "fr": "olives",
+      "de": "Oliven"
+    },
+    "normal": {
+      "en": "regular",
+      "it": "classica",
+      "es": "normal",
+      "fr": "classique",
+      "de": "klassisch"
+    },
+    "nuci": {
+      "en": "walnuts",
+      "it": "noci",
+      "es": "nueces",
+      "fr": "noix",
+      "de": "Walnüsse"
+    },
+    "oase de vită": {
+      "en": "beef bones",
+      "it": "ossa di manzo",
+      "es": "huesos de ternera",
+      "fr": "os de bœuf",
+      "de": "Rinderknochen"
+    },
+    "oregano": {
+      "en": "oregano",
+      "it": "origano",
+      "es": "orégano",
+      "fr": "origan",
+      "de": "Oregano"
+    },
+    "orez": {
+      "en": "rice",
+      "it": "riso",
+      "es": "arroz",
+      "fr": "riz",
+      "de": "Reis"
+    },
+    "ou": {
+      "en": "egg",
+      "it": "uovo",
+      "es": "huevo",
+      "fr": "œuf",
+      "de": "Ei"
+    },
+    "ou prăjit": {
+      "en": "fried egg",
+      "it": "uovo fritto",
+      "es": "huevo frito",
+      "fr": "œuf au plat",
+      "de": "Spiegelei"
+    },
+    "ouă": {
+      "en": "eggs",
+      "it": "uova",
+      "es": "huevos",
+      "fr": "œufs",
+      "de": "Eier"
+    },
+    "oțet": {
+      "en": "vinegar",
+      "it": "aceto",
+      "es": "vinagre",
+      "fr": "vinaigre",
+      "de": "Essig"
+    },
+    "pandișpan": {
+      "en": "sponge cake",
+      "it": "pan di Spagna",
+      "es": "bizcocho",
+      "fr": "génoise",
+      "de": "Biskuit"
+    },
+    "parmezan": {
+      "en": "parmesan",
+      "it": "parmigiano",
+      "es": "parmesano",
+      "fr": "parmesan",
+      "de": "Parmesan"
+    },
+    "pastramă de oaie": {
+      "en": "mutton pastrami",
+      "it": "pastrami di pecora",
+      "es": "pastrami de ovino",
+      "fr": "pastrami de mouton",
+      "de": "Schafspastrami"
+    },
+    "pastă gulaș": {
+      "en": "goulash paste",
+      "it": "pasta per gulasch",
+      "es": "pasta de gulash",
+      "fr": "pâte de goulasch",
+      "de": "Gulaschpaste"
+    },
+    "pene": {
+      "en": "penne",
+      "it": "penne",
+      "es": "penne",
+      "fr": "penne",
+      "de": "Penne"
+    },
+    "pesmet": {
+      "en": "breadcrumbs",
+      "it": "pangrattato",
+      "es": "pan rallado",
+      "fr": "chapelure",
+      "de": "Paniermehl"
+    },
+    "piept de pui": {
+      "en": "chicken breast",
+      "it": "petto di pollo",
+      "es": "pechuga de pollo",
+      "fr": "blanc de poulet",
+      "de": "Hähnchenbrust"
+    },
+    "piept de rață": {
+      "en": "duck breast",
+      "it": "petto d’anatra",
+      "es": "pechuga de pato",
+      "fr": "magret de canard",
+      "de": "Entenbrust"
+    },
+    "piept de rață afumat": {
+      "en": "smoked duck breast",
+      "it": "petto d’anatra affumicato",
+      "es": "pechuga de pato ahumada",
+      "fr": "magret de canard fumé",
+      "de": "geräucherte Entenbrust"
+    },
+    "piersici": {
+      "en": "peaches",
+      "it": "pesche",
+      "es": "melocotones",
+      "fr": "pêches",
+      "de": "Pfirsiche"
+    },
+    "piper": {
+      "en": "pepper",
+      "it": "pepe",
+      "es": "pimienta",
+      "fr": "poivre",
+      "de": "Pfeffer"
+    },
+    "piper roz": {
+      "en": "pink peppercorns",
+      "it": "pepe rosa",
+      "es": "pimienta rosa",
+      "fr": "baies roses",
+      "de": "rosa Pfeffer"
+    },
+    "piure căpșuni": {
+      "en": "strawberry purée",
+      "it": "purea di fragole",
+      "es": "puré de fresa",
+      "fr": "purée de fraises",
+      "de": "Erdbeerpüree"
+    },
+    "piure de zmeură": {
+      "en": "raspberry purée",
+      "it": "purea di lamponi",
+      "es": "puré de frambuesa",
+      "fr": "purée de framboises",
+      "de": "Himbeerpüree"
+    },
+    "piure fructul pasiunii": {
+      "en": "passion fruit purée",
+      "it": "purea di frutto della passione",
+      "es": "puré de maracuyá",
+      "fr": "purée de fruit de la passion",
+      "de": "Passionsfruchtpüree"
+    },
+    "portocale": {
+      "en": "oranges",
+      "it": "arance",
+      "es": "naranjas",
+      "fr": "oranges",
+      "de": "Orangen"
+    },
+    "portocale roșii": {
+      "en": "blood oranges",
+      "it": "arance rosse",
+      "es": "naranjas sanguinas",
+      "fr": "oranges sanguines",
+      "de": "Blutorangen"
+    },
+    "portocală": {
+      "en": "orange",
+      "it": "arancia",
+      "es": "naranja",
+      "fr": "orange",
+      "de": "Orange"
+    },
+    "porumb": {
+      "en": "sweetcorn",
+      "it": "mais",
+      "es": "maíz",
+      "fr": "maïs",
+      "de": "Mais"
+    },
+    "potrivit pentru 2 persoane": {
+      "en": "serves 2",
+      "it": "per 2 persone",
+      "es": "para 2 personas",
+      "fr": "pour 2 personnes",
+      "de": "für 2 Personen"
+    },
+    "potrivit pentru 4 persoane": {
+      "en": "serves 4",
+      "it": "per 4 persone",
+      "es": "para 4 personas",
+      "fr": "pour 4 personnes",
+      "de": "für 4 Personen"
+    },
+    "praf de usturoi": {
+      "en": "garlic powder",
+      "it": "aglio in polvere",
+      "es": "ajo en polvo",
+      "fr": "ail en poudre",
+      "de": "Knoblauchpulver"
+    },
+    "praz": {
+      "en": "leek",
+      "it": "porro",
+      "es": "puerro",
+      "fr": "poireau",
+      "de": "Lauch"
+    },
+    "pui": {
+      "en": "chicken",
+      "it": "pollo",
+      "es": "pollo",
+      "fr": "poulet",
+      "de": "Hähnchen"
+    },
+    "pulpă de rață": {
+      "en": "duck leg",
+      "it": "coscia d’anatra",
+      "es": "muslo de pato",
+      "fr": "cuisse de canard",
+      "de": "Entenkeule"
+    },
+    "pâine prăjită": {
+      "en": "toast",
+      "it": "pane tostato",
+      "es": "pan tostado",
+      "fr": "pain grillé",
+      "de": "Toastbrot"
+    },
+    "pătrunjel": {
+      "en": "parsley",
+      "it": "prezzemolo",
+      "es": "perejil",
+      "fr": "persil",
+      "de": "Petersilie"
+    },
+    "pătrunjel verde": {
+      "en": "fresh parsley",
+      "it": "prezzemolo fresco",
+      "es": "perejil fresco",
+      "fr": "persil frais",
+      "de": "frische Petersilie"
+    },
+    "rodie": {
+      "en": "pomegranate",
+      "it": "melagrana",
+      "es": "granada",
+      "fr": "grenade",
+      "de": "Granatapfel"
+    },
+    "rom": {
+      "en": "rum",
+      "it": "rum",
+      "es": "ron",
+      "fr": "rhum",
+      "de": "Rum"
+    },
+    "rom alb": {
+      "en": "white rum",
+      "it": "rum bianco",
+      "es": "ron blanco",
+      "fr": "rhum blanc",
+      "de": "weißer Rum"
+    },
+    "rozmarin": {
+      "en": "rosemary",
+      "it": "rosmarino",
+      "es": "romero",
+      "fr": "romarin",
+      "de": "Rosmarin"
+    },
+    "roșie": {
+      "en": "tomato",
+      "it": "pomodoro",
+      "es": "tomate",
+      "fr": "tomate",
+      "de": "Tomate"
+    },
+    "roșii": {
+      "en": "tomatoes",
+      "it": "pomodori",
+      "es": "tomates",
+      "fr": "tomates",
+      "de": "Tomaten"
+    },
+    "roșii cherry": {
+      "en": "cherry tomatoes",
+      "it": "pomodorini",
+      "es": "tomates cherry",
+      "fr": "tomates cerises",
+      "de": "Kirschtomaten"
+    },
+    "roșii seci": {
+      "en": "sun-dried tomatoes",
+      "it": "pomodori secchi",
+      "es": "tomates secos",
+      "fr": "tomates séchées",
+      "de": "getrocknete Tomaten"
+    },
+    "roșu": {
+      "en": "red",
+      "it": "rosso",
+      "es": "tinto",
+      "fr": "rouge",
+      "de": "rot"
+    },
+    "rucola": {
+      "en": "rocket",
+      "it": "rucola",
+      "es": "rúcula",
+      "fr": "roquette",
+      "de": "Rucola"
+    },
+    "rădăcină pătrunjel": {
+      "en": "parsley root",
+      "it": "radice di prezzemolo",
+      "es": "raíz de perejil",
+      "fr": "racine de persil",
+      "de": "Petersilienwurzel"
+    },
+    "salam": {
+      "en": "salami",
+      "it": "salame",
+      "es": "salami",
+      "fr": "salami",
+      "de": "Salami"
+    },
+    "salam picant": {
+      "en": "spicy salami",
+      "it": "salame piccante",
+      "es": "salami picante",
+      "fr": "salami piquant",
+      "de": "scharfe Salami"
+    },
+    "salată verde": {
+      "en": "lettuce",
+      "it": "lattuga",
+      "es": "lechuga",
+      "fr": "laitue",
+      "de": "Blattsalat"
+    },
+    "sare": {
+      "en": "salt",
+      "it": "sale",
+      "es": "sal",
+      "fr": "sel",
+      "de": "Salz"
+    },
+    "sfeclă roșie": {
+      "en": "beetroot",
+      "it": "barbabietola",
+      "es": "remolacha",
+      "fr": "betterave",
+      "de": "Rote Bete"
+    },
+    "sirop": {
+      "en": "syrup",
+      "it": "sciroppo",
+      "es": "sirope",
+      "fr": "sirop",
+      "de": "Sirup"
+    },
+    "sirop soc": {
+      "en": "elderflower syrup",
+      "it": "sciroppo di fiori di sambuco",
+      "es": "sirope de flor de saúco",
+      "fr": "sirop de fleurs de sureau",
+      "de": "Holunderblütensirup"
+    },
+    "sirop vanilie": {
+      "en": "vanilla syrup",
+      "it": "sciroppo di vaniglia",
+      "es": "sirope de vainilla",
+      "fr": "sirop de vanille",
+      "de": "Vanillesirup"
+    },
+    "sirop zahăr": {
+      "en": "sugar syrup",
+      "it": "sciroppo di zucchero",
+      "es": "sirope de azúcar",
+      "fr": "sirop de sucre",
+      "de": "Zuckersirup"
+    },
+    "slănină": {
+      "en": "pork fatback",
+      "it": "lardo",
+      "es": "tocino",
+      "fr": "lard gras",
+      "de": "Rückenspeck"
+    },
+    "smântână": {
+      "en": "sour cream",
+      "it": "panna acida",
+      "es": "nata agria",
+      "fr": "crème aigre",
+      "de": "Sauerrahm"
+    },
+    "smântână dulce": {
+      "en": "cream",
+      "it": "panna",
+      "es": "nata",
+      "fr": "crème liquide",
+      "de": "Sahne"
+    },
+    "soc": {
+      "en": "elderflower",
+      "it": "fiori di sambuco",
+      "es": "flor de saúco",
+      "fr": "fleurs de sureau",
+      "de": "Holunderblüte"
+    },
+    "somon": {
+      "en": "salmon",
+      "it": "salmone",
+      "es": "salmón",
+      "fr": "saumon",
+      "de": "Lachs"
+    },
+    "somon fume": {
+      "en": "smoked salmon",
+      "it": "salmone affumicato",
+      "es": "salmón ahumado",
+      "fr": "saumon fumé",
+      "de": "Räucherlachs"
+    },
+    "sos brun": {
+      "en": "brown sauce",
+      "it": "salsa bruna",
+      "es": "salsa oscura",
+      "fr": "sauce brune",
+      "de": "braune Sauce"
+    },
+    "sos cheddar": {
+      "en": "cheddar sauce",
+      "it": "salsa al cheddar",
+      "es": "salsa de cheddar",
+      "fr": "sauce au cheddar",
+      "de": "Cheddarsauce"
+    },
+    "sos chili": {
+      "en": "chilli sauce",
+      "it": "salsa chili",
+      "es": "salsa de chile",
+      "fr": "sauce pimentée",
+      "de": "Chilisauce"
+    },
+    "sos de portocale": {
+      "en": "orange sauce",
+      "it": "salsa all’arancia",
+      "es": "salsa de naranja",
+      "fr": "sauce à l’orange",
+      "de": "Orangensauce"
+    },
+    "sos de roșii": {
+      "en": "tomato sauce",
+      "it": "salsa di pomodoro",
+      "es": "salsa de tomate",
+      "fr": "sauce tomate",
+      "de": "Tomatensauce"
+    },
+    "sos de smântână cu capere": {
+      "en": "sour cream and caper sauce",
+      "it": "salsa di panna acida e capperi",
+      "es": "salsa de nata agria y alcaparras",
+      "fr": "sauce à la crème aigre et aux câpres",
+      "de": "Sauerrahmsauce mit Kapern"
+    },
+    "sos de vișine": {
+      "en": "sour cherry sauce",
+      "it": "salsa alle amarene",
+      "es": "salsa de guindas",
+      "fr": "sauce aux griottes",
+      "de": "Sauerkirschsauce"
+    },
+    "sos la alegere": {
+      "en": "choice of sauce",
+      "it": "salsa a scelta",
+      "es": "salsa a elegir",
+      "fr": "sauce au choix",
+      "de": "Sauce nach Wahl"
+    },
+    "sos remoulade": {
+      "en": "remoulade sauce",
+      "it": "salsa remoulade",
+      "es": "salsa remoulade",
+      "fr": "sauce rémoulade",
+      "de": "Remouladensauce"
+    },
+    "spaghete": {
+      "en": "spaghetti",
+      "it": "spaghetti",
+      "es": "espaguetis",
+      "fr": "spaghettis",
+      "de": "Spaghetti"
+    },
+    "sparanghel": {
+      "en": "asparagus",
+      "it": "asparagi",
+      "es": "espárragos",
+      "fr": "asperges",
+      "de": "Spargel"
+    },
+    "stafide": {
+      "en": "raisins",
+      "it": "uvetta",
+      "es": "pasas",
+      "fr": "raisins secs",
+      "de": "Rosinen"
+    },
+    "struguri": {
+      "en": "grapes",
+      "it": "uva",
+      "es": "uvas",
+      "fr": "raisin",
+      "de": "Trauben"
+    },
+    "suc ananas": {
+      "en": "pineapple juice",
+      "it": "succo d’ananas",
+      "es": "zumo de piña",
+      "fr": "jus d’ananas",
+      "de": "Ananassaft"
+    },
+    "suc de roșii": {
+      "en": "tomato juice",
+      "it": "succo di pomodoro",
+      "es": "zumo de tomate",
+      "fr": "jus de tomate",
+      "de": "Tomatensaft"
+    },
+    "suc lămâie": {
+      "en": "lemon juice",
+      "it": "succo di limone",
+      "es": "zumo de limón",
+      "fr": "jus de citron",
+      "de": "Zitronensaft"
+    },
+    "suc merișoare": {
+      "en": "cranberry juice",
+      "it": "succo di mirtilli rossi",
+      "es": "zumo de arándano rojo",
+      "fr": "jus de canneberge",
+      "de": "Cranberrysaft"
+    },
+    "suc portocale": {
+      "en": "orange juice",
+      "it": "succo d’arancia",
+      "es": "zumo de naranja",
+      "fr": "jus d’orange",
+      "de": "Orangensaft"
+    },
+    "telemea": {
+      "en": "telemea cheese",
+      "it": "formaggio telemea",
+      "es": "queso telemea",
+      "fr": "fromage telemea",
+      "de": "Telemea-Käse"
+    },
+    "ton": {
+      "en": "tuna",
+      "it": "tonno",
+      "es": "atún",
+      "fr": "thon",
+      "de": "Thunfisch"
+    },
+    "tonic": {
+      "en": "tonic",
+      "it": "tonica",
+      "es": "tónica",
+      "fr": "tonique",
+      "de": "Tonic"
+    },
+    "tonic de zmeură": {
+      "en": "raspberry tonic",
+      "it": "tonica al lampone",
+      "es": "tónica de frambuesa",
+      "fr": "tonique à la framboise",
+      "de": "Himbeer-Tonic"
+    },
+    "triplu sec": {
+      "en": "triple sec",
+      "it": "triple sec",
+      "es": "triple seco",
+      "fr": "triple sec",
+      "de": "Triple Sec"
+    },
+    "tăieței": {
+      "en": "noodles",
+      "it": "tagliolini",
+      "es": "fideos",
+      "fr": "nouilles",
+      "de": "Nudeln"
+    },
+    "ulei": {
+      "en": "oil",
+      "it": "olio",
+      "es": "aceite",
+      "fr": "huile",
+      "de": "Öl"
+    },
+    "ulei de măsline": {
+      "en": "olive oil",
+      "it": "olio d’oliva",
+      "es": "aceite de oliva",
+      "fr": "huile d’olive",
+      "de": "Olivenöl"
+    },
+    "ulei măsline": {
+      "en": "olive oil",
+      "it": "olio d’oliva",
+      "es": "aceite de oliva",
+      "fr": "huile d’olive",
+      "de": "Olivenöl"
+    },
+    "unt": {
+      "en": "butter",
+      "it": "burro",
+      "es": "mantequilla",
+      "fr": "beurre",
+      "de": "Butter"
+    },
+    "usturoi": {
+      "en": "garlic",
+      "it": "aglio",
+      "es": "ajo",
+      "fr": "ail",
+      "de": "Knoblauch"
+    },
+    "vanilie": {
+      "en": "vanilla",
+      "it": "vaniglia",
+      "es": "vainilla",
+      "fr": "vanille",
+      "de": "Vanille"
+    },
+    "varză": {
+      "en": "cabbage",
+      "it": "cavolo",
+      "es": "col",
+      "fr": "chou",
+      "de": "Kohl"
+    },
+    "varză murată": {
+      "en": "sauerkraut",
+      "it": "crauti",
+      "es": "col fermentada",
+      "fr": "choucroute",
+      "de": "Sauerkraut"
+    },
+    "vermut roșu": {
+      "en": "red vermouth",
+      "it": "vermouth rosso",
+      "es": "vermut rojo",
+      "fr": "vermouth rouge",
+      "de": "roter Wermut"
+    },
+    "vin alb": {
+      "en": "white wine",
+      "it": "vino bianco",
+      "es": "vino blanco",
+      "fr": "vin blanc",
+      "de": "Weißwein"
+    },
+    "vițel": {
+      "en": "veal",
+      "it": "vitello",
+      "es": "ternera",
+      "fr": "veau",
+      "de": "Kalbfleisch"
+    },
+    "vongole": {
+      "en": "clams",
+      "it": "vongole",
+      "es": "almejas",
+      "fr": "palourdes",
+      "de": "Venusmuscheln"
+    },
+    "zahăr": {
+      "en": "sugar",
+      "it": "zucchero",
+      "es": "azúcar",
+      "fr": "sucre",
+      "de": "Zucker"
+    },
+    "zahăr brun": {
+      "en": "brown sugar",
+      "it": "zucchero di canna",
+      "es": "azúcar moreno",
+      "fr": "sucre roux",
+      "de": "brauner Zucker"
+    },
+    "zero cofeină": {
+      "en": "caffeine-free",
+      "it": "senza caffeina",
+      "es": "sin cafeína",
+      "fr": "sans caféine",
+      "de": "koffeinfrei"
+    },
+    "zero zahăr": {
+      "en": "sugar-free",
+      "it": "senza zucchero",
+      "es": "sin azúcar",
+      "fr": "sans sucre",
+      "de": "zuckerfrei"
+    },
+    "zmeură": {
+      "en": "raspberry",
+      "it": "lampone",
+      "es": "frambuesa",
+      "fr": "framboise",
+      "de": "Himbeere"
+    },
+    "înghețată": {
+      "en": "ice cream",
+      "it": "gelato",
+      "es": "helado",
+      "fr": "glace",
+      "de": "Eis"
+    },
+    "șalău": {
+      "en": "pike-perch",
+      "it": "lucioperca",
+      "es": "lucioperca",
+      "fr": "sandre",
+      "de": "Zander"
+    },
+    "ștrudel cu cafea și cacao": {
+      "en": "coffee and cocoa strudel",
+      "it": "strudel al caffè e cacao",
+      "es": "strudel de café y cacao",
+      "fr": "strudel au café et au cacao",
+      "de": "Kaffee-Kakao-Strudel"
+    },
+    "țelină": {
+      "en": "celeriac",
+      "it": "sedano rapa",
+      "es": "apionabo",
+      "fr": "céleri-rave",
+      "de": "Knollensellerie"
+    },
+    "lime": {
+      "en": "lime",
+      "it": "lime",
+      "es": "lima",
+      "fr": "citron vert",
+      "de": "Limette"
+    },
+    "zucchini": {
+      "en": "courgette",
+      "it": "zucchina",
+      "es": "calabacín",
+      "fr": "courgette",
+      "de": "Zucchini"
+    },
+    "vodka": {
+      "en": "vodka",
+      "it": "vodka",
+      "es": "vodka",
+      "fr": "vodka",
+      "de": "Wodka"
+    }
+  },
+  "unchangedNames": [
+    "Pinsa Bolognese",
+    "Pinsa Romano",
+    "Carbonara",
+    "Fish and Chips",
+    "Ketchup",
+    "Lava cake",
+    "Bomboline Dubai „Casa Rusu”",
+    "Bacio Caraibico",
+    "Corazza di Mandorle e Amarena",
+    "Chicco",
+    "Ristretto",
+    "Espresso",
+    "Espresso macchiato",
+    "Cappuccino",
+    "Flat white",
+    "Latte macchiato",
+    "Frappé",
+    "Coca Cola",
+    "Fanta",
+    "Sprite",
+    "Schweppes",
+    "Fuze Tea",
+    "Cappy",
+    "Burn",
+    "Kozel Premium",
+    "Peroni",
+    "Peroni NA",
+    "Ursus Black",
+    "Ursus Cooler NA",
+    "Ursus Premium",
+    "Ursus Premium NA",
+    "Ursus Remix",
+    "J.W. Red Label",
+    "J.W. Black Label",
+    "Bulleit Bourbon",
+    "Jack Daniels",
+    "Glenfiddich 12 y.o.",
+    "Singleton of Dufftown",
+    "Bushmills Original",
+    "C.M. Original Spiced",
+    "C.M. White",
+    "Don Papa Maskara",
+    "Bumbu",
+    "Courvoisier VS",
+    "Courvoisier VSOP",
+    "Jidvei Vinars VSOP",
+    "Metaxa 7*",
+    "Petro Vaselo",
+    "Purcari Nocturne",
+    "Caii de la Letea Manuscris",
+    "Averești",
+    "Recaș",
+    "Recaș Castel Huniade",
+    "Belussi Blanc de Blancs",
+    "Cardinal",
+    "Smirnoff Red",
+    "Ketel One",
+    "J.C. Especial Gold",
+    "Jose Cuervo Silver",
+    "Hugo Spritz",
+    "Aperol Spritz",
+    "Campari Spritz",
+    "Sarti Spritz",
+    "Gordon Tonic",
+    "Tanqueray Tonic",
+    "Tanqueray 0.0 Tonic",
+    "Tanqueray Royal Tonic",
+    "Rasberry Bramble",
+    "Negroni",
+    "Pornstar Martini",
+    "Espresso Martini",
+    "Cuba Libre",
+    "Disaronno Sour",
+    "Mojito",
+    "Aperol Vanilla Sour",
+    "Virgin Hugo",
+    "Red Berry",
+    "Virgin Mojito",
+    "Virgin Pornstar",
+    "Baileys",
+    "Disaronno",
+    "Isolabella Limoncello",
+    "Campari",
+    "Cinzano Bianco",
+    "Cinzano Rosso",
+    "Averna Amaro",
+    "Jägermeister",
+    "Sarti Aperitivo",
+    "B52",
+    "Kamikaze"
+  ],
+  "unchangedIngredients": [
+    "aligote",
+    "aperol",
+    "bacon",
+    "baileys",
+    "bitter lemon",
+    "brie",
+    "brut",
+    "busuioacă",
+    "cabernet sauvignon",
+    "campari",
+    "chardonnay",
+    "cheddar",
+    "cola",
+    "disaronno amaretto",
+    "eros pista",
+    "espresso",
+    "extra dry",
+    "feteasca neagră",
+    "focaccia",
+    "gin",
+    "gnocchi",
+    "gorgonzola",
+    "grapefruit",
+    "grenadine",
+    "guanciale",
+    "jalapeno",
+    "maasdamer",
+    "massdamer",
+    "merlot",
+    "mortadella",
+    "mozzarella",
+    "pancetta",
+    "panko",
+    "pecorino",
+    "pinsa",
+    "prosciutto",
+    "prosciutto crudo",
+    "prosecco",
+    "rară neagră",
+    "rosé",
+    "sarti",
+    "sauvignon blanc",
+    "sprite",
+    "tagliatelle",
+    "tortilla",
+    "zghihară"
+  ]
+}

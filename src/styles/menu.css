@@ -81,6 +81,7 @@
 .menu-item-heading h4 { margin: 0; color: var(--text); font-size: 1.0625rem; font-weight: 600; line-height: 1.5; }
 .menu-item-price { flex-shrink: 0; color: var(--accent); font-size: 1.0625rem; font-weight: 600; white-space: nowrap; }
 .menu-transcript-section li p { margin-top: .3rem; color: var(--muted); font-size: 1rem; line-height: 1.65; }
+.menu-transcript-section .menu-item-original { font-size: .875rem; font-style: italic; }
 .menu-item-quantity { display: block; margin-top: .3rem; color: var(--muted); font-size: 1rem; }
 .menu-extras-heading { margin-bottom: 2.5rem; }
 .menu-extras-heading .eyebrow { margin-bottom: 1rem; }

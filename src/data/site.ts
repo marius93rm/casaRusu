@@ -1,3 +1,10 @@
+import { ro } from '../i18n/locales/ro';
+import { en } from '../i18n/locales/en';
+import { it } from '../i18n/locales/it';
+import { es } from '../i18n/locales/es';
+import { fr } from '../i18n/locales/fr';
+import { de } from '../i18n/locales/de';
+
 export const siteData = {
   company: {
     name: 'Restaurant Casa Rusu',
@@ -27,17 +34,7 @@ export const siteData = {
     accent: '#805b36',
     border: '#ddd5c9',
   },
-  seo: {
-    indexable: true,
-    ro: {
-      title: 'Restaurant Casa Rusu în Codlea | Adresă și program',
-      description: 'Meniu Casa Rusu în Codlea: ciorbe de la 25 lei, paste de la 33 lei, carne de la 36 lei, pește de la 55 lei și Platoul Boieresc de 2,4 kg pentru patru persoane.',
-    },
-    en: {
-      title: 'Restaurant Casa Rusu in Codlea | Hours & Location',
-      description: 'Casa Rusu menu in Codlea: soups from 25 lei, pasta from 33 lei, meat from 36 lei, fish from 55 lei and a 2.4 kg platter for four.',
-    },
-  },
+  seo: { indexable: true, ro: ro.seo, en: en.seo, it: it.seo, es: es.seo, fr: fr.seo, de: de.seo },
   links: {
     facebook: 'https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/',
     instagram: 'https://www.instagram.com/restaurant.casarusu/',
@@ -58,170 +55,7 @@ export const siteData = {
       sourceUrl: 'https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl',
     },
   },
-  copy: {
-    ro: {
-      nav: [
-        { label: 'Meniu', href: '/meniu/' },
-        { label: 'Despre', href: '/#poveste' },
-        { label: 'Din bucătăria noastră', href: '/#preparat' },
-        { label: 'Contact', href: '/#vizita' },
-      ],
-      menu: {
-        eyebrow: 'Meniu',
-        title: 'Meniu Restaurant Casa Rusu',
-        body: 'Răsfoiește meniul nostru, de la aperitive la deserturi și băuturi. Alege o pagină sau citește preparatele și prețurile pe îndelete.',
-        seo: {
-          title: 'Meniu Restaurant Casa Rusu Codlea | Preparate și prețuri',
-          description: 'Descoperă meniul Restaurant Casa Rusu din Codlea: aperitive, paste, pește, preparate la grătar, deserturi și băuturi, cu ingrediente, cantități și prețuri în lei.',
-        },
-        dishAction: 'Vezi preparatul',
-        backAction: 'Înapoi la meniu',
-        offer: {
-          eyebrow: 'Ofertă publicată · valabilă până la 30 noiembrie 2026',
-          title: '3 cocktailuri + 1 din partea casei',
-          body: 'Comandă trei cocktailuri din selecție și îl primești gratuit pe al patrulea:',
-          cocktails: ['Disaronno Sour', 'PornStar Martini', 'Aperol Vanilla Sour'],
-          callAction: 'Sună pentru detalii și rezervare',
-          sourceAction: 'Vezi oferta pe Facebook',
-        },
-      },
-      hero: {
-        eyebrow: 'Restaurant · Codlea',
-        title: 'Restaurant Casa Rusu în Codlea',
-        slogan: 'Gusturi care aduc oamenii împreună!',
-        description: 'Ne găsești pe Strada Laterală, nr. 42, în Codlea. Sună-ne și hai la masă!',
-        primaryAction: 'Sună-ne pentru o rezervare',
-        secondaryAction: 'Vezi locația',
-        imageAlt: 'Interiorul luminos al Restaurantului Casa Rusu din Codlea, cu mese pregătite și banchete verzi.',
-      },
-      story: {
-        title: 'La masă, cu oameni dragi.',
-        body: 'Meniul aduce ciorbe, gustări tradiționale, paste, pinsa, pește, carne și deserturi. Ciorbele pornesc de la 25 lei, pastele de la 33 lei, carnea de la 36 lei și peștele de la 55 lei. Platoul Boieresc Casa Rusu (2,4 kg, pentru patru persoane) costă 340 lei.',
-      },
-      dish: {
-        eyebrow: 'Din bucătăria noastră',
-        title: 'Șnițel din cotlet de porc cu os',
-        body: 'Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.',
-        seo: {
-          title: 'Șnițel din cotlet de porc cu os | Casa Rusu, Codlea',
-          description: 'Șnițel din cotlet de porc cu os, cu cartofi prăjiți cu pătrunjel, parmezan și usturoi. Sună la Restaurant Casa Rusu din Codlea pentru disponibilitate și preț.',
-        },
-        note: 'Sună-ne pentru disponibilitate și preț.',
-        menuListingLabel: 'În meniul tipărit',
-        menuListingNote: 'Meniul tipărit listează șnițelul separat de garnituri. Preparatul prezentat aici este servit cu cartofi prăjiți; sună-ne ca să confirmi prețul și disponibilitatea acestei serviri.',
-        menuListingAction: 'Vezi poziția în meniu',
-        imageAlt: 'Preparat Casa Rusu cu cotlet de porc, cartofi prăjiți și garnituri.',
-        action: 'Descoperă preparatul',
-      },
-      visit: {
-        titleFirst: 'Hai să ne',
-        titleSecond: 'întâlnim la masă!',
-        body: 'Sună-ne pentru o rezervare. Ne găsești pe Strada Laterală, nr. 42, în Codlea.',
-        addressLabel: 'Adresă',
-        phoneLabel: 'Telefon',
-        imageAlt: 'Firma Restaurantului Casa Rusu pe fațada clădirii, lângă numărul 42.',
-        hoursLabel: 'Program',
-        mapAction: 'Deschide harta',
-        reviewsAction: 'Citește recenziile pe Google',
-        openingStatus: {
-          open: 'Deschis acum',
-          closed: 'Închis acum',
-          closes: 'închide la {time}',
-          opens: 'se deschide {day} la {time}',
-          today: 'astăzi',
-          tomorrow: 'mâine',
-          regular: 'conform programului obișnuit',
-          weekdays: { Monday: 'luni', Tuesday: 'marți', Wednesday: 'miercuri', Thursday: 'joi', Friday: 'vineri', Saturday: 'sâmbătă', Sunday: 'duminică' },
-        },
-      },
-      footer: {
-        location: 'Codlea · România',
-        facebook: 'Facebook',
-        instagram: 'Instagram',
-      },
-    },
-    en: {
-      nav: [
-        { label: 'Menu', href: '/en/meniu/' },
-        { label: 'About', href: '/en/#poveste' },
-        { label: 'From our kitchen', href: '/en/#preparat' },
-        { label: 'Contact', href: '/en/#vizita' },
-      ],
-      menu: {
-        eyebrow: 'Menu',
-        title: 'Casa Rusu Restaurant Menu',
-        body: 'Browse our menu, from starters to desserts and drinks. Choose a page or take your time reading the dishes and prices in the original Romanian menu.',
-        seo: {
-          title: 'Casa Rusu Restaurant Menu in Codlea | Dishes & Prices',
-          description: 'Browse the Casa Rusu menu in Codlea: starters, pasta, fish, grilled dishes, desserts and drinks. Original Romanian menu with ingredients, portions and prices.',
-        },
-        dishAction: 'See the dish',
-        backAction: 'Back to menu',
-        offer: {
-          eyebrow: 'Published offer · valid through 30 November 2026',
-          title: '3 cocktails + 1 on the house',
-          body: 'Order three cocktails from this selection and get the fourth free:',
-          cocktails: ['Disaronno Sour', 'PornStar Martini', 'Aperol Vanilla Sour'],
-          callAction: 'Call for details and reservations',
-          sourceAction: 'See the offer on Facebook',
-        },
-      },
-      hero: {
-        eyebrow: 'Restaurant · Codlea',
-        title: 'Restaurant Casa Rusu in Codlea',
-        slogan: 'Flavours that bring people together!',
-        description: 'Find us at Strada Laterală 42 in Codlea. Call us and join us at the table!',
-        primaryAction: 'Call us to book a table',
-        secondaryAction: 'View location',
-        imageAlt: 'The bright interior of Restaurant Casa Rusu in Codlea, with set tables and green banquettes.',
-      },
-      story: {
-        title: 'Come for a good meal. Bring your favourite people.',
-        body: 'The menu brings together soups, traditional starters, pasta, pinsa, fish, meat dishes and desserts. Soups start at 25 lei, pasta at 33 lei, meat at 36 lei and fish at 55 lei. The Casa Rusu Boieresc platter (2.4 kg, for four) costs 340 lei.',
-      },
-      dish: {
-        eyebrow: 'From our kitchen',
-        title: 'Bone-in pork loin schnitzel',
-        body: 'We serve it with a hearty portion of fries topped with parsley, parmesan and garlic.',
-        seo: {
-          title: 'Bone-in Pork Loin Schnitzel | Casa Rusu, Codlea',
-          description: 'Bone-in pork loin schnitzel served with fries topped with parsley, parmesan and garlic. Call Restaurant Casa Rusu in Codlea to check availability and price.',
-        },
-        note: 'Call us to check availability and price.',
-        menuListingLabel: 'Printed menu listing',
-        menuListingNote: 'The printed menu lists the schnitzel separately from side dishes. The serving shown here comes with fries; call us to confirm the price and availability of this serving.',
-        menuListingAction: 'See this menu entry',
-        imageAlt: 'Casa Rusu dish with pork loin, fries and garnishes.',
-        action: 'Discover the dish',
-      },
-      visit: {
-        titleFirst: 'Let’s meet',
-        titleSecond: 'at the table!',
-        body: 'Call us to book a table. Find us at Strada Laterală 42 in Codlea.',
-        addressLabel: 'Address',
-        phoneLabel: 'Phone',
-        imageAlt: 'The Casa Rusu restaurant sign on the outside wall beside number 42.',
-        hoursLabel: 'Opening hours',
-        mapAction: 'Open in Google Maps',
-        reviewsAction: 'Read reviews on Google',
-        openingStatus: {
-          open: 'Open now',
-          closed: 'Closed now',
-          closes: 'closes at {time}',
-          opens: 'opens {day} at {time}',
-          today: 'today',
-          tomorrow: 'tomorrow',
-          regular: 'based on regular hours',
-          weekdays: { Monday: 'Monday', Tuesday: 'Tuesday', Wednesday: 'Wednesday', Thursday: 'Thursday', Friday: 'Friday', Saturday: 'Saturday', Sunday: 'Sunday' },
-        },
-      },
-      footer: {
-        location: 'Codlea · Romania',
-        facebook: 'Facebook',
-        instagram: 'Instagram',
-      },
-    },
-  },
+  copy: { ro: ro.copy, en: en.copy, it: it.copy, es: es.copy, fr: fr.copy, de: de.copy },
 } as const;
 
 export type SiteLocale = keyof typeof siteData.copy;

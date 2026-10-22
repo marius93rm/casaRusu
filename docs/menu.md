@@ -1,14 +1,14 @@
 # Menu Casa Rusu
 
-Le 14 immagini sono state fornite da Marius nella cartella `Desktop/menu` il 21 ottobre 2026. `src/data/menu.ts` conserva la corrispondenza con i nomi originali, l'ordine di lettura, le categorie RO/EN e la trascrizione di 200 voci. I JPEG in `public/images/menu/` sono copie integrali dei file ricevuti; i WebP sono varianti da 480, 800, 1200 e 1448 px, qualità 82. Tutte le pagine originali misurano 1448 × 2048 px. Gli asset sono già versionati: la build non richiede i file sul Desktop.
+Le 14 immagini sono state fornite da Marius nella cartella `Desktop/menu` il 21 ottobre 2026. `src/data/menu.ts` conserva la corrispondenza con i nomi originali, l'ordine di lettura, le categorie localizzate e la trascrizione originale di 200 voci. I JPEG in `public/images/menu/` sono copie integrali dei file ricevuti; i WebP sono varianti da 480, 800, 1200 e 1448 px, qualità 82. Tutte le pagine originali misurano 1448 × 2048 px. Gli asset sono già versionati: la build non richiede i file sul Desktop.
 
 ## Aggiornamenti dei contenuti
 
 - Conservare la corrispondenza fra originale e trascrizione: nomi, ingredienti, quantità e prezzi in lei.
-- La trascrizione rimane in romeno su entrambe le pagine, per scelta di Marius; UI e categorie sono localizzate. La lingua del testo originale è dichiarata con `lang="ro"`.
+- Dal 22/10/2026, su richiesta multilingua di Marius, la trascrizione è tradotta in EN/IT/ES/FR/DE oltre al romeno originale. `src/i18n/menu-translations.json` conserva le traduzioni di nomi, ingredienti e titoli; aggiornare tutte le lingue insieme alla fonte. I nomi originali sono mostrati sotto le traduzioni con `lang="ro"`; le liste dichiarano la lingua corrente. Le scansioni rimangono originali romene. Dettagli e verifiche in [Multilingua](i18n/README.md).
 - Il menu stampato indica “Limonadă 50ml” e quantità delle birre “0.33” senza unità. Questi valori sono riportati come ricevuti; non correggerli o convertirli senza una fonte aggiornata. Non dedurre allergeni, dati nutrizionali o disponibilità da un elenco ingredienti.
 - La scheda dello șnițel descrive un piatto con contorno; il menu elenca lo șnițel da 300g e i contorni separatamente. Non applicare il prezzo della sola voce alla combinazione descritta nella scheda speciale.
-- Quando cambia una pagina, aggiornare il JPEG, tutte le varianti e la relativa trascrizione; mantenere identificatori stabili per indice e ancore.
+- Quando cambia una pagina, aggiornare il JPEG, tutte le varianti, la relativa trascrizione e le traduzioni; mantenere identificatori stabili per indice e ancore.
 
 ## Comportamento
 

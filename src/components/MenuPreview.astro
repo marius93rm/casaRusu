@@ -2,7 +2,7 @@
 import Icon from './Icon.astro';
 import '../styles/menu.css';
 import { menuCopy, menuPages, menuSrcset } from '../data/menu';
-import { localizedPath } from '../i18n';
+import { getDictionary, localizedPath } from '../i18n';
 import type { SiteLocale } from '../data/site';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -13,7 +13,7 @@ const href = `${localizedPath('/meniu', locale)}/`;
 <section class="menu-preview" aria-labelledby="menu-preview-title">
   <div class="container menu-preview-inner">
     <div class="menu-preview-copy">
-      <p class="eyebrow">{locale === 'ro' ? 'Meniu Casa Rusu' : 'The Casa Rusu menu'}</p>
+      <p class="eyebrow">{getDictionary(locale).ui.menuEyebrow}</p>
       <h2 id="menu-preview-title">{copy.previewTitle}</h2>
       <p>{copy.previewBody}</p>
       <a class="button button-outline" href={href}>{copy.action}<Icon name="arrow" size={18} /></a>

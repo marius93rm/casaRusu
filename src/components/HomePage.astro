@@ -7,12 +7,13 @@ import MenuPreview from './MenuPreview.astro';
 import OpeningStatus from './OpeningStatus.astro';
 import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
-import { localizedPath } from '../i18n';
+import { getDictionary, localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 import { formatOpeningHours } from '../utils/openingHours';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const { ui } = getDictionary(locale);
 const seo = siteData.seo[locale];
 const socialImage = {
   src: siteData.media.cover,
@@ -66,7 +67,7 @@ const structuredData = {
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
   criticalImage={{ srcset: webpSrcset(siteData.media.cover, [640, 768, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-  <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
+  <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
 
   <main id="main-content" tabindex="-1">
@@ -191,7 +192,7 @@ const structuredData = {
             <div class="visit-detail">
               <span>{copy.visit.addressLabel}</span>
               <strong>{siteData.company.address}</strong>
-              <p>{siteData.company.postalCode} {siteData.company.city}, {locale === 'ro' ? 'România' : 'Romania'}</p>
+              <p>{siteData.company.postalCode} {siteData.company.city}, {ui.country}</p>
             </div>
             <div class="visit-detail">
               <span>{copy.visit.phoneLabel}</span>
@@ -214,7 +215,7 @@ const structuredData = {
   </main>
 
   <Footer {locale} />
-  <aside class="mobile-booking" aria-label={locale === 'ro' ? 'Rezervări' : 'Reservations'}>
+  <aside class="mobile-booking" aria-label={ui.reservations}>
     <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
       {copy.hero.primaryAction}<Icon name="phone" size={18} />
     </a>
