@@ -45,7 +45,7 @@ assert.equal(clearedMenuUrl.searchParams.get('source'), 'share', 'Clearing searc
 assert.equal(clearedMenuUrl.hash, '#menu-page-porc', 'Clearing search should preserve the selected scan');
 assert.match(transcriptSource, /searchParams\.get\(menuSearchQueryParam\)/, 'The menu should restore a shared query from its URL');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
-assert.match(transcriptSource, /if \(initialQuery !== null\) input\.dispatchEvent\(new Event\('input'\)\)/, 'A shared query should immediately restore its filtered results');
+assert.match(transcriptSource, /if \(initialQuery !== null\) \{\s*input\.dispatchEvent\(new Event\('input'\)\);\s*if \(initialQuery\.trim\(\) && !window\.location\.hash\) search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'A shared query should restore its results and bring them into view unless a fragment points elsewhere');
 assert.match(transcriptSource, /if \(searchShortcut\) searchShortcut\.hidden = false/, 'The menu search shortcut should appear only when the search enhancement is available');
 
 let originalItems;

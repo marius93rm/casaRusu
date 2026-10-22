@@ -131,6 +131,9 @@ const copy = menuCopy[locale];
         status.textContent = (search.dataset.searchManyResults ?? '').replace('{count}', String(resultCount));
       }
     });
-    if (initialQuery !== null) input.dispatchEvent(new Event('input'));
+    if (initialQuery !== null) {
+      input.dispatchEvent(new Event('input'));
+      if (initialQuery.trim() && !window.location.hash) search.scrollIntoView({ block: 'start' });
+    }
   }
 </script>
