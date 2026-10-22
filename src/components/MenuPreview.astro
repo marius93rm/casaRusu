@@ -21,6 +21,7 @@ const href = `${localizedPath('/meniu', locale)}/`;
     <a class="menu-preview-pages" href={href} aria-label={copy.action}>
       {[menuPages[0], menuPages[1]].map((page) => (
         <picture>
+          <source type="image/avif" srcset={menuSrcset(page, 'avif')} sizes="(max-width: 760px) 40vw, 280px" />
           <source type="image/webp" srcset={menuSrcset(page)} sizes="(max-width: 760px) 40vw, 280px" />
           <img src={`/images/menu/${page.id}-480.webp`} alt="" width={page.width} height={page.height} loading="lazy" decoding="async" />
         </picture>

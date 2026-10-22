@@ -6,7 +6,7 @@ const { page, index, locale, pageLabel, enlargeLabel } = Astro.props;
 const sizes = '(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1100px) 55vw, 550px';
 ---
 <picture>
-  {index === 0 && <source type="image/avif" srcset={menuSrcset(page, 'avif')} {sizes} />}
+  <source type="image/avif" srcset={menuSrcset(page, 'avif')} {sizes} />
   <source type="image/webp" srcset={menuSrcset(page)} {sizes} />
   <img src={`/images/menu/${page.id}-800.webp`} alt={`${pageLabel} ${index + 1}: ${page.title[locale]}. ${enlargeLabel}.`}
     width={page.width} height={page.height} loading={index === 0 ? 'eager' : 'lazy'}

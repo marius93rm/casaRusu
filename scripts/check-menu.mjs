@@ -45,7 +45,11 @@ for (const { file, html } of menus) {
   originalItems = transcript;
   for (const [, id] of slides) {
     assert.match(html, new RegExp(`href="#menu-page-${id}"`), `${file}: missing index link for ${id}`);
-    for (const filename of [`${id}.jpg`, ...[480, 800, 1200, 1448].map((width) => `${id}-${width}.webp`)]) {
+    assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${file}: missing responsive AVIF source for ${id}`);
+    for (const filename of [
+      `${id}.jpg`,
+      ...[480, 800, 1200, 1448].flatMap((width) => [`${id}-${width}.webp`, `${id}-${width}.avif`]),
+    ]) {
       assert.ok((await stat(path.join(dist, 'images/menu', filename))).size > 0, `Missing menu asset: ${filename}`);
     }
   }
@@ -62,6 +66,9 @@ for (const prefix of ['', 'en/']) {
   const hero = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1] ?? '';
   assert.ok(hero.includes(`href="${menuHref}"`), `${prefix || 'RO'} home: hero must link to localized menu`);
   assert.match(html, /id="menu-preview-title"/, 'Home needs its visual menu preview');
+  for (const id of ['coperta', 'aperitive']) {
+    assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${prefix || 'RO'} home: menu preview is missing AVIF for ${id}`);
+  }
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
 }
