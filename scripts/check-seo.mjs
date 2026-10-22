@@ -112,6 +112,9 @@ function normalizedText(value) {
 }
 
 async function getConfiguredSiteUrl() {
+  const environmentSiteUrl = process.env.SITE_URL?.trim();
+  if (environmentSiteUrl) return environmentSiteUrl;
+
   const source = await readFile(path.join(projectRoot, 'src/config/site.ts'), 'utf8');
   const match = source.match(/\bsiteUrl\s*:\s*(['"])(.*?)\1/s);
   if (!match) throw new Error('Non riesco a leggere siteConfig.seo.siteUrl come stringa letterale in src/config/site.ts.');
