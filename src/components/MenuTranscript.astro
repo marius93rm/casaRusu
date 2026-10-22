@@ -2,6 +2,7 @@
 import { menuPages, menuCopy } from '../data/menu';
 import { localizedMenuItem } from '../i18n/menu';
 import type { SiteLocale } from '../data/site';
+import Icon from './Icon.astro';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = menuCopy[locale];
@@ -39,6 +40,9 @@ const copy = menuCopy[locale];
     {menuPages.filter((page) => page.sections.length > 0).map((page) => (
       <details class="menu-transcript-page" id={`read-${page.id}`}>
         <summary>{page.title[locale]}</summary>
+        <a class="text-link menu-transcript-page-scan" href={`#menu-page-${page.id}`}>
+          {copy.scanPage}: {page.title[locale]}<Icon name="arrow" size={18} />
+        </a>
         <div class="menu-transcript-sections">
           {page.sections.map((section) => (
             <section class="menu-transcript-section" aria-label={section.title[locale]}>

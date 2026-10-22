@@ -141,6 +141,7 @@ export const ro = {
     "zoomOut": "Micșorează",
     "reset": "Încadrează pagina",
     "read": "Citește meniul",
+    "scanPage": "Vezi pagina scanată",
     "readTitle": "Meniul, pe îndelete",
     "readBody": "Preparatele, ingredientele, cantitățile și prețurile din meniul original, într-un format ușor de citit.",
     "languageNote": "Meniul este în limba română. Prețurile sunt în lei.",

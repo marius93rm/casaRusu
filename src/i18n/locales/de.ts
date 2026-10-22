@@ -143,6 +143,7 @@ export const de = {
     "zoomOut": "Verkleinern",
     "reset": "Seite einpassen",
     "read": "Speisekarte lesen",
+    "scanPage": "Diese Menüseite ansehen",
     "readTitle": "Die Speisekarte in Ruhe entdecken",
     "readBody": "Gerichte, Zutaten, Mengen und Preise der Originalkarte in einem gut lesbaren Format.",
     "languageNote": "Die Bilder zeigen die rumänische Originalkarte. Der folgende Text ist übersetzt; die Preise sind in rumänischen Lei angegeben.",

@@ -143,6 +143,7 @@ export const it = {
     "zoomOut": "Riduci",
     "reset": "Adatta alla pagina",
     "read": "Leggi il menu",
+    "scanPage": "Vedi la pagina del menu",
     "readTitle": "Il menu, con calma",
     "readBody": "Piatti, ingredienti, quantità e prezzi del menu originale in un formato facile da leggere.",
     "languageNote": "Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.",

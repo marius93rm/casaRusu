@@ -39,6 +39,7 @@ let originalItems;
 for (const { file, html } of menus) {
   const slides = [...html.matchAll(/<div\b[^>]*id="menu-page-([^"]+)"[^>]*>/g)];
   const enlargeLinks = [...html.matchAll(/<a\b[^>]*data-menu-enlarge[^>]*>/g)].map(([tag]) => tag);
+  const transcriptScanLinks = [...html.matchAll(/<a\b[^>]*class="[^"]*menu-transcript-page-scan[^"]*"[^>]*href="#menu-page-([^"]+)"[^>]*>/g)].map(([, id]) => id);
   const transcript = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
   assert.equal(slides.length, 14, `${file}: all 14 supplied pages must be rendered`);
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
@@ -50,6 +51,7 @@ for (const { file, html } of menus) {
   assert.equal(new Set(slides.map((match) => match[1])).size, 14, `${file}: page IDs must be unique`);
   assert.equal(transcript.length, 200, `${file}: all 200 printed items must be present in the static HTML`);
   assert.equal((html.match(/<details\b[^>]*id="read-/g) ?? []).length, 13, `${file}: all 13 content pages need a text alternative`);
+  assert.deepEqual(transcriptScanLinks, slides.slice(1).map(([, id]) => id), `${file}: every transcript page needs a link to its matching scan`);
   assert.match(html, /<search\b[^>]*aria-label="[^"]+"[^>]*hidden[^>]*data-menu-search/, `${file}: search should be available as progressive enhancement`);
   assert.match(html, /<label for="menu-dish-search">[^<]+<\/label>[\s\S]*?<input\b[^>]*type="search"[^>]*aria-controls="menu-transcript-pages"/, `${file}: search needs an associated label and results target`);
   assert.match(html, /data-menu-search-status[^>]*role="status"[^>]*aria-live="polite"/, `${file}: search results must be announced politely`);
