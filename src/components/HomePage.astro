@@ -63,7 +63,8 @@ const structuredData = {
 };
 ---
 
-<BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}>
+<BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
+  criticalImage={{ srcset: webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -89,6 +90,11 @@ const structuredData = {
 
         <figure class="hero-visual">
           <picture>
+            <source
+              type="image/avif"
+              srcset={webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920], 'avif')}
+              sizes={imageSizes}
+            />
             <source
               type="image/webp"
               srcset={webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920])}
@@ -120,6 +126,11 @@ const structuredData = {
       <div class="container dish-grid">
         <figure class="dish-visual">
           <picture>
+            <source
+              type="image/avif"
+              srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif')}
+              sizes={imageSizes}
+            />
             <source
               type="image/webp"
               srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920])}
@@ -155,6 +166,11 @@ const structuredData = {
         </div>
         <figure class="visit-visual">
           <picture>
+            <source
+              type="image/avif"
+              srcset={webpSrcset(siteData.media.exterior, [640, 960, 1280], 'avif')}
+              sizes={imageSizes}
+            />
             <source
               type="image/webp"
               srcset={webpSrcset(siteData.media.exterior, [640, 960, 1280])}

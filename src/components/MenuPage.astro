@@ -55,6 +55,11 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
           <a class="menu-feature-visual" href={dishHref} aria-label={`${copy.menu.dishAction}: ${copy.dish.title}`}>
             <picture>
               <source
+                type="image/avif"
+                srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif')}
+                sizes={imageSizes}
+              />
+            <source
                 type="image/webp"
                 srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920])}
                 sizes={imageSizes}
