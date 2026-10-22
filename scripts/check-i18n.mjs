@@ -12,8 +12,15 @@ function leaves(value, prefix = '') {
 }
 const base = new Map(leaves(dictionaries[defaultLocale]));
 const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
+const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
 assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
 assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
+assert.match(homeSource, /data-booking-primary/, 'The home page needs a primary booking action to observe');
+assert.match(homeSource, /data-mobile-booking hidden/, 'The duplicate home booking bar should start hidden');
+assert.match(homeSource, /getBoundingClientRect\(\)/, 'The mobile booking bar should follow the primary action position');
+assert.match(homeSource, /requestAnimationFrame/, 'The mobile booking position check should be coalesced to animation frames');
+assert.match(homeSource, /document\.addEventListener\('keydown', scheduleSync\)/, 'Keyboard navigation should refresh the mobile booking visibility');
+assert.match(homeSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');
 assert.deepEqual(Object.keys(dictionaries), [...locales], 'All supported languages need a dictionary');
 for (const locale of locales) {
   const dictionary = dictionaries[locale];
@@ -41,6 +48,8 @@ for (const locale of locales) {
       for (const id of ['poveste', 'preparat', 'vizita']) {
         assert.match(html, new RegExp(`<section\\b(?=[^>]*\\bid="${id}")(?=[^>]*\\btabindex="-1")[^>]*>`), `${locale}: in-page navigation target ${id} must be programmatically focusable`);
       }
+      assert.match(html, /<a\b(?=[^>]*data-booking-primary)[^>]*>/, `${locale}: home primary booking action must be identifiable`);
+      assert.match(html, /<aside\b(?=[^>]*data-mobile-booking)(?=[^>]*\bhidden)[^>]*>/, `${locale}: duplicate home booking bar must be hidden until needed`);
     }
     assert.ok(html.includes(`property="og:locale" content="${socialLocales[locale]}"`));
     const switchers = [...html.matchAll(/<details\b[^>]*data-language-switcher[^>]*>([\s\S]*?)<\/details>/g)];

@@ -79,7 +79,7 @@ const structuredData = {
           <p class="hero-slogan">{copy.hero.slogan}</p>
           <p class="hero-description">{copy.hero.description}</p>
           <div class="hero-actions">
-            <a class="button button-primary" href={siteData.company.phoneHref}>
+            <a class="button button-primary" href={siteData.company.phoneHref} data-booking-primary>
               {copy.hero.primaryAction}<Icon name="phone" size={18} />
             </a>
             <a class="button button-outline" href={`${localizedPath('/meniu', locale)}/`}>
@@ -215,9 +215,46 @@ const structuredData = {
   </main>
 
   <Footer {locale} />
-  <aside class="mobile-booking" aria-label={ui.reservations}>
+  <aside class="mobile-booking" aria-label={ui.reservations} data-mobile-booking hidden>
     <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
       {copy.hero.primaryAction}<Icon name="phone" size={18} />
     </a>
   </aside>
 </BaseLayout>
+
+<script is:inline>
+  (() => {
+    const mobileBooking = document.querySelector('[data-mobile-booking]');
+    const primaryBooking = document.querySelector('[data-booking-primary]');
+    if (!(mobileBooking instanceof HTMLElement) || !(primaryBooking instanceof HTMLAnchorElement)) return;
+
+    const mobileViewport = window.matchMedia('(max-width: 760px)');
+    const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    let syncFrame = 0;
+    const syncMobileBooking = () => {
+      const rect = primaryBooking.getBoundingClientRect();
+      const visibleAboveBookingBar = rect.bottom > rootFontSize * 5
+        && rect.top < window.innerHeight - rootFontSize * 4
+        && rect.right > 0
+        && rect.left < window.innerWidth;
+      const shouldHide = mobileViewport.matches && visibleAboveBookingBar
+        && !mobileBooking.contains(document.activeElement);
+      mobileBooking.hidden = shouldHide;
+    };
+    const scheduleSync = () => {
+      if (syncFrame) return;
+      syncFrame = window.requestAnimationFrame(() => {
+        syncFrame = 0;
+        syncMobileBooking();
+      });
+    };
+
+    window.addEventListener('scroll', scheduleSync, { passive: true });
+    window.addEventListener('resize', scheduleSync, { passive: true });
+    document.addEventListener('keydown', scheduleSync);
+    document.addEventListener('focusin', scheduleSync);
+    document.addEventListener('focusout', scheduleSync, true);
+    mobileViewport.addEventListener('change', scheduleSync);
+    syncMobileBooking();
+  })();
+</script>
