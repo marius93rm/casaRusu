@@ -41,9 +41,14 @@ const homeHref = localizedPath('/', locale);
     <nav id="main-navigation" class="main-navigation" aria-label={dictionary.ui.mainNavigation}>
       {navigation.length > 0 && (
         <ul>
-          {navigation.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
+          {navigation.map((item) => {
+            const target = new URL(item.href, Astro.url);
+            const isCurrentPage = !target.hash && target.pathname === Astro.url.pathname;
+
+            return (
+              <li><a href={item.href} aria-current={isCurrentPage ? 'page' : undefined}>{item.label}</a></li>
+            );
+          })}
         </ul>
       )}
 

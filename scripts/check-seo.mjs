@@ -191,6 +191,27 @@ async function main() {
       report(relativeFile, `lang="${htmlTag.attributes.lang}" non corrisponde alla lingua attesa "${expectedLanguage}".`);
     }
 
+    const primaryNavigationMatch = html.match(/<nav\b(?=[^>]*\bid=["']main-navigation["'])[^>]*>\s*<ul>([\s\S]*?)<\/ul>/i);
+    if (!primaryNavigationMatch) {
+      report(relativeFile, 'lista della navigazione principale mancante.');
+    } else {
+      const primaryLinks = [...primaryNavigationMatch[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
+        .map(([, rawAttributes]) => parseAttributes(rawAttributes));
+      const expectedMenuPath = expectedLanguage === 'en' ? '/en/meniu/' : '/meniu/';
+      const menuLink = primaryLinks.find((attributes) => attributes.href === expectedMenuPath);
+      const shouldMarkMenuCurrent = route === expectedMenuPath;
+
+      if (!menuLink) report(relativeFile, `link ${expectedMenuPath} mancante nella navigazione principale.`);
+      else if ((menuLink['aria-current'] === 'page') !== shouldMarkMenuCurrent) {
+        report(relativeFile, `aria-current del link ${expectedMenuPath} non corrisponde alla rotta ${route}.`);
+      }
+
+      const currentPages = primaryLinks.filter((attributes) => attributes['aria-current'] === 'page');
+      if (currentPages.length !== Number(shouldMarkMenuCurrent)) {
+        report(relativeFile, `atteso ${Number(shouldMarkMenuCurrent)} link corrente nella navigazione principale, trovati ${currentPages.length}.`);
+      }
+    }
+
     if (titleMatches.length !== 1 || !metadata.title) report(relativeFile, `atteso un solo <title> non vuoto, trovati ${titleMatches.length}.`);
     for (const [name, value] of Object.entries(metadata).slice(1)) {
       const isOpenGraph = name === 'ogTitle' || name === 'ogDescription';

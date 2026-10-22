@@ -126,6 +126,12 @@ h1, h2, h3 {
   transition: color 180ms ease;
 }
 .main-navigation ul a:hover { color: var(--accent); }
+.main-navigation ul a[aria-current='page'] {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: .35rem;
+}
 .header-actions { gap: 1.5rem; }
 .language-switcher { display: flex; align-items: center; gap: .6rem; }
 .language-switcher a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); font-size: .7rem; }
