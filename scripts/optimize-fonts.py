@@ -6,6 +6,7 @@ Run from the repository root: python scripts/optimize-fonts.py
 from pathlib import Path
 from fontTools import subset
 from fontTools.ttLib import TTFont
+from fontTools.varLib.instancer import instantiateVariableFont
 
 source = Path('public/fonts')
 destination = source / 'optimized'
@@ -22,6 +23,8 @@ for name in ['dm-sans', 'cormorant-garamond', 'cormorant-garamond-italic']:
         subsetter = subset.Subsetter(options=options)
         subsetter.populate(unicodes=characters)
         subsetter.subset(font)
+        if 'fvar' in font:
+            instantiateVariableFont(font, {'wght': (400, 700) if name == 'dm-sans' else (400, 500)}, inplace=True)
         output = destination / original.name
         font.save(output)
         print(f'{output}: {original.stat().st_size} → {output.stat().st_size} bytes')

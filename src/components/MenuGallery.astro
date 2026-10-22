@@ -1,7 +1,8 @@
 ---
 import Icon from './Icon.astro';
+import MenuPageImage from './MenuPageImage.astro';
 import '../styles/menu.css';
-import { menuPages, menuCopy, menuSrcset } from '../data/menu';
+import { menuPages, menuCopy } from '../data/menu';
 import type { SiteLocale } from '../data/site';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -40,12 +41,12 @@ const copy = menuCopy[locale];
           data-label={page.title[locale]} role="group" aria-roledescription={locale === 'ro' ? 'pagină' : 'slide'}
           aria-label={`${index + 1} ${copy.of} ${menuPages.length}: ${page.title[locale]}`}>
           <a class="menu-page-image" href={page.image} data-menu-enlarge>
-            <picture>
-              <source type="image/webp" srcset={menuSrcset(page)} sizes="(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1100px) 55vw, 550px" />
-              <img src={`/images/menu/${page.id}-800.webp`} alt={`${copy.page} ${index + 1}: ${page.title[locale]}. ${copy.enlarge}.`}
-                width={page.width} height={page.height} loading={index === 0 ? 'eager' : 'lazy'}
-                fetchpriority={index === 0 ? 'high' : 'low'} decoding="async" />
-            </picture>
+            {index === 0
+              ? <MenuPageImage {page} {index} {locale} pageLabel={copy.page} enlargeLabel={copy.enlarge} />
+              : <>
+                  <template data-menu-picture><MenuPageImage {page} {index} {locale} pageLabel={copy.page} enlargeLabel={copy.enlarge} /></template>
+                  <noscript><MenuPageImage {page} {index} {locale} pageLabel={copy.page} enlargeLabel={copy.enlarge} /></noscript>
+                </>}
           </a>
           <div class="menu-slide-fallback" hidden>
             <p>{copy.fallback}</p><a href={page.image}>{copy.original}</a>
@@ -104,6 +105,21 @@ const copy = menuCopy[locale];
     let opener: HTMLElement | null = null;
     let previousOverflow = '';
 
+    const ensureSlide = (index: number, priority: 'high' | 'low' = 'high') => {
+      const slide = slides[index];
+      if (!slide) return;
+      const template = slide.querySelector<HTMLTemplateElement>('[data-menu-picture]');
+      if (template) {
+        template.replaceWith(template.content.cloneNode(true));
+        const image = slide.querySelector('img')!;
+        image.loading = 'eager';
+        image.fetchPriority = priority;
+        image.addEventListener('error', () => {
+          slide.querySelector<HTMLElement>('.menu-slide-fallback')!.hidden = false;
+        });
+      }
+    };
+
     const update = (index: number, announce = true) => {
       current = index;
       links.forEach((link, i) => {
@@ -119,12 +135,19 @@ const copy = menuCopy[locale];
       next.disabled = index === slides.length - 1;
       count.textContent = String(index + 1).padStart(2, '0');
       if (announce) announcement.textContent = `${gallery.dataset.pageLabel} ${index + 1} ${gallery.dataset.ofLabel} ${slides.length}: ${slides[index].dataset.label}`;
-      // Start loading the neighbour before the next swipe, without fetching originals.
-      const neighbour = slides[index + 1]?.querySelector('img');
-      if (neighbour) neighbour.loading = 'eager';
+      ensureSlide(index);
+      // Fetch the neighbour after the current image has finished, at idle priority.
+      const image = slides[index].querySelector('img')!;
+      const preload = () => {
+        if ('requestIdleCallback' in window) window.requestIdleCallback(() => ensureSlide(index + 1, 'low'), { timeout: 1500 });
+        else setTimeout(() => ensureSlide(index + 1, 'low'), 500);
+      };
+      if (image.complete) preload();
+      else image.addEventListener('load', preload, { once: true });
     };
     const go = (index: number, smooth = true) => {
       const bounded = Math.max(0, Math.min(slides.length - 1, index));
+      ensureSlide(bounded);
       const left = slides[bounded].getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
       track.scrollTo({ left, behavior: smooth && !reducedMotion.matches ? 'smooth' : 'instant' });
     };
@@ -155,7 +178,8 @@ const copy = menuCopy[locale];
       });
     }, { passive: true });
     slides.forEach((slide) => {
-      const image = slide.querySelector('img')!;
+      const image = slide.querySelector('img');
+      if (!image) return;
       const failed = () => { slide.querySelector<HTMLElement>('.menu-slide-fallback')!.hidden = false; };
       image.addEventListener('error', failed);
       if (image.complete && !image.naturalWidth) failed();

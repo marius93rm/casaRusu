@@ -276,8 +276,8 @@ export const menuPages: MenuPage[] = [
   ]),
 ];
 
-export const menuSrcset = (page: MenuPage) => [480, 800, 1200, 1448]
-  .map((width) => `/images/menu/${page.id}-${width}.webp ${width}w`).join(', ');
+export const menuSrcset = (page: MenuPage, format: 'webp' | 'avif' = 'webp') => [480, 800, 1200, 1448]
+  .map((width) => `/images/menu/${page.id}-${width}.${format} ${width}w`).join(', ');
 
 export const menuCopy = {
   ro: {

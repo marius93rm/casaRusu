@@ -6,7 +6,7 @@ import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
 import MenuGallery from './MenuGallery.astro';
 import MenuTranscript from './MenuTranscript.astro';
-import { menuCopy } from '../data/menu';
+import { menuCopy, menuPages, menuSrcset } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { localizedPath } from '../i18n';
 import { imageSizes, webpSrcset } from '../utils/responsiveImages';
@@ -26,6 +26,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 ---
 
 <BaseLayout
+  criticalImage={{ srcset: menuSrcset(menuPages[0], 'avif'), sizes: '(max-width: 760px) calc(100vw - 2.5rem), (max-width: 1100px) 55vw, 550px', type: 'image/avif' }}
   lang={locale}
   title={copy.menu.seo.title}
   description={copy.menu.seo.description}
@@ -56,7 +57,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
             <picture>
               <source
                 type="image/avif"
-                srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif')}
+                srcset={webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif')}
                 sizes={imageSizes}
               />
             <source

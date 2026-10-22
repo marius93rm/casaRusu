@@ -14,24 +14,32 @@ if (!version.ok || !(await version.json()).webSocketDebuggerUrl) throw new Error
 const origin = process.env.AUDIT_ORIGIN || 'http://127.0.0.1:4325';
 const routes = ['/', '/en/', '/meniu/', '/en/meniu/', '/preparate/snitel-cotlet-porc/', '/en/preparate/snitel-cotlet-porc/'];
 const directory = 'reports/lighthouse';
+const attempts = 3;
 await mkdir(directory, { recursive: true });
 const summary = [];
 let failed = false;
 for (const profile of ['mobile', 'desktop']) {
   for (const route of routes) {
     const name = `${profile}-${route === '/' ? 'home' : route.replaceAll('/', '-').replace(/^-|-$/g, '')}`;
-    const result = await lighthouse(new URL(route, origin).href, {
-      port, hostname: '127.0.0.1', logLevel: 'error', output: ['html', 'json'],
-      onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-    }, profile === 'desktop' ? desktopConfig : undefined);
-    if (!result || result.lhr.runtimeError) throw new Error(`${name}: ${result?.lhr.runtimeError?.message || 'no report'}`);
-    await writeFile(`${directory}/${name}.html`, result.report[0]);
-    await writeFile(`${directory}/${name}.json`, result.report[1]);
-    const scores = Object.fromEntries(Object.entries(result.lhr.categories).map(([key, category]) => [key, Math.round(category.score * 100)]));
-    const failures = Object.values(result.lhr.audits).filter(a => a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'informative').map(a => ({ id: a.id, title: a.title, displayValue: a.displayValue }));
-    summary.push({ profile, route, scores, failures });
-    console.log(JSON.stringify({ profile, route, scores }));
-    if (Object.values(scores).some(score => score < 100)) failed = true;
+    const runs = [];
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      const result = await lighthouse(new URL(route, origin).href, {
+        port, hostname: '127.0.0.1', logLevel: 'error', output: ['html', 'json'],
+        onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+      }, profile === 'desktop' ? desktopConfig : undefined);
+      if (!result || result.lhr.runtimeError) throw new Error(`${name}: ${result?.lhr.runtimeError?.message || 'no report'}`);
+      await writeFile(`${directory}/${name}-${attempt}.html`, result.report[0]);
+      await writeFile(`${directory}/${name}-${attempt}.json`, result.report[1]);
+      const scores = Object.fromEntries(Object.entries(result.lhr.categories).map(([key, category]) => [key, Math.round(category.score * 100)]));
+      const failures = Object.values(result.lhr.audits).filter(a => a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'informative').map(a => ({ id: a.id, title: a.title, displayValue: a.displayValue }));
+      runs.push({ attempt, scores, failures });
+      console.log(JSON.stringify({ profile, route, attempt, scores }));
+    }
+    // Keep every report. Use the median of three cold-cache runs, not the best run.
+    const scores = Object.fromEntries(Object.keys(runs[0].scores).map(key => [key, runs.map(run => run.scores[key]).sort((a, b) => a - b)[1]]));
+    summary.push({ profile, route, scores, runs });
+    if (Object.values(scores).some(score => score < 100)
+      || runs.some(run => ['accessibility', 'best-practices', 'seo'].some(key => run.scores[key] < 100))) failed = true;
   }
 }
 await writeFile(`${directory}/summary.json`, JSON.stringify(summary, null, 2));

@@ -64,7 +64,7 @@ const structuredData = {
 ---
 
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
-  criticalImage={{ srcset: webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}>
+  criticalImage={{ srcset: webpSrcset(siteData.media.cover, [640, 768, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -92,7 +92,7 @@ const structuredData = {
           <picture>
             <source
               type="image/avif"
-              srcset={webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920], 'avif')}
+              srcset={webpSrcset(siteData.media.cover, [640, 768, 960, 1280, 1600, 1920], 'avif')}
               sizes={imageSizes}
             />
             <source
@@ -128,7 +128,7 @@ const structuredData = {
           <picture>
             <source
               type="image/avif"
-              srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif')}
+              srcset={webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif')}
               sizes={imageSizes}
             />
             <source
@@ -168,7 +168,7 @@ const structuredData = {
           <picture>
             <source
               type="image/avif"
-              srcset={webpSrcset(siteData.media.exterior, [640, 960, 1280], 'avif')}
+              srcset={webpSrcset(siteData.media.exterior, [640, 768, 960, 1280], 'avif')}
               sizes={imageSizes}
             />
             <source

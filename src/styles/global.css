@@ -23,14 +23,14 @@
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 400 500;
   font-display: swap;
   src: url('/fonts/optimized/cormorant-garamond-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 400 500;
   font-display: swap;
   src: url('/fonts/optimized/cormorant-garamond-latin-ext.woff2') format('woff2');
   unicode-range: U+0102-0103, U+015E-015F, U+0162-0163, U+0218-021B;

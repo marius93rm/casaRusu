@@ -24,7 +24,7 @@ const menuHref = localizedPath('/meniu', locale);
   title={copy.dish.seo.title}
   description={copy.dish.seo.description}
   {socialImage}
-  criticalImage={{ srcset: webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}
+  criticalImage={{ srcset: webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}
 >
   <a class="skip-link" href="#main-content">{locale === 'ro' ? 'Sari la conținut' : 'Skip to content'}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -38,7 +38,7 @@ const menuHref = localizedPath('/meniu', locale);
             <picture>
               <source
                 type="image/avif"
-                srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920], 'avif')}
+                srcset={webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif')}
                 sizes={imageSizes}
               />
             <source
