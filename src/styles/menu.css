@@ -59,6 +59,13 @@
 .menu-transcript-heading h2, .menu-extras-heading h2 { margin-bottom: 1.2rem; font-size: clamp(2.4rem, 4vw, 3.5rem); }
 .menu-transcript-heading > p:not(.eyebrow) { color: var(--muted); font-size: .9rem; }
 .menu-transcript-heading .menu-language-note { margin-top: .75rem; font-size: .8rem; }
+.menu-search { display: grid; gap: .45rem; max-width: 34rem; margin-bottom: 1.5rem; }
+.menu-search[hidden] { display: none; }
+.menu-search label { color: var(--primary); font-size: .85rem; font-weight: 600; }
+.menu-search input { width: 100%; min-height: 48px; padding: .65rem .8rem; border: 1px solid var(--border); border-radius: 0; background: var(--background); color: var(--text); font: inherit; font-size: .95rem; }
+.menu-search input::placeholder { color: var(--muted); opacity: 1; }
+.menu-search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.menu-search-status { min-height: 1.5em; color: var(--muted); font-size: .85rem; }
 .menu-transcript-page { border-bottom: 1px solid var(--border); scroll-margin-block-start: 7rem; }
 .menu-transcript-page:first-child { border-top: 1px solid var(--border); }
 .menu-transcript-page summary { position: relative; display: list-item; min-height: 60px; padding: 1rem 3rem 1rem .5rem; color: var(--primary); font-size: 1rem; cursor: pointer; }

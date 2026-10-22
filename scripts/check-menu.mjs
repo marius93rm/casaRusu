@@ -17,6 +17,9 @@ for (const { file, html } of menus) {
   assert.equal(new Set(slides.map((match) => match[1])).size, 14, `${file}: page IDs must be unique`);
   assert.equal(transcript.length, 200, `${file}: all 200 printed items must be present in the static HTML`);
   assert.equal((html.match(/<details\b[^>]*id="read-/g) ?? []).length, 13, `${file}: all 13 content pages need a text alternative`);
+  assert.match(html, /<search\b[^>]*aria-label="[^"]+"[^>]*hidden[^>]*data-menu-search/, `${file}: search should be available as progressive enhancement`);
+  assert.match(html, /<label for="menu-dish-search">[^<]+<\/label>[\s\S]*?<input\b[^>]*type="search"[^>]*aria-controls="menu-transcript-pages"/, `${file}: search needs an associated label and results target`);
+  assert.match(html, /data-menu-search-status[^>]*role="status"[^>]*aria-live="polite"/, `${file}: search results must be announced politely`);
   assert.match(html, /<ul lang="ro">/, `${file}: original Romanian content needs its language declared`);
   assert.doesNotMatch(html, /Meniul complet urmează|full menu (?:is )?coming soon/i, `${file}: outdated placeholder`);
   assert.match(html, /href="\/(?:en\/)?preparate\/snitel-cotlet-porc\/?"/, `${file}: keep the special dish page linked`);
@@ -44,4 +47,4 @@ for (const prefix of ['', 'en/']) {
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, asset responsive, collegamenti home e schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile, asset responsive, collegamenti home e schede speciali.');

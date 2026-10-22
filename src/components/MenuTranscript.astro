@@ -13,7 +13,28 @@ const copy = menuCopy[locale];
     <p>{copy.readBody}</p>
     <p class="menu-language-note">{copy.languageNote}</p>
   </header>
-  <div class="menu-transcript-pages">
+  <search
+    class="menu-search"
+    aria-label={copy.searchLandmark}
+    data-search-no-results={copy.searchNoResults}
+    data-search-one-result={copy.searchOneResult}
+    data-search-many-results={copy.searchManyResults}
+    hidden
+    data-menu-search
+  >
+    <label for="menu-dish-search">{copy.searchLabel}</label>
+    <input
+      id="menu-dish-search"
+      type="search"
+      placeholder={copy.searchPlaceholder}
+      aria-describedby="menu-search-hint"
+      aria-controls="menu-transcript-pages"
+      data-menu-search-input
+    />
+    <p class="visually-hidden" id="menu-search-hint">{copy.searchHint}</p>
+    <p class="menu-search-status" data-menu-search-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
+  </search>
+  <div class="menu-transcript-pages" id="menu-transcript-pages">
     {menuPages.filter((page) => page.sections.length > 0).map((page) => (
       <details class="menu-transcript-page" id={`read-${page.id}`}>
         <summary>{page.title[locale]}</summary>
@@ -37,3 +58,64 @@ const copy = menuCopy[locale];
     ))}
   </div>
 </section>
+
+<script>
+  const search = document.querySelector<HTMLElement>('[data-menu-search]');
+  if (search) {
+    const input = search.querySelector<HTMLInputElement>('[data-menu-search-input]')!;
+    const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
+    const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => ({
+      page,
+      items: [...page.querySelectorAll<HTMLElement>('[data-menu-item]')],
+      sections: [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')],
+    }));
+    const normalize = (value: string) => value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLocaleLowerCase();
+
+    search.hidden = false;
+    input.addEventListener('input', () => {
+      const query = normalize(input.value.trim());
+      let resultCount = 0;
+
+      pages.forEach(({ page, items, sections }) => {
+        let pageResultCount = 0;
+        items.forEach((item) => {
+          const section = item.closest('.menu-transcript-section');
+          const sectionTitle = section?.querySelector('h3')?.textContent ?? '';
+          const pageTitle = page.querySelector('summary')?.textContent ?? '';
+          const matches = !query || normalize(`${item.textContent} ${sectionTitle} ${pageTitle}`).includes(query);
+          item.hidden = !matches;
+          if (matches) {
+            pageResultCount += 1;
+            resultCount += 1;
+          }
+        });
+
+        sections.forEach((section) => {
+          section.hidden = !section.querySelector('[data-menu-item]:not([hidden])');
+        });
+
+        if (query) {
+          page.hidden = pageResultCount === 0;
+          page.open = pageResultCount > 0;
+        } else {
+          page.hidden = false;
+          page.open = false;
+        }
+      });
+
+      status.hidden = !query;
+      if (!query) {
+        status.textContent = '';
+      } else if (resultCount === 0) {
+        status.textContent = search.dataset.searchNoResults ?? '';
+      } else if (resultCount === 1) {
+        status.textContent = search.dataset.searchOneResult ?? '';
+      } else {
+        status.textContent = (search.dataset.searchManyResults ?? '').replace('{count}', String(resultCount));
+      }
+    });
+  }
+</script>
