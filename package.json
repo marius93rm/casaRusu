@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
     "dev": "astro dev --host 0.0.0.0",
     "check": "astro check",
     "build": "astro check && astro build && npm run check:seo && npm run check:menu && npm run check:hours",
@@ -19,9 +20,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "axe-core": "4.14.0",
+    "lighthouse": "13.5.0",
     "typescript": "6.0.3"
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.19.0"
   }
 }
