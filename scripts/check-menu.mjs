@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { normalizeMenuSearchText } from '../src/utils/menuSearch.mjs';
+import { menuSearchMatches, normalizeMenuSearchText } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -13,6 +13,13 @@ const menus = await Promise.all(['meniu/index.html', 'en/meniu/index.html'].map(
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
 assert.notEqual('ITALIAN'.toLocaleLowerCase('tr'), normalizeMenuSearchText('ITALIAN'), 'Locale-neutral normalization should remain stable under Turkish case rules');
+const sampleMenuItem = 'Salată „Casa Rusu” · piept de rață afumat, mixt salată · 69 lei · 420g · Salate · Meniul';
+assert.ok(menuSearchMatches('SALATA', sampleMenuItem), 'Search should match dish names with case and diacritic differences');
+assert.ok(menuSearchMatches('rata afumat', sampleMenuItem), 'Search should match ingredients without Romanian diacritics');
+assert.ok(menuSearchMatches('Salate', sampleMenuItem), 'Search should match a category');
+assert.ok(menuSearchMatches('69 lei', sampleMenuItem), 'Search should match a price');
+assert.ok(menuSearchMatches('  ', sampleMenuItem), 'An empty search should keep all menu items');
+assert.equal(menuSearchMatches('not in this menu', sampleMenuItem), false, 'Search should reject non-matching text');
 
 let originalItems;
 for (const { file, html } of menus) {
@@ -52,4 +59,4 @@ for (const prefix of ['', 'en/']) {
   assert.ok(html.includes(`href="/${prefix}preparate/snitel-cotlet-porc"`), 'Home must retain the special dish link');
   await stat(path.join(dist, prefix, 'preparate/snitel-cotlet-porc/index.html'));
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile e normalizzazione stabile, asset responsive, collegamenti home e schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci RO identiche nelle due lingue, ricerca accessibile e verificata, asset responsive, collegamenti home e schede speciali.');

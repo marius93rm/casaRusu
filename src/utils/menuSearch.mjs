@@ -4,3 +4,8 @@ export function normalizeMenuSearchText(value) {
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
 }
+
+export function menuSearchMatches(query, searchableText) {
+  const normalizedQuery = normalizeMenuSearchText(query.trim());
+  return !normalizedQuery || normalizeMenuSearchText(searchableText).includes(normalizedQuery);
+}

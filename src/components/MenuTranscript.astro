@@ -60,7 +60,7 @@ const copy = menuCopy[locale];
 </section>
 
 <script>
-  import { normalizeMenuSearchText } from '../utils/menuSearch.mjs';
+  import { menuSearchMatches, normalizeMenuSearchText } from '../utils/menuSearch.mjs';
 
   const search = document.querySelector<HTMLElement>('[data-menu-search]');
   if (search) {
@@ -82,7 +82,7 @@ const copy = menuCopy[locale];
           const section = item.closest('.menu-transcript-section');
           const sectionTitle = section?.querySelector('h3')?.textContent ?? '';
           const pageTitle = page.querySelector('summary')?.textContent ?? '';
-          const matches = !query || normalizeMenuSearchText(`${item.textContent} ${sectionTitle} ${pageTitle}`).includes(query);
+          const matches = menuSearchMatches(query, `${item.textContent} ${sectionTitle} ${pageTitle}`);
           item.hidden = !matches;
           if (matches) {
             pageResultCount += 1;
