@@ -69,7 +69,7 @@ const copy = menuCopy[locale];
 </section>
 
 <script>
-  import { menuSearchMatches, normalizeMenuSearchText } from '../utils/menuSearch.mjs';
+  import { menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, updateMenuSearchUrl } from '../utils/menuSearch.mjs';
 
   const search = document.querySelector<HTMLElement>('[data-menu-search]');
   if (search) {
@@ -80,8 +80,14 @@ const copy = menuCopy[locale];
       items: [...page.querySelectorAll<HTMLElement>('[data-menu-item]')],
       sections: [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')],
     }));
+    const initialQuery = new URL(window.location.href).searchParams.get(menuSearchQueryParam);
+    input.value = initialQuery ?? '';
     search.hidden = false;
     input.addEventListener('input', () => {
+      const currentUrl = window.location.href;
+      const nextUrl = updateMenuSearchUrl(currentUrl, input.value);
+      if (nextUrl.href !== currentUrl) window.history.replaceState(window.history.state, '', nextUrl.href);
+
       const query = normalizeMenuSearchText(input.value.trim());
       let resultCount = 0;
 
@@ -123,5 +129,6 @@ const copy = menuCopy[locale];
         status.textContent = (search.dataset.searchManyResults ?? '').replace('{count}', String(resultCount));
       }
     });
+    if (initialQuery !== null) input.dispatchEvent(new Event('input'));
   }
 </script>

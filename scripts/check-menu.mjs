@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { menuSearchMatches, normalizeMenuSearchText } from '../src/utils/menuSearch.mjs';
+import { menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -11,6 +11,7 @@ const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}men
   file, html: await readFile(path.join(dist, file), 'utf8'),
 })));
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
+const transcriptSource = await readFile(path.join(root, 'src/components/MenuTranscript.astro'), 'utf8');
 
 assert.match(gallerySource, /window\.history\.pushState/, 'Explicit menu navigation must create a shareable history entry');
 assert.match(gallerySource, /window\.history\.replaceState/, 'Swipe navigation must update the shareable page without flooding browser history');
@@ -34,6 +35,17 @@ assert.ok(menuSearchMatches('Salate', sampleMenuItem), 'Search should match a ca
 assert.ok(menuSearchMatches('69 lei', sampleMenuItem), 'Search should match a price');
 assert.ok(menuSearchMatches('  ', sampleMenuItem), 'An empty search should keep all menu items');
 assert.equal(menuSearchMatches('not in this menu', sampleMenuItem), false, 'Search should reject non-matching text');
+const sharedMenuUrl = updateMenuSearchUrl('https://example.test/en/meniu/?lang=en&source=share#menu-page-porc', '  afumat rata  ');
+assert.equal(sharedMenuUrl.searchParams.get(menuSearchQueryParam), 'afumat rata', 'Search should normalize surrounding whitespace in its share URL');
+assert.equal(sharedMenuUrl.searchParams.get('lang'), 'en', 'Search URL updates should preserve unrelated query parameters');
+assert.equal(sharedMenuUrl.hash, '#menu-page-porc', 'Search URL updates should preserve the selected scan');
+const clearedMenuUrl = updateMenuSearchUrl(sharedMenuUrl.href, '  ');
+assert.equal(clearedMenuUrl.searchParams.has(menuSearchQueryParam), false, 'Clearing search should remove its URL parameter');
+assert.equal(clearedMenuUrl.searchParams.get('source'), 'share', 'Clearing search should preserve unrelated query parameters');
+assert.equal(clearedMenuUrl.hash, '#menu-page-porc', 'Clearing search should preserve the selected scan');
+assert.match(transcriptSource, /searchParams\.get\(menuSearchQueryParam\)/, 'The menu should restore a shared query from its URL');
+assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
+assert.match(transcriptSource, /if \(initialQuery !== null\) input\.dispatchEvent\(new Event\('input'\)\)/, 'A shared query should immediately restore its filtered results');
 
 let originalItems;
 for (const { file, html } of menus) {
@@ -104,4 +116,4 @@ for (const locale of locales) {
   assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
   assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca accessibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca accessibile e condivisibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');

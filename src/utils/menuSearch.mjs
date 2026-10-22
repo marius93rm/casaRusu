@@ -1,8 +1,20 @@
+export const menuSearchQueryParam = 'q';
+
 export function normalizeMenuSearchText(value) {
   return value
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
+}
+
+export function updateMenuSearchUrl(currentUrl, query) {
+  const url = new URL(currentUrl);
+  const value = query.trim();
+
+  if (value) url.searchParams.set(menuSearchQueryParam, value);
+  else url.searchParams.delete(menuSearchQueryParam);
+
+  return url;
 }
 
 export function menuSearchMatches(query, searchableText) {
