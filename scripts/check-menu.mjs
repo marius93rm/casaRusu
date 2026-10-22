@@ -105,6 +105,10 @@ for (const locale of locales) {
   const hero = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1] ?? '';
   assert.ok(hero.includes(`href="${menuHref}"`), `${prefix || 'RO'} home: hero must link to localized menu`);
   assert.match(html, /id="menu-preview-title"/, 'Home needs its visual menu preview');
+  const previewSearch = html.match(/<a\b(?=[^>]*data-menu-home-search-link)[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
+  assert.ok(previewSearch.includes(`href="${menuHref}#read-menu"`), `${prefix || 'RO'} home: menu preview should link directly to the visible transcript and search`);
+  assert.match(previewSearch, /\shidden(?:="")?(?:\s|>)/, `${prefix || 'RO'} home: hide the search link if JavaScript is unavailable`);
+  assert.ok(previewSearch.includes(dictionaries[locale].menu.searchLabel), `${prefix || 'RO'} home: direct search link should be localized`);
   for (const id of ['coperta', 'aperitive']) {
     assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${prefix || 'RO'} home: menu preview is missing AVIF for ${id}`);
   }

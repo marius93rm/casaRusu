@@ -16,7 +16,12 @@ const href = `${localizedPath('/meniu', locale)}/`;
       <p class="eyebrow">{getDictionary(locale).ui.menuEyebrow}</p>
       <h2 id="menu-preview-title">{copy.previewTitle}</h2>
       <p>{copy.previewBody}</p>
-      <a class="button button-outline" href={href}>{copy.action}<Icon name="arrow" size={18} /></a>
+      <div class="menu-preview-actions">
+        <a class="button button-outline" href={href}>{copy.action}<Icon name="arrow" size={18} /></a>
+        <a class="text-link menu-preview-search" href={`${href}#read-menu`} data-menu-home-search-link hidden>
+          {copy.searchLabel}<Icon name="arrow" size={18} />
+        </a>
+      </div>
     </div>
     <a class="menu-preview-pages" href={href} aria-label={copy.action}>
       {[menuPages[0], menuPages[1]].map((page) => (
@@ -29,3 +34,8 @@ const href = `${localizedPath('/meniu', locale)}/`;
     </a>
   </div>
 </section>
+
+<script>
+  const searchLink = document.querySelector<HTMLAnchorElement>('[data-menu-home-search-link]');
+  if (searchLink) searchLink.hidden = false;
+</script>

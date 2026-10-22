@@ -95,6 +95,9 @@
 .menu-preview-copy .eyebrow { margin-bottom: 1rem; }
 .menu-preview-copy h2 { margin-bottom: 1.4rem; font-size: clamp(2.6rem, 4.2vw, 4rem); }
 .menu-preview-copy > p:not(.eyebrow) { max-width: 27rem; margin-bottom: 1.8rem; color: var(--muted); font-size: 1.0625rem; }
+.menu-preview-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+.menu-preview-search { color: var(--accent); }
+.menu-preview-search[hidden] { display: none; }
 .menu-preview-pages { display: flex; justify-content: center; align-items: center; padding: 1rem 1.5rem; }
 .menu-preview-pages picture { flex: 0 0 48%; max-width: 16rem; box-shadow: 0 .75rem 2rem rgb(0 0 0 / .12); transition: transform 250ms ease; }
 .menu-preview-pages picture:first-child { transform: rotate(-8deg) translateX(6%); }
