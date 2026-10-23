@@ -156,6 +156,8 @@
   .menu-gallery[data-enhanced] .menu-mobile-index { display: block; }
   .menu-mobile-index select { width: 100%; min-height: 48px; padding: .65rem 2rem .65rem .75rem; border: 1px solid var(--border); border-radius: 0; background: var(--background); color: var(--text); font: inherit; font-size: 1rem; }
   .menu-mobile-index select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .menu-gallery[data-enhanced] .menu-gallery-track { scrollbar-width: none; }
+  .menu-gallery[data-enhanced] .menu-gallery-track::-webkit-scrollbar { display: none; }
   .menu-gallery-actions { gap: 0; margin-top: .65rem; }
   .menu-gallery-actions .text-link { font-size: 1.0625rem; }
   .menu-gallery-stage { padding: .65rem; }

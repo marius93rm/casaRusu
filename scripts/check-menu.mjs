@@ -13,6 +13,9 @@ const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}men
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
 const transcriptSource = await readFile(path.join(root, 'src/components/MenuTranscript.astro'), 'utf8');
 const menuStyles = await readFile(path.join(root, 'src/styles/menu.css'), 'utf8');
+assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s*\{[^}]*overflow-x:\s*auto;/, 'The gallery must remain natively horizontally scrollable');
+assert.match(menuStyles, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s*\{[^}]*scrollbar-width:\s*none;/, 'Mobile gallery may hide its visual scrollbar while keeping native scroll enabled');
+assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track::-webkit-scrollbar\s*\{[^}]*display:\s*none;/, 'WebKit mobile fallback should hide the gallery scrollbar');
 assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
 assert.match(transcriptSource, /setAttribute\('aria-valuetext', priceLimitOutput\.textContent\)/, 'Screen readers should hear the localized price and currency for the range value');
 
@@ -101,6 +104,8 @@ for (const { file, html } of menus) {
   }
   assert.ok(html.includes(`data-lightbox-previous aria-label="${labels.previous}"`), `${file}: enlarged gallery needs a localized previous-page control`);
   assert.ok(html.includes(`data-lightbox-next aria-label="${labels.next}"`), `${file}: enlarged gallery needs a localized next-page control`);
+  assert.ok(html.includes(`data-menu-next aria-label="${labels.next}"`), `${file}: the native gallery needs a localized next-page control when its scrollbar is hidden`);
+  assert.match(html, /class="menu-counter"[^>]*>[\s\S]*?data-menu-count/, `${file}: the native gallery needs a visible page counter when its scrollbar is hidden`);
   assert.ok(enlargeLinks.every((tag) => /\bhref="\/images\/menu\/[^\"]+"/.test(tag) && !/\baria-haspopup\s*=/.test(tag)), `${file}: static fallback links must target their image without claiming a dialog`);
   assert.equal(new Set(slides.map((match) => match[1])).size, 14, `${file}: page IDs must be unique`);
   assert.equal(transcript.length, 200, `${file}: all 200 printed items must be present in the static HTML`);
