@@ -533,9 +533,12 @@ async function main() {
     const pagesByCanonical = new Map();
     for (const page of pages) {
       if (page.route === '/404') continue;
-      const expectedSocialImagePath = page.route === homeFor(page.expectedLanguage)
-        ? '/images/casa-rusu-interior.jpg'
-        : '/images/casa-rusu-preparat.jpg';
+      const contentRoute = unlocalizedRoute(page.route);
+      const expectedSocialImage = contentRoute === '/'
+        ? { path: '/images/casa-rusu-interior.jpg', width: '2048', height: '1366' }
+        : contentRoute === '/meniu/'
+          ? { path: '/images/menu/coperta.jpg', width: '1448', height: '2048' }
+          : { path: '/images/casa-rusu-preparat.jpg', width: '2048', height: '1366' };
       const socialImage = singleMetaContent(page, 'property', 'og:image');
       const twitterImage = singleMetaContent(page, 'name', 'twitter:image');
       const socialImageAlt = singleMetaContent(page, 'property', 'og:image:alt');
@@ -547,19 +550,20 @@ async function main() {
       if (!socialImageUrl || socialImageUrl.origin !== productionOrigin) {
         report(page.relativeFile, `og:image deve essere un URL assoluto su ${productionOrigin}.`);
       } else {
-        if (socialImageUrl.pathname !== expectedSocialImagePath) {
-          report(page.relativeFile, `og:image attesa ${expectedSocialImagePath}, trovata ${socialImageUrl.pathname}.`);
+        if (socialImageUrl.pathname !== expectedSocialImage.path) {
+          report(page.relativeFile, `og:image attesa ${expectedSocialImage.path}, trovata ${socialImageUrl.pathname}.`);
         }
         if (!(await resolveOutputPath(socialImageUrl.pathname))) {
           report(page.relativeFile, `asset og:image inesistente: ${socialImageUrl.pathname}.`);
         }
       }
       if (twitterImage !== socialImage) report(page.relativeFile, 'twitter:image deve corrispondere a og:image.');
+      if (!socialImageAlt) report(page.relativeFile, 'og:image:alt deve descrivere l’immagine social.');
       if (socialImageAlt && twitterImageAlt !== socialImageAlt) {
         report(page.relativeFile, 'twitter:image:alt deve corrispondere a og:image:alt.');
       }
-      if (socialImageWidth !== '2048' || socialImageHeight !== '1366') {
-        report(page.relativeFile, 'dimensioni social attese: 2048×1366.');
+      if (socialImageWidth !== expectedSocialImage.width || socialImageHeight !== expectedSocialImage.height) {
+        report(page.relativeFile, `dimensioni social attese: ${expectedSocialImage.width}×${expectedSocialImage.height}.`);
       }
 
       const canonicalTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical'));

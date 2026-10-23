@@ -18,11 +18,12 @@ const { ui } = getDictionary(locale);
 const menu = menuCopy[locale];
 const offer = copy.menu.offer;
 const offerActive = Date.now() < Date.parse(siteData.promotions.cocktailOffer.expiresAt);
+const menuCover = menuPages[0];
 const socialImage = {
-  src: siteData.media.featuredDish,
-  alt: copy.dish.imageAlt,
-  width: 2048,
-  height: 1366,
+  src: menuCover.image,
+  alt: `${copy.menu.title}: ${menuCover.title[locale]}`,
+  width: menuCover.width,
+  height: menuCover.height,
 };
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 ---
