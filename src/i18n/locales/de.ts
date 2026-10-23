@@ -15,7 +15,19 @@ export const de = {
     "country": "Rumänien",
     "carousel": "Karussell",
     "slide": "Folie",
-    "menuEyebrow": "Die Speisekarte von Casa Rusu"
+    "menuEyebrow": "Die Speisekarte von Casa Rusu",
+    "notFound": {
+      "eyebrow": "404 · Seite nicht gefunden",
+      "title": "Diese Seite wurde nicht gefunden.",
+      "description": "Unter dieser Adresse ist keine verfügbare Seite zu finden. Geh zurück zur Startseite oder stöbere in der Speisekarte von Casa Rusu.",
+      "body": "Der Link ist möglicherweise veraltet oder die Adresse enthält einen Tippfehler. Wir helfen dir, den Weg zurückzufinden.",
+      "homeAction": "Zurück zur Startseite",
+      "menuAction": "Speisekarte ansehen",
+      "callAction": "Restaurant anrufen",
+      "language": "Sprache auswählen",
+      "metaTitle": "Seite nicht gefunden | Restaurant Casa Rusu",
+      "metaDescription": "Die gesuchte Seite ist nicht verfügbar. Kehre zu Restaurant Casa Rusu in Codlea zurück oder stöbere in der Speisekarte."
+    }
   },
   "seo": {
     "title": "Restaurant Casa Rusu in Codlea · Öffnungszeiten und Adresse",

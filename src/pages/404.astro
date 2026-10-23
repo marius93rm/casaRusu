@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Brand from '../components/Brand.astro';
+import Icon from '../components/Icon.astro';
+import { siteData } from '../data/site';
+import { getDictionary, locales, socialLocales } from '../i18n';
+import type { Locale } from '../i18n';
+
+const dictionary = getDictionary('ro');
+const messagesFor = (locale: Locale) => {
+  const localized = getDictionary(locale);
+  return {
+    ...localized.ui.notFound,
+    skipToContent: localized.ui.skipToContent,
+    socialLocale: socialLocales[locale],
+    imageAlt: siteData.copy[locale].hero.imageAlt,
+  };
+};
+const messages = {
+  ro: messagesFor('ro'),
+  en: messagesFor('en'),
+  it: messagesFor('it'),
+  es: messagesFor('es'),
+  fr: messagesFor('fr'),
+  de: messagesFor('de'),
+} satisfies Record<Locale, ReturnType<typeof messagesFor>>;
+const messagesJson = JSON.stringify(messages).replaceAll('<', '\\u003c');
+const socialImage = {
+  src: siteData.media.cover,
+  alt: siteData.copy.ro.hero.imageAlt,
+  width: 2048,
+  height: 1366,
+};
+---
+
+<BaseLayout
+  title={dictionary.ui.notFound.metaTitle}
+  description={dictionary.ui.notFound.metaDescription}
+  lang="ro"
+  {socialImage}
+  noIndex
+  detectLanguage={false}
+>
+  <a class="skip-link" href="#main-content" data-copy="skipToContent">{dictionary.ui.skipToContent}</a>
+  <header class="not-found-header">
+    <div class="container not-found-header-inner">
+      <Brand href="/" label="Casa Rusu Restaurant" />
+    </div>
+  </header>
+
+  <main id="main-content" class="not-found-screen" tabindex="-1">
+    <section class="container not-found-panel" aria-labelledby="not-found-title">
+      <span class="not-found-number" aria-hidden="true">404</span>
+      <div class="not-found-copy">
+        <p class="eyebrow" data-copy="eyebrow">{dictionary.ui.notFound.eyebrow}</p>
+        <h1 id="not-found-title" data-copy="title">{dictionary.ui.notFound.title}</h1>
+        <p class="not-found-lead" data-copy="description">{dictionary.ui.notFound.description}</p>
+        <p class="not-found-body" data-copy="body">{dictionary.ui.notFound.body}</p>
+
+        <div class="not-found-actions">
+          <a id="not-found-home" class="button button-primary" href="/">
+            <span data-copy="homeAction">{dictionary.ui.notFound.homeAction}</span>
+            <Icon name="arrow" />
+          </a>
+          <a id="not-found-menu" class="button button-outline" href="/meniu/">
+            <span data-copy="menuAction">{dictionary.ui.notFound.menuAction}</span>
+          </a>
+        </div>
+
+        <a class="not-found-call" href={siteData.company.phoneHref}>
+          <Icon name="phone" />
+          <span data-copy="callAction">{dictionary.ui.notFound.callAction}</span>
+          <span class="not-found-phone">{siteData.company.phone}</span>
+        </a>
+
+        <nav class="not-found-languages" aria-label={dictionary.ui.notFound.language}>
+          {locales.map((locale) => (
+            <a
+              href={`?lang=${locale}`}
+              lang={locale}
+              hreflang={locale === 'ro' ? 'ro-RO' : locale}
+              aria-current={locale === 'ro' ? 'page' : undefined}
+              data-locale={locale}
+            >
+              {locale.toUpperCase()}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <script id="not-found-messages" type="application/json" set:html={messagesJson}></script>
+
+  <script is:inline>
+    (() => {
+      const source = document.querySelector('#not-found-messages');
+      const main = document.querySelector('.not-found-screen');
+      if (!(source instanceof HTMLScriptElement) || !(main instanceof HTMLElement)) return;
+
+      let messages;
+      try {
+        messages = JSON.parse(source.textContent || '{}');
+      } catch {
+        return;
+      }
+
+      const supported = Object.keys(messages);
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      const pathLocale = segments[0];
+      const search = new URLSearchParams(window.location.search);
+      let preferred = search.get('lang');
+      if (!supported.includes(preferred)) {
+        try {
+          preferred = window.localStorage.getItem('casa-rusu-language');
+        } catch {
+          preferred = null;
+        }
+      }
+      const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
+      const detected = browserLanguages
+        .map((language) => (language || '').toLowerCase().split(/[-_]/)[0])
+        .find((language) => supported.includes(language));
+      const locale = supported.includes(preferred)
+        ? preferred
+        : supported.includes(pathLocale) ? pathLocale : detected || 'ro';
+      const copy = messages[locale];
+      if (!copy) return;
+
+      document.documentElement.lang = locale;
+      document.title = copy.metaTitle;
+      const setMeta = (selector, value) => {
+        const element = document.querySelector(selector);
+        if (element instanceof HTMLMetaElement) element.content = value;
+      };
+      setMeta('meta[name="description"]', copy.metaDescription);
+      setMeta('meta[property="og:title"]', copy.metaTitle);
+      setMeta('meta[property="og:description"]', copy.metaDescription);
+      setMeta('meta[property="og:locale"]', copy.socialLocale);
+      setMeta('meta[property="og:image:alt"]', copy.imageAlt);
+      setMeta('meta[name="twitter:title"]', copy.metaTitle);
+      setMeta('meta[name="twitter:description"]', copy.metaDescription);
+      setMeta('meta[name="twitter:image:alt"]', copy.imageAlt);
+
+      for (const element of document.querySelectorAll('[data-copy]')) {
+        const key = element.dataset.copy;
+        if (key in copy && typeof copy[key] === 'string') element.textContent = copy[key];
+      }
+
+      const home = document.querySelector('#not-found-home');
+      const menu = document.querySelector('#not-found-menu');
+      const brand = document.querySelector('.not-found-header .brand');
+      const homeHref = locale === 'ro' ? '/' : `/${locale}/`;
+      const menuHref = locale === 'ro' ? '/meniu/' : `/${locale}/meniu/`;
+      if (home instanceof HTMLAnchorElement) home.href = homeHref;
+      if (menu instanceof HTMLAnchorElement) menu.href = menuHref;
+      if (brand instanceof HTMLAnchorElement) brand.href = homeHref;
+
+      const languageNav = document.querySelector('.not-found-languages');
+      if (languageNav instanceof HTMLElement) languageNav.setAttribute('aria-label', copy.language);
+      for (const link of document.querySelectorAll('.not-found-languages [data-locale]')) {
+        if (!(link instanceof HTMLAnchorElement)) continue;
+        const active = link.dataset.locale === locale;
+        if (active) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+      }
+
+      try {
+        window.localStorage.setItem('casa-rusu-language', locale);
+      } catch {
+        // The page remains fully translated when storage is unavailable.
+      }
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  .not-found-header { border-bottom: 1px solid var(--border); }
+  .not-found-header-inner { display: flex; min-height: 80px; align-items: center; }
+  .not-found-screen { display: grid; min-height: calc(100dvh - 80px); align-items: center; padding-block: clamp(2rem, 7vh, 5rem); }
+  .not-found-panel { position: relative; isolation: isolate; display: grid; min-height: 34rem; align-items: center; justify-items: center; overflow: hidden; padding: clamp(2.5rem, 7vw, 6rem); border: 1px solid var(--border); background: var(--surface); text-align: center; }
+  .not-found-panel::before { position: absolute; z-index: -1; top: 0; left: 50%; width: min(28rem, 70%); height: 2px; background: var(--accent); content: ''; transform: translateX(-50%); }
+  .not-found-number { position: absolute; z-index: -1; top: .18em; left: 50%; color: var(--border); font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(13rem, 34vw, 31rem); font-weight: 500; letter-spacing: -.09em; line-height: .7; opacity: .42; pointer-events: none; transform: translateX(-54%); }
+  .not-found-copy { width: min(100%, 48rem); }
+  .not-found-copy .eyebrow { margin-bottom: 1rem; }
+  .not-found-copy h1 { max-width: 15ch; margin: 0 auto 1rem; font-size: clamp(3rem, 6vw, 5.25rem); }
+  .not-found-lead { max-width: 42rem; margin: 0 auto; color: var(--primary); font-size: clamp(1.125rem, 2vw, 1.375rem); line-height: 1.5; }
+  .not-found-body { max-width: 38rem; margin: 1rem auto 0; color: var(--muted); font-size: 1rem; }
+  .not-found-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .85rem; margin-top: 2rem; }
+  .not-found-call { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; color: var(--primary); text-decoration-color: var(--border); text-underline-offset: .25rem; }
+  .not-found-call svg { flex: none; color: var(--accent); }
+  .not-found-phone { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .not-found-languages { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .25rem; margin-top: 2rem; }
+  .not-found-languages a { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; padding: .25rem; color: var(--muted); font-size: .875rem; text-decoration: none; }
+  .not-found-languages a[aria-current='page'] { color: var(--primary); font-weight: 700; text-decoration: underline; text-underline-offset: .3rem; }
+  .not-found-languages a:hover { color: var(--accent); }
+  @media (max-width: 600px) {
+    .not-found-header-inner { min-height: 68px; }
+    .not-found-screen { min-height: calc(100dvh - 68px); padding-block: 1.25rem; }
+    .not-found-panel { min-height: 37rem; padding: 2rem 1.25rem; }
+    .not-found-number { top: .3em; font-size: clamp(12rem, 60vw, 18rem); }
+    .not-found-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .not-found-actions .button { width: 100%; }
+    .not-found-copy h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
+    .not-found-call { max-width: 100%; }
+  }
+</style>

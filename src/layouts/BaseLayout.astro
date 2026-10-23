@@ -17,6 +17,8 @@ interface Props {
     width: number;
     height: number;
   };
+  noIndex?: boolean;
+  detectLanguage?: boolean;
 }
 
 const {
@@ -25,6 +27,8 @@ const {
   lang = 'ro',
   socialImage: socialImageData,
   criticalImage,
+  noIndex = false,
+  detectLanguage = true,
 } = Astro.props;
 
 const theme = siteConfig.branding.theme;
@@ -37,7 +41,7 @@ const themeStyle = [
   `--accent:${theme.accent}`,
   `--border:${theme.border}`,
 ].join(';');
-const canonicalUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const canonicalUrl = Astro.site && !noIndex ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const localizedUrl = (locale: SiteLocale) => {
   if (!Astro.site) return undefined;
   const path = switchLocalePath(new URL(Astro.url.pathname, Astro.url), locale);
@@ -54,7 +58,7 @@ const socialLocale = socialLocales[lang];
 <html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <LanguageDetection />
+    {detectLanguage && <LanguageDetection />}
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     {criticalImage && <link rel="preload" as="image" type={criticalImage.type} imagesrcset={criticalImage.srcset} imagesizes={criticalImage.sizes} fetchpriority="high" />}
@@ -83,10 +87,10 @@ const socialLocale = socialLocales[lang];
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {Astro.site && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
-    {romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
+    {!noIndex && Astro.site && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
+    {!noIndex && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
-    {!siteConfig.seo.indexable && <meta name="robots" content="noindex,nofollow" />}
+    {(!siteConfig.seo.indexable || noIndex) && <meta name="robots" content="noindex,nofollow" />}
   </head>
   <body style={themeStyle}>
     <slot />

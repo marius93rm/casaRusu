@@ -172,6 +172,7 @@ async function main() {
     const fullPath = path.join(outputDirectory, relativeFile);
     const html = await readFile(fullPath, 'utf8');
     const route = routeFromFile(relativeFile);
+    const isNotFound = route === '/404';
     const htmlTag = openingTags(html, 'html')[0];
     const expectedLanguage = localeFor(route);
     const metaTags = openingTags(html, 'meta').map((tag) => tag.attributes);
@@ -193,7 +194,18 @@ async function main() {
     }
 
     const primaryNavigationMatch = html.match(/<nav\b(?=[^>]*\bid=["']main-navigation["'])[^>]*>\s*<ul>([\s\S]*?)<\/ul>/i);
-    if (!primaryNavigationMatch) {
+    if (isNotFound) {
+      const robots = metaTags.filter((tag) => tag.name?.toLowerCase() === 'robots');
+      if (robots.length !== 1 || robots[0].content?.toLowerCase() !== 'noindex,nofollow') {
+        report(relativeFile, 'la pagina 404 deve avere un solo meta robots noindex,nofollow.');
+      }
+      if (linkTags.some((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical') || tag.hreflang)) {
+        report(relativeFile, 'la pagina 404 non deve dichiarare canonical o hreflang.');
+      }
+      if (metaTags.some((tag) => tag.property?.toLowerCase() === 'og:url') || /data-language-detection/i.test(html)) {
+        report(relativeFile, 'la pagina 404 non deve pubblicare una URL canonica social né attivare il redirect della lingua.');
+      }
+    } else if (!primaryNavigationMatch) {
       report(relativeFile, 'lista della navigazione principale mancante.');
     } else {
       const primaryLinks = [...primaryNavigationMatch[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
@@ -513,6 +525,7 @@ async function main() {
     const pagesByRoute = new Map(pages.map((page) => [page.route, page]));
     const pagesByCanonical = new Map();
     for (const page of pages) {
+      if (page.route === '/404') continue;
       const expectedSocialImagePath = page.route === homeFor(page.expectedLanguage)
         ? '/images/casa-rusu-interior.jpg'
         : '/images/casa-rusu-preparat.jpg';
@@ -618,7 +631,12 @@ async function main() {
         }
       }
 
+      if ([...indexedPageUrls].some((pageUrl) => ['/404', '/404/'].includes(new URL(pageUrl).pathname))) {
+        report('dist/sitemap-index.xml', 'la pagina 404 noindex non deve essere inclusa nella sitemap.');
+      }
+
       for (const page of pages) {
+        if (page.route === '/404') continue;
         const expectedUrl = `${productionOrigin}${page.route}`;
         if (!indexedPageUrls.has(expectedUrl)) report('dist/sitemap-index.xml', `URL pagina mancante nella sitemap: ${expectedUrl}.`);
       }

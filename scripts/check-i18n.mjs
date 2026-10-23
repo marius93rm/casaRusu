@@ -13,6 +13,7 @@ function leaves(value, prefix = '') {
 const base = new Map(leaves(dictionaries[defaultLocale]));
 const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
 const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
+const notFoundSource = await readFile(new URL('../dist/404.html', import.meta.url), 'utf8');
 assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
 assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
 assert.match(homeSource, /data-booking-primary/, 'The home page needs a primary booking action to observe');
@@ -68,6 +69,24 @@ for (const locale of locales) {
     assert.ok(html.includes(dictionary.ui.skipToContent), `${locale}: localized skip link missing`);
   }
 }
+
+assert.match(notFoundSource, /<html lang="ro">/);
+assert.match(notFoundSource, /<meta name="robots" content="noindex,nofollow"\s*\/?\s*>/i);
+assert.doesNotMatch(notFoundSource, /<link\b(?=[^>]*\brel="canonical")[^>]*>/i);
+assert.doesNotMatch(notFoundSource, /<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang=)[^>]*>/i);
+assert.doesNotMatch(notFoundSource, /data-language-detection/);
+const notFoundScript = notFoundSource.match(/<script\b(?=[^>]*\bid="not-found-messages")[^>]*>([\s\S]*?)<\/script\s*>/i);
+assert.ok(notFoundScript, '404 page needs its localized copy map');
+const notFoundMessages = JSON.parse(notFoundScript[1]);
+assert.deepEqual(Object.keys(notFoundMessages), [...locales]);
+for (const locale of locales) {
+  assert.deepEqual(notFoundMessages[locale], {
+    ...dictionaries[locale].ui.notFound,
+    skipToContent: dictionaries[locale].ui.skipToContent,
+    socialLocale: socialLocales[locale],
+    imageAlt: dictionaries[locale].copy.hero.imageAlt,
+  }, `${locale}: 404 copy must match the localized dictionary`);
+}
 for (const invalid of [undefined, '', 'eng', 'ger', 'xx', 'EN']) assert.equal(isLocale(invalid), false);
 assert.equal(getLocaleFromUrl(new URL('https://example.invalid/unknown/')), defaultLocale);
 
@@ -79,4 +98,4 @@ for (const section of ['names', 'ingredients', 'headings']) {
     for (const value of Object.values(translations)) assert.ok(value.trim(), `${section}: ${term}`);
   }
 }
-console.log('Controllo i18n superato: sei dizionari completi, segnaposto, 108 cambi lingua con query/ancora, 18 pagine e copertura delle traduzioni del menu.');
+console.log('Controllo i18n superato: sei dizionari completi, 108 cambi lingua con query/ancora, 18 pagine, 404 localizzata nelle sei lingue e copertura delle traduzioni del menu.');
