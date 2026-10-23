@@ -188,6 +188,17 @@ async function main() {
       twitterDescription: metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:description')?.content?.trim() ?? '',
     };
 
+    const robotsTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'robots');
+    if (isNotFound) {
+      if (robotsTags.length !== 1 || robotsTags[0].content?.toLowerCase() !== 'noindex,nofollow') {
+        report(relativeFile, 'la pagina 404 deve avere un solo meta robots noindex,nofollow.');
+      }
+    } else if (productionOrigin) {
+      if (robotsTags.length > 0) report(relativeFile, 'le pagine di produzione non devono avere meta robots noindex.');
+    } else if (robotsTags.length !== 1 || robotsTags[0].content?.toLowerCase() !== 'noindex,nofollow') {
+      report(relativeFile, 'le pagine senza SITE_URL devono dichiarare meta robots noindex,nofollow.');
+    }
+
     if (!htmlTag?.attributes.lang?.trim()) report(relativeFile, 'attributo lang mancante su <html>.');
     else if (htmlTag.attributes.lang.toLowerCase() !== expectedLanguage) {
       report(relativeFile, `lang="${htmlTag.attributes.lang}" non corrisponde alla lingua attesa "${expectedLanguage}".`);
@@ -195,10 +206,6 @@ async function main() {
 
     const primaryNavigationMatch = html.match(/<nav\b(?=[^>]*\bid=["']main-navigation["'])[^>]*>\s*<ul>([\s\S]*?)<\/ul>/i);
     if (isNotFound) {
-      const robots = metaTags.filter((tag) => tag.name?.toLowerCase() === 'robots');
-      if (robots.length !== 1 || robots[0].content?.toLowerCase() !== 'noindex,nofollow') {
-        report(relativeFile, 'la pagina 404 deve avere un solo meta robots noindex,nofollow.');
-      }
       if (linkTags.some((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical') || tag.hreflang)) {
         report(relativeFile, 'la pagina 404 non deve dichiarare canonical o hreflang.');
       }
