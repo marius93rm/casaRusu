@@ -76,7 +76,7 @@ export const de = {
       "body": "Dazu servieren wir eine großzügige Portion Pommes frites mit Petersilie, Parmesan und Knoblauch.",
       "seo": {
         "title": "Paniertes Schweinekotelett · Casa Rusu, Codlea",
-        "description": "Paniertes Schweinekotelett mit Knochen und Pommes mit Petersilie, Parmesan und Knoblauch. Rufen Sie im Casa Rusu in Codlea an, um Verfügbarkeit und Preis zu erfahren."
+        "description": "Die gedruckte Speisekarte führt das panierte Schweinekotelett mit Knochen mit {quantity} für {price} Lei, ohne Beilagen. Rufen Sie Casa Rusu in Codlea an, um die Verfügbarkeit der abgebildeten Portion mit Pommes zu prüfen."
       },
       "note": "Rufen Sie uns für Verfügbarkeit und Preis an.",
       "menuListingLabel": "Im gedruckten Menü",

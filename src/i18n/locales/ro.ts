@@ -92,7 +92,7 @@ export const ro = {
       "body": "Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.",
       "seo": {
         "title": "Șnițel din cotlet de porc cu os | Casa Rusu, Codlea",
-        "description": "Șnițel din cotlet de porc cu os, cu cartofi prăjiți cu pătrunjel, parmezan și usturoi. Sună la Restaurant Casa Rusu din Codlea pentru disponibilitate și preț."
+        "description": "Meniul tipărit listează șnițelul din cotlet de porc cu os, {quantity}, la {price} lei, fără garnituri. Sună la Casa Rusu din Codlea pentru disponibilitatea servirii cu cartofi prăjiți."
       },
       "note": "Sună-ne pentru disponibilitate și preț.",
       "menuListingLabel": "În meniul tipărit",

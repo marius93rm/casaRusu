@@ -27,12 +27,16 @@ const printedDish = printedDishPage?.sections.flatMap((section) => section.items
 if (!printedDishPage || !printedDish) {
   throw new Error('The schnitzel listing must exist in the printed menu data.');
 }
+
+const seoDescription = copy.dish.seo.description
+  .replace('{quantity}', printedDish.quantity)
+  .replace('{price}', String(printedDish.price));
 ---
 
 <BaseLayout
   lang={locale}
   title={copy.dish.seo.title}
-  description={copy.dish.seo.description}
+  description={seoDescription}
   {socialImage}
   criticalImage={{ srcset: webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}
 >

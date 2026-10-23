@@ -76,7 +76,7 @@ export const fr = {
       "body": "Nous la servons avec une généreuse portion de frites au persil, au parmesan et à l’ail.",
       "seo": {
         "title": "Escalope de porc avec os · Casa Rusu, Codlea",
-        "description": "Escalope panée de porc avec os et frites au persil, parmesan et ail. Appelez le Restaurant Casa Rusu à Codlea pour connaître la disponibilité et le prix."
+        "description": "Le menu imprimé indique {quantity} d’escalope de porc avec os à {price} lei, sans accompagnement. Appelez Casa Rusu à Codlea pour vérifier la disponibilité de l’assiette présentée avec des frites."
       },
       "note": "Appelez-nous pour connaître la disponibilité et le prix.",
       "menuListingLabel": "Dans le menu imprimé",

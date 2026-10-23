@@ -76,7 +76,7 @@ export const it = {
       "body": "La serviamo con una generosa porzione di patatine fritte con prezzemolo, parmigiano e aglio.",
       "seo": {
         "title": "Cotoletta di maiale con osso · Casa Rusu, Codlea",
-        "description": "Cotoletta di maiale con osso e patatine con prezzemolo, parmigiano e aglio. Chiama il Ristorante Casa Rusu a Codlea per disponibilità e prezzo."
+        "description": "Il menu stampato indica {quantity} di cotoletta di maiale con osso a {price} lei, senza contorni. Chiama Casa Rusu a Codlea per verificare la disponibilità della porzione mostrata con patatine."
       },
       "note": "Chiamaci per disponibilità e prezzo.",
       "menuListingLabel": "Nel menu stampato",

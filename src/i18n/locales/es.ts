@@ -76,7 +76,7 @@ export const es = {
       "body": "Lo servimos con una generosa ración de patatas fritas con perejil, parmesano y ajo.",
       "seo": {
         "title": "Escalope de cerdo con hueso · Casa Rusu, Codlea",
-        "description": "Escalope de cerdo con hueso y patatas con perejil, parmesano y ajo. Llama al Restaurante Casa Rusu en Codlea para consultar disponibilidad y precio."
+        "description": "El menú impreso indica {quantity} de escalope de cerdo con hueso a {price} lei, sin guarnición. Llama a Casa Rusu en Codlea para consultar la disponibilidad del plato de la foto con patatas fritas."
       },
       "note": "Llámanos para consultar disponibilidad y precio.",
       "menuListingLabel": "En el menú impreso",

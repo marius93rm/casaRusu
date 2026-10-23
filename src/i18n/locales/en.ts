@@ -94,7 +94,7 @@ export const en = {
       "body": "We serve it with a hearty portion of fries topped with parsley, parmesan and garlic.",
       "seo": {
         "title": "Bone-in Pork Loin Schnitzel | Casa Rusu, Codlea",
-        "description": "Bone-in pork loin schnitzel served with fries topped with parsley, parmesan and garlic. Call Restaurant Casa Rusu in Codlea to check availability and price."
+        "description": "The printed menu lists {quantity} of bone-in pork loin schnitzel at {price} lei, without sides. Call Casa Rusu in Codlea to check availability of the pictured serving with fries."
       },
       "note": "Call us to check availability and price.",
       "menuListingLabel": "Printed menu listing",
