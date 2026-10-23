@@ -73,6 +73,8 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
                 src={siteData.media.featuredDish}
                 alt={copy.dish.imageAlt}
                 loading="lazy"
+                fetchpriority="low"
+                decoding="async"
                 width="2048"
                 height="1366"
               />
