@@ -162,6 +162,8 @@ export const es = {
     "printMenu": "Imprimir menú",
     "searchLandmark": "Buscar en el menú",
     "searchLabel": "Encuentra un plato",
+    "categoryFilter": "Filtrar por categoría",
+    "categoryAll": "Todas las categorías",
     "searchPlaceholder": "Plato, ingrediente, categoría o precio",
     "searchHint": "Busca por nombre, ingrediente, categoría o precio en lei. También puedes buscar los nombres rumanos de los platos y fijar un precio máximo.",
     "priceLimit": "Filtrar por precio máximo",

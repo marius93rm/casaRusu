@@ -162,6 +162,8 @@ export const en = {
     "printMenu": "Print menu",
     "searchLandmark": "Search the menu",
     "searchLabel": "Find a dish",
+    "categoryFilter": "Filter by category",
+    "categoryAll": "All categories",
     "searchPlaceholder": "Dish, ingredient, category, or price",
     "searchHint": "Search by dish name, ingredient, category or price in Romanian lei. Romanian dish names are also searchable. You can also set a maximum price.",
     "priceLimit": "Filter by maximum price",

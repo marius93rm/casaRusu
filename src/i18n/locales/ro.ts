@@ -160,6 +160,8 @@ export const ro = {
     "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",
     "searchLabel": "Găsește rapid un preparat",
+    "categoryFilter": "Filtrează după categorie",
+    "categoryAll": "Toate categoriile",
     "searchPlaceholder": "Preparat, ingredient, categorie sau preț",
     "searchHint": "Caută după denumire, ingredient, categorie sau preț în lei. Poți limita și prețul maxim.",
     "priceLimit": "Filtrează după preț maxim",

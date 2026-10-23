@@ -162,6 +162,8 @@ export const de = {
     "printMenu": "Speisekarte drucken",
     "searchLandmark": "Speisekarte durchsuchen",
     "searchLabel": "Gericht finden",
+    "categoryFilter": "Nach Kategorie filtern",
+    "categoryAll": "Alle Kategorien",
     "searchPlaceholder": "Gericht, Zutat, Kategorie oder Preis",
     "searchHint": "Suchen Sie nach Gericht, Zutat, Kategorie oder Preis in Lei. Auch die rumänischen Namen der Gerichte sind durchsuchbar. Sie können auch einen Höchstpreis festlegen.",
     "priceLimit": "Nach Höchstpreis filtern",

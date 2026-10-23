@@ -162,6 +162,8 @@ export const it = {
     "printMenu": "Stampa il menu",
     "searchLandmark": "Ricerca nel menu",
     "searchLabel": "Trova un piatto",
+    "categoryFilter": "Filtra per categoria",
+    "categoryAll": "Tutte le categorie",
     "searchPlaceholder": "Piatto, ingrediente, categoria o prezzo",
     "searchHint": "Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche i nomi romeni dei piatti e impostare un prezzo massimo.",
     "priceLimit": "Filtra per prezzo massimo",

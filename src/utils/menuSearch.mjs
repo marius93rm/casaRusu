@@ -1,5 +1,6 @@
 export const menuSearchQueryParam = 'q';
 export const menuPriceLimitQueryParam = 'max';
+export const menuCategoryQueryParam = 'category';
 
 export function normalizeMenuSearchText(value) {
   return value
@@ -16,10 +17,17 @@ export function parseMenuPriceLimit(value, defaultPriceLimit) {
   return Math.min(defaultPriceLimit, Math.max(0, Math.round(parsed)));
 }
 
-export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceLimit) {
+export function parseMenuCategory(value, validCategories) {
+  if (value === null) return '';
+  const category = value.trim();
+  return validCategories.has(category) ? category : '';
+}
+
+export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceLimit, category = '') {
   const url = new URL(currentUrl);
   const value = query.trim();
   const limit = Number(priceLimit);
+  const selectedCategory = category.trim();
 
   if (value) url.searchParams.set(menuSearchQueryParam, value);
   else url.searchParams.delete(menuSearchQueryParam);
@@ -29,6 +37,9 @@ export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceL
   } else {
     url.searchParams.delete(menuPriceLimitQueryParam);
   }
+
+  if (selectedCategory) url.searchParams.set(menuCategoryQueryParam, selectedCategory);
+  else url.searchParams.delete(menuCategoryQueryParam);
 
   return url;
 }

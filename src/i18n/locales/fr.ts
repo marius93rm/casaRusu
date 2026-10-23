@@ -162,6 +162,8 @@ export const fr = {
     "printMenu": "Imprimer le menu",
     "searchLandmark": "Recherche dans la carte",
     "searchLabel": "Trouvez un plat",
+    "categoryFilter": "Filtrer par catégorie",
+    "categoryAll": "Toutes les catégories",
     "searchPlaceholder": "Plat, ingrédient, catégorie ou prix",
     "searchHint": "Recherchez un nom, un ingrédient, une catégorie ou un prix en lei. Les noms roumains des plats sont également recherchables. Vous pouvez aussi définir un prix maximum.",
     "priceLimit": "Filtrer par prix maximum",
