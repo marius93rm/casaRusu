@@ -1,4 +1,5 @@
 export const menuSearchQueryParam = 'q';
+export const menuPriceLimitQueryParam = 'max';
 
 export function normalizeMenuSearchText(value) {
   return value
@@ -7,12 +8,27 @@ export function normalizeMenuSearchText(value) {
     .toLowerCase();
 }
 
-export function updateMenuSearchUrl(currentUrl, query) {
+export function parseMenuPriceLimit(value, defaultPriceLimit) {
+  if (value === null || !value.trim()) return defaultPriceLimit;
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return defaultPriceLimit;
+  return Math.min(defaultPriceLimit, Math.max(0, Math.round(parsed)));
+}
+
+export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceLimit) {
   const url = new URL(currentUrl);
   const value = query.trim();
+  const limit = Number(priceLimit);
 
   if (value) url.searchParams.set(menuSearchQueryParam, value);
   else url.searchParams.delete(menuSearchQueryParam);
+
+  if (Number.isFinite(limit) && limit >= 0 && limit < defaultPriceLimit) {
+    url.searchParams.set(menuPriceLimitQueryParam, String(Math.round(limit)));
+  } else {
+    url.searchParams.delete(menuPriceLimitQueryParam);
+  }
 
   return url;
 }

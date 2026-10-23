@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
+import { menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, parseMenuPriceLimit, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -12,6 +12,8 @@ const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}men
 })));
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
 const transcriptSource = await readFile(path.join(root, 'src/components/MenuTranscript.astro'), 'utf8');
+assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
+assert.match(transcriptSource, /setAttribute\('aria-valuetext', priceLimitOutput\.textContent\)/, 'Screen readers should hear the localized price and currency for the range value');
 
 assert.match(gallerySource, /window\.history\.pushState/, 'Explicit menu navigation must create a shareable history entry');
 assert.match(gallerySource, /window\.history\.replaceState/, 'Swipe navigation must update the shareable page without flooding browser history');
@@ -35,17 +37,27 @@ assert.ok(menuSearchMatches('Salate', sampleMenuItem), 'Search should match a ca
 assert.ok(menuSearchMatches('69 lei', sampleMenuItem), 'Search should match a price');
 assert.ok(menuSearchMatches('  ', sampleMenuItem), 'An empty search should keep all menu items');
 assert.equal(menuSearchMatches('not in this menu', sampleMenuItem), false, 'Search should reject non-matching text');
-const sharedMenuUrl = updateMenuSearchUrl('https://example.test/en/meniu/?lang=en&source=share#menu-page-porc', '  afumat rata  ');
+assert.equal(parseMenuPriceLimit(null, 340), 340, 'Missing price limits should include every price');
+assert.equal(parseMenuPriceLimit('55', 340), 55, 'A shared price limit should be restored');
+assert.equal(parseMenuPriceLimit('-5', 340), 0, 'Negative price limits should clamp to zero');
+assert.equal(parseMenuPriceLimit('500', 340), 340, 'Price limits above the menu maximum should clamp to its maximum');
+assert.equal(parseMenuPriceLimit('invalid', 340), 340, 'Invalid shared price limits should fall back to all prices');
+const sharedMenuUrl = updateMenuSearchUrl('https://example.test/en/meniu/?lang=en&source=share#menu-page-porc', '  afumat rata  ', 55, 340);
 assert.equal(sharedMenuUrl.searchParams.get(menuSearchQueryParam), 'afumat rata', 'Search should normalize surrounding whitespace in its share URL');
+assert.equal(sharedMenuUrl.searchParams.get(menuPriceLimitQueryParam), '55', 'A selected price limit should be shareable');
 assert.equal(sharedMenuUrl.searchParams.get('lang'), 'en', 'Search URL updates should preserve unrelated query parameters');
 assert.equal(sharedMenuUrl.hash, '#menu-page-porc', 'Search URL updates should preserve the selected scan');
-const clearedMenuUrl = updateMenuSearchUrl(sharedMenuUrl.href, '  ');
+const clearedMenuUrl = updateMenuSearchUrl(sharedMenuUrl.href, '  ', 55, 340);
 assert.equal(clearedMenuUrl.searchParams.has(menuSearchQueryParam), false, 'Clearing search should remove its URL parameter');
+assert.equal(clearedMenuUrl.searchParams.get(menuPriceLimitQueryParam), '55', 'Clearing search should preserve the price limit');
 assert.equal(clearedMenuUrl.searchParams.get('source'), 'share', 'Clearing search should preserve unrelated query parameters');
 assert.equal(clearedMenuUrl.hash, '#menu-page-porc', 'Clearing search should preserve the selected scan');
+const resetMenuUrl = updateMenuSearchUrl(clearedMenuUrl.href, '', 340, 340);
+assert.equal(resetMenuUrl.searchParams.has(menuPriceLimitQueryParam), false, 'Resetting the price limit should remove its URL parameter');
 assert.match(transcriptSource, /searchParams\.get\(menuSearchQueryParam\)/, 'The menu should restore a shared query from its URL');
+assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
-assert.match(transcriptSource, /if \(initialQuery !== null\) \{\s*input\.dispatchEvent\(new Event\('input'\)\);\s*if \(initialQuery\.trim\(\) && !window\.location\.hash\) search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'A shared query should restore its results and bring them into view unless a fragment points elsewhere');
+assert.match(transcriptSource, /if \(\(initialQuery\?\.trim\(\) \|\| initialPriceLimit < maximumMenuPrice\) && !window\.location\.hash\) \{\s*search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'Shared search and price filters should restore their results and bring them into view unless a fragment points elsewhere');
 assert.match(transcriptSource, /if \(searchShortcut\) searchShortcut\.hidden = false/, 'The menu search shortcut should appear only when the search enhancement is available');
 
 let originalItems;
@@ -58,6 +70,14 @@ for (const { file, html } of menus) {
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
   const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
   const labels = dictionaries[locale].menu;
+  const transcriptPrices = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*data-menu-price="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)];
+  assert.equal(transcriptPrices.length, 200, 'All printed prices should be available to the filter');
+  assert.match(html, /<details class="menu-price-filter"[^>]*data-price-limit-filter/, 'The maximum price filter should be progressively enhanced and collapsible');
+  assert.match(html, /<label class="visually-hidden" for="menu-price-limit">[^<]+<\/label>[\s\S]*?<input\b(?=[^>]*type="range")(?=[^>]*data-menu-price-limit)[^>]*>/, 'The price range should have an accessible label');
+  assert.ok(html.includes(labels.priceLimit) && html.includes(labels.priceLimitAll) && html.includes(labels.priceLimitUpTo), 'Price filter labels should be localized');
+  for (const [, filterPrice, row] of transcriptPrices) {
+    assert.equal(Number(filterPrice), Number(row.match(/class="menu-item-price">(\d+) lei/)?.[1]), 'Filter prices must match the printed menu prices');
+  }
   assert.ok(html.includes(`data-lightbox-previous aria-label="${labels.previous}"`), `${file}: enlarged gallery needs a localized previous-page control`);
   assert.ok(html.includes(`data-lightbox-next aria-label="${labels.next}"`), `${file}: enlarged gallery needs a localized next-page control`);
   assert.ok(enlargeLinks.every((tag) => /\bhref="\/images\/menu\/[^\"]+"/.test(tag) && !/\baria-haspopup\s*=/.test(tag)), `${file}: static fallback links must target their image without claiming a dialog`);
@@ -125,4 +145,4 @@ for (const locale of locales) {
   assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
   assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca accessibile e condivisibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca testuale e per prezzo accessibile e condivisibile, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');

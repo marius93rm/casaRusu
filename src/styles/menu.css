@@ -82,6 +82,13 @@
 .menu-search input::placeholder { color: var(--muted); opacity: 1; }
 .menu-search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .menu-search-status { min-height: 1.5em; color: var(--muted); font-size: 1rem; }
+.menu-price-filter { margin-top: .15rem; }
+.menu-price-filter summary { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; min-height: 44px; color: var(--primary); font-size: .9375rem; cursor: pointer; }
+.menu-price-filter summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.menu-price-filter summary::after { content: ''; width: .5rem; height: .5rem; flex: none; margin: 0 .3rem .25rem .1rem; border-right: 1px solid var(--accent); border-bottom: 1px solid var(--accent); transform: rotate(45deg); }
+.menu-price-filter[open] summary::after { margin-bottom: 0; transform: rotate(225deg); }
+.menu-price-filter output { color: var(--muted); text-align: right; }
+.menu-price-filter input[type="range"] { width: 100%; min-height: 2rem; height: 2rem; padding: 0; border: 0; background: transparent; accent-color: var(--accent); cursor: pointer; }
 .menu-transcript-page { border-bottom: 1px solid var(--border); scroll-margin-block-start: 7rem; }
 .menu-transcript-page:first-child { border-top: 1px solid var(--border); }
 .menu-transcript-page summary { position: relative; display: list-item; min-height: 60px; padding: 1rem 3rem 1rem .5rem; color: var(--primary); font-size: 1rem; cursor: pointer; }

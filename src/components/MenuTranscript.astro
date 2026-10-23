@@ -6,6 +6,7 @@ import Icon from './Icon.astro';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = menuCopy[locale];
+const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.flatMap((section) => section.items.map((item) => item.price))));
 ---
 
 <section class="menu-transcript" id="read-menu" aria-labelledby="menu-transcript-title">
@@ -21,6 +22,8 @@ const copy = menuCopy[locale];
     data-search-no-results={copy.searchNoResults}
     data-search-one-result={copy.searchOneResult}
     data-search-many-results={copy.searchManyResults}
+    data-price-limit-all={copy.priceLimitAll}
+    data-price-limit-up-to={copy.priceLimitUpTo}
     hidden
     data-menu-search
   >
@@ -34,6 +37,23 @@ const copy = menuCopy[locale];
       data-menu-search-input
     />
     <p class="visually-hidden" id="menu-search-hint">{copy.searchHint}</p>
+    <details class="menu-price-filter" data-price-limit-filter>
+      <summary>
+        <span>{copy.priceLimit}</span>
+        <output for="menu-price-limit" data-menu-price-limit-output>{copy.priceLimitAll}</output>
+      </summary>
+      <label class="visually-hidden" for="menu-price-limit">{copy.priceLimit}</label>
+      <input
+        id="menu-price-limit"
+        type="range"
+        min="0"
+        max={maximumMenuPrice}
+        step="1"
+        value={maximumMenuPrice}
+        aria-describedby="menu-search-hint"
+        data-menu-price-limit
+      />
+    </details>
     <p class="menu-search-status" data-menu-search-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
   </search>
   <div class="menu-transcript-pages" id="menu-transcript-pages">
@@ -51,7 +71,7 @@ const copy = menuCopy[locale];
                 {section.items.map((original) => {
                   const item = localizedMenuItem(original, locale);
                   return (
-                    <li data-menu-item data-menu-original={`${original.name} ${original.ingredients}`}>
+                    <li data-menu-item data-menu-price={original.price} data-menu-original={`${original.name} ${original.ingredients}`}>
                       <div class="menu-item-heading"><h4>{item.name}</h4><span class="menu-item-price">{item.price} lei</span></div>
                       {item.name !== original.name && <p class="menu-item-original" lang="ro">{original.name}</p>}
                       {item.ingredients && <p>{item.ingredients}</p>}
@@ -69,28 +89,49 @@ const copy = menuCopy[locale];
 </section>
 
 <script>
-  import { menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, updateMenuSearchUrl } from '../utils/menuSearch.mjs';
+  import { menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, parseMenuPriceLimit, updateMenuSearchUrl } from '../utils/menuSearch.mjs';
 
   const search = document.querySelector<HTMLElement>('[data-menu-search]');
   if (search) {
     const input = search.querySelector<HTMLInputElement>('[data-menu-search-input]')!;
+    const priceLimit = search.querySelector<HTMLInputElement>('[data-menu-price-limit]')!;
+    const priceLimitOutput = search.querySelector<HTMLOutputElement>('[data-menu-price-limit-output]')!;
+    const priceLimitFilter = search.querySelector<HTMLDetailsElement>('[data-price-limit-filter]')!;
     const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
+    const maximumMenuPrice = Number(priceLimit.max);
     const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => ({
       page,
       items: [...page.querySelectorAll<HTMLElement>('[data-menu-item]')],
       sections: [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')],
     }));
-    const initialQuery = new URL(window.location.href).searchParams.get(menuSearchQueryParam);
+    const initialUrl = new URL(window.location.href);
+    const initialQuery = initialUrl.searchParams.get(menuSearchQueryParam);
+    const initialPriceLimit = parseMenuPriceLimit(initialUrl.searchParams.get(menuPriceLimitQueryParam), maximumMenuPrice);
     input.value = initialQuery ?? '';
+    priceLimit.value = String(initialPriceLimit);
+    priceLimitFilter.open = initialPriceLimit < maximumMenuPrice;
     search.hidden = false;
     const searchShortcut = document.querySelector<HTMLAnchorElement>('[data-menu-search-link]');
     if (searchShortcut) searchShortcut.hidden = false;
-    input.addEventListener('input', () => {
-      const currentUrl = window.location.href;
-      const nextUrl = updateMenuSearchUrl(currentUrl, input.value);
-      if (nextUrl.href !== currentUrl) window.history.replaceState(window.history.state, '', nextUrl.href);
 
+    const updatePriceLimitLabel = () => {
+      const currentLimit = Number(priceLimit.value);
+      priceLimitOutput.textContent = currentLimit >= maximumMenuPrice
+        ? search.dataset.priceLimitAll ?? ''
+        : (search.dataset.priceLimitUpTo ?? '').replace('{price}', String(currentLimit));
+      priceLimit.setAttribute('aria-valuetext', priceLimitOutput.textContent);
+    };
+
+    const syncSearchUrl = () => {
+      const currentUrl = window.location.href;
+      const nextUrl = updateMenuSearchUrl(currentUrl, input.value, priceLimit.value, maximumMenuPrice);
+      if (nextUrl.href !== currentUrl) window.history.replaceState(window.history.state, '', nextUrl.href);
+    };
+
+    const updateResults = () => {
       const query = normalizeMenuSearchText(input.value.trim());
+      const currentPriceLimit = Number(priceLimit.value);
+      const filtersAreActive = Boolean(query) || currentPriceLimit < maximumMenuPrice;
       let resultCount = 0;
 
       pages.forEach(({ page, items, sections }) => {
@@ -99,7 +140,9 @@ const copy = menuCopy[locale];
           const section = item.closest('.menu-transcript-section');
           const sectionTitle = section?.querySelector('h3')?.textContent ?? '';
           const pageTitle = page.querySelector('summary')?.textContent ?? '';
-          const matches = menuSearchMatches(query, `${item.textContent} ${item.dataset.menuOriginal ?? ''} ${sectionTitle} ${pageTitle}`);
+          const priceMatches = Number(item.dataset.menuPrice) <= currentPriceLimit;
+          const textMatches = menuSearchMatches(query, `${item.textContent} ${item.dataset.menuOriginal ?? ''} ${sectionTitle} ${pageTitle}`);
+          const matches = priceMatches && textMatches;
           item.hidden = !matches;
           if (matches) {
             pageResultCount += 1;
@@ -111,7 +154,7 @@ const copy = menuCopy[locale];
           section.hidden = !section.querySelector('[data-menu-item]:not([hidden])');
         });
 
-        if (query) {
+        if (filtersAreActive) {
           page.hidden = pageResultCount === 0;
           page.open = pageResultCount > 0;
         } else {
@@ -120,8 +163,8 @@ const copy = menuCopy[locale];
         }
       });
 
-      status.hidden = !query;
-      if (!query) {
+      status.hidden = !filtersAreActive;
+      if (!filtersAreActive) {
         status.textContent = '';
       } else if (resultCount === 0) {
         status.textContent = search.dataset.searchNoResults ?? '';
@@ -130,10 +173,23 @@ const copy = menuCopy[locale];
       } else {
         status.textContent = (search.dataset.searchManyResults ?? '').replace('{count}', String(resultCount));
       }
+    };
+
+    input.addEventListener('input', () => {
+      syncSearchUrl();
+      updateResults();
     });
-    if (initialQuery !== null) {
-      input.dispatchEvent(new Event('input'));
-      if (initialQuery.trim() && !window.location.hash) search.scrollIntoView({ block: 'start' });
+    priceLimit.addEventListener('input', () => {
+      updatePriceLimitLabel();
+      syncSearchUrl();
+      updateResults();
+    });
+
+    updatePriceLimitLabel();
+    syncSearchUrl();
+    updateResults();
+    if ((initialQuery?.trim() || initialPriceLimit < maximumMenuPrice) && !window.location.hash) {
+      search.scrollIntoView({ block: 'start' });
     }
   }
 </script>
