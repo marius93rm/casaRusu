@@ -285,6 +285,8 @@ h1, h2, h3 {
 .opening-status::before { width: .5rem; height: .5rem; flex: 0 0 auto; border-radius: 50%; background: var(--accent); content: ''; }
 .opening-status[data-state='closed'] { border-color: var(--border); color: var(--muted); }
 .opening-status[data-state='closed']::before { background: var(--muted); }
+.hero-copy > .hero-description { margin-bottom: .8rem; }
+.hero-copy > .opening-status { display: flex; width: fit-content; margin-top: 0; margin-bottom: 1rem; }
 .visit-visual { aspect-ratio: 1.45; }
 .visit-content { min-width: 0; }
 .visit-details { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
