@@ -162,6 +162,7 @@ export const fr = {
     "printMenu": "Imprimer le menu",
     "searchLandmark": "Recherche dans la carte",
     "searchLabel": "Trouvez un plat",
+    "searchReturn": "Retour aux filtres",
     "categoryFilter": "Filtrer par catégorie",
     "categoryAll": "Toutes les catégories",
     "searchPlaceholder": "Plat, ingrédient, catégorie ou prix",

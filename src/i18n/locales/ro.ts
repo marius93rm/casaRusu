@@ -160,6 +160,7 @@ export const ro = {
     "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",
     "searchLabel": "Găsește rapid un preparat",
+    "searchReturn": "Înapoi la filtre",
     "categoryFilter": "Filtrează după categorie",
     "categoryAll": "Toate categoriile",
     "searchPlaceholder": "Preparat, ingredient, categorie sau preț",

@@ -69,7 +69,7 @@ assert.match(transcriptSource, /categoryMatches = !selectedCategory \|\| item\.d
 assert.match(transcriptSource, /updateMenuSearchUrl\(currentUrl, input\.value, priceLimit\.value, maximumMenuPrice, categoryFilter\.value\)/, 'The selected category should be included in the share URL');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
 assert.match(transcriptSource, /if \(\(initialQuery\?\.trim\(\) \|\| initialCategory \|\| initialPriceLimit < maximumMenuPrice\) && !window\.location\.hash\) \{\s*search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'Shared search filters should restore their results and bring them into view unless a fragment points elsewhere');
-assert.match(transcriptSource, /if \(searchShortcut\) searchShortcut\.hidden = false/, 'The menu search shortcut should appear only when the search enhancement is available');
+assert.match(transcriptSource, /document\.querySelectorAll<HTMLAnchorElement>\('\[data-menu-search-link\]'\)\.forEach\(\(link\) => \{\s*link\.hidden = false;/, 'Menu search shortcuts should appear only when the search enhancement is available');
 
 let originalItems;
 for (const { file, html } of menus) {
@@ -106,6 +106,9 @@ for (const { file, html } of menus) {
   assert.equal(transcript.length, 200, `${file}: all 200 printed items must be present in the static HTML`);
   assert.equal((html.match(/<details\b[^>]*id="read-/g) ?? []).length, 13, `${file}: all 13 content pages need a text alternative`);
   assert.deepEqual(transcriptScanLinks, slides.slice(1).map(([, id]) => id), `${file}: every transcript page needs a link to its matching scan`);
+  const transcriptReturnLinks = [...html.matchAll(/<a\b[^>]*class="[^"]*menu-transcript-return[^"]*"[^>]*>[\s\S]*?<\/a>/g)].map(([link]) => link);
+  assert.equal(transcriptReturnLinks.length, 13, `${file}: each content page should offer a return link to the filters`);
+  assert.ok(transcriptReturnLinks.every((link) => link.includes('href="#menu-dish-search"') && /\shidden(?:="")?(?:\s|>)/.test(link) && link.includes(labels.searchReturn)), `${file}: return links should be localized, point to search, and stay hidden without JavaScript`);
   assert.match(html, /<search\b[^>]*aria-label="[^"]+"[^>]*hidden[^>]*data-menu-search/, `${file}: search should be available as progressive enhancement`);
   assert.match(html, /<label for="menu-dish-search">[^<]+<\/label>[\s\S]*?<input\b[^>]*type="search"[^>]*aria-controls="menu-transcript-pages"/, `${file}: search needs an associated label and results target`);
   const searchShortcut = html.match(/<a\b(?=[^>]*data-menu-search-link)[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
@@ -142,7 +145,7 @@ for (const { file, html } of menus) {
 assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?priceLimitFilter\.open = false[\s\S]*?syncSearchUrl\(\)[\s\S]*?updateResults\(\)[\s\S]*?input\.focus\(\{ preventScroll: true \}\)/, 'Reset should clear text, category, and price filters, restore the share URL, and return focus to search');
 assert.match(transcriptSource, /window\.addEventListener\('beforeprint'[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?page\.open = true/, 'Print should temporarily include the full menu even when filters are active');
 assert.match(transcriptSource, /window\.addEventListener\('afterprint'[\s\S]*?input\.value = previousState\.query[\s\S]*?categoryFilter\.value = previousState\.category[\s\S]*?priceLimit\.value = previousState\.priceLimit[\s\S]*?page\.open = previousState\.pagesOpen\[index\][\s\S]*?syncSearchUrl\(\)/, 'Closing print preview should restore the filters, expanded sections, and share URL');
-assert.match(menuStyles, /@media print\s*\{[\s\S]*?\.menu-gallery[\s\S]*?\.menu-transcript-pages[\s\S]*?\[data-menu-item\]\[hidden\]/, 'Print styles should focus on the readable transcript and include filtered items');
+assert.match(menuStyles, /@media print\s*\{[\s\S]*?\.menu-gallery[\s\S]*?\.menu-transcript-return[\s\S]*?\.menu-transcript-pages[\s\S]*?\[data-menu-item\]\[hidden\]/, 'Print styles should focus on the readable transcript, hide navigation links, and include filtered items');
 
 for (const locale of locales) {
   const prefix = prefixFor(locale);

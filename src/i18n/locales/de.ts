@@ -162,6 +162,7 @@ export const de = {
     "printMenu": "Speisekarte drucken",
     "searchLandmark": "Speisekarte durchsuchen",
     "searchLabel": "Gericht finden",
+    "searchReturn": "Zurück zu den Filtern",
     "categoryFilter": "Nach Kategorie filtern",
     "categoryAll": "Alle Kategorien",
     "searchPlaceholder": "Gericht, Zutat, Kategorie oder Preis",

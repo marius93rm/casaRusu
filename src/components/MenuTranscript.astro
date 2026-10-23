@@ -101,6 +101,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
             </section>
           ))}
         </div>
+        <a class="text-link menu-transcript-return" href="#menu-dish-search" data-menu-search-link hidden>{copy.searchReturn}</a>
       </details>
     ))}
   </div>
@@ -138,8 +139,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     priceLimit.value = String(initialPriceLimit);
     priceLimitFilter.open = initialPriceLimit < maximumMenuPrice;
     search.hidden = false;
-    const searchShortcut = document.querySelector<HTMLAnchorElement>('[data-menu-search-link]');
-    if (searchShortcut) searchShortcut.hidden = false;
+    document.querySelectorAll<HTMLAnchorElement>('[data-menu-search-link]').forEach((link) => {
+      link.hidden = false;
+    });
 
     const updatePriceLimitLabel = () => {
       const currentLimit = Number(priceLimit.value);

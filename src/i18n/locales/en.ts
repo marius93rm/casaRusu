@@ -162,6 +162,7 @@ export const en = {
     "printMenu": "Print menu",
     "searchLandmark": "Search the menu",
     "searchLabel": "Find a dish",
+    "searchReturn": "Back to filters",
     "categoryFilter": "Filter by category",
     "categoryAll": "All categories",
     "searchPlaceholder": "Dish, ingredient, category, or price",
