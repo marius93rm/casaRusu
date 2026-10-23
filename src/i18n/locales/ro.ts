@@ -29,7 +29,7 @@ export const ro = {
   },
   "seo": {
     "title": "Restaurant Casa Rusu în Codlea | Adresă și program",
-    "description": "Meniu Casa Rusu în Codlea: ciorbe de la 25 lei, paste de la 33 lei, carne de la 36 lei, pește de la 55 lei și Platoul Boieresc de 2,4 kg pentru patru persoane."
+    "description": "Găsește Restaurant Casa Rusu din Codlea: adresa, programul, telefonul pentru rezervări și câteva preparate din meniul restaurantului."
   },
   "copy": {
     "nav": [

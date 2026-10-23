@@ -31,7 +31,7 @@ export const de = {
   },
   "seo": {
     "title": "Restaurant Casa Rusu in Codlea · Öffnungszeiten und Adresse",
-    "description": "Die Speisekarte von Casa Rusu in Codlea: Suppen ab 25 Lei, Pasta ab 33 Lei, Fleisch ab 36 Lei, Fisch ab 55 Lei und eine Platte von 2,4 kg für vier Personen."
+    "description": "Finden Sie das Restaurant Casa Rusu in Codlea: Adresse, Öffnungszeiten, Telefonnummer für Reservierungen und ausgewählte Gerichte der Speisekarte."
   },
   "copy": {
     "menu": {

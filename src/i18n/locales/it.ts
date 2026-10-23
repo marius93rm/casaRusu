@@ -31,7 +31,7 @@ export const it = {
   },
   "seo": {
     "title": "Ristorante Casa Rusu a Codlea · Orari e indirizzo",
-    "description": "Il menu di Casa Rusu a Codlea: zuppe da 25 lei, pasta da 33 lei, carne da 36 lei, pesce da 55 lei e un tagliere da 2,4 kg per quattro persone."
+    "description": "Trova Restaurant Casa Rusu a Codlea: indirizzo, orari, telefono per prenotare e piatti selezionati dal menu del ristorante."
   },
   "copy": {
     "menu": {
