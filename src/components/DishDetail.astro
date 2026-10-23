@@ -4,6 +4,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
+import OpeningStatus from './OpeningStatus.astro';
 import { siteData, type SiteLocale } from '../data/site';
 import { getDictionary, localizedPath } from '../i18n';
 import { menuPages } from '../data/menu';
@@ -42,6 +43,7 @@ if (!printedDishPage || !printedDish) {
     <article class="dish-detail" aria-labelledby="dish-detail-title">
       <div class="container">
         <Breadcrumbs locale={locale} currentLabel={copy.dish.title} level="dish" />
+        <OpeningStatus {locale} />
         <div class="dish-detail-grid">
           <figure class="dish-detail-visual">
             <picture>

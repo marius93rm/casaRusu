@@ -93,6 +93,7 @@
 ### Aggiornamento UX (23/10/2026)
 
 - [x] **CR-54 — Portare lo stato di apertura vicino alle CTA della home.** Prima l’informazione “aperto/chiuso” appariva solo nella sezione visita, in fondo alla pagina. `OpeningStatus` è ora nella hero, sotto indirizzo e descrizione e prima delle azioni di chiamata, menu e posizione; continua a usare gli orari `Europe/Bucharest` e le traduzioni già presenti. Paseo verificato a 320×800 e 390×844 (EN), 390×844 (RO) e 1440×1000 (EN); stato leggibile, CTA e foto restano fruibili, nessun overflow orizzontale. Il build genera 18 pagine e supera i controlli Astro, SEO, menu, orari e i18n; `git diff --check` passa.
+- [x] **CR-55 — Mostrare lo stato di apertura anche su menu e piatto.** Chi arrivava direttamente a queste pagine vedeva la CTA telefonica senza sapere se il locale fosse aperto; ora riusano `OpeningStatus`, gli orari `Europe/Bucharest` e le traduzioni esistenti in tutte le sei lingue. `check:hours`, eseguito nella build, richiede un solo stato con orari e testo localizzato nelle 18 rotte. Preview Paseo verificata su menu e șnițel a 390×844 (RO/EN) e 1440×1000 (RO); nessun overflow orizzontale e stato leggibile vicino al contenuto principale. Build e `git diff --check` superati.
 
 ## Regole per il coordinamento
 

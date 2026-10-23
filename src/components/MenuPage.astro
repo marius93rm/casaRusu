@@ -4,6 +4,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
+import OpeningStatus from './OpeningStatus.astro';
 import MenuGallery from './MenuGallery.astro';
 import MenuTranscript from './MenuTranscript.astro';
 import { menuCopy, menuPages, menuSrcset } from '../data/menu';
@@ -44,6 +45,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
           <p class="eyebrow">{copy.menu.eyebrow}</p>
           <h1 id="menu-page-title">{copy.menu.title}</h1>
           <p class="menu-page-intro">{copy.menu.body}</p>
+          <OpeningStatus {locale} />
         </header>
 
         <MenuGallery {locale} />
