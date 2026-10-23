@@ -159,6 +159,7 @@ export const de = {
     "readTitle": "Die Speisekarte in Ruhe entdecken",
     "readBody": "Gerichte, Zutaten, Mengen und Preise der Originalkarte in einem gut lesbaren Format.",
     "languageNote": "Die Bilder zeigen die rumänische Originalkarte. Der folgende Text ist übersetzt; die Preise sind in rumänischen Lei angegeben.",
+    "printMenu": "Speisekarte drucken",
     "searchLandmark": "Speisekarte durchsuchen",
     "searchLabel": "Gericht finden",
     "searchPlaceholder": "Gericht, Zutat, Kategorie oder Preis",

@@ -12,6 +12,7 @@ const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}men
 })));
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
 const transcriptSource = await readFile(path.join(root, 'src/components/MenuTranscript.astro'), 'utf8');
+const menuStyles = await readFile(path.join(root, 'src/styles/menu.css'), 'utf8');
 assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
 assert.match(transcriptSource, /setAttribute\('aria-valuetext', priceLimitOutput\.textContent\)/, 'Screen readers should hear the localized price and currency for the range value');
 
@@ -70,6 +71,7 @@ for (const { file, html } of menus) {
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
   const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
   const labels = dictionaries[locale].menu;
+  assert.match(html, new RegExp(`<button\\b(?=[^>]*data-menu-print)(?=[^>]*hidden)[^>]*>${labels.printMenu}<\\/button>`), `${file}: print action should be localized and hidden until its behavior is available`);
   const transcriptPrices = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*data-menu-price="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)];
   assert.equal(transcriptPrices.length, 200, 'All printed prices should be available to the filter');
   assert.match(html, /<details class="menu-price-filter"[^>]*data-price-limit-filter/, 'The maximum price filter should be progressively enhanced and collapsible');
@@ -120,6 +122,9 @@ for (const { file, html } of menus) {
 }
 
 assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?input\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?priceLimitFilter\.open = false[\s\S]*?syncSearchUrl\(\)[\s\S]*?updateResults\(\)[\s\S]*?input\.focus\(\{ preventScroll: true \}\)/, 'Reset should clear both filters, restore the share URL, and return focus to search');
+assert.match(transcriptSource, /window\.addEventListener\('beforeprint'[\s\S]*?input\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?page\.open = true/, 'Print should temporarily include the full menu even when search or price filters are active');
+assert.match(transcriptSource, /window\.addEventListener\('afterprint'[\s\S]*?input\.value = previousState\.query[\s\S]*?priceLimit\.value = previousState\.priceLimit[\s\S]*?page\.open = previousState\.pagesOpen\[index\][\s\S]*?syncSearchUrl\(\)/, 'Closing print preview should restore the filters, expanded sections, and share URL');
+assert.match(menuStyles, /@media print\s*\{[\s\S]*?\.menu-gallery[\s\S]*?\.menu-transcript-pages[\s\S]*?\[data-menu-item\]\[hidden\]/, 'Print styles should focus on the readable transcript and include filtered items');
 
 for (const locale of locales) {
   const prefix = prefixFor(locale);

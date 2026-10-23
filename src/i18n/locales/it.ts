@@ -159,6 +159,7 @@ export const it = {
     "readTitle": "Il menu, con calma",
     "readBody": "Piatti, ingredienti, quantità e prezzi del menu originale in un formato facile da leggere.",
     "languageNote": "Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.",
+    "printMenu": "Stampa il menu",
     "searchLandmark": "Ricerca nel menu",
     "searchLabel": "Trova un piatto",
     "searchPlaceholder": "Piatto, ingrediente, categoria o prezzo",

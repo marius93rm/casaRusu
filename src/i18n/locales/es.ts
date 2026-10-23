@@ -159,6 +159,7 @@ export const es = {
     "readTitle": "El menú, sin prisa",
     "readBody": "Platos, ingredientes, cantidades y precios del menú original en un formato fácil de leer.",
     "languageNote": "Las imágenes muestran el menú original en rumano. El texto de abajo está traducido; los precios están en lei rumanos.",
+    "printMenu": "Imprimir menú",
     "searchLandmark": "Buscar en el menú",
     "searchLabel": "Encuentra un plato",
     "searchPlaceholder": "Plato, ingrediente, categoría o precio",

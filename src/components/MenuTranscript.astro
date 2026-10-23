@@ -15,6 +15,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     <h2 id="menu-transcript-title">{copy.readTitle}</h2>
     <p>{copy.readBody}</p>
     <p class="menu-language-note">{copy.languageNote}</p>
+    <button class="button button-outline menu-print-action" type="button" data-menu-print hidden>{copy.printMenu}</button>
   </header>
   <search
     class="menu-search"
@@ -99,6 +100,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     const priceLimitOutput = search.querySelector<HTMLOutputElement>('[data-menu-price-limit-output]')!;
     const priceLimitFilter = search.querySelector<HTMLDetailsElement>('[data-price-limit-filter]')!;
     const resetButton = search.querySelector<HTMLButtonElement>('[data-menu-search-reset]')!;
+    const printButton = document.querySelector<HTMLButtonElement>('[data-menu-print]');
     const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
     const maximumMenuPrice = Number(priceLimit.max);
     const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => ({
@@ -177,6 +179,53 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         status.textContent = (search.dataset.searchManyResults ?? '').replace('{count}', String(resultCount));
       }
     };
+
+    if (printButton) {
+      let printState: {
+        query: string;
+        priceLimit: string;
+        priceFilterOpen: boolean;
+        pagesOpen: boolean[];
+      } | null = null;
+
+      printButton.hidden = false;
+      printButton.addEventListener('click', () => window.print());
+      window.addEventListener('beforeprint', () => {
+        if (!printState) {
+          printState = {
+            query: input.value,
+            priceLimit: priceLimit.value,
+            priceFilterOpen: priceLimitFilter.open,
+            pagesOpen: pages.map(({ page }) => page.open),
+          };
+        }
+
+        input.value = '';
+        priceLimit.value = String(maximumMenuPrice);
+        priceLimitFilter.open = false;
+        updatePriceLimitLabel();
+        updateResults();
+        pages.forEach(({ page }) => {
+          page.hidden = false;
+          page.open = true;
+        });
+      });
+      window.addEventListener('afterprint', () => {
+        if (!printState) return;
+
+        const previousState = printState;
+        printState = null;
+        input.value = previousState.query;
+        priceLimit.value = previousState.priceLimit;
+        priceLimitFilter.open = previousState.priceFilterOpen;
+        updatePriceLimitLabel();
+        updateResults();
+        pages.forEach(({ page }, index) => {
+          page.open = previousState.pagesOpen[index];
+        });
+        syncSearchUrl();
+      });
+    }
 
     input.addEventListener('input', () => {
       syncSearchUrl();

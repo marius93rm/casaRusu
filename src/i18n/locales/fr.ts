@@ -159,6 +159,7 @@ export const fr = {
     "readTitle": "La carte, à votre rythme",
     "readBody": "Les plats, ingrédients, portions et prix du menu original dans un format facile à lire.",
     "languageNote": "Les images présentent le menu original en roumain. Le texte ci-dessous est traduit ; les prix sont en lei roumains.",
+    "printMenu": "Imprimer le menu",
     "searchLandmark": "Recherche dans la carte",
     "searchLabel": "Trouvez un plat",
     "searchPlaceholder": "Plat, ingrédient, catégorie ou prix",

@@ -157,6 +157,7 @@ export const ro = {
     "readTitle": "Meniul, pe îndelete",
     "readBody": "Preparatele, ingredientele, cantitățile și prețurile din meniul original, într-un format ușor de citit.",
     "languageNote": "Meniul este în limba română. Prețurile sunt în lei.",
+    "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",
     "searchLabel": "Găsește rapid un preparat",
     "searchPlaceholder": "Preparat, ingredient, categorie sau preț",
