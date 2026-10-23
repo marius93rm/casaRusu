@@ -226,6 +226,7 @@ const structuredData = {
   (() => {
     const mobileBooking = document.querySelector('[data-mobile-booking]');
     const primaryBooking = document.querySelector('[data-booking-primary]');
+    const visitSection = document.querySelector('#vizita');
     if (!(mobileBooking instanceof HTMLElement) || !(primaryBooking instanceof HTMLAnchorElement)) return;
 
     const mobileViewport = window.matchMedia('(max-width: 760px)');
@@ -237,7 +238,11 @@ const structuredData = {
         && rect.top < window.innerHeight - rootFontSize * 4
         && rect.right > 0
         && rect.left < window.innerWidth;
-      const shouldHide = mobileViewport.matches && visibleAboveBookingBar
+      const visitRect = visitSection instanceof HTMLElement ? visitSection.getBoundingClientRect() : null;
+      const visitSectionVisible = visitRect !== null
+        && visitRect.bottom > 0
+        && visitRect.top < window.innerHeight;
+      const shouldHide = mobileViewport.matches && (visibleAboveBookingBar || visitSectionVisible)
         && !mobileBooking.contains(document.activeElement);
       mobileBooking.hidden = shouldHide;
     };
