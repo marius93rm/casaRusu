@@ -154,6 +154,7 @@ export const it = {
     "priceLimit": "Filtra per prezzo massimo",
     "priceLimitAll": "Tutti i prezzi",
     "priceLimitUpTo": "Fino a {price} lei",
+    "searchReset": "Azzera filtri",
     "searchNoResults": "Nessun piatto trovato.",
     "searchOneResult": "Un piatto trovato.",
     "searchManyResults": "{count} piatti trovati.",

@@ -154,6 +154,7 @@ export const es = {
     "priceLimit": "Filtrar por precio máximo",
     "priceLimitAll": "Todos los precios",
     "priceLimitUpTo": "Hasta {price} lei",
+    "searchReset": "Borrar filtros",
     "searchNoResults": "No se han encontrado platos.",
     "searchOneResult": "Un plato encontrado.",
     "searchManyResults": "{count} platos encontrados.",

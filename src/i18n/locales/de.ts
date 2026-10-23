@@ -154,6 +154,7 @@ export const de = {
     "priceLimit": "Nach Höchstpreis filtern",
     "priceLimitAll": "Alle Preise",
     "priceLimitUpTo": "Bis {price} Lei",
+    "searchReset": "Filter zurücksetzen",
     "searchNoResults": "Keine passenden Gerichte gefunden.",
     "searchOneResult": "Ein Gericht gefunden.",
     "searchManyResults": "{count} Gerichte gefunden.",

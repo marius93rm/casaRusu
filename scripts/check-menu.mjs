@@ -75,6 +75,7 @@ for (const { file, html } of menus) {
   assert.match(html, /<details class="menu-price-filter"[^>]*data-price-limit-filter/, 'The maximum price filter should be progressively enhanced and collapsible');
   assert.match(html, /<label class="visually-hidden" for="menu-price-limit">[^<]+<\/label>[\s\S]*?<input\b(?=[^>]*type="range")(?=[^>]*data-menu-price-limit)[^>]*>/, 'The price range should have an accessible label');
   assert.ok(html.includes(labels.priceLimit) && html.includes(labels.priceLimitAll) && html.includes(labels.priceLimitUpTo), 'Price filter labels should be localized');
+  assert.match(html, new RegExp(`<button class="menu-search-reset"[^>]*data-menu-search-reset[^>]*hidden[^>]*>${labels.searchReset}</button>`), `${file}: reset filters should be localized and hidden until filters are active`);
   for (const [, filterPrice, row] of transcriptPrices) {
     assert.equal(Number(filterPrice), Number(row.match(/class="menu-item-price">(\d+) lei/)?.[1]), 'Filter prices must match the printed menu prices');
   }
@@ -117,6 +118,8 @@ for (const { file, html } of menus) {
     assert.match(row, /class="menu-item-quantity">[^<]+</, `${file}: item missing its printed portion`);
   }
 }
+
+assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?input\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?priceLimitFilter\.open = false[\s\S]*?syncSearchUrl\(\)[\s\S]*?updateResults\(\)[\s\S]*?input\.focus\(\{ preventScroll: true \}\)/, 'Reset should clear both filters, restore the share URL, and return focus to search');
 
 for (const locale of locales) {
   const prefix = prefixFor(locale);

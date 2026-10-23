@@ -54,6 +54,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         data-menu-price-limit
       />
     </details>
+    <button class="menu-search-reset" type="button" data-menu-search-reset hidden>{copy.searchReset}</button>
     <p class="menu-search-status" data-menu-search-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
   </search>
   <div class="menu-transcript-pages" id="menu-transcript-pages">
@@ -97,6 +98,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     const priceLimit = search.querySelector<HTMLInputElement>('[data-menu-price-limit]')!;
     const priceLimitOutput = search.querySelector<HTMLOutputElement>('[data-menu-price-limit-output]')!;
     const priceLimitFilter = search.querySelector<HTMLDetailsElement>('[data-price-limit-filter]')!;
+    const resetButton = search.querySelector<HTMLButtonElement>('[data-menu-search-reset]')!;
     const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
     const maximumMenuPrice = Number(priceLimit.max);
     const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => ({
@@ -164,6 +166,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       });
 
       status.hidden = !filtersAreActive;
+      resetButton.hidden = !filtersAreActive;
       if (!filtersAreActive) {
         status.textContent = '';
       } else if (resultCount === 0) {
@@ -183,6 +186,15 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       updatePriceLimitLabel();
       syncSearchUrl();
       updateResults();
+    });
+    resetButton.addEventListener('click', () => {
+      input.value = '';
+      priceLimit.value = String(maximumMenuPrice);
+      priceLimitFilter.open = false;
+      updatePriceLimitLabel();
+      syncSearchUrl();
+      updateResults();
+      input.focus({ preventScroll: true });
     });
 
     updatePriceLimitLabel();

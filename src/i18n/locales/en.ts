@@ -154,6 +154,7 @@ export const en = {
     "priceLimit": "Filter by maximum price",
     "priceLimitAll": "All prices",
     "priceLimitUpTo": "Up to {price} lei",
+    "searchReset": "Clear filters",
     "searchNoResults": "No matching dishes found.",
     "searchOneResult": "One dish found.",
     "searchManyResults": "{count} dishes found.",

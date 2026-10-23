@@ -82,6 +82,18 @@
 .menu-search input::placeholder { color: var(--muted); opacity: 1; }
 .menu-search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .menu-search-status { min-height: 1.5em; color: var(--muted); font-size: 1rem; }
+.menu-search-reset {
+  justify-self: end;
+  min-height: 44px;
+  padding: .5rem .8rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--primary);
+  font: inherit;
+  cursor: pointer;
+}
+.menu-search-reset:hover { border-color: var(--accent); color: var(--accent); }
+.menu-search-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .menu-price-filter { margin-top: .15rem; }
 .menu-price-filter summary { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; min-height: 44px; color: var(--primary); font-size: .9375rem; cursor: pointer; }
 .menu-price-filter summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

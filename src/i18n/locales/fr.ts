@@ -154,6 +154,7 @@ export const fr = {
     "priceLimit": "Filtrer par prix maximum",
     "priceLimitAll": "Tous les prix",
     "priceLimitUpTo": "Jusqu’à {price} lei",
+    "searchReset": "Effacer les filtres",
     "searchNoResults": "Aucun plat trouvé.",
     "searchOneResult": "Un plat trouvé.",
     "searchManyResults": "{count} plats trouvés.",

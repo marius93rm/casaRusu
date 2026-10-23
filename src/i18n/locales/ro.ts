@@ -152,6 +152,7 @@ export const ro = {
     "priceLimit": "Filtrează după preț maxim",
     "priceLimitAll": "Toate prețurile",
     "priceLimitUpTo": "Până la {price} lei",
+    "searchReset": "Șterge filtrele",
     "searchNoResults": "Nu am găsit preparate potrivite.",
     "searchOneResult": "Un preparat găsit.",
     "searchManyResults": "{count} preparate găsite.",
