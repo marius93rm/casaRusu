@@ -51,6 +51,10 @@ for (const locale of locales) {
     }
     const html = await readFile(new URL(`../dist/${prefixFor(locale)}${route.slice(1)}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`<html lang="${locale}">`));
+    const siteHeader = html.match(/<header\b(?=[^>]*class="site-header")[\s\S]*?<\/header>/)?.[0] ?? '';
+    assert.ok(siteHeader.includes(`<span id="external-link-new-tab" class="visually-hidden">${dictionary.ui.opensInNewTab}</span>`), `${locale}: external-link description should be inside the shared header landmark`);
+    const newTabLinks = [...html.matchAll(/<a\b(?=[^>]*\btarget="_blank")[^>]*>/g)].map(([tag]) => tag);
+    assert.ok(newTabLinks.every((tag) => tag.includes('aria-describedby="external-link-new-tab"')), `${locale}: links opening a new tab should reference the localized description`);
     if (route === '/') {
       for (const id of ['poveste', 'preparat', 'vizita']) {
         assert.match(html, new RegExp(`<section\\b(?=[^>]*\\bid="${id}")(?=[^>]*\\btabindex="-1")[^>]*>`), `${locale}: in-page navigation target ${id} must be programmatically focusable`);

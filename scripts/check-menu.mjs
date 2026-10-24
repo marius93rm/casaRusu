@@ -13,6 +13,8 @@ const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}men
 const gallerySource = await readFile(path.join(root, 'src/components/MenuGallery.astro'), 'utf8');
 const transcriptSource = await readFile(path.join(root, 'src/components/MenuTranscript.astro'), 'utf8');
 const menuStyles = await readFile(path.join(root, 'src/styles/menu.css'), 'utf8');
+const globalStyles = await readFile(path.join(root, 'src/styles/global.css'), 'utf8');
+assert.match(globalStyles, /\.button-outline\s*\{[^}]*background:\s*transparent;/, 'Outline buttons should not inherit low-contrast browser button-face backgrounds');
 assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s*\{[^}]*overflow-x:\s*auto;/, 'The gallery must remain natively horizontally scrollable');
 assert.match(menuStyles, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s*\{[^}]*scrollbar-width:\s*none;/, 'Mobile gallery may hide its visual scrollbar while keeping native scroll enabled');
 assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track::-webkit-scrollbar\s*\{[^}]*display:\s*none;/, 'WebKit mobile fallback should hide the gallery scrollbar');

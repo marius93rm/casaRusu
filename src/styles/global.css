@@ -189,7 +189,7 @@ h1, h2, h3 {
 .button:active { transform: translateY(1px); }
 .button-primary { color: var(--background); background: var(--accent); }
 .button-primary:hover { background: var(--primary); }
-.button-outline { color: var(--accent); border-color: var(--accent); }
+.button-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
 .button-outline:hover { color: var(--background); background: var(--accent); }
 .text-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; padding-block: .35rem; border-bottom: 1px solid var(--border); color: var(--primary); font-size: 1rem; text-decoration: none; transition: border-color 180ms ease; }
 .text-link svg { transition: transform 180ms ease; }
