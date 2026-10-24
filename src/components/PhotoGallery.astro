@@ -21,6 +21,19 @@ const copy = galleryCopy[locale];
               <div class="photo-gallery-image">
                 <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} /></template>
                 <noscript><RestaurantPhoto {image} alt={copy.alts[index]} /></noscript>
+                <button
+                  class="photo-gallery-enlarge"
+                  type="button"
+                  aria-label={`${copy.enlarge}: ${copy.captions[index]}`}
+                  aria-haspopup="dialog"
+                  data-photo-open
+                  data-photo-src={image}
+                  data-photo-alt={copy.alts[index]}
+                  data-photo-caption={copy.captions[index]}
+                  hidden
+                >
+                  <Icon name="zoom-in" size={18} /><span>{copy.enlarge}</span>
+                </button>
               </div>
               <figcaption>{copy.captions[index]}</figcaption>
             </figure>
@@ -32,6 +45,22 @@ const copy = galleryCopy[locale];
       <button type="button" aria-label={copy.previous} aria-controls="photo-gallery-track" data-photo-previous aria-disabled="true"><Icon name="previous" size={22} /></button>
       <button type="button" aria-label={copy.next} aria-controls="photo-gallery-track" data-photo-next aria-disabled="false"><Icon name="chevron" size={22} /></button>
     </div>
+    <dialog class="photo-lightbox" aria-labelledby="photo-lightbox-title">
+      <div class="photo-lightbox-toolbar">
+        <h2 id="photo-lightbox-title">{copy.title}</h2>
+        <div class="photo-lightbox-controls">
+          <button type="button" aria-label={copy.previous} data-photo-lightbox-previous disabled><Icon name="previous" /></button>
+          <button type="button" aria-label={copy.next} data-photo-lightbox-next disabled><Icon name="chevron" /></button>
+          <form method="dialog"><button type="submit" aria-label={copy.close} autofocus><Icon name="close" /></button></form>
+        </div>
+      </div>
+      <figure class="photo-lightbox-media">
+        <div class="photo-lightbox-image-wrap">
+          <img data-photo-lightbox-image alt="" width="2048" height="1366" decoding="async" />
+        </div>
+        <figcaption data-photo-lightbox-caption aria-live="polite" aria-atomic="true"></figcaption>
+      </figure>
+    </dialog>
   </div>
 </section>
 
@@ -42,7 +71,17 @@ const copy = galleryCopy[locale];
     const previous = gallery.querySelector<HTMLButtonElement>('[data-photo-previous]');
     const next = gallery.querySelector<HTMLButtonElement>('[data-photo-next]');
     if (!track || !controls || !previous || !next) return;
+    const dialog = gallery.querySelector<HTMLDialogElement>('.photo-lightbox');
+    const lightboxImage = dialog?.querySelector<HTMLImageElement>('[data-photo-lightbox-image]');
+    const lightboxCaption = dialog?.querySelector<HTMLElement>('[data-photo-lightbox-caption]');
+    const lightboxPrevious = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-previous]');
+    const lightboxNext = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-next]');
+    const enlargeButtons = [...gallery.querySelectorAll<HTMLButtonElement>('[data-photo-open]')];
+    if (!dialog || !lightboxImage || !lightboxCaption || !lightboxPrevious || !lightboxNext) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let lightboxIndex = 0;
+    let opener: HTMLButtonElement | null = null;
+    let previousOverflow = '';
     // Native lazy loading may fetch the entire strip well before it is visible.
     // Keep every original pixel and defer requests until the photo is nearby.
     const reveal = (slide: Element) => {
@@ -67,6 +106,44 @@ const copy = galleryCopy[locale];
       const step = slide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(slide.parentElement!).columnGap);
       track.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
     };
+    const showLightboxPhoto = (index: number) => {
+      lightboxIndex = Math.max(0, Math.min(enlargeButtons.length - 1, index));
+      const photo = enlargeButtons[lightboxIndex];
+      lightboxImage.src = photo.dataset.photoSrc ?? '';
+      lightboxImage.alt = photo.dataset.photoAlt ?? '';
+      lightboxCaption.textContent = photo.dataset.photoCaption ?? '';
+      lightboxPrevious.disabled = lightboxIndex === 0;
+      lightboxNext.disabled = lightboxIndex === enlargeButtons.length - 1;
+    };
+    const openLightbox = (index: number, trigger: HTMLButtonElement) => {
+      opener = trigger;
+      showLightboxPhoto(index);
+      previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      dialog.showModal();
+    };
+
+    enlargeButtons.forEach((button, index) => {
+      button.hidden = false;
+      button.addEventListener('click', () => openLightbox(index, button));
+    });
+    lightboxPrevious.addEventListener('click', () => showLightboxPhoto(lightboxIndex - 1));
+    lightboxNext.addEventListener('click', () => showLightboxPhoto(lightboxIndex + 1));
+    dialog.addEventListener('keydown', (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.key === 'ArrowLeft' && lightboxIndex > 0) {
+        event.preventDefault();
+        showLightboxPhoto(lightboxIndex - 1);
+      } else if (event.key === 'ArrowRight' && lightboxIndex < enlargeButtons.length - 1) {
+        event.preventDefault();
+        showLightboxPhoto(lightboxIndex + 1);
+      }
+    });
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => {
+      document.body.style.overflow = previousOverflow;
+      opener?.focus({ preventScroll: true });
+    });
     previous.addEventListener('click', () => { if (previous.getAttribute('aria-disabled') !== 'true') move(-1); });
     next.addEventListener('click', () => { if (next.getAttribute('aria-disabled') !== 'true') move(1); });
     track.addEventListener('keydown', (event) => {
@@ -91,7 +168,7 @@ const copy = galleryCopy[locale];
   .photo-gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
   ul { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
   li { min-width: 0; scroll-snap-align: start; }
-  .photo-gallery-image { aspect-ratio: 2048 / 1366; overflow: hidden; }
+  .photo-gallery-image { position: relative; aspect-ratio: 2048 / 1366; overflow: hidden; }
   figure :global(picture) { height: 100%; }
   figure :global(img) { height: 100%; object-fit: cover; }
   figcaption { margin-top: .85rem; color: var(--text); font-size: 1rem; }
@@ -100,9 +177,28 @@ const copy = galleryCopy[locale];
   button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
   button:hover { background: var(--surface); }
   button[aria-disabled='true'] { color: var(--muted); border-color: var(--border); cursor: default; }
+  .photo-gallery-enlarge { position: absolute; right: .75rem; bottom: .75rem; display: flex; align-items: center; justify-content: center; gap: .4rem; width: auto; min-width: 44px; min-height: 44px; padding: .55rem .75rem; border-color: var(--accent); background: rgb(33 30 26 / 92%); color: #fff; font: inherit; font-size: .875rem; }
+  .photo-gallery-enlarge[hidden] { display: none; }
+  .photo-gallery-enlarge:hover { background: var(--surface); color: var(--primary); }
+  .photo-lightbox { width: min(94vw, 72rem); height: min(92dvh, 56rem); max-width: none; max-height: none; margin: auto; padding: clamp(.75rem, 2vw, 1.25rem); border: 1px solid var(--border); background: var(--background); color: var(--text); }
+  .photo-lightbox[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; }
+  .photo-lightbox::backdrop { background: rgb(0 0 0 / 82%); }
+  .photo-lightbox-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+  .photo-lightbox-toolbar h2 { margin: 0; font-size: clamp(1.25rem, 3vw, 1.75rem); }
+  .photo-lightbox-controls { display: flex; align-items: center; gap: .5rem; }
+  .photo-lightbox-controls form { margin: 0; }
+  .photo-lightbox-media { display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: .5rem; min-height: 0; margin: 0; }
+  .photo-lightbox-image-wrap { display: grid; place-items: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; }
+  .photo-lightbox-image-wrap img { display: block; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; }
+  .photo-lightbox-media figcaption { margin: 0; text-align: center; }
+  .photo-lightbox-controls button:focus-visible, .photo-gallery-enlarge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   @media (max-width: 760px) {
     .photo-gallery { padding-bottom: 4rem; }
     ul { grid-auto-columns: 86%; gap: 1rem; }
     .photo-gallery-intro { margin-bottom: 1.5rem; }
+  }
+  @media (max-width: 320px) {
+    .photo-lightbox-toolbar { align-items: flex-start; flex-direction: column; }
+    .photo-lightbox-controls { align-self: flex-end; }
   }
 </style>

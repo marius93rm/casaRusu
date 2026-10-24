@@ -144,6 +144,10 @@
 
 - [x] **CR-76 — Mostrare prezzi di partenza navigabili nella home.** Sostituito il riepilogo con prezzi duplicati nei testi con quattro riquadri localizzati per antipasti, zuppe, pasta e pesce. Nome, prezzo minimo e collegamento al filtro vengono calcolati dalla trascrizione del menu, così i numeri restano allineati alla fonte fornita da Marius; ciascun riquadro apre la categoria corretta nella pagina menu. Verifiche: `ASTRO_TELEMETRY_DISABLED=1 npm run build` (57 file senza diagnostiche, 19 pagine, check SEO/menu/orari/i18n/lingua superati), `git diff --check`; preview Paseo controllata in RO 390×844, FR 280×800 ed EN 1440×1000, senza overflow. Il collegamento “Ciorbe” seleziona il filtro `salate-ciorbe-2` e mostra cinque voci. Axe-core sulle sei home a 390×844: 44 controlli superati per pagina, zero violazioni.
 
+### Galleria fotografica della home (25/10/2026)
+
+- [x] **CR-78 — Aprire le foto della home in una lightbox accessibile.** Le quattro foto possono essere ingrandite in un dialogo nativo con immagine originale, alt e didascalia; comandi tradotti RO/EN/IT/ES/FR/DE, frecce e tasti freccia per cambiare foto, chiusura con Escape o clic sullo sfondo, ripristino di focus e scorrimento. I pulsanti appaiono solo dopo l’avvio dello script e le foto originali restano disponibili senza JavaScript. Aggiunto `check:gallery` alla build per verificare asset, localizzazioni e markup generato in tutte le lingue. La build completa passa (62 file Astro senza diagnostiche, 19 pagine, controlli SEO/menu/orari/galleria/i18n/lingua) insieme a `git diff --check`. Preview Paseo: screenshot verificati a 390×844 e 1440×1000; a 280×800 il titolo ora occupa una riga separata dai comandi. Provati immagine originale caricata a 2048×1366, navigazione da tastiera fino all’ultima foto, limiti dei pulsanti, nessun overflow orizzontale, chiusura con Escape, focus restituito al pulsante che ha aperto la foto e ripristino dello scroll.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.
