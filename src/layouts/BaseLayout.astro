@@ -103,11 +103,11 @@ const socialLocale = socialLocales[lang];
 
         const mobileBooking = mobileBookingCta.closest('.mobile-booking');
         const mobileViewport = window.matchMedia('(max-width: 760px)');
-        const netlifyBadgeSelector = 'iframe[title="Powered by Netlify"]';
+        const netlifyOverlaySelector = 'iframe[title="Powered by Netlify"], iframe[title="Netlify Drawer"]';
         const root = document.documentElement;
         let syncFrame = 0;
-        let observedNetlifyBadge = null;
-        let netlifyBadgeResizeObserver;
+        let observedNetlifyOverlay = null;
+        let netlifyOverlayResizeObserver;
         const syncMobileBookingSpace = () => {
           syncFrame = 0;
           if (!mobileViewport.matches) {
@@ -134,18 +134,18 @@ const socialLocale = socialLocales[lang];
             root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
           }
 
-          const netlifyBadge = document.querySelector(netlifyBadgeSelector);
-          if (netlifyBadge !== observedNetlifyBadge) {
-            netlifyBadgeResizeObserver?.disconnect();
-            observedNetlifyBadge = netlifyBadge;
-            if (netlifyBadge instanceof HTMLIFrameElement) netlifyBadgeResizeObserver?.observe(netlifyBadge);
+          const netlifyOverlay = document.querySelector(netlifyOverlaySelector);
+          if (netlifyOverlay !== observedNetlifyOverlay) {
+            netlifyOverlayResizeObserver?.disconnect();
+            observedNetlifyOverlay = netlifyOverlay;
+            if (netlifyOverlay instanceof HTMLIFrameElement) netlifyOverlayResizeObserver?.observe(netlifyOverlay);
           }
 
-          if (mobileBooking instanceof HTMLElement && !mobileBooking.hidden && netlifyBadge instanceof HTMLIFrameElement) {
-            const badgeRect = netlifyBadge.getBoundingClientRect();
-            const pinnedToViewportBottom = Math.abs(window.innerHeight - badgeRect.bottom) <= 2;
-            if (badgeRect.width > 0 && badgeRect.height > 0 && pinnedToViewportBottom) {
-              root.style.setProperty('--mobile-booking-bottom-offset', `${Math.ceil(window.innerHeight - badgeRect.top)}px`);
+          if (mobileBooking instanceof HTMLElement && !mobileBooking.hidden && netlifyOverlay instanceof HTMLIFrameElement) {
+            const overlayRect = netlifyOverlay.getBoundingClientRect();
+            const pinnedToViewportBottom = Math.abs(window.innerHeight - overlayRect.bottom) <= 2;
+            if (overlayRect.width > 0 && overlayRect.height > 0 && pinnedToViewportBottom) {
+              root.style.setProperty('--mobile-booking-bottom-offset', `${Math.ceil(window.innerHeight - overlayRect.top)}px`);
               return;
             }
           }
@@ -157,13 +157,13 @@ const socialLocale = socialLocales[lang];
           syncFrame = window.requestAnimationFrame(syncMobileBookingSpace);
         };
 
-        if ('ResizeObserver' in window) netlifyBadgeResizeObserver = new ResizeObserver(scheduleSync);
-        const containsNetlifyBadge = (node) => node instanceof Element
-          && (node.matches(netlifyBadgeSelector) || node.querySelector(netlifyBadgeSelector) instanceof HTMLIFrameElement);
-        const netlifyBadgeMutationObserver = new MutationObserver((records) => {
-          if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyBadge))) scheduleSync();
+        if ('ResizeObserver' in window) netlifyOverlayResizeObserver = new ResizeObserver(scheduleSync);
+        const containsNetlifyOverlay = (node) => node instanceof Element
+          && (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
+        const netlifyOverlayMutationObserver = new MutationObserver((records) => {
+          if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay))) scheduleSync();
         });
-        netlifyBadgeMutationObserver.observe(root, { childList: true, subtree: true });
+        netlifyOverlayMutationObserver.observe(root, { childList: true, subtree: true });
         if (mobileBooking instanceof HTMLElement) new MutationObserver(scheduleSync).observe(mobileBooking, { attributes: true, attributeFilter: ['hidden'] });
 
         window.addEventListener('resize', scheduleSync, { passive: true });

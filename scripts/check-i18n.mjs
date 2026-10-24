@@ -28,7 +28,9 @@ assert.match(homeSource, /requestAnimationFrame/, 'The mobile booking position c
 assert.match(homeSource, /document\.addEventListener\('keydown', scheduleSync\)/, 'Keyboard navigation should refresh the mobile booking visibility');
 assert.match(homeSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');
 assert.match(layoutSource, /--mobile-booking-height/, 'The mobile page should reserve the rendered booking CTA height');
-assert.match(layoutSource, /iframe\[title="Powered by Netlify"\][\s\S]*--mobile-booking-bottom-offset/, 'The mobile booking bar should clear the viewport-pinned Netlify preview badge');
+assert.match(layoutSource, /iframe\[title="Powered by Netlify"\]/, 'The mobile booking bar should recognize the Netlify badge');
+assert.match(layoutSource, /iframe\[title="Netlify Drawer"\]/, 'The mobile booking bar should recognize the Netlify Deploy Preview drawer');
+assert.match(layoutSource, /--mobile-booking-bottom-offset/, 'The mobile booking bar should reserve space above a viewport-pinned Netlify overlay');
 assert.match(layoutSource, /ResizeObserver/, 'The mobile booking reserve should track CTA size changes');
 assert.match(styleSource, /bottom: var\(--mobile-booking-bottom-offset/, 'The mobile booking CTA should sit above an injected preview badge');
 assert.match(styleSource, /body \{ padding-bottom: calc\([^;]*--mobile-booking-bottom-offset/, 'The mobile page should reserve space below the raised booking CTA');
