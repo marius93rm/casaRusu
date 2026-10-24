@@ -378,13 +378,14 @@ h1, h2, h3 {
   body:has(.mobile-booking[hidden]) { padding-bottom: 0; }
   html {
     scroll-padding-top: 5rem;
-    scroll-padding-bottom: calc(var(--mobile-booking-height, calc(5.25rem + env(safe-area-inset-bottom))) + 1rem);
+    scroll-padding-bottom: calc(var(--mobile-booking-height, calc(5.25rem + env(safe-area-inset-bottom))) + var(--mobile-booking-bottom-offset, 0px) + 1rem);
   }
-  body { padding-bottom: var(--mobile-booking-height, calc(5.25rem + env(safe-area-inset-bottom))); }
+  body { padding-bottom: calc(var(--mobile-booking-height, calc(5.25rem + env(safe-area-inset-bottom))) + var(--mobile-booking-bottom-offset, 0px)); }
   .mobile-booking-cta {
     position: fixed;
     z-index: 30;
     inset: auto 0 0;
+    bottom: var(--mobile-booking-bottom-offset, 0px);
     display: flex;
     align-items: center;
     justify-content: center;

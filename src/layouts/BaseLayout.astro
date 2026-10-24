@@ -101,12 +101,18 @@ const socialLocale = socialLocales[lang];
         const mobileBookingCta = document.querySelector('.mobile-booking-cta');
         if (!(mobileBookingCta instanceof HTMLElement)) return;
 
+        const mobileBooking = mobileBookingCta.closest('.mobile-booking');
         const mobileViewport = window.matchMedia('(max-width: 760px)');
+        const netlifyBadgeSelector = 'iframe[title="Powered by Netlify"]';
+        const root = document.documentElement;
         let syncFrame = 0;
+        let observedNetlifyBadge = null;
+        let netlifyBadgeResizeObserver;
         const syncMobileBookingSpace = () => {
           syncFrame = 0;
           if (!mobileViewport.matches) {
-            document.documentElement.style.removeProperty('--mobile-booking-height');
+            root.style.removeProperty('--mobile-booking-height');
+            root.style.removeProperty('--mobile-booking-bottom-offset');
             return;
           }
 
@@ -125,13 +131,40 @@ const socialLocale = socialLocales[lang];
           }
 
           if (height > 0) {
-            document.documentElement.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
+            root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
           }
+
+          const netlifyBadge = document.querySelector(netlifyBadgeSelector);
+          if (netlifyBadge !== observedNetlifyBadge) {
+            netlifyBadgeResizeObserver?.disconnect();
+            observedNetlifyBadge = netlifyBadge;
+            if (netlifyBadge instanceof HTMLIFrameElement) netlifyBadgeResizeObserver?.observe(netlifyBadge);
+          }
+
+          if (mobileBooking instanceof HTMLElement && !mobileBooking.hidden && netlifyBadge instanceof HTMLIFrameElement) {
+            const badgeRect = netlifyBadge.getBoundingClientRect();
+            const pinnedToViewportBottom = Math.abs(window.innerHeight - badgeRect.bottom) <= 2;
+            if (badgeRect.width > 0 && badgeRect.height > 0 && pinnedToViewportBottom) {
+              root.style.setProperty('--mobile-booking-bottom-offset', `${Math.ceil(window.innerHeight - badgeRect.top)}px`);
+              return;
+            }
+          }
+
+          root.style.removeProperty('--mobile-booking-bottom-offset');
         };
         const scheduleSync = () => {
           if (syncFrame) return;
           syncFrame = window.requestAnimationFrame(syncMobileBookingSpace);
         };
+
+        if ('ResizeObserver' in window) netlifyBadgeResizeObserver = new ResizeObserver(scheduleSync);
+        const containsNetlifyBadge = (node) => node instanceof Element
+          && (node.matches(netlifyBadgeSelector) || node.querySelector(netlifyBadgeSelector) instanceof HTMLIFrameElement);
+        const netlifyBadgeMutationObserver = new MutationObserver((records) => {
+          if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyBadge))) scheduleSync();
+        });
+        netlifyBadgeMutationObserver.observe(root, { childList: true, subtree: true });
+        if (mobileBooking instanceof HTMLElement) new MutationObserver(scheduleSync).observe(mobileBooking, { attributes: true, attributeFilter: ['hidden'] });
 
         window.addEventListener('resize', scheduleSync, { passive: true });
         mobileViewport.addEventListener('change', scheduleSync);

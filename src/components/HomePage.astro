@@ -311,7 +311,9 @@ const structuredData = {
     let bookingBarHeight = measureBookingBarHeight();
     const syncMobileBooking = () => {
       const rect = primaryBooking.getBoundingClientRect();
-      const bookingBarTop = window.innerHeight - bookingBarHeight;
+      const bookingBarBottomOffset = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mobile-booking-bottom-offset')) || 0;
+      const bookingBarBottom = window.innerHeight - bookingBarBottomOffset;
+      const bookingBarTop = bookingBarBottom - bookingBarHeight;
       const visibleAboveBookingBar = rect.bottom > rootFontSize * 5
         && rect.top < bookingBarTop
         && rect.right > 0
@@ -319,11 +321,11 @@ const structuredData = {
       const visitPhotoRect = visitPhoto instanceof HTMLElement ? visitPhoto.getBoundingClientRect() : null;
       const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
         && visitPhotoRect.bottom > bookingBarTop
-        && visitPhotoRect.top < window.innerHeight;
+        && visitPhotoRect.top < bookingBarBottom;
       const visitActionOverlapsBookingBar = visitActions.some((action) => {
         const actionRect = action.getBoundingClientRect();
         return actionRect.bottom > bookingBarTop
-          && actionRect.top < window.innerHeight
+          && actionRect.top < bookingBarBottom
           && actionRect.right > 0
           && actionRect.left < window.innerWidth;
       });
