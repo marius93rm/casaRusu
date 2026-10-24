@@ -1,0 +1,170 @@
+{
+  "captured_at": "2026-10-23",
+  "language": "it",
+  "revision": "27ec2a6ff723c2d15ef520505a8175122843a06c",
+  "browser": "Paseo locale, engine=paseo",
+  "screenshots": [
+    {
+      "file": "desktop/01-homepage.png",
+      "title": "01 · Homepage",
+      "width": 1440,
+      "height": 900,
+      "bytes": 553049,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/02-anteprima-menu.png",
+      "title": "02 · Anteprima del menu",
+      "width": 1440,
+      "height": 720,
+      "bytes": 305210,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/03-dalla-cucina.png",
+      "title": "03 · Dalla nostra cucina",
+      "width": 1440,
+      "height": 900,
+      "bytes": 420459,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/04-contatti.png",
+      "title": "04 · Contatti e orari",
+      "width": 1440,
+      "height": 900,
+      "bytes": 301222,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/05-menu-sfogliabile.png",
+      "title": "05 · Menu sfogliabile",
+      "width": 1440,
+      "height": 900,
+      "bytes": 504739,
+      "page": "/it/meniu/#menu-page-aperitive",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/06-ricerca-menu.png",
+      "title": "06 · Ricerca dei piatti",
+      "width": 1440,
+      "height": 900,
+      "bytes": 99764,
+      "page": "/it/meniu/?q=tagliatelle#read-menu",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/07-scheda-piatto.png",
+      "title": "07 · Scheda del piatto",
+      "width": 1440,
+      "height": 900,
+      "bytes": 465132,
+      "page": "/it/preparate/snitel-cotlet-porc/",
+      "theme": "light"
+    },
+    {
+      "file": "desktop/08-homepage-tema-scuro.png",
+      "title": "08 · Homepage in tema scuro",
+      "width": 1440,
+      "height": 900,
+      "bytes": 551966,
+      "page": "/it/",
+      "theme": "dark"
+    },
+    {
+      "file": "mobile/01-homepage.png",
+      "title": "01 · Homepage mobile",
+      "width": 430,
+      "height": 932,
+      "bytes": 242889,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "mobile/02-anteprima-menu.png",
+      "title": "02 · Anteprima del menu mobile",
+      "width": 430,
+      "height": 932,
+      "bytes": 145012,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "mobile/03-dalla-cucina.png",
+      "title": "03 · Dalla nostra cucina mobile",
+      "width": 430,
+      "height": 932,
+      "bytes": 184299,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "mobile/04-contatti.png",
+      "title": "04 · Contatti mobile",
+      "width": 430,
+      "height": 1100,
+      "bytes": 159284,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "mobile/05-ricerca-menu.png",
+      "title": "05 · Ricerca dei piatti mobile",
+      "width": 430,
+      "height": 932,
+      "bytes": 84083,
+      "page": "/it/meniu/?q=tagliatelle#read-menu",
+      "theme": "light"
+    },
+    {
+      "file": "mobile/06-menu-sfogliabile.png",
+      "title": "06 · Menu sfogliabile mobile",
+      "width": 430,
+      "height": 932,
+      "bytes": 224768,
+      "page": "/it/meniu/#menu-page-aperitive",
+      "theme": "light"
+    },
+    {
+      "file": "pagine-complete/homepage-desktop.png",
+      "title": "Homepage desktop completa",
+      "width": 1425,
+      "height": 3648,
+      "bytes": 1839571,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "pagine-complete/homepage-mobile.png",
+      "title": "Homepage mobile completa",
+      "width": 415,
+      "height": 4222,
+      "bytes": 911370,
+      "page": "/it/",
+      "theme": "light"
+    },
+    {
+      "file": "pagine-complete/menu-desktop.png",
+      "title": "Menu desktop completo",
+      "width": 1425,
+      "height": 4467,
+      "bytes": 1261449,
+      "page": "/it/meniu/",
+      "theme": "light"
+    },
+    {
+      "file": "pagine-complete/scheda-piatto-desktop.png",
+      "title": "Scheda del piatto completa",
+      "width": 1425,
+      "height": 1208,
+      "bytes": 575921,
+      "page": "/it/preparate/snitel-cotlet-porc/",
+      "theme": "light"
+    }
+  ]
+}
