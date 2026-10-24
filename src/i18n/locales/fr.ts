@@ -69,7 +69,9 @@ export const fr = {
     },
     "story": {
       "title": "À table, avec ceux qu’on aime.",
-      "body": "La carte réunit soupes, entrées traditionnelles, pâtes, pinsa, poissons, viandes et desserts. Soupes dès 25 lei, pâtes dès 33 lei, viandes dès 36 lei et poissons dès 55 lei. Le plateau Boieresc Casa Rusu (2,4 kg, pour quatre personnes) est à 340 lei."
+      "body": "La carte réunit soupes, entrées traditionnelles, pâtes, pinsa, poissons, viandes et desserts.",
+      "priceGuide": "Prix de départ du menu imprimé",
+      "priceFrom": "Dès {price} lei"
     },
     "dish": {
       "eyebrow": "De notre cuisine",

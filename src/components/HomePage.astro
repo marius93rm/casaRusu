@@ -23,6 +23,24 @@ const socialImage = {
 };
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 const openingHours = formatOpeningHours(siteData.company.openingHours, locale);
+const menuPriceCategories = [
+  { pageId: 'aperitive', sectionIndex: 0 },
+  { pageId: 'salate-ciorbe', sectionIndex: 1 },
+  { pageId: 'paste-peste', sectionIndex: 0 },
+  { pageId: 'paste-peste', sectionIndex: 1 },
+].map(({ pageId, sectionIndex }) => {
+  const page = menuPages.find((candidate) => candidate.id === pageId);
+  const section = page?.sections[sectionIndex];
+  if (!page || !section || section.items.length === 0) {
+    throw new Error(`Missing homepage price category: ${pageId}-${sectionIndex + 1}`);
+  }
+
+  return {
+    label: section.title[locale],
+    price: Math.min(...section.items.map((item) => item.price)),
+    href: `${localizedPath('/meniu', locale)}/?category=${page.id}-${sectionIndex + 1}#read-menu`,
+  };
+});
 const menuPrices = menuPages.flatMap((page) => page.sections.flatMap((section) => section.items.map((item) => item.price)));
 const menuPriceRange = `${Math.min(...menuPrices)}–${Math.max(...menuPrices)} lei`;
 const structuredData = {
@@ -118,6 +136,18 @@ const structuredData = {
       <div class="container story-inner">
         <h2 id="story-title">{copy.story.title}</h2>
         <p class="story-body">{copy.story.body}</p>
+        <p class="story-price-note">{copy.story.priceGuide}</p>
+        <ul class="story-price-grid" aria-label={copy.story.priceGuide}>
+          {menuPriceCategories.map((category) => (
+            <li>
+              <a class="story-price-card" href={category.href}>
+                <span class="story-price-category">{category.label}</span>
+                <span class="story-price-value">{copy.story.priceFrom.replace('{price}', String(category.price))}</span>
+                <Icon name="arrow" size={18} />
+              </a>
+            </li>
+          ))}
+        </ul>
         <a class="text-link story-link" href="#preparat">{copy.dish.eyebrow}<Icon name="arrow" size={18} /></a>
       </div>
     </section>

@@ -69,7 +69,9 @@ export const it = {
     },
     "story": {
       "title": "A tavola, con le persone care.",
-      "body": "Il menu propone zuppe, antipasti tradizionali, pasta, pinsa, pesce, carne e dolci. Zuppe da 25 lei, pasta da 33 lei, carne da 36 lei e pesce da 55 lei. Il tagliere Boieresc Casa Rusu (2,4 kg, per quattro persone) costa 340 lei."
+      "body": "Il menu riunisce zuppe, antipasti tradizionali, pasta, pinsa, pesce, carne e dolci.",
+      "priceGuide": "Prezzi di partenza dal menu stampato",
+      "priceFrom": "Da {price} lei"
     },
     "dish": {
       "eyebrow": "Dalla nostra cucina",
