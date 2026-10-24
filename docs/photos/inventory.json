@@ -1,0 +1,65 @@
+[
+  {
+    "source": "casa-rusu-interior.jpg",
+    "originalName": "825351537_122111652627477205_7436696873175223231_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 253632,
+    "sha256": "fb5a6f9aad3c375f09fd9d2f9d4b6dd9148a820a78f77d4f9300f1dbc78643df",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-preparat.jpg",
+    "originalName": "828127944_122112035511477205_8911503988203820180_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 111809,
+    "sha256": "dfde467edff09fe033be7d87dbc3dc44aae15e3f55ca766021079734a122d28c",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-exterior.jpg",
+    "originalName": "830029935_122112035265477205_3283460473353573239_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 164465,
+    "sha256": "f114f40a7eef1f86bd3ec39a306ac70388ccbf986163d197f6ead1d974ef8b21",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-platou-branzeturi.jpg",
+    "originalName": "828539155_122112035535477205_5159938828364923453_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 171260,
+    "sha256": "87c9110535a339fe1acc6fe660f1393601b884de4f91a99c78d7bc220093d87c",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-servire-platouri.jpg",
+    "originalName": "830941838_122112034545477205_1067938577646299983_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 108417,
+    "sha256": "55194065dd894352726f361beaffe771ad3864835d44086227b154a8f63c812e",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-servire-bere.jpg",
+    "originalName": "828572950_122112035469477205_6869721508804937931_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 118049,
+    "sha256": "015542c2dbfd4668870cd7ff7a43c42fc2fd74650fe412d45f4df04664294e62",
+    "delivery": "original-jpeg-unchanged"
+  },
+  {
+    "source": "casa-rusu-atmosfera-sala.jpg",
+    "originalName": "830393366_122112034389477205_7760583851855976779_n.jpg",
+    "width": 2048,
+    "height": 1366,
+    "sourceBytes": 202033,
+    "sha256": "ff2a6d5886c4a10063418f6cb7a3862f9cf781e5b17fe59433c9c5fde2b8160c",
+    "delivery": "original-jpeg-unchanged"
+  }
+]

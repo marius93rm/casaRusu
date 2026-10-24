@@ -1,0 +1,108 @@
+---
+import Icon from './Icon.astro';
+import RestaurantPhoto from './RestaurantPhoto.astro';
+import { galleryCopy, galleryPhotos } from '../data/photoGallery';
+import type { SiteLocale } from '../data/site';
+
+const { locale } = Astro.props as { locale: SiteLocale };
+const copy = galleryCopy[locale];
+---
+
+<section class="photo-gallery" aria-labelledby="photo-gallery-title" data-photo-gallery>
+  <div class="container">
+    <h2 id="photo-gallery-title">{copy.title}</h2>
+    <p class="photo-gallery-intro">{copy.intro}</p>
+    <p class="visually-hidden" id="photo-gallery-help">{copy.keyboard}</p>
+    <div class="photo-gallery-track" id="photo-gallery-track" role="region" aria-labelledby="photo-gallery-title" aria-describedby="photo-gallery-help" tabindex="0" data-photo-track>
+      <ul role="list">
+        {galleryPhotos.map((image, index) => (
+          <li>
+            <figure>
+              <div class="photo-gallery-image">
+                <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} /></template>
+                <noscript><RestaurantPhoto {image} alt={copy.alts[index]} /></noscript>
+              </div>
+              <figcaption>{copy.captions[index]}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="photo-gallery-controls" data-photo-controls hidden>
+      <button type="button" aria-label={copy.previous} aria-controls="photo-gallery-track" data-photo-previous aria-disabled="true"><Icon name="previous" size={22} /></button>
+      <button type="button" aria-label={copy.next} aria-controls="photo-gallery-track" data-photo-next aria-disabled="false"><Icon name="chevron" size={22} /></button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-photo-gallery]').forEach((gallery) => {
+    const track = gallery.querySelector<HTMLElement>('[data-photo-track]');
+    const controls = gallery.querySelector<HTMLElement>('[data-photo-controls]');
+    const previous = gallery.querySelector<HTMLButtonElement>('[data-photo-previous]');
+    const next = gallery.querySelector<HTMLButtonElement>('[data-photo-next]');
+    if (!track || !controls || !previous || !next) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Native lazy loading may fetch the entire strip well before it is visible.
+    // Keep every original pixel and defer requests until the photo is nearby.
+    const reveal = (slide: Element) => {
+      const template = slide.querySelector<HTMLTemplateElement>('[data-photo-picture]');
+      template?.replaceWith(template.content.cloneNode(true));
+    };
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        reveal(entry.target);
+        observer.unobserve(entry.target);
+      }
+    }, { rootMargin: '200px' });
+    track.querySelectorAll('li').forEach((slide) => observer.observe(slide));
+    const sync = () => {
+      previous.setAttribute('aria-disabled', String(track.scrollLeft <= 2));
+      next.setAttribute('aria-disabled', String(track.scrollLeft + track.clientWidth >= track.scrollWidth - 2));
+    };
+    const move = (direction: number) => {
+      const slide = track.querySelector('li');
+      if (!slide) return;
+      const step = slide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(slide.parentElement!).columnGap);
+      track.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    };
+    previous.addEventListener('click', () => { if (previous.getAttribute('aria-disabled') !== 'true') move(-1); });
+    next.addEventListener('click', () => { if (next.getAttribute('aria-disabled') !== 'true') move(1); });
+    track.addEventListener('keydown', (event) => {
+      if (event.target !== track || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === 'ArrowLeft') move(-1);
+      else if (event.key === 'ArrowRight') move(1);
+      else track.scrollTo({ left: event.key === 'Home' ? 0 : track.scrollWidth, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    });
+    track.addEventListener('scroll', sync, { passive: true });
+    new ResizeObserver(sync).observe(track);
+    controls.hidden = false;
+    sync();
+  });
+</script>
+
+<style>
+  .photo-gallery { padding-bottom: var(--section-space); }
+  .photo-gallery h2 { max-width: 45rem; margin-bottom: 1rem; font-size: clamp(2.5rem, 4.2vw, 4rem); }
+  .photo-gallery-intro { max-width: 36rem; margin-bottom: 2.25rem; color: var(--muted); font-size: 1.0625rem; }
+  .photo-gallery-track { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface); padding-bottom: 1rem; }
+  .photo-gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+  ul { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+  li { min-width: 0; scroll-snap-align: start; }
+  .photo-gallery-image { aspect-ratio: 2048 / 1366; overflow: hidden; }
+  figure :global(picture) { height: 100%; }
+  figure :global(img) { height: 100%; object-fit: cover; }
+  figcaption { margin-top: .85rem; color: var(--text); font-size: 1rem; }
+  .photo-gallery-controls { display: flex; justify-content: flex-end; gap: .75rem; margin-top: 1rem; }
+  .photo-gallery-controls[hidden] { display: none; }
+  button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+  button:hover { background: var(--surface); }
+  button[aria-disabled='true'] { color: var(--muted); border-color: var(--border); cursor: default; }
+  @media (max-width: 760px) {
+    .photo-gallery { padding-bottom: 4rem; }
+    ul { grid-auto-columns: 86%; gap: 1rem; }
+    .photo-gallery-intro { margin-bottom: 1.5rem; }
+  }
+</style>

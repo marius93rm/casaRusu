@@ -93,6 +93,17 @@ const { ui } = getDictionary(locale);
     </div>
     <a class="menu-original-link" href={menuPages[0].image} target="_blank" rel="noopener noreferrer" aria-describedby="external-link-new-tab">{copy.original}<Icon name="diagonal" size={16} /></a>
   </dialog>
+  <script is:inline>
+    // Apply the gallery geometry during parsing, before the deferred controls load.
+    // Without JavaScript, the original index and printed pages remain available.
+    (() => {
+      const gallery = document.currentScript?.closest('[data-menu-gallery]');
+      if (!(gallery instanceof HTMLElement)) return;
+      gallery.dataset.enhanced = 'true';
+      gallery.querySelector('.menu-gallery-toolbar')?.removeAttribute('hidden');
+      gallery.querySelector('.menu-mobile-index')?.removeAttribute('hidden');
+    })();
+  </script>
 </section>
 
 <script>
