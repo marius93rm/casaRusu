@@ -87,7 +87,9 @@ export const en = {
     },
     "story": {
       "title": "Come for a good meal. Bring your favourite people.",
-      "body": "The menu brings together soups, traditional starters, pasta, pinsa, fish, meat dishes and desserts. Soups start at 25 lei, pasta at 33 lei, meat at 36 lei and fish at 55 lei. The Casa Rusu Boieresc platter (2.4 kg, for four) costs 340 lei."
+      "body": "The menu brings together soups, traditional starters, pasta, pinsa, fish, meat dishes and desserts.",
+      "priceGuide": "Starting prices from the printed menu",
+      "priceFrom": "From {price} lei"
     },
     "dish": {
       "eyebrow": "From our kitchen",

@@ -85,7 +85,9 @@ export const ro = {
     },
     "story": {
       "title": "La masă, cu oameni dragi.",
-      "body": "Meniul aduce ciorbe, gustări tradiționale, paste, pinsa, pește, carne și deserturi. Ciorbele pornesc de la 25 lei, pastele de la 33 lei, carnea de la 36 lei și peștele de la 55 lei. Platoul Boieresc Casa Rusu (2,4 kg, pentru patru persoane) costă 340 lei."
+      "body": "Meniul reunește ciorbe, gustări tradiționale, paste, pinsa, pește, carne și deserturi.",
+      "priceGuide": "Prețuri de pornire din meniul tipărit",
+      "priceFrom": "De la {price} lei"
     },
     "dish": {
       "eyebrow": "Din bucătăria noastră",

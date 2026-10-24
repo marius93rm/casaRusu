@@ -69,7 +69,9 @@ export const de = {
     },
     "story": {
       "title": "Gemeinsam essen. Mit den liebsten Menschen.",
-      "body": "Unsere Speisekarte bietet Suppen, traditionelle Vorspeisen, Pasta, Pinsa, Fisch, Fleisch und Desserts. Suppen ab 25 Lei, Pasta ab 33 Lei, Fleisch ab 36 Lei und Fisch ab 55 Lei. Die Boieresc-Platte Casa Rusu (2,4 kg, für vier Personen) kostet 340 Lei."
+      "body": "Die Speisekarte vereint Suppen, traditionelle Vorspeisen, Pasta, Pinsa, Fisch, Fleischgerichte und Desserts.",
+      "priceGuide": "Einstiegspreise aus der gedruckten Speisekarte",
+      "priceFrom": "Ab {price} lei"
     },
     "dish": {
       "eyebrow": "Aus unserer Küche",

@@ -207,12 +207,22 @@ h1, h2, h3 {
   .button svg, .header-cta { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
   .button:hover svg { transform: translateX(3px); }
   .header-cta:hover { transform: translateY(-1px); }
+  .story-price-card { transition: border-color 180ms ease, transform 180ms ease; }
+  .story-price-card:hover { transform: translateY(-2px); border-color: var(--accent); }
 }
 
 .story-section { border-top: 1px solid var(--border); }
 .story-inner { padding-block: var(--section-space); max-width: 54rem; text-align: center; }
 .story-inner h2 { margin-bottom: 1.5rem; font-size: clamp(2.5rem, 4.2vw, 4rem); }
 .story-body { max-width: 37rem; margin-inline: auto; color: var(--muted); font-size: 1.0625rem; }
+.story-price-note { margin: 2rem 0 .8rem; color: var(--muted); font-size: .8125rem; letter-spacing: .1em; text-transform: uppercase; }
+.story-price-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; max-width: 68rem; margin: 0 auto; padding: 0; list-style: none; text-align: left; }
+.story-price-grid li { min-width: 0; }
+.story-price-card { display: grid; grid-template-rows: auto 1fr auto; gap: .65rem; height: 100%; padding: 1rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; }
+.story-price-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.story-price-category { color: var(--muted); font-size: .9375rem; line-height: 1.35; }
+.story-price-value { align-self: end; font-size: clamp(1rem, 1.6vw, 1.3rem); font-weight: 600; line-height: 1.2; }
+.story-price-card svg { color: var(--accent); }
 .story-link { margin-top: 1.5rem; }
 
 .dish-section { padding-bottom: var(--section-space); }
@@ -407,6 +417,11 @@ h1, h2, h3 {
   .story-inner { padding-block: 4rem; }
   .story-inner h2 { font-size: clamp(2.3rem, 8vw, 3.5rem); }
   .story-body { font-size: 1.0625rem; }
+  .story-price-note { margin-top: 1.75rem; font-size: .75rem; }
+  .story-price-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+  .story-price-card { gap: .55rem; padding: .8rem; }
+  .story-price-category { font-size: .875rem; }
+  .story-price-value { font-size: 1rem; }
   .dish-section { padding-bottom: 4rem; }
   .dish-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .dish-visual { aspect-ratio: 1.2; }

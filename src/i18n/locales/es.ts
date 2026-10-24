@@ -69,7 +69,9 @@ export const es = {
     },
     "story": {
       "title": "A la mesa, con tus seres queridos.",
-      "body": "El menú reúne sopas, entrantes tradicionales, pasta, pinsa, pescado, carne y postres. Sopas desde 25 lei, pasta desde 33 lei, carne desde 36 lei y pescado desde 55 lei. La fuente Boieresc Casa Rusu (2,4 kg, para cuatro personas) cuesta 340 lei."
+      "body": "El menú reúne sopas, entrantes tradicionales, pasta, pinsa, pescado, carne y postres.",
+      "priceGuide": "Precios de partida del menú impreso",
+      "priceFrom": "Desde {price} lei"
     },
     "dish": {
       "eyebrow": "De nuestra cocina",
