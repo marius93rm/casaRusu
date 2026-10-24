@@ -4,6 +4,10 @@ Sito Astro indipendente per Restaurant Casa Rusu. Contatti, colori e collegament
 
 ## Anteprima
 
+URL provvisorio: https://casarusu.netlify.app/.
+
+Dal 24/10/2026, su istruzione di Marius, si lavora con branch, commit e push dei soli branch per aggiornare le preview Netlify. Nessun commit/push diretto su `main`, merge su `main`, auto-merge o deploy manuale di produzione senza una nuova autorizzazione esplicita di Marius. Il merge lo decide lui, per evitare consumo inutile di crediti Netlify. La regola vale anche per l'heartbeat; vedere [AGENTS.md](AGENTS.md).
+
 Redesign editoriale con titoli Cormorant Garamond, palette avorio e bronzo derivata dal logo, fotografie reali e prenotazione telefonica nella navigazione. Layout responsive, tema scuro secondo le preferenze di sistema e rispetto di `prefers-reduced-motion`.
 
 Homepage catturata in locale nelle versioni desktop e mobile, presentata in mockup MacBook e iPhone.
