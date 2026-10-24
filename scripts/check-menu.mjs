@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { menuCategoryQueryParam, menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, parseMenuCategory, parseMenuPriceLimit, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
+import { menuCategoryQueryParam, menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, menuSortQueryParam, normalizeMenuSearchText, parseMenuCategory, parseMenuPriceLimit, parseMenuSort, sortMenuItems, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -19,7 +19,10 @@ assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s
 assert.match(menuStyles, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.menu-gallery\[data-enhanced\] \.menu-gallery-track\s*\{[^}]*scrollbar-width:\s*none;/, 'Mobile gallery may hide its visual scrollbar while keeping native scroll enabled');
 assert.match(menuStyles, /\.menu-gallery\[data-enhanced\] \.menu-gallery-track::-webkit-scrollbar\s*\{[^}]*display:\s*none;/, 'WebKit mobile fallback should hide the gallery scrollbar');
 assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
+assert.match(transcriptSource, /searchParams\.get\(menuSortQueryParam\)/, 'The menu should restore a shared price order from its URL');
 assert.match(transcriptSource, /setAttribute\('aria-valuetext', priceLimitOutput\.textContent\)/, 'Screen readers should hear the localized price and currency for the range value');
+assert.match(transcriptSource, /sortFilter\.addEventListener\('change'/, 'Changing the localized sort control should refresh visible menu order');
+assert.match(transcriptSource, /list\.append\(\.\.\.sortMenuItems\(sectionItems, selectedSort\)\)/, 'Price sorting should stay within each printed category');
 
 assert.match(gallerySource, /window\.history\.pushState/, 'Explicit menu navigation must create a shareable history entry');
 assert.match(gallerySource, /window\.history\.replaceState/, 'Swipe navigation must update the shareable page without flooding browser history');
@@ -52,28 +55,44 @@ const validCategories = new Set(['aperitive-1', 'paste-peste-2']);
 assert.equal(parseMenuCategory('aperitive-1', validCategories), 'aperitive-1', 'A shared category should be restored when it matches an available menu section');
 assert.equal(parseMenuCategory('unknown-section', validCategories), '', 'Unknown shared categories should not filter the menu');
 assert.equal(parseMenuCategory(null, validCategories), '', 'A missing category should include every section');
-const sharedMenuUrl = updateMenuSearchUrl('https://example.test/en/meniu/?lang=en&source=share#menu-page-porc', '  afumat rata  ', 55, 340, 'aperitive-1');
+assert.equal(parseMenuSort(null), 'menu', 'Missing sort order should preserve printed menu order');
+assert.equal(parseMenuSort('price-asc'), 'price-asc', 'A shared ascending price sort should be restored');
+assert.equal(parseMenuSort('price-desc'), 'price-desc', 'A shared descending price sort should be restored');
+assert.equal(parseMenuSort('invalid'), 'menu', 'Invalid shared sort orders should fall back to printed menu order');
+const sampleSortableItems = [
+  { name: 'middle', dataset: { menuPrice: '40' } },
+  { name: 'first tie', dataset: { menuPrice: '20' } },
+  { name: 'second tie', dataset: { menuPrice: '20' } },
+  { name: 'last', dataset: { menuPrice: '80' } },
+];
+assert.deepEqual(sortMenuItems(sampleSortableItems, 'menu').map(({ name }) => name), ['middle', 'first tie', 'second tie', 'last'], 'Printed menu order should remain the default');
+assert.deepEqual(sortMenuItems(sampleSortableItems, 'price-asc').map(({ name }) => name), ['first tie', 'second tie', 'middle', 'last'], 'Ascending price order should be stable for equal prices');
+assert.deepEqual(sortMenuItems(sampleSortableItems, 'price-desc').map(({ name }) => name), ['last', 'middle', 'first tie', 'second tie'], 'Descending price order should be stable for equal prices');
+const sharedMenuUrl = updateMenuSearchUrl('https://example.test/en/meniu/?lang=en&source=share#menu-page-porc', '  afumat rata  ', 55, 340, 'aperitive-1', 'price-asc');
 assert.equal(sharedMenuUrl.searchParams.get(menuSearchQueryParam), 'afumat rata', 'Search should normalize surrounding whitespace in its share URL');
 assert.equal(sharedMenuUrl.searchParams.get(menuPriceLimitQueryParam), '55', 'A selected price limit should be shareable');
 assert.equal(sharedMenuUrl.searchParams.get(menuCategoryQueryParam), 'aperitive-1', 'A selected category should be shareable');
+assert.equal(sharedMenuUrl.searchParams.get(menuSortQueryParam), 'price-asc', 'A selected price order should be shareable');
 assert.equal(sharedMenuUrl.searchParams.get('lang'), 'en', 'Search URL updates should preserve unrelated query parameters');
 assert.equal(sharedMenuUrl.hash, '#menu-page-porc', 'Search URL updates should preserve the selected scan');
-const clearedMenuUrl = updateMenuSearchUrl(sharedMenuUrl.href, '  ', 55, 340, 'aperitive-1');
+const clearedMenuUrl = updateMenuSearchUrl(sharedMenuUrl.href, '  ', 55, 340, 'aperitive-1', 'price-asc');
 assert.equal(clearedMenuUrl.searchParams.has(menuSearchQueryParam), false, 'Clearing search should remove its URL parameter');
 assert.equal(clearedMenuUrl.searchParams.get(menuPriceLimitQueryParam), '55', 'Clearing search should preserve the price limit');
 assert.equal(clearedMenuUrl.searchParams.get(menuCategoryQueryParam), 'aperitive-1', 'Clearing search should preserve the selected category');
+assert.equal(clearedMenuUrl.searchParams.get(menuSortQueryParam), 'price-asc', 'Clearing search should preserve the selected price order');
 assert.equal(clearedMenuUrl.searchParams.get('source'), 'share', 'Clearing search should preserve unrelated query parameters');
 assert.equal(clearedMenuUrl.hash, '#menu-page-porc', 'Clearing search should preserve the selected scan');
 const resetMenuUrl = updateMenuSearchUrl(clearedMenuUrl.href, '', 340, 340, '');
 assert.equal(resetMenuUrl.searchParams.has(menuPriceLimitQueryParam), false, 'Resetting the price limit should remove its URL parameter');
 assert.equal(resetMenuUrl.searchParams.has(menuCategoryQueryParam), false, 'Resetting the category should remove its URL parameter');
+assert.equal(resetMenuUrl.searchParams.has(menuSortQueryParam), false, 'Resetting the sort order should remove its URL parameter');
 assert.match(transcriptSource, /searchParams\.get\(menuSearchQueryParam\)/, 'The menu should restore a shared query from its URL');
 assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 'The menu should restore a shared price limit from its URL');
 assert.match(transcriptSource, /searchParams\.get\(menuCategoryQueryParam\)/, 'The menu should restore a shared category from its URL');
 assert.match(transcriptSource, /categoryMatches = !selectedCategory \|\| item\.dataset\.menuCategory === selectedCategory/, 'The selected category should constrain menu results');
-assert.match(transcriptSource, /updateMenuSearchUrl\(currentUrl, input\.value, priceLimit\.value, maximumMenuPrice, categoryFilter\.value\)/, 'The selected category should be included in the share URL');
+assert.match(transcriptSource, /updateMenuSearchUrl\(currentUrl, input\.value, priceLimit\.value, maximumMenuPrice, categoryFilter\.value, sortFilter\.value\)/, 'The selected category and sort order should be included in the share URL');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
-assert.match(transcriptSource, /if \(\(initialQuery\?\.trim\(\) \|\| initialCategory \|\| initialPriceLimit < maximumMenuPrice\) && !window\.location\.hash\) \{\s*search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'Shared search filters should restore their results and bring them into view unless a fragment points elsewhere');
+assert.match(transcriptSource, /if \(\(initialQuery\?\.trim\(\) \|\| initialCategory \|\| initialPriceLimit < maximumMenuPrice \|\| initialSort !== 'menu'\) && !window\.location\.hash\) \{\s*search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'Shared search filters and sort order should restore their results and bring them into view unless a fragment points elsewhere');
 assert.match(transcriptSource, /document\.querySelectorAll<HTMLAnchorElement>\('\[data-menu-search-link\]'\)\.forEach\(\(link\) => \{\s*link\.hidden = false;/, 'Menu search shortcuts should appear only when the search enhancement is available');
 
 let originalItems;
@@ -97,6 +116,10 @@ for (const { file, html } of menus) {
   assert.equal(new Set(categoryOptions).size, 33, `${file}: category values should uniquely identify each printed section`);
   assert.deepEqual([...new Set(itemCategories)].sort(), [...categoryOptions].sort(), `${file}: every menu item should belong to one selectable section`);
   assert.ok(html.includes(labels.categoryFilter) && html.includes(labels.categoryAll), `${file}: category filter labels should be localized`);
+  assert.match(html, /<details class="menu-sort-filter"[^>]*data-menu-sort-filter-details/, `${file}: price sorting should be collapsible`);
+  assert.ok(html.includes(`<label class="visually-hidden" for="menu-sort-order">${labels.sortFilter}</label>`), `${file}: sort select should have a localized label`);
+  assert.ok(html.includes(`<option value="menu">${labels.sortMenuOrder}</option>`), `${file}: printed menu order should be the localized default`);
+  assert.ok(html.includes(`<option value="price-asc">${labels.sortPriceAsc}</option>`) && html.includes(`<option value="price-desc">${labels.sortPriceDesc}</option>`), `${file}: ascending and descending price options should be localized`);
   assert.match(html, /<details class="menu-price-filter"[^>]*data-price-limit-filter/, 'The maximum price filter should be progressively enhanced and collapsible');
   assert.match(html, /<label class="visually-hidden" for="menu-price-limit">[^<]+<\/label>[\s\S]*?<input\b(?=[^>]*type="range")(?=[^>]*data-menu-price-limit)[^>]*>/, 'The price range should have an accessible label');
   assert.ok(html.includes(labels.priceLimit) && html.includes(labels.priceLimitAll) && html.includes(labels.priceLimitUpTo), 'Price filter labels should be localized');
@@ -149,9 +172,9 @@ for (const { file, html } of menus) {
   }
 }
 
-assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?priceLimitFilter\.open = false[\s\S]*?syncSearchUrl\(\)[\s\S]*?updateResults\(\)[\s\S]*?input\.focus\(\{ preventScroll: true \}\)/, 'Reset should clear text, category, and price filters, restore the share URL, and return focus to search');
-assert.match(transcriptSource, /window\.addEventListener\('beforeprint'[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?page\.open = true/, 'Print should temporarily include the full menu even when filters are active');
-assert.match(transcriptSource, /window\.addEventListener\('afterprint'[\s\S]*?input\.value = previousState\.query[\s\S]*?categoryFilter\.value = previousState\.category[\s\S]*?priceLimit\.value = previousState\.priceLimit[\s\S]*?page\.open = previousState\.pagesOpen\[index\][\s\S]*?syncSearchUrl\(\)/, 'Closing print preview should restore the filters, expanded sections, and share URL');
+assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?sortFilter\.value = 'menu'[\s\S]*?syncSearchUrl\(\)[\s\S]*?updateResults\(\)[\s\S]*?input\.focus\(\{ preventScroll: true \}\)/, 'Reset should clear text, category, price, and sort filters, restore the share URL, and return focus to search');
+assert.match(transcriptSource, /window\.addEventListener\('beforeprint'[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?sortFilter\.value = 'menu'[\s\S]*?page\.open = true/, 'Print should temporarily include the full menu in printed order even when filters are active');
+assert.match(transcriptSource, /window\.addEventListener\('afterprint'[\s\S]*?input\.value = previousState\.query[\s\S]*?categoryFilter\.value = previousState\.category[\s\S]*?priceLimit\.value = previousState\.priceLimit[\s\S]*?sortFilter\.value = previousState\.sort[\s\S]*?page\.open = previousState\.pagesOpen\[index\][\s\S]*?syncSearchUrl\(\)/, 'Closing print preview should restore the filters, expanded sections, sort order, and share URL');
 assert.match(menuStyles, /@media print\s*\{[\s\S]*?\.menu-gallery[\s\S]*?\.menu-transcript-return[\s\S]*?\.menu-transcript-pages[\s\S]*?\[data-menu-item\]\[hidden\]/, 'Print styles should focus on the readable transcript, hide navigation links, and include filtered items');
 
 for (const locale of locales) {
@@ -181,4 +204,4 @@ for (const locale of locales) {
   assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
   assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca testuale e filtri categoria/prezzo accessibili e condivisibili, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca testuale, filtri categoria/prezzo e ordinamento accessibili e condivisibili, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');

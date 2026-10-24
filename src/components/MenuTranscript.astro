@@ -26,6 +26,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     data-price-limit-all={copy.priceLimitAll}
     data-price-limit-up-to={copy.priceLimitUpTo}
     data-category-all={copy.categoryAll}
+    data-sort-menu-order={copy.sortMenuOrder}
     hidden
     data-menu-search
   >
@@ -71,6 +72,18 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         data-menu-price-limit
       />
     </details>
+    <details class="menu-sort-filter" data-menu-sort-filter-details>
+      <summary>
+        <span>{copy.sortFilter}</span>
+        <output for="menu-sort-order" data-menu-sort-output>{copy.sortMenuOrder}</output>
+      </summary>
+      <label class="visually-hidden" for="menu-sort-order">{copy.sortFilter}</label>
+      <select id="menu-sort-order" data-menu-sort-filter aria-describedby="menu-search-hint">
+        <option value="menu">{copy.sortMenuOrder}</option>
+        <option value="price-asc">{copy.sortPriceAsc}</option>
+        <option value="price-desc">{copy.sortPriceDesc}</option>
+      </select>
+    </details>
     <button class="menu-search-reset" type="button" data-menu-search-reset hidden>{copy.searchReset}</button>
     <p class="menu-search-status" data-menu-search-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
   </search>
@@ -108,7 +121,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
 </section>
 
 <script>
-  import { menuCategoryQueryParam, menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, parseMenuCategory, parseMenuPriceLimit, updateMenuSearchUrl } from '../utils/menuSearch.mjs';
+  import { menuCategoryQueryParam, menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, menuSortQueryParam, normalizeMenuSearchText, parseMenuCategory, parseMenuPriceLimit, parseMenuSort, sortMenuItems, updateMenuSearchUrl } from '../utils/menuSearch.mjs';
 
   const search = document.querySelector<HTMLElement>('[data-menu-search]');
   if (search) {
@@ -119,25 +132,34 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     const priceLimit = search.querySelector<HTMLInputElement>('[data-menu-price-limit]')!;
     const priceLimitOutput = search.querySelector<HTMLOutputElement>('[data-menu-price-limit-output]')!;
     const priceLimitFilter = search.querySelector<HTMLDetailsElement>('[data-price-limit-filter]')!;
+    const sortFilter = search.querySelector<HTMLSelectElement>('[data-menu-sort-filter]')!;
+    const sortFilterDetails = search.querySelector<HTMLDetailsElement>('[data-menu-sort-filter-details]')!;
+    const sortFilterOutput = search.querySelector<HTMLOutputElement>('[data-menu-sort-output]')!;
     const resetButton = search.querySelector<HTMLButtonElement>('[data-menu-search-reset]')!;
     const printButton = document.querySelector<HTMLButtonElement>('[data-menu-print]');
     const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
     const maximumMenuPrice = Number(priceLimit.max);
     const validCategories = new Set([...categoryFilter.options].map((option) => option.value).filter(Boolean));
-    const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => ({
-      page,
-      items: [...page.querySelectorAll<HTMLElement>('[data-menu-item]')],
-      sections: [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')],
-    }));
+    const pages = [...document.querySelectorAll<HTMLDetailsElement>('.menu-transcript-page')].map((page) => {
+      const sections = [...page.querySelectorAll<HTMLElement>('.menu-transcript-section')].map((element) => ({
+        element,
+        list: element.querySelector<HTMLUListElement>('ul')!,
+        items: [...element.querySelectorAll<HTMLElement>('[data-menu-item]')],
+      }));
+      return { page, sections, items: sections.flatMap(({ items }) => items) };
+    });
     const initialUrl = new URL(window.location.href);
     const initialQuery = initialUrl.searchParams.get(menuSearchQueryParam);
     const initialCategory = parseMenuCategory(initialUrl.searchParams.get(menuCategoryQueryParam), validCategories);
     const initialPriceLimit = parseMenuPriceLimit(initialUrl.searchParams.get(menuPriceLimitQueryParam), maximumMenuPrice);
+    const initialSort = parseMenuSort(initialUrl.searchParams.get(menuSortQueryParam));
     input.value = initialQuery ?? '';
     categoryFilter.value = initialCategory;
     categoryFilterDetails.open = Boolean(initialCategory);
     priceLimit.value = String(initialPriceLimit);
     priceLimitFilter.open = initialPriceLimit < maximumMenuPrice;
+    sortFilter.value = initialSort;
+    sortFilterDetails.open = initialSort !== 'menu';
     search.hidden = false;
     document.querySelectorAll<HTMLAnchorElement>('[data-menu-search-link]').forEach((link) => {
       link.hidden = false;
@@ -155,9 +177,13 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       categoryFilterOutput.textContent = categoryFilter.selectedOptions[0]?.textContent ?? search.dataset.categoryAll ?? '';
     };
 
+    const updateSortFilterLabel = () => {
+      sortFilterOutput.textContent = sortFilter.selectedOptions[0]?.textContent ?? search.dataset.sortMenuOrder ?? '';
+    };
+
     const syncSearchUrl = () => {
       const currentUrl = window.location.href;
-      const nextUrl = updateMenuSearchUrl(currentUrl, input.value, priceLimit.value, maximumMenuPrice, categoryFilter.value);
+      const nextUrl = updateMenuSearchUrl(currentUrl, input.value, priceLimit.value, maximumMenuPrice, categoryFilter.value, sortFilter.value);
       if (nextUrl.href !== currentUrl) window.history.replaceState(window.history.state, '', nextUrl.href);
     };
 
@@ -165,7 +191,8 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       const query = normalizeMenuSearchText(input.value.trim());
       const currentPriceLimit = Number(priceLimit.value);
       const selectedCategory = categoryFilter.value;
-      const filtersAreActive = Boolean(query) || currentPriceLimit < maximumMenuPrice || Boolean(selectedCategory);
+      const selectedSort = sortFilter.value;
+      const filtersAreActive = Boolean(query) || currentPriceLimit < maximumMenuPrice || Boolean(selectedCategory) || selectedSort !== 'menu';
       let resultCount = 0;
 
       pages.forEach(({ page, items, sections }) => {
@@ -185,8 +212,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
           }
         });
 
-        sections.forEach((section) => {
-          section.hidden = !section.querySelector('[data-menu-item]:not([hidden])');
+        sections.forEach(({ element, list, items: sectionItems }) => {
+          list.append(...sortMenuItems(sectionItems, selectedSort));
+          element.hidden = !sectionItems.some((item) => !item.hidden);
         });
 
         if (filtersAreActive) {
@@ -218,6 +246,8 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         categoryFilterOpen: boolean;
         priceLimit: string;
         priceFilterOpen: boolean;
+        sort: string;
+        sortFilterOpen: boolean;
         pagesOpen: boolean[];
       } | null = null;
 
@@ -231,6 +261,8 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
             categoryFilterOpen: categoryFilterDetails.open,
             priceLimit: priceLimit.value,
             priceFilterOpen: priceLimitFilter.open,
+            sort: sortFilter.value,
+            sortFilterOpen: sortFilterDetails.open,
             pagesOpen: pages.map(({ page }) => page.open),
           };
         }
@@ -242,6 +274,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         priceLimit.value = String(maximumMenuPrice);
         priceLimitFilter.open = false;
         updatePriceLimitLabel();
+        sortFilter.value = 'menu';
+        sortFilterDetails.open = false;
+        updateSortFilterLabel();
         updateResults();
         pages.forEach(({ page }) => {
           page.hidden = false;
@@ -260,6 +295,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         priceLimit.value = previousState.priceLimit;
         priceLimitFilter.open = previousState.priceFilterOpen;
         updatePriceLimitLabel();
+        sortFilter.value = previousState.sort;
+        sortFilterDetails.open = previousState.sortFilterOpen;
+        updateSortFilterLabel();
         updateResults();
         pages.forEach(({ page }, index) => {
           page.open = previousState.pagesOpen[index];
@@ -282,6 +320,11 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       syncSearchUrl();
       updateResults();
     });
+    sortFilter.addEventListener('change', () => {
+      updateSortFilterLabel();
+      syncSearchUrl();
+      updateResults();
+    });
     resetButton.addEventListener('click', () => {
       input.value = '';
       categoryFilter.value = '';
@@ -290,6 +333,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       priceLimit.value = String(maximumMenuPrice);
       priceLimitFilter.open = false;
       updatePriceLimitLabel();
+      sortFilter.value = 'menu';
+      sortFilterDetails.open = false;
+      updateSortFilterLabel();
       syncSearchUrl();
       updateResults();
       input.focus({ preventScroll: true });
@@ -297,9 +343,10 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
 
     updatePriceLimitLabel();
     updateCategoryFilterLabel();
+    updateSortFilterLabel();
     syncSearchUrl();
     updateResults();
-    if ((initialQuery?.trim() || initialCategory || initialPriceLimit < maximumMenuPrice) && !window.location.hash) {
+    if ((initialQuery?.trim() || initialCategory || initialPriceLimit < maximumMenuPrice || initialSort !== 'menu') && !window.location.hash) {
       search.scrollIntoView({ block: 'start' });
     }
   }

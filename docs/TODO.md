@@ -144,6 +144,10 @@
 
 - [x] **CR-76 — Mostrare prezzi di partenza navigabili nella home.** Sostituito il riepilogo con prezzi duplicati nei testi con quattro riquadri localizzati per antipasti, zuppe, pasta e pesce. Nome, prezzo minimo e collegamento al filtro vengono calcolati dalla trascrizione del menu, così i numeri restano allineati alla fonte fornita da Marius; ciascun riquadro apre la categoria corretta nella pagina menu. Verifiche: `ASTRO_TELEMETRY_DISABLED=1 npm run build` (57 file senza diagnostiche, 19 pagine, check SEO/menu/orari/i18n/lingua superati), `git diff --check`; preview Paseo controllata in RO 390×844, FR 280×800 ed EN 1440×1000, senza overflow. Il collegamento “Ciorbe” seleziona il filtro `salate-ciorbe-2` e mostra cinque voci. Axe-core sulle sei home a 390×844: 44 controlli superati per pagina, zero violazioni.
 
+### Ordinamento del menu (24/10/2026)
+
+- [x] **CR-77 — Ordinare i piatti per prezzo nella propria categoria.** Aggiunto un selettore localizzato in RO/EN/IT/ES/FR/DE per ordinamento crescente o decrescente, senza mescolare le categorie né alterare il listino originale. L’ordine stampato resta quello predefinito; la scelta si conserva nell’URL con `?sort=price-asc` o `?sort=price-desc`, si combina con gli altri filtri, viene azzerata da “Svuota filtri” e viene ripristinata dopo la stampa. `check:menu` verifica parsing, stabilità dei prezzi uguali, parametri condivisibili, reset, stampa e controlli tradotti. `ASTRO_TELEMETRY_DISABLED=1 npm run build` passa: Astro check senza errori/warning/hint su 61 file, 19 pagine statiche e controlli SEO/menu/orari/i18n/lingua superati. Preview locale verificata visivamente in Paseo a 280×800, 390×844 e 1440×1000: selettore leggibile, ordinamento crescente e decrescente osservato dentro ciascuna categoria, reset all’ordine del menu verificato, larghezze documento/viewport 265/280, 375/390 e 1425/1440 senza overflow orizzontale.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.

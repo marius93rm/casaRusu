@@ -94,12 +94,12 @@
 }
 .menu-search-reset:hover { border-color: var(--accent); color: var(--accent); }
 .menu-search-reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.menu-category-filter, .menu-price-filter { margin-top: .15rem; }
-.menu-category-filter summary, .menu-price-filter summary { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; min-height: 44px; color: var(--primary); font-size: .9375rem; cursor: pointer; }
-.menu-category-filter summary:focus-visible, .menu-price-filter summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.menu-category-filter summary::after, .menu-price-filter summary::after { content: ''; width: .5rem; height: .5rem; flex: none; margin: 0 .3rem .25rem .1rem; border-right: 1px solid var(--accent); border-bottom: 1px solid var(--accent); transform: rotate(45deg); }
-.menu-category-filter[open] summary::after, .menu-price-filter[open] summary::after { margin-bottom: 0; transform: rotate(225deg); }
-.menu-category-filter output, .menu-price-filter output { color: var(--muted); text-align: right; }
+.menu-category-filter, .menu-price-filter, .menu-sort-filter { margin-top: .15rem; }
+.menu-category-filter summary, .menu-price-filter summary, .menu-sort-filter summary { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; min-height: 44px; color: var(--primary); font-size: .9375rem; cursor: pointer; }
+.menu-category-filter summary:focus-visible, .menu-price-filter summary:focus-visible, .menu-sort-filter summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.menu-category-filter summary::after, .menu-price-filter summary::after, .menu-sort-filter summary::after { content: ''; width: .5rem; height: .5rem; flex: none; margin: 0 .3rem .25rem .1rem; border-right: 1px solid var(--accent); border-bottom: 1px solid var(--accent); transform: rotate(45deg); }
+.menu-category-filter[open] summary::after, .menu-price-filter[open] summary::after, .menu-sort-filter[open] summary::after { margin-bottom: 0; transform: rotate(225deg); }
+.menu-category-filter output, .menu-price-filter output, .menu-sort-filter output { color: var(--muted); text-align: right; }
 .menu-price-filter input[type="range"] { width: 100%; min-height: 2rem; height: 2rem; padding: 0; border: 0; background: transparent; accent-color: var(--accent); cursor: pointer; }
 .menu-transcript-page { border-bottom: 1px solid var(--border); scroll-margin-block-start: 7rem; }
 .menu-transcript-page:first-child { border-top: 1px solid var(--border); }

@@ -1,6 +1,9 @@
 export const menuSearchQueryParam = 'q';
 export const menuPriceLimitQueryParam = 'max';
 export const menuCategoryQueryParam = 'category';
+export const menuSortQueryParam = 'sort';
+
+const menuSortModes = new Set(['price-asc', 'price-desc']);
 
 export function normalizeMenuSearchText(value) {
   return value
@@ -23,7 +26,22 @@ export function parseMenuCategory(value, validCategories) {
   return validCategories.has(category) ? category : '';
 }
 
-export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceLimit, category = '') {
+export function parseMenuSort(value) {
+  const sortMode = value?.trim() ?? '';
+  return menuSortModes.has(sortMode) ? sortMode : 'menu';
+}
+
+export function sortMenuItems(items, sortMode) {
+  if (!menuSortModes.has(sortMode)) return [...items];
+
+  const direction = sortMode === 'price-asc' ? 1 : -1;
+  return [...items]
+    .map((item, index) => ({ item, index, price: Number(item.dataset.menuPrice) }))
+    .sort((left, right) => direction * (left.price - right.price) || left.index - right.index)
+    .map(({ item }) => item);
+}
+
+export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceLimit, category = '', sortMode = 'menu') {
   const url = new URL(currentUrl);
   const value = query.trim();
   const limit = Number(priceLimit);
@@ -40,6 +58,9 @@ export function updateMenuSearchUrl(currentUrl, query, priceLimit, defaultPriceL
 
   if (selectedCategory) url.searchParams.set(menuCategoryQueryParam, selectedCategory);
   else url.searchParams.delete(menuCategoryQueryParam);
+
+  if (menuSortModes.has(sortMode)) url.searchParams.set(menuSortQueryParam, sortMode);
+  else url.searchParams.delete(menuSortQueryParam);
 
   return url;
 }
