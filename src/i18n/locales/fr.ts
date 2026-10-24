@@ -97,7 +97,7 @@ export const fr = {
       "copyAddress": "Copier l’adresse",
       "addressCopied": "Adresse copiée.",
       "addressCopyFailed": "Impossible de copier l’adresse. Sélectionnez-la et copiez-la manuellement.",
-      "mapAction": "Ouvrir la carte",
+      "mapAction": "Itinéraire",
       "reviewsAction": "Lire les avis sur Google",
       "openingStatus": {
         "open": "Ouvert actuellement",

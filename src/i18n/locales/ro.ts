@@ -113,7 +113,7 @@ export const ro = {
       "copyAddress": "Copiază adresa",
       "addressCopied": "Adresa a fost copiată.",
       "addressCopyFailed": "Adresa nu a putut fi copiată. Selecteaz-o și copiaz-o manual.",
-      "mapAction": "Deschide harta",
+      "mapAction": "Cum ajungi la noi",
       "reviewsAction": "Citește recenziile pe Google",
       "openingStatus": {
         "open": "Deschis acum",

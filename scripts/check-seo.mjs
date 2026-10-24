@@ -274,6 +274,32 @@ async function main() {
     }
 
     if (route === homeFor(expectedLanguage)) {
+      const directionsLinks = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
+        .map(([, rawAttributes, innerHtml]) => ({ attributes: parseAttributes(rawAttributes), label: normalizedText(innerHtml) }))
+        .filter(({ attributes }) => Object.hasOwn(attributes, 'data-map-directions'));
+      const expectedDirectionsLabels = {
+        ro: 'Cum ajungi la noi',
+        en: 'Get directions',
+        it: 'Indicazioni stradali',
+        es: 'Cómo llegar',
+        fr: 'Itinéraire',
+        de: 'Route planen',
+      };
+      if (directionsLinks.length !== 1) {
+        report(relativeFile, `atteso un solo link per le indicazioni Google Maps, trovati ${directionsLinks.length}.`);
+      } else {
+        const [{ attributes, label }] = directionsLinks;
+        const directionsUrl = parseUrl(attributes.href);
+        if (!directionsUrl || directionsUrl.protocol !== 'https:' || directionsUrl.hostname !== 'www.google.com'
+          || directionsUrl.pathname !== '/maps/dir/' || directionsUrl.searchParams.get('api') !== '1'
+          || directionsUrl.searchParams.get('destination') !== '45.697789,25.449737') {
+          report(relativeFile, 'Il link visita deve aprire Google Maps Directions con il pin verificato di Casa Rusu come destinazione.');
+        }
+        if (label !== expectedDirectionsLabels[expectedLanguage]) {
+          report(relativeFile, `Il link alle indicazioni deve essere localizzato: atteso "${expectedDirectionsLabels[expectedLanguage]}".`);
+        }
+      }
+
       const restaurant = parsedJsonLd.find((entry) => entry['@type'] === 'Restaurant');
       if (!restaurant) {
         report(relativeFile, 'JSON-LD Restaurant mancante sulla homepage.');

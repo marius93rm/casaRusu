@@ -115,7 +115,7 @@ export const en = {
       "copyAddress": "Copy address",
       "addressCopied": "Address copied.",
       "addressCopyFailed": "Could not copy the address. Select it and copy it manually.",
-      "mapAction": "Open in Google Maps",
+      "mapAction": "Get directions",
       "reviewsAction": "Read reviews on Google",
       "openingStatus": {
         "open": "Open now",

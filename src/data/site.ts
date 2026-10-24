@@ -5,26 +5,32 @@ import { es } from '../i18n/locales/es';
 import { fr } from '../i18n/locales/fr';
 import { de } from '../i18n/locales/de';
 
-export const siteData = {
-  company: {
-    name: 'Restaurant Casa Rusu',
-    phone: '+40 732 901 232',
-    phoneHref: 'tel:+40732901232',
-    address: 'Strada Laterală, nr. 42',
-    postalCode: '505100',
-    city: 'Codlea',
-    country: 'România',
-    // Based on the printed menu's explicitly traditional and Italian platters.
-    cuisines: ['Romanian', 'Italian'],
-    geo: {
-      latitude: 45.697789,
-      longitude: 25.449737,
-    },
-    openingHours: [
-      { daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '11:00', closes: '22:30' },
-      { daysOfWeek: ['Saturday', 'Sunday'], opens: '11:00', closes: '23:00' },
-    ],
+const company = {
+  name: 'Restaurant Casa Rusu',
+  phone: '+40 732 901 232',
+  phoneHref: 'tel:+40732901232',
+  address: 'Strada Laterală, nr. 42',
+  postalCode: '505100',
+  city: 'Codlea',
+  country: 'România',
+  // Based on the printed menu's explicitly traditional and Italian platters.
+  cuisines: ['Romanian', 'Italian'],
+  geo: {
+    latitude: 45.697789,
+    longitude: 25.449737,
   },
+  openingHours: [
+    { daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '11:00', closes: '22:30' },
+    { daysOfWeek: ['Saturday', 'Sunday'], opens: '11:00', closes: '23:00' },
+  ],
+} as const;
+
+const mapDirectionsUrl = new URL('https://www.google.com/maps/dir/');
+mapDirectionsUrl.searchParams.set('api', '1');
+mapDirectionsUrl.searchParams.set('destination', `${company.geo.latitude},${company.geo.longitude}`);
+
+export const siteData = {
+  company,
   theme: {
     background: '#faf8f4',
     surface: '#f1ede6',
@@ -40,7 +46,7 @@ export const siteData = {
     instagram: 'https://www.instagram.com/restaurant.casarusu/',
     tiktok: 'https://www.tiktok.com/@restaurant.casarusu',
     recentFoodPost: 'https://www.facebook.com/reel/1038477139209678/',
-    map: 'https://www.google.com/maps/search/?api=1&query=Strada+Lateral%C4%83%2C+nr.+42%2C+Codlea%2C+Romania',
+    map: mapDirectionsUrl.toString(),
     googleBusiness: 'https://www.google.com/maps?cid=8243879332869202835',
   },
   media: {
