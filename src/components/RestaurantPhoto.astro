@@ -1,0 +1,23 @@
+---
+
+interface Props {
+  image: string;
+  alt: string;
+  eager?: boolean;
+}
+
+const { image, alt, eager = false } = Astro.props;
+---
+
+<!-- Serve the delivered 2048px JPEG unchanged: no additional lossy encoding. -->
+<picture>
+  <img
+    src={image}
+    {alt}
+    width="2048"
+    height="1366"
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : 'low'}
+    decoding="async"
+  />
+</picture>

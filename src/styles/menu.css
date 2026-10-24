@@ -29,7 +29,8 @@
 .menu-gallery[data-enhanced] .menu-gallery-slide { display: grid; place-items: center; flex: 0 0 100%; width: 100%; height: 100%; margin: 0; scroll-snap-align: start; scroll-snap-stop: always; }
 .menu-gallery[data-enhanced] .menu-page-image { display: grid; place-items: center; width: 100%; height: 100%; cursor: zoom-in; }
 .menu-gallery[data-enhanced] .menu-page-image picture { display: contents; }
-.menu-gallery[data-enhanced] .menu-page-image img { width: auto; max-width: 100%; height: 100%; object-fit: contain; }
+.menu-gallery[data-enhanced] .menu-page-image img { width: 100%; max-width: 100%; height: 100%; object-fit: contain; }
+.menu-gallery[data-enhanced] [data-menu-search-link][hidden] { display: inline-flex !important; visibility: hidden; }
 .menu-gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 .menu-gallery-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1rem; padding-top: .85rem; }
 .menu-page-stepper { display: flex; align-items: center; gap: .5rem; }

@@ -5,10 +5,11 @@ import Footer from './Footer.astro';
 import Icon from './Icon.astro';
 import MenuPreview from './MenuPreview.astro';
 import OpeningStatus from './OpeningStatus.astro';
+import RestaurantPhoto from './RestaurantPhoto.astro';
+import PhotoGallery from './PhotoGallery.astro';
 import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { getDictionary, localizedPath } from '../i18n';
-import { imageSizes, webpSrcset } from '../utils/responsiveImages';
 import { formatOpeningHours } from '../utils/openingHours';
 
 const { locale } = Astro.props as { locale: SiteLocale };
@@ -83,7 +84,7 @@ const structuredData = {
 ---
 
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
-  criticalImage={{ srcset: webpSrcset(siteData.media.cover, [640, 768, 960, 1280, 1600, 1920], 'avif'), sizes: imageSizes, type: 'image/avif' }}>
+  criticalImage={{ srcset: `${siteData.media.cover} 2048w`, sizes: '100vw', type: 'image/jpeg' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -109,25 +110,7 @@ const structuredData = {
         </div>
 
         <figure class="hero-visual">
-          <picture>
-            <source
-              type="image/avif"
-              srcset={webpSrcset(siteData.media.cover, [640, 768, 960, 1280, 1600, 1920], 'avif')}
-              sizes={imageSizes}
-            />
-            <source
-              type="image/webp"
-              srcset={webpSrcset(siteData.media.cover, [640, 960, 1280, 1600, 1920])}
-              sizes={imageSizes}
-            />
-            <img
-              src={siteData.media.cover}
-              alt={copy.hero.imageAlt}
-              fetchpriority="high"
-              width="1919"
-              height="1279"
-            />
-          </picture>
+          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager />
         </figure>
       </div>
     </section>
@@ -157,27 +140,7 @@ const structuredData = {
     <section class="dish-section" id="preparat" tabindex="-1" aria-labelledby="dish-title">
       <div class="container dish-grid">
         <figure class="dish-visual">
-          <picture>
-            <source
-              type="image/avif"
-              srcset={webpSrcset(siteData.media.featuredDish, [640, 768, 960, 1280, 1600, 1920], 'avif')}
-              sizes={imageSizes}
-            />
-            <source
-              type="image/webp"
-              srcset={webpSrcset(siteData.media.featuredDish, [640, 960, 1280, 1600, 1920])}
-              sizes={imageSizes}
-            />
-            <img
-              src={siteData.media.featuredDish}
-              alt={copy.dish.imageAlt}
-              loading="lazy"
-              fetchpriority="low"
-              decoding="async"
-              width="2048"
-              height="1366"
-            />
-          </picture>
+          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} />
         </figure>
         <div class="dish-copy">
           <p class="section-label">{copy.dish.eyebrow}</p>
@@ -191,6 +154,8 @@ const structuredData = {
       </div>
     </section>
 
+    <PhotoGallery {locale} />
+
     <section class="visit-section" id="vizita" tabindex="-1" aria-labelledby="visit-title">
       <div class="container visit-layout">
         <div class="visit-heading">
@@ -198,27 +163,7 @@ const structuredData = {
           <p>{copy.visit.body}</p>
         </div>
         <figure class="visit-visual">
-          <picture>
-            <source
-              type="image/avif"
-              srcset={webpSrcset(siteData.media.exterior, [640, 768, 960, 1280], 'avif')}
-              sizes={imageSizes}
-            />
-            <source
-              type="image/webp"
-              srcset={webpSrcset(siteData.media.exterior, [640, 960, 1280])}
-              sizes={imageSizes}
-            />
-            <img
-              src={siteData.media.exterior}
-              alt={copy.visit.imageAlt}
-              loading="lazy"
-              fetchpriority="low"
-              decoding="async"
-              width="1439"
-              height="960"
-            />
-          </picture>
+          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} />
         </figure>
 
         <div class="visit-content">

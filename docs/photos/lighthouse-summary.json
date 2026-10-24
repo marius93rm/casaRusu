@@ -1,0 +1,402 @@
+{
+  "date": "2026-10-24",
+  "lighthouseVersion": "13.5.0",
+  "origin": "http://localhost:4329",
+  "buildSiteUrl": "https://example.invalid",
+  "imageDelivery": "Original delivered JPEGs at 2048 × 1366, unchanged byte for byte. Gallery requests deferred until near viewport.",
+  "method": "Cold-cache simulated mobile and desktop. Median of three home runs; one run for each menu and dish profile. Local production simulation, no deployment.",
+  "pages": [
+    {
+      "profile": "mobile",
+      "route": "/it/",
+      "scores": {
+        "performance": 92,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 89,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 1068.0332,
+            "largest-contentful-paint": 3693.0332,
+            "speed-index": 2027.4164299987692,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "first-contentful-paint",
+              "displayValue": "1.1 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "3.7 s"
+            },
+            {
+              "id": "speed-index",
+              "displayValue": "2.0 s"
+            },
+            {
+              "id": "interactive",
+              "displayValue": "3.8 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 484 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "scores": {
+            "performance": 95,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 1058.1177,
+            "largest-contentful-paint": 3008.1177,
+            "speed-index": 1058.1177,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "3.0 s"
+            },
+            {
+              "id": "interactive",
+              "displayValue": "3.0 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 484 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        },
+        {
+          "attempt": 3,
+          "scores": {
+            "performance": 92,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 1061.1471,
+            "largest-contentful-paint": 3311.1471,
+            "speed-index": 1061.1471,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "3.3 s"
+            },
+            {
+              "id": "interactive",
+              "displayValue": "3.4 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 484 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "route": "/it/meniu/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 960.461,
+            "largest-contentful-paint": 1517.461,
+            "speed-index": 960.461,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 301563
+          },
+          "failures": [
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 131 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "mobile",
+      "route": "/it/preparate/snitel-cotlet-porc/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 689.00475,
+            "largest-contentful-paint": 1812.0095,
+            "speed-index": 689.00475,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 177654
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "1.8 s"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 98 KiB"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "route": "/it/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 290.8453,
+            "largest-contentful-paint": 670.8453,
+            "speed-index": 290.8453,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "0.7 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 495 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 294.506,
+            "largest-contentful-paint": 674.506,
+            "speed-index": 294.506,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "0.7 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 495 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        },
+        {
+          "attempt": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 289.2258,
+            "largest-contentful-paint": 669.2257999999999,
+            "speed-index": 289.2258,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0.0220571978070682,
+            "total-byte-weight": 662857
+          },
+          "failures": [
+            {
+              "id": "largest-contentful-paint",
+              "displayValue": "0.7 s"
+            },
+            {
+              "id": "forced-reflow-insight"
+            },
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 495 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "route": "/it/meniu/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 253.9325,
+            "largest-contentful-paint": 373.9325,
+            "speed-index": 253.9325,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 301563
+          },
+          "failures": [
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 100 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "route": "/it/preparate/snitel-cotlet-porc/",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "runs": [
+        {
+          "attempt": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "metrics": {
+            "first-contentful-paint": 188.6403,
+            "largest-contentful-paint": 411.2806,
+            "speed-index": 188.6403,
+            "total-blocking-time": 0,
+            "cumulative-layout-shift": 0,
+            "total-byte-weight": 177654
+          },
+          "failures": [
+            {
+              "id": "image-delivery-insight",
+              "displayValue": "Est savings of 100 KiB"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
