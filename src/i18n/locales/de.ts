@@ -94,6 +94,9 @@ export const de = {
       "phoneLabel": "Telefon",
       "imageAlt": "Das Schild des Restaurants Casa Rusu an der Fassade neben der Hausnummer 42.",
       "hoursLabel": "Öffnungszeiten",
+      "copyAddress": "Adresse kopieren",
+      "addressCopied": "Adresse kopiert.",
+      "addressCopyFailed": "Adresse konnte nicht kopiert werden. Bitte auswählen und manuell kopieren.",
       "mapAction": "Karte öffnen",
       "reviewsAction": "Bewertungen auf Google lesen",
       "openingStatus": {

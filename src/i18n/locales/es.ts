@@ -94,6 +94,9 @@ export const es = {
       "phoneLabel": "Teléfono",
       "imageAlt": "El letrero del Restaurante Casa Rusu en la fachada, junto al número 42.",
       "hoursLabel": "Horario",
+      "copyAddress": "Copiar dirección",
+      "addressCopied": "Dirección copiada.",
+      "addressCopyFailed": "No se pudo copiar la dirección. Selecciónala y cópiala manualmente.",
       "mapAction": "Abrir el mapa",
       "reviewsAction": "Leer reseñas en Google",
       "openingStatus": {

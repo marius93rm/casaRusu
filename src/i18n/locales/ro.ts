@@ -110,6 +110,9 @@ export const ro = {
       "phoneLabel": "Telefon",
       "imageAlt": "Firma Restaurantului Casa Rusu pe fațada clădirii, lângă numărul 42.",
       "hoursLabel": "Program",
+      "copyAddress": "Copiază adresa",
+      "addressCopied": "Adresa a fost copiată.",
+      "addressCopyFailed": "Adresa nu a putut fi copiată. Selecteaz-o și copiaz-o manual.",
       "mapAction": "Deschide harta",
       "reviewsAction": "Citește recenziile pe Google",
       "openingStatus": {

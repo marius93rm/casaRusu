@@ -197,6 +197,16 @@ const structuredData = {
               <span>{copy.visit.addressLabel}</span>
               <strong>{siteData.company.address}</strong>
               <p>{siteData.company.postalCode} {siteData.company.city}, {ui.country}</p>
+              <button
+                class="text-link visit-copy-address"
+                type="button"
+                data-copy-address
+                data-address={`${siteData.company.address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
+                data-copy-success={copy.visit.addressCopied}
+                data-copy-error={copy.visit.addressCopyFailed}
+                aria-describedby="visit-copy-address-status"
+              >{copy.visit.copyAddress}</button>
+              <p class="visit-copy-address-status" id="visit-copy-address-status" data-copy-address-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
             </div>
             <div class="visit-detail">
               <span>{copy.visit.phoneLabel}</span>
@@ -228,6 +238,22 @@ const structuredData = {
 
 <script is:inline>
   (() => {
+    const copyAddressButton = document.querySelector('[data-copy-address]');
+    const copyAddressStatus = document.querySelector('[data-copy-address-status]');
+    if (copyAddressButton instanceof HTMLButtonElement && copyAddressStatus instanceof HTMLParagraphElement) {
+      copyAddressButton.addEventListener('click', async () => {
+        const address = copyAddressButton.dataset.address?.trim();
+        try {
+          if (!address || typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(address);
+          copyAddressStatus.textContent = copyAddressButton.dataset.copySuccess ?? '';
+        } catch {
+          copyAddressStatus.textContent = copyAddressButton.dataset.copyError ?? '';
+        }
+        copyAddressStatus.hidden = false;
+      });
+    }
+
     const mobileBooking = document.querySelector('[data-mobile-booking]');
     const primaryBooking = document.querySelector('[data-booking-primary]');
     const visitPhoto = document.querySelector('.visit-visual');

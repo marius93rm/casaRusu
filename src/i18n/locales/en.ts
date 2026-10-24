@@ -112,6 +112,9 @@ export const en = {
       "phoneLabel": "Phone",
       "imageAlt": "The Casa Rusu restaurant sign on the outside wall beside number 42.",
       "hoursLabel": "Opening hours",
+      "copyAddress": "Copy address",
+      "addressCopied": "Address copied.",
+      "addressCopyFailed": "Could not copy the address. Select it and copy it manually.",
       "mapAction": "Open in Google Maps",
       "reviewsAction": "Read reviews on Google",
       "openingStatus": {

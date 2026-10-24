@@ -298,6 +298,9 @@ h1, h2, h3 {
 .visit-detail > span { color: var(--muted); font-size: .875rem; }
 .visit-detail strong, .visit-detail a { font-size: 1.0625rem; font-weight: 500; text-decoration-color: var(--accent); text-underline-offset: .25rem; }
 .visit-detail p { color: var(--muted); font-size: 1rem; }
+.visit-copy-address { justify-self: start; width: fit-content; max-width: 100%; justify-content: flex-start; border: 0; border-bottom: 1px solid var(--border); padding: .25rem 0; background: transparent; color: var(--primary); cursor: pointer; text-align: left; }
+.visit-copy-address-status[hidden] { display: none; }
+.visit-detail .visit-copy-address-status { font-size: .875rem; }
 .visit-hours { grid-column: 1 / -1; border-top: 1px solid var(--border); padding-top: 1.5rem; }
 .visit-hours p { color: var(--text); }
 .visit-details .button { grid-column: 1 / -1; justify-self: start; }
