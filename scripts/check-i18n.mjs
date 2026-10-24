@@ -19,6 +19,9 @@ assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ pre
 assert.match(homeSource, /data-booking-primary/, 'The home page needs a primary booking action to observe');
 assert.match(homeSource, /data-mobile-booking hidden/, 'The duplicate home booking bar should start hidden');
 assert.match(homeSource, /getBoundingClientRect\(\)/, 'The mobile booking bar should follow the primary action position');
+assert.match(homeSource, /\.visit-details a, \.visit-details button/, 'The mobile booking bar should account for every visit action');
+assert.match(homeSource, /actionRect\.bottom > bookingBarTop[\s\S]*actionRect\.top < window\.innerHeight[\s\S]*actionRect\.right > 0[\s\S]*actionRect\.left < window\.innerWidth/, 'Visit action overlap should include vertical and horizontal viewport boundaries');
+assert.match(homeSource, /visibleAboveBookingBar \|\| visitPhotoOverlapsBookingBar \|\| visitActionOverlapsBookingBar/, 'Visit actions that overlap the mobile booking bar should hide it');
 assert.match(homeSource, /requestAnimationFrame/, 'The mobile booking position check should be coalesced to animation frames');
 assert.match(homeSource, /document\.addEventListener\('keydown', scheduleSync\)/, 'Keyboard navigation should refresh the mobile booking visibility');
 assert.match(homeSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');

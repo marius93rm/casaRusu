@@ -257,6 +257,7 @@ const structuredData = {
     const mobileBooking = document.querySelector('[data-mobile-booking]');
     const primaryBooking = document.querySelector('[data-booking-primary]');
     const visitPhoto = document.querySelector('.visit-visual');
+    const visitActions = [...document.querySelectorAll('.visit-details a, .visit-details button')];
     if (!(mobileBooking instanceof HTMLElement) || !(primaryBooking instanceof HTMLAnchorElement)) return;
     const mobileBookingCta = mobileBooking.querySelector('.mobile-booking-cta');
 
@@ -289,7 +290,15 @@ const structuredData = {
       const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
         && visitPhotoRect.bottom > bookingBarTop
         && visitPhotoRect.top < window.innerHeight;
-      const shouldHide = mobileViewport.matches && (visibleAboveBookingBar || visitPhotoOverlapsBookingBar)
+      const visitActionOverlapsBookingBar = visitActions.some((action) => {
+        const actionRect = action.getBoundingClientRect();
+        return actionRect.bottom > bookingBarTop
+          && actionRect.top < window.innerHeight
+          && actionRect.right > 0
+          && actionRect.left < window.innerWidth;
+      });
+      const shouldHide = mobileViewport.matches
+        && (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar)
         && !mobileBooking.contains(document.activeElement);
       mobileBooking.hidden = shouldHide;
     };
