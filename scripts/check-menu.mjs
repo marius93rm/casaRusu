@@ -72,6 +72,10 @@ assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 
 assert.match(transcriptSource, /searchParams\.get\(menuCategoryQueryParam\)/, 'The menu should restore a shared category from its URL');
 assert.match(transcriptSource, /categoryMatches = !selectedCategory \|\| item\.dataset\.menuCategory === selectedCategory/, 'The selected category should constrain menu results');
 assert.match(transcriptSource, /updateMenuSearchUrl\(currentUrl, input\.value, priceLimit\.value, maximumMenuPrice, categoryFilter\.value\)/, 'The selected category should be included in the share URL');
+assert.match(transcriptSource, /navigator\.clipboard\.writeText\(window\.location\.href\)/, 'The menu should copy the current shareable result URL');
+assert.match(transcriptSource, /shareButton\.hidden = !filtersAreActive \|\| !window\.isSecureContext \|\| !navigator\.clipboard\?\.writeText/, 'The copy control should be available only for active filters in a secure context with Clipboard API support');
+assert.match(transcriptSource, /searchActions\.hidden = !filtersAreActive/, 'Sharing and reset controls should stay out of the layout until filters are active');
+assert.match(transcriptSource, /searchShareCopied[\s\S]*searchShareFailed/, 'The copy action should provide localized success and permission failure feedback');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
 assert.match(transcriptSource, /if \(\(initialQuery\?\.trim\(\) \|\| initialCategory \|\| initialPriceLimit < maximumMenuPrice\) && !window\.location\.hash\) \{\s*search\.scrollIntoView\(\{ block: 'start' \}\);\s*\}/, 'Shared search filters should restore their results and bring them into view unless a fragment points elsewhere');
 assert.match(transcriptSource, /document\.querySelectorAll<HTMLAnchorElement>\('\[data-menu-search-link\]'\)\.forEach\(\(link\) => \{\s*link\.hidden = false;/, 'Menu search shortcuts should appear only when the search enhancement is available');
@@ -100,7 +104,10 @@ for (const { file, html } of menus) {
   assert.match(html, /<details class="menu-price-filter"[^>]*data-price-limit-filter/, 'The maximum price filter should be progressively enhanced and collapsible');
   assert.match(html, /<label class="visually-hidden" for="menu-price-limit">[^<]+<\/label>[\s\S]*?<input\b(?=[^>]*type="range")(?=[^>]*data-menu-price-limit)[^>]*>/, 'The price range should have an accessible label');
   assert.ok(html.includes(labels.priceLimit) && html.includes(labels.priceLimitAll) && html.includes(labels.priceLimitUpTo), 'Price filter labels should be localized');
+  assert.match(html, /<div\b(?=[^>]*class="menu-search-actions")(?=[^>]*data-menu-search-actions)(?=[^>]*hidden)[^>]*>/, `${file}: search actions should remain hidden until filters are active`);
   assert.match(html, new RegExp(`<button class="menu-search-reset"[^>]*data-menu-search-reset[^>]*hidden[^>]*>${labels.searchReset}</button>`), `${file}: reset filters should be localized and hidden until filters are active`);
+  assert.match(html, new RegExp(`<button class="menu-search-share"[^>]*data-menu-search-share[^>]*hidden[^>]*>${labels.searchShare}</button>`), `${file}: sharing current results should be localized and hidden until filters are active`);
+  assert.ok(html.includes(labels.searchShareCopied) && html.includes(labels.searchShareFailed), `${file}: copy feedback should be localized`);
   for (const [, filterPrice, row] of transcriptPrices) {
     assert.equal(Number(filterPrice), Number(row.match(/class="menu-item-price">(\d+) lei/)?.[1]), 'Filter prices must match the printed menu prices');
   }

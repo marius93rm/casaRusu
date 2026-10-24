@@ -26,6 +26,8 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     data-price-limit-all={copy.priceLimitAll}
     data-price-limit-up-to={copy.priceLimitUpTo}
     data-category-all={copy.categoryAll}
+    data-search-share-copied={copy.searchShareCopied}
+    data-search-share-failed={copy.searchShareFailed}
     hidden
     data-menu-search
   >
@@ -71,7 +73,11 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
         data-menu-price-limit
       />
     </details>
-    <button class="menu-search-reset" type="button" data-menu-search-reset hidden>{copy.searchReset}</button>
+    <div class="menu-search-actions" data-menu-search-actions hidden>
+      <button class="menu-search-share" type="button" data-menu-search-share hidden>{copy.searchShare}</button>
+      <button class="menu-search-reset" type="button" data-menu-search-reset hidden>{copy.searchReset}</button>
+    </div>
+    <p class="menu-search-share-status" data-menu-search-share-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
     <p class="menu-search-status" data-menu-search-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
   </search>
   <div class="menu-transcript-pages" id="menu-transcript-pages">
@@ -120,6 +126,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     const priceLimitOutput = search.querySelector<HTMLOutputElement>('[data-menu-price-limit-output]')!;
     const priceLimitFilter = search.querySelector<HTMLDetailsElement>('[data-price-limit-filter]')!;
     const resetButton = search.querySelector<HTMLButtonElement>('[data-menu-search-reset]')!;
+    const searchActions = search.querySelector<HTMLElement>('[data-menu-search-actions]')!;
+    const shareButton = search.querySelector<HTMLButtonElement>('[data-menu-search-share]')!;
+    const shareStatus = search.querySelector<HTMLElement>('[data-menu-search-share-status]')!;
     const printButton = document.querySelector<HTMLButtonElement>('[data-menu-print]');
     const status = search.querySelector<HTMLElement>('[data-menu-search-status]')!;
     const maximumMenuPrice = Number(priceLimit.max);
@@ -167,6 +176,8 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       const selectedCategory = categoryFilter.value;
       const filtersAreActive = Boolean(query) || currentPriceLimit < maximumMenuPrice || Boolean(selectedCategory);
       let resultCount = 0;
+      shareStatus.hidden = true;
+      shareStatus.textContent = '';
 
       pages.forEach(({ page, items, sections }) => {
         let pageResultCount = 0;
@@ -199,7 +210,9 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       });
 
       status.hidden = !filtersAreActive;
+      searchActions.hidden = !filtersAreActive;
       resetButton.hidden = !filtersAreActive;
+      shareButton.hidden = !filtersAreActive || !window.isSecureContext || !navigator.clipboard?.writeText;
       if (!filtersAreActive) {
         status.textContent = '';
       } else if (resultCount === 0) {
@@ -293,6 +306,15 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       syncSearchUrl();
       updateResults();
       input.focus({ preventScroll: true });
+    });
+    shareButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        shareStatus.textContent = search.dataset.searchShareCopied ?? '';
+      } catch {
+        shareStatus.textContent = search.dataset.searchShareFailed ?? '';
+      }
+      shareStatus.hidden = false;
     });
 
     updatePriceLimitLabel();

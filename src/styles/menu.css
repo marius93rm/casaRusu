@@ -82,6 +82,21 @@
 .menu-search input::placeholder { color: var(--muted); opacity: 1; }
 .menu-search input:focus-visible, .menu-search select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .menu-search-status { min-height: 1.5em; color: var(--muted); font-size: 1rem; }
+.menu-search-share-status { margin: 0; color: var(--accent); font-size: .9375rem; line-height: 1.45; }
+.menu-search-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem 1rem; }
+.menu-search-share {
+  min-height: 44px;
+  padding: .5rem .25rem;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+  cursor: pointer;
+}
+.menu-search-share:hover { color: var(--primary); }
+.menu-search-share:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .menu-search-reset {
   justify-self: end;
   min-height: 44px;
