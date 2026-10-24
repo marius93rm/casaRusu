@@ -367,7 +367,7 @@ h1, h2, h3 {
   .mobile-booking { display: block; }
   body:has(.mobile-booking[hidden]) { padding-bottom: 0; }
   html { scroll-padding-top: 5rem; }
-  body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+  body { padding-bottom: var(--mobile-booking-height, calc(5.25rem + env(safe-area-inset-bottom))); }
   .mobile-booking-cta {
     position: fixed;
     z-index: 30;

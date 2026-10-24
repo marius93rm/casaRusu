@@ -13,6 +13,7 @@ function leaves(value, prefix = '') {
 const base = new Map(leaves(dictionaries[defaultLocale]));
 const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
 const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
+const layoutSource = await readFile(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
 const notFoundSource = await readFile(new URL('../dist/404.html', import.meta.url), 'utf8');
 assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
 assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
@@ -25,6 +26,8 @@ assert.match(homeSource, /visibleAboveBookingBar \|\| visitPhotoOverlapsBookingB
 assert.match(homeSource, /requestAnimationFrame/, 'The mobile booking position check should be coalesced to animation frames');
 assert.match(homeSource, /document\.addEventListener\('keydown', scheduleSync\)/, 'Keyboard navigation should refresh the mobile booking visibility');
 assert.match(homeSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');
+assert.match(layoutSource, /--mobile-booking-height/, 'The mobile page should reserve the rendered booking CTA height');
+assert.match(layoutSource, /ResizeObserver/, 'The mobile booking reserve should track CTA size changes');
 assert.deepEqual(Object.keys(dictionaries), [...locales], 'All supported languages need a dictionary');
 for (const locale of locales) {
   const dictionary = dictionaries[locale];

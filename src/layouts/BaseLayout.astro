@@ -98,5 +98,49 @@ const socialLocale = socialLocales[lang];
     <span id="external-link-new-tab" class="visually-hidden">{ui.opensInNewTab}</span>
     <slot />
     <Motion />
+    <script is:inline>
+      (() => {
+        const mobileBookingCta = document.querySelector('.mobile-booking-cta');
+        if (!(mobileBookingCta instanceof HTMLElement)) return;
+
+        const mobileViewport = window.matchMedia('(max-width: 760px)');
+        let syncFrame = 0;
+        const syncMobileBookingSpace = () => {
+          syncFrame = 0;
+          if (!mobileViewport.matches) {
+            document.documentElement.style.removeProperty('--mobile-booking-height');
+            return;
+          }
+
+          let height = mobileBookingCta.getBoundingClientRect().height;
+          if (!height) {
+            const measurement = mobileBookingCta.cloneNode(true);
+            measurement.removeAttribute('href');
+            measurement.setAttribute('aria-hidden', 'true');
+            measurement.setAttribute('inert', '');
+            measurement.tabIndex = -1;
+            measurement.style.setProperty('visibility', 'hidden', 'important');
+            measurement.style.setProperty('pointer-events', 'none', 'important');
+            document.body.appendChild(measurement);
+            height = measurement.getBoundingClientRect().height;
+            measurement.remove();
+          }
+
+          if (height > 0) {
+            document.documentElement.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
+          }
+        };
+        const scheduleSync = () => {
+          if (syncFrame) return;
+          syncFrame = window.requestAnimationFrame(syncMobileBookingSpace);
+        };
+
+        window.addEventListener('resize', scheduleSync, { passive: true });
+        mobileViewport.addEventListener('change', scheduleSync);
+        if ('ResizeObserver' in window) new ResizeObserver(scheduleSync).observe(mobileBookingCta);
+        if (document.fonts) void document.fonts.ready.then(scheduleSync);
+        scheduleSync();
+      })();
+    </script>
   </body>
 </html>
