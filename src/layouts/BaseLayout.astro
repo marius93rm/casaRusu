@@ -31,7 +31,10 @@ const {
   detectLanguage = true,
 } = Astro.props;
 
-const effectiveNoIndex = noIndex || !siteConfig.seo.indexable || !Astro.site;
+const netlifyContext = process.env.CONTEXT?.trim().toLowerCase();
+const isNetlifyNonProductionBuild = process.env.NETLIFY === 'true' && netlifyContext !== 'production';
+const canPublishSearchMetadata = siteConfig.seo.indexable && !noIndex;
+const effectiveNoIndex = noIndex || !siteConfig.seo.indexable || !Astro.site || isNetlifyNonProductionBuild;
 const theme = siteConfig.branding.theme;
 const themeStyle = [
   `--background:${theme.background}`,
@@ -42,7 +45,7 @@ const themeStyle = [
   `--accent:${theme.accent}`,
   `--border:${theme.border}`,
 ].join(';');
-const canonicalUrl = Astro.site && !effectiveNoIndex ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const canonicalUrl = Astro.site && canPublishSearchMetadata ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const localizedUrl = (locale: SiteLocale) => {
   if (!Astro.site) return undefined;
   const path = switchLocalePath(new URL(Astro.url.pathname, Astro.url), locale);
@@ -88,8 +91,8 @@ const socialLocale = socialLocales[lang];
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {!effectiveNoIndex && Astro.site && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
-    {!effectiveNoIndex && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
+    {Astro.site && canPublishSearchMetadata && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
+    {canPublishSearchMetadata && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     {effectiveNoIndex && <meta name="robots" content="noindex,nofollow" />}
   </head>
