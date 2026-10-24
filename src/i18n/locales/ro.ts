@@ -11,6 +11,7 @@ export const ro = {
     "home": "Acasă",
     "breadcrumbs": "Navigare",
     "country": "România",
+    "opensInNewTab": "Se deschide într-o filă nouă",
     "carousel": "carusel",
     "slide": "pagină",
     "menuEyebrow": "Meniu Casa Rusu",

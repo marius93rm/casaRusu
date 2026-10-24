@@ -8,6 +8,7 @@ import type { SiteLocale } from '../data/site';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = menuCopy[locale];
+const { ui } = getDictionary(locale);
 ---
 
 <section class="menu-gallery" aria-label={copy.gallery} data-menu-gallery
@@ -41,7 +42,7 @@ const copy = menuCopy[locale];
   </aside>
 
   <div class="menu-gallery-stage">
-    <div class="menu-gallery-track" tabindex="0" role="group" aria-label={copy.gallery} aria-roledescription={getDictionary(locale).ui.carousel}>
+    <div class="menu-gallery-track" tabindex="0" role="group" aria-label={copy.gallery} aria-roledescription={ui.carousel}>
       {menuPages.map((page, index) => (
         <div class="menu-gallery-slide" id={`menu-page-${page.id}`} data-menu-slide
           data-label={page.title[locale]} role="group" aria-roledescription={getDictionary(locale).ui.slide}
@@ -90,7 +91,7 @@ const copy = menuCopy[locale];
     <div class="menu-lightbox-scroll" tabindex="0" role="region" aria-label={copy.enlarge}>
       <img class="menu-lightbox-image" alt="" width="1448" height="2048" />
     </div>
-    <a class="menu-original-link" href={menuPages[0].image} target="_blank" rel="noopener noreferrer">{copy.original}<Icon name="diagonal" size={16} /></a>
+    <a class="menu-original-link" href={menuPages[0].image} target="_blank" rel="noopener noreferrer" aria-describedby="external-link-new-tab">{copy.original}<Icon name="diagonal" size={16} /></a>
   </dialog>
 </section>
 

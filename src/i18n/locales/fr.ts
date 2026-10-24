@@ -13,6 +13,7 @@ export const fr = {
     "home": "Accueil",
     "breadcrumbs": "Fil d’Ariane",
     "country": "Roumanie",
+    "opensInNewTab": "S’ouvre dans un nouvel onglet",
     "carousel": "carrousel",
     "slide": "diapositive",
     "menuEyebrow": "Le menu de Casa Rusu",

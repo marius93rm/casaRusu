@@ -206,10 +206,10 @@ const structuredData = {
               <span>{copy.visit.hoursLabel}</span>
               {openingHours.map((hours) => <p>{hours}</p>)}
             </div>
-            <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer">
+            <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab">
               {copy.visit.mapAction}<Icon name="location" size={18} />
             </a>
-            <a class="button button-outline" href={siteData.links.googleBusiness} target="_blank" rel="noreferrer">
+            <a class="button button-outline" href={siteData.links.googleBusiness} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab">
               {copy.visit.reviewsAction}<Icon name="diagonal" size={18} />
             </a>
           </div>

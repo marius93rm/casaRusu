@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { siteConfig } from '../config/site';
 import type { SiteLocale } from '../data/site';
-import { locales, socialLocales, switchLocalePath } from '../i18n';
+import { getDictionary, locales, socialLocales, switchLocalePath } from '../i18n';
 import Motion from '../components/Motion.astro';
 import LanguageDetection from '../components/LanguageDetection.astro';
 
@@ -31,6 +31,7 @@ const {
   detectLanguage = true,
 } = Astro.props;
 
+const { ui } = getDictionary(lang);
 const effectiveNoIndex = noIndex || !siteConfig.seo.indexable || !Astro.site;
 const theme = siteConfig.branding.theme;
 const themeStyle = [
@@ -94,6 +95,7 @@ const socialLocale = socialLocales[lang];
     {effectiveNoIndex && <meta name="robots" content="noindex,nofollow" />}
   </head>
   <body style={themeStyle}>
+    <span id="external-link-new-tab" class="visually-hidden">{ui.opensInNewTab}</span>
     <slot />
     <Motion />
   </body>

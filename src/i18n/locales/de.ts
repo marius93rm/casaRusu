@@ -13,6 +13,7 @@ export const de = {
     "home": "Startseite",
     "breadcrumbs": "Brotkrümelnavigation",
     "country": "Rumänien",
+    "opensInNewTab": "Öffnet in einem neuen Tab",
     "carousel": "Karussell",
     "slide": "Folie",
     "menuEyebrow": "Die Speisekarte von Casa Rusu",

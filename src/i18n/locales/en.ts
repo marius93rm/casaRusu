@@ -13,6 +13,7 @@ export const en = {
     "home": "Home",
     "breadcrumbs": "Breadcrumb",
     "country": "Romania",
+    "opensInNewTab": "Opens in a new tab",
     "carousel": "carousel",
     "slide": "slide",
     "menuEyebrow": "The Casa Rusu menu",
