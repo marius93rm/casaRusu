@@ -72,8 +72,15 @@ assert.match(transcriptSource, /searchParams\.get\(menuPriceLimitQueryParam\)/, 
 assert.match(transcriptSource, /searchParams\.get\(menuCategoryQueryParam\)/, 'The menu should restore a shared category from its URL');
 assert.match(transcriptSource, /categoryMatches = !selectedCategory \|\| item\.dataset\.menuCategory === selectedCategory/, 'The selected category should constrain menu results');
 assert.match(transcriptSource, /updateMenuSearchUrl\(currentUrl, input\.value, priceLimit\.value, maximumMenuPrice, categoryFilter\.value\)/, 'The selected category should be included in the share URL');
-assert.match(transcriptSource, /navigator\.clipboard\.writeText\(window\.location\.href\)/, 'The menu should copy the current shareable result URL');
-assert.match(transcriptSource, /shareButton\.hidden = !filtersAreActive \|\| !window\.isSecureContext \|\| !navigator\.clipboard\?\.writeText/, 'The copy control should be available only for active filters in a secure context with Clipboard API support');
+assert.match(transcriptSource, /const shareUrl = window\.location\.href;/, 'The sharing action should capture the current shareable result URL');
+assert.match(transcriptSource, /navigator\.clipboard\.writeText\(shareUrl\)/, 'The menu should copy the current shareable result URL when native sharing is unavailable');
+assert.match(transcriptSource, /canShareCurrentUrl = \(\) =>[\s\S]*navigator\.canShare\(\{ url: window\.location\.href \}\)/, 'The menu should validate URLs before using the native share sheet');
+assert.match(transcriptSource, /navigator\.share\(\{ title: document\.title, url: shareUrl \}\)/, 'The native share action should be triggered directly from the button with the current result URL');
+assert.match(transcriptSource, /error\.name === 'AbortError'\) return/, 'Cancelling the native share sheet should not unexpectedly copy the URL');
+assert.match(transcriptSource, /shareButton\.hidden = !filtersAreActive \|\| \(!nativeShareAvailable && !copyAvailable\)/, 'The share control should appear only for active filters when a secure sharing method is available');
+assert.match(transcriptSource, /shareButton\.textContent = nativeShareAvailable[\s\S]*search\.dataset\.searchShareNativeLabel[\s\S]*search\.dataset\.searchShareLabel/, 'The share control should describe the native action or copy fallback');
+assert.match(transcriptSource, /search\.dataset\.searchShareDone/, 'The native share action should provide localized status feedback');
+assert.match(transcriptSource, /search\.dataset\.searchShareCopied[\s\S]*search\.dataset\.searchShareFailed/, 'The copy fallback should provide localized success and failure feedback');
 assert.match(transcriptSource, /searchActions\.hidden = !filtersAreActive/, 'Sharing and reset controls should stay out of the layout until filters are active');
 assert.match(transcriptSource, /searchShareCopied[\s\S]*searchShareFailed/, 'The copy action should provide localized success and permission failure feedback');
 assert.match(transcriptSource, /history\.replaceState\(window\.history\.state, '', nextUrl\.href\)/, 'Typing or clearing a search should update the current URL without adding history entries');
@@ -107,7 +114,8 @@ for (const { file, html } of menus) {
   assert.match(html, /<div\b(?=[^>]*class="menu-search-actions")(?=[^>]*data-menu-search-actions)(?=[^>]*hidden)[^>]*>/, `${file}: search actions should remain hidden until filters are active`);
   assert.match(html, new RegExp(`<button class="menu-search-reset"[^>]*data-menu-search-reset[^>]*hidden[^>]*>${labels.searchReset}</button>`), `${file}: reset filters should be localized and hidden until filters are active`);
   assert.match(html, new RegExp(`<button class="menu-search-share"[^>]*data-menu-search-share[^>]*hidden[^>]*>${labels.searchShare}</button>`), `${file}: sharing current results should be localized and hidden until filters are active`);
-  assert.ok(html.includes(labels.searchShareCopied) && html.includes(labels.searchShareFailed), `${file}: copy feedback should be localized`);
+  assert.ok(html.includes(labels.searchShare) && html.includes(labels.searchShareNative), `${file}: copy and native share actions should be localized`);
+  assert.ok(html.includes(labels.searchShareCopied) && html.includes(labels.searchShareDone) && html.includes(labels.searchShareFailed), `${file}: native share and copy feedback should be localized`);
   for (const [, filterPrice, row] of transcriptPrices) {
     assert.equal(Number(filterPrice), Number(row.match(/class="menu-item-price">(\d+) lei/)?.[1]), 'Filter prices must match the printed menu prices');
   }

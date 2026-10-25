@@ -26,7 +26,10 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     data-price-limit-all={copy.priceLimitAll}
     data-price-limit-up-to={copy.priceLimitUpTo}
     data-category-all={copy.categoryAll}
+    data-search-share-label={copy.searchShare}
+    data-search-share-native-label={copy.searchShareNative}
     data-search-share-copied={copy.searchShareCopied}
+    data-search-share-done={copy.searchShareDone}
     data-search-share-failed={copy.searchShareFailed}
     hidden
     data-menu-search
@@ -164,6 +167,17 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       categoryFilterOutput.textContent = categoryFilter.selectedOptions[0]?.textContent ?? search.dataset.categoryAll ?? '';
     };
 
+    const canShareCurrentUrl = () => {
+      if (!window.isSecureContext || typeof navigator.share !== 'function') return false;
+      if (typeof navigator.canShare !== 'function') return true;
+
+      try {
+        return navigator.canShare({ url: window.location.href });
+      } catch {
+        return false;
+      }
+    };
+
     const syncSearchUrl = () => {
       const currentUrl = window.location.href;
       const nextUrl = updateMenuSearchUrl(currentUrl, input.value, priceLimit.value, maximumMenuPrice, categoryFilter.value);
@@ -212,7 +226,12 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       status.hidden = !filtersAreActive;
       searchActions.hidden = !filtersAreActive;
       resetButton.hidden = !filtersAreActive;
-      shareButton.hidden = !filtersAreActive || !window.isSecureContext || !navigator.clipboard?.writeText;
+      const nativeShareAvailable = canShareCurrentUrl();
+      const copyAvailable = window.isSecureContext && typeof navigator.clipboard?.writeText === 'function';
+      shareButton.hidden = !filtersAreActive || (!nativeShareAvailable && !copyAvailable);
+      shareButton.textContent = nativeShareAvailable
+        ? search.dataset.searchShareNativeLabel ?? ''
+        : search.dataset.searchShareLabel ?? '';
       if (!filtersAreActive) {
         status.textContent = '';
       } else if (resultCount === 0) {
@@ -308,8 +327,24 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
       input.focus({ preventScroll: true });
     });
     shareButton.addEventListener('click', async () => {
+      shareStatus.hidden = true;
+      shareStatus.textContent = '';
+      const shareUrl = window.location.href;
+
+      if (canShareCurrentUrl()) {
+        try {
+          await navigator.share({ title: document.title, url: shareUrl });
+          shareStatus.textContent = search.dataset.searchShareDone ?? '';
+          shareStatus.hidden = false;
+          return;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') return;
+        }
+      }
+
       try {
-        await navigator.clipboard.writeText(window.location.href);
+        if (!window.isSecureContext || typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
+        await navigator.clipboard.writeText(shareUrl);
         shareStatus.textContent = search.dataset.searchShareCopied ?? '';
       } catch {
         shareStatus.textContent = search.dataset.searchShareFailed ?? '';
