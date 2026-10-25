@@ -29,6 +29,11 @@ assert.match(gallerySource, /requestAnimationFrame\(\(\) => \{[\s\S]*window\.scr
 assert.match(gallerySource, /data-lightbox-previous[\s\S]*data-lightbox-next/, 'The enlarged menu page needs previous and next controls');
 assert.match(gallerySource, /const moveLightbox = \(index: number\) => \{[\s\S]*go\(bounded, false, 'push'\)[\s\S]*showLightboxPage\(bounded\)/, 'Lightbox page navigation must update the gallery, URL, and enlarged image together');
 assert.match(gallerySource, /dialog\.addEventListener\('keydown'[\s\S]*ArrowLeft[\s\S]*ArrowRight/, 'The enlarged menu pages must support keyboard navigation');
+assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointerdown',[\s\S]*event\.pointerType !== 'touch'[\s\S]*!event\.isPrimary[\s\S]*event\.button !== 0/, 'Menu scan swipes should start only from the primary touch pointer');
+assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointerup',[\s\S]*start\.pointerId !== event\.pointerId[\s\S]*Math\.abs\(deltaX\) < 48[\s\S]*Math\.abs\(deltaX\) <= Math\.abs\(deltaY\) \* 1\.25[\s\S]*moveLightbox\(current \+ \(deltaX < 0 \? 1 : -1\)\)/, 'Menu scan swipes should require a deliberate horizontal gesture and use the existing page navigation');
+assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointercancel',[\s\S]*lightboxSwipeStart = null/, 'Cancelled menu scan gestures should not change the selected page');
+assert.match(gallerySource, /lightboxScroll\.style\.touchAction = zoom === 1 \? 'pan-y pinch-zoom' : 'auto'/, 'The menu viewer should reserve horizontal gestures for page navigation only at fit zoom');
+assert.match(menuStyles, /\.menu-lightbox-scroll\s*\{[^}]*touch-action:\s*pan-y pinch-zoom;/, 'The menu viewer should preserve native vertical scrolling and pinch zoom at fit size');
 
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');

@@ -50,7 +50,7 @@
 .menu-lightbox-controls, .menu-lightbox-page-controls { display: flex; align-items: center; gap: .35rem; }
 .menu-zoom-controls { display: flex; gap: .35rem; }
 .menu-zoom-controls form { margin: 0; }
-.menu-lightbox-scroll { overflow: auto; min-width: 0; min-height: 0; background: var(--surface); overscroll-behavior: contain; }
+.menu-lightbox-scroll { overflow: auto; min-width: 0; min-height: 0; background: var(--surface); overscroll-behavior: contain; touch-action: pan-y pinch-zoom; }
 .menu-lightbox-image { display: block; width: 100%; max-width: none; height: auto; object-fit: contain; }
 .menu-original-link { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .5rem; font-size: 1rem; }
 .menu-transcript { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: calc(var(--section-space) + 1rem); border-top: 1px solid var(--border); scroll-margin-block-start: 7rem; }
