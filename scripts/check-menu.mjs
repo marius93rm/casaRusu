@@ -34,6 +34,8 @@ assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointerup',[\s\S
 assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointercancel',[\s\S]*lightboxSwipeStart = null/, 'Cancelled menu scan gestures should not change the selected page');
 assert.match(gallerySource, /lightboxScroll\.style\.touchAction = zoom === 1 \? 'pan-y pinch-zoom' : 'auto'/, 'The menu viewer should reserve horizontal gestures for page navigation only at fit zoom');
 assert.match(menuStyles, /\.menu-lightbox-scroll\s*\{[^}]*touch-action:\s*pan-y pinch-zoom;/, 'The menu viewer should preserve native vertical scrolling and pinch zoom at fit size');
+assert.match(menuStyles, /\.menu-lightbox-toolbar\s*\{[^}]*min-width:\s*0;/, 'Narrow menu lightboxes should allow their toolbar title to wrap within the dialog');
+assert.match(menuStyles, /@media \(max-width:\s*320px\)\s*\{[^}]*\.menu-lightbox-controls,\s*\.menu-lightbox-page-controls,\s*\.menu-zoom-controls\s*\{[^}]*gap:\s*0;/, 'At narrow widths, all six minimum-size menu lightbox controls should fit without gaps');
 
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
