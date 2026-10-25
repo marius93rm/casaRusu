@@ -73,13 +73,15 @@ const copy = galleryCopy[locale];
     if (!track || !controls || !previous || !next) return;
     const dialog = gallery.querySelector<HTMLDialogElement>('.photo-lightbox');
     const lightboxImage = dialog?.querySelector<HTMLImageElement>('[data-photo-lightbox-image]');
+    const lightboxImageWrap = dialog?.querySelector<HTMLElement>('.photo-lightbox-image-wrap');
     const lightboxCaption = dialog?.querySelector<HTMLElement>('[data-photo-lightbox-caption]');
     const lightboxPrevious = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-previous]');
     const lightboxNext = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-next]');
     const enlargeButtons = [...gallery.querySelectorAll<HTMLButtonElement>('[data-photo-open]')];
-    if (!dialog || !lightboxImage || !lightboxCaption || !lightboxPrevious || !lightboxNext) return;
+    if (!dialog || !lightboxImage || !lightboxImageWrap || !lightboxCaption || !lightboxPrevious || !lightboxNext) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let lightboxIndex = 0;
+    let swipeStart: { pointerId: number; x: number; y: number } | null = null;
     let opener: HTMLButtonElement | null = null;
     let previousOverflow = '';
     // Native lazy loading may fetch the entire strip well before it is visible.
@@ -129,6 +131,21 @@ const copy = galleryCopy[locale];
     });
     lightboxPrevious.addEventListener('click', () => showLightboxPhoto(lightboxIndex - 1));
     lightboxNext.addEventListener('click', () => showLightboxPhoto(lightboxIndex + 1));
+    lightboxImageWrap.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'touch' || !event.isPrimary || event.button !== 0) return;
+      swipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+    }, { passive: true });
+    lightboxImageWrap.addEventListener('pointerup', (event) => {
+      const start = swipeStart;
+      swipeStart = null;
+      if (!start || event.pointerId !== start.pointerId) return;
+      const deltaX = event.clientX - start.x;
+      const deltaY = event.clientY - start.y;
+      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+      if (deltaX < 0 && lightboxIndex < enlargeButtons.length - 1) showLightboxPhoto(lightboxIndex + 1);
+      else if (deltaX > 0 && lightboxIndex > 0) showLightboxPhoto(lightboxIndex - 1);
+    }, { passive: true });
+    lightboxImageWrap.addEventListener('pointercancel', () => { swipeStart = null; });
     dialog.addEventListener('keydown', (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'ArrowLeft' && lightboxIndex > 0) {
@@ -188,7 +205,7 @@ const copy = galleryCopy[locale];
   .photo-lightbox-controls { display: flex; align-items: center; gap: .5rem; }
   .photo-lightbox-controls form { margin: 0; }
   .photo-lightbox-media { display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: .5rem; min-height: 0; margin: 0; }
-  .photo-lightbox-image-wrap { display: grid; place-items: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; }
+  .photo-lightbox-image-wrap { display: grid; place-items: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; touch-action: pan-y pinch-zoom; }
   .photo-lightbox-image-wrap img { display: block; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; }
   .photo-lightbox-media figcaption { margin: 0; text-align: center; }
   .photo-lightbox-controls button:focus-visible, .photo-gallery-enlarge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

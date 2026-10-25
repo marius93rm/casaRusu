@@ -15,6 +15,10 @@ assert.deepEqual(Object.keys(galleryCopy), [...locales], 'The photo gallery need
 assert.match(component, /<dialog class="photo-lightbox" aria-labelledby="photo-lightbox-title">/, 'The enlarged photo needs a labelled native dialog');
 assert.match(component, /dialog\.showModal\(\)/, 'The lightbox should use modal dialog behavior');
 assert.match(component, /event\.key === 'ArrowLeft'[\s\S]*event\.key === 'ArrowRight'/, 'The lightbox should support previous/next keyboard navigation');
+assert.match(component, /lightboxImageWrap\.addEventListener\('pointerdown'[\s\S]*event\.pointerType !== 'touch'[\s\S]*event\.isPrimary/, 'Lightbox swipe navigation should start only with the primary touch pointer');
+assert.match(component, /lightboxImageWrap\.addEventListener\('pointerup'[\s\S]*Math\.abs\(deltaX\) < 48[\s\S]*Math\.abs\(deltaX\) <= Math\.abs\(deltaY\) \* 1\.25/, 'Lightbox swipe navigation should require a deliberate, mostly horizontal gesture');
+assert.match(component, /lightboxImageWrap\.addEventListener\('pointercancel',[\s\S]*swipeStart = null/, 'Cancelled touch gestures should not trigger lightbox navigation');
+assert.match(component, /touch-action: pan-y pinch-zoom/, 'Lightbox swipes should preserve vertical panning and pinch zoom');
 assert.match(component, /dialog\.addEventListener\('close',[\s\S]*previousOverflow[\s\S]*opener\?\.focus\(\{ preventScroll: true \}\)/, 'Closing the lightbox should restore page scrolling and focus');
 assert.match(component, /dialog\.addEventListener\('click',[\s\S]*event\.target === dialog[\s\S]*dialog\.close\(\)/, 'Clicking the modal backdrop should close the lightbox');
 assert.match(component, /<template data-photo-picture>[\s\S]*<noscript>/, 'The original lazy-loaded gallery should remain available without JavaScript');
