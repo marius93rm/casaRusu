@@ -117,6 +117,8 @@ export const en = {
       "copyAddress": "Copy address",
       "addressCopied": "Address copied.",
       "addressCopyFailed": "Could not copy the address. Select it and copy it manually.",
+      "shareAddress": "Share address",
+      "addressShareStatus": "Choose an app to share the address.",
       "mapAction": "Get directions",
       "reviewsAction": "Read reviews on Google",
       "openingStatus": {

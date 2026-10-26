@@ -99,6 +99,8 @@ export const es = {
       "copyAddress": "Copiar dirección",
       "addressCopied": "Dirección copiada.",
       "addressCopyFailed": "No se pudo copiar la dirección. Selecciónala y cópiala manualmente.",
+      "shareAddress": "Compartir dirección",
+      "addressShareStatus": "Elige una aplicación para compartir la dirección.",
       "mapAction": "Cómo llegar",
       "reviewsAction": "Leer reseñas en Google",
       "openingStatus": {

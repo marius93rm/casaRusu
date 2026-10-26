@@ -115,6 +115,8 @@ export const ro = {
       "copyAddress": "Copiază adresa",
       "addressCopied": "Adresa a fost copiată.",
       "addressCopyFailed": "Adresa nu a putut fi copiată. Selecteaz-o și copiaz-o manual.",
+      "shareAddress": "Distribuie adresa",
+      "addressShareStatus": "Alege o aplicație pentru a distribui adresa.",
       "mapAction": "Cum ajungi la noi",
       "reviewsAction": "Citește recenziile pe Google",
       "openingStatus": {
