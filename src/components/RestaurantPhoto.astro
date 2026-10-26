@@ -1,16 +1,24 @@
 ---
 
+import { imageSizes, imageSrcset, restaurantAvifWidths, restaurantWebpWidths } from '../utils/responsiveImages';
+
 interface Props {
   image: string;
   alt: string;
   eager?: boolean;
+  responsive?: boolean;
 }
 
-const { image, alt, eager = false } = Astro.props;
+const { image, alt, eager = false, responsive = false } = Astro.props;
+const sources = responsive ? [
+  { type: 'image/avif', srcset: imageSrcset(image, restaurantAvifWidths, 'avif') },
+  { type: 'image/webp', srcset: imageSrcset(image, restaurantWebpWidths, 'webp') },
+] : [];
 ---
 
-<!-- Serve the delivered 2048px JPEG unchanged: no additional lossy encoding. -->
-<picture>
+<!-- Prefer existing responsive AVIF/WebP files and keep the original JPEG as fallback. -->
+<picture data-responsive-photo={responsive ? 'true' : undefined}>
+  {sources.map((source) => <source type={source.type} srcset={source.srcset} sizes={responsive ? imageSizes : undefined} />)}
   <img
     src={image}
     {alt}

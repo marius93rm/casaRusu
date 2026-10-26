@@ -146,6 +146,12 @@ function sourceCandidates(srcset) {
   return srcset.split(',').map((candidate) => candidate.trim().split(/\s+/)[0]).filter(Boolean);
 }
 
+function responsiveCandidates(image, format) {
+  const stem = image.replace(/\.jpe?g$/i, '');
+  const widths = format === 'avif' ? [640, 768, 960, 1280] : [640, 960, 1280];
+  return widths.map((width) => `${stem}-${width}.${format} ${width}w`).join(', ');
+}
+
 async function main() {
   if (!(await fileExists(path.join(outputDirectory, 'index.html')))) {
     throw new Error('dist/index.html non esiste: esegui prima `npm run build`.');
@@ -509,6 +515,47 @@ async function main() {
   const baseOrigin = productionOrigin ?? localOrigin;
   for (const page of pages) {
     const base = new URL(page.route, baseOrigin);
+    const contentRoute = unlocalizedRoute(page.route);
+    const expectedResponsivePhotoCount = contentRoute === '/'
+      ? 3
+      : ['/meniu/', '/preparate/snitel-cotlet-porc/'].includes(contentRoute) ? 1 : 0;
+    const responsivePictures = [...page.html.matchAll(/<picture\b(?=[^>]*\bdata-responsive-photo=["']true["'])[^>]*>[\s\S]*?<\/picture\s*>/gi)];
+    if (responsivePictures.length !== expectedResponsivePhotoCount) {
+      report(page.relativeFile, `attese ${expectedResponsivePhotoCount} foto del ristorante responsive, trovate ${responsivePictures.length}.`);
+    }
+
+    for (const [index, [markup]] of responsivePictures.entries()) {
+      const sources = openingTags(markup, 'source').map((tag) => tag.attributes);
+      const image = openingTags(markup, 'img')[0]?.attributes;
+      const expectedImage = image?.src;
+      const expectedTypes = ['image/avif', 'image/webp'];
+      if (sources.length !== expectedTypes.length || sources.some((source, sourceIndex) => source.type !== expectedTypes[sourceIndex])) {
+        report(page.relativeFile, `foto responsive ${index + 1}: attese le alternative AVIF e WebP nell’ordine previsto.`);
+      }
+      if (!expectedImage?.startsWith('/images/') || !expectedImage.endsWith('.jpg') || image.width !== '2048' || image.height !== '1366') {
+        report(page.relativeFile, `foto responsive ${index + 1}: deve mantenere il JPEG originale da 2048×1366 come fallback e dimensione intrinseca.`);
+      }
+
+      for (const [sourceIndex, source] of sources.entries()) {
+        const format = sourceIndex === 0 ? 'avif' : 'webp';
+        if (source.srcset !== responsiveCandidates(expectedImage ?? '', format)) {
+          report(page.relativeFile, `foto responsive ${index + 1}: srcset ${format.toUpperCase()} non corrispondente alle varianti generate.`);
+        }
+        if (source.sizes !== '(max-width: 760px) calc(100vw - 2.5rem), min(44vw, 40rem)') {
+          report(page.relativeFile, `foto responsive ${index + 1}: dimensione visualizzata non sincronizzata con il layout.`);
+        }
+      }
+
+      const shouldPreload = ['/','/preparate/snitel-cotlet-porc/'].includes(contentRoute) && index === 0;
+      if (shouldPreload) {
+        const preload = page.linkTags.find((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('preload')
+          && tag.as?.toLowerCase() === 'image' && tag.type === 'image/avif');
+        if (!preload || preload.imagesrcset !== sources[0]?.srcset || preload.imagesizes !== sources[0]?.sizes) {
+          report(page.relativeFile, `preload responsive ${index + 1}: deve corrispondere all’alternativa AVIF e alle sue sizes.`);
+        }
+      }
+    }
+
     const tags = openingTags(page.html, 'a|area|link|img|source|script|iframe|video|audio|track|embed|object');
     for (const meta of page.metaTags) {
       if (['og:url', 'og:image'].includes(meta.property?.toLowerCase()) || meta.name?.toLowerCase() === 'twitter:image') {

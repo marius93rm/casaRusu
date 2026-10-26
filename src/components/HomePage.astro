@@ -11,6 +11,7 @@ import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { getDictionary, localizedPath } from '../i18n';
 import { formatOpeningHours } from '../utils/openingHours';
+import { imageSizes, imageSrcset, restaurantAvifWidths } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
@@ -84,7 +85,7 @@ const structuredData = {
 ---
 
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
-  criticalImage={{ srcset: `${siteData.media.cover} 2048w`, sizes: '100vw', type: 'image/jpeg' }}>
+  criticalImage={{ srcset: imageSrcset(siteData.media.cover, restaurantAvifWidths, 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -110,7 +111,7 @@ const structuredData = {
         </div>
 
         <figure class="hero-visual">
-          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager />
+          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager responsive />
         </figure>
       </div>
     </section>
@@ -140,7 +141,7 @@ const structuredData = {
     <section class="dish-section" id="preparat" tabindex="-1" aria-labelledby="dish-title">
       <div class="container dish-grid">
         <figure class="dish-visual">
-          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} />
+          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} responsive />
         </figure>
         <div class="dish-copy">
           <p class="section-label">{copy.dish.eyebrow}</p>
@@ -163,7 +164,7 @@ const structuredData = {
           <p>{copy.visit.body}</p>
         </div>
         <figure class="visit-visual">
-          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} />
+          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} responsive />
         </figure>
 
         <div class="visit-content">
