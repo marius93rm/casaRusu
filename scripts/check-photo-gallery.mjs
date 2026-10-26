@@ -29,6 +29,14 @@ for (const image of galleryPhotos) {
 }
 
 assert.deepEqual(Object.keys(galleryCopy), [...locales], 'The photo gallery needs copy in all supported languages');
+assert.match(component, /aria-roledescription=\{ui\.carousel\}/, 'Assistive technologies should recognize the photo gallery as a carousel');
+assert.match(component, /photo-gallery-track" id="photo-gallery-track" role="group" aria-labelledby="photo-gallery-title" aria-describedby="photo-gallery-help" tabindex="0"/, 'The keyboard-scrollable gallery track should be a named group with its instructions');
+assert.match(component, /role="group" aria-roledescription=\{ui\.slide\} aria-label=\{`\$\{index \+ 1\} \$\{menu\.of\} \$\{galleryPhotos\.length\}:/, 'Each photo needs a localized slide role and a position/name');
+assert.match(component, /role="status" aria-live="polite" aria-atomic="true" data-photo-counter/, 'The current photo position should be announced when the user scrolls the gallery');
+assert.match(component, /track\.addEventListener\('scroll', sync/, 'The photo counter should follow carousel scrolling');
+assert.match(component, /counter\.textContent = `\$\{currentIndex \+ 1\} \$\{counter\.dataset\.of \?\? ''\} \$\{slides\.length\}`\.trim\(\)/, 'The position announcement should use the localized word for “of”');
+assert.match(component, /track\.querySelectorAll<HTMLElement>\('\.photo-gallery-slide'\)\.forEach\(\(slide\) => observer\.observe\(slide\)\)/, 'Lazy gallery photos should continue loading after carousel markup changes');
+assert.match(component, /track\.querySelector<HTMLElement>\('\.photo-gallery-slide'\)/, 'Carousel controls should keep targeting slides after markup changes');
 assert.match(component, /<dialog class="photo-lightbox" aria-labelledby="photo-lightbox-title">/, 'The enlarged photo needs a labelled native dialog');
 assert.match(component, /dialog\.showModal\(\)/, 'The lightbox should use modal dialog behavior');
 assert.match(component, /event\.key === 'ArrowLeft'[\s\S]*event\.key === 'ArrowRight'/, 'The lightbox should support previous/next keyboard navigation');
@@ -53,6 +61,15 @@ for (const locale of locales) {
   }
 
   const html = await readFile(new URL(`../dist/${prefixFor(locale)}index.html`, import.meta.url), 'utf8');
+  assert.match(html, /aria-roledescription="[^"]+"/, `${locale}: the gallery should identify itself as a carousel`);
+  const positionWord = html.match(/data-photo-counter data-of="([^"]+)"/)?.[1];
+  assert.ok(positionWord, `${locale}: the counter needs a localized position word`);
+  const slides = [...html.matchAll(/class="photo-gallery-slide" role="group" aria-roledescription="[^"]+" aria-label="([^"]+)"/g)];
+  assert.equal(slides.length, galleryPhotos.length, `${locale}: each photo needs slide semantics`);
+  slides.forEach(([, label], index) => {
+    assert.ok(label.startsWith(`${index + 1} ${positionWord} ${galleryPhotos.length}:`), `${locale}: slide ${index + 1} should have a localized position and name`);
+  });
+  assert.match(html, /role="status" aria-live="polite" aria-atomic="true"/, `${locale}: the changing photo position should be announced`);
   for (const image of galleryPhotos) {
     const stem = image.replace(/\.jpe?g$/i, '');
     assert.ok(html.includes(`${stem}-640.avif`) && html.includes(`${stem}-1280.avif`), `${locale}: each gallery photo should include responsive AVIF candidates`);

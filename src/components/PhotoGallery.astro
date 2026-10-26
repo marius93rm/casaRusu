@@ -4,20 +4,23 @@ import RestaurantPhoto from './RestaurantPhoto.astro';
 import { galleryCopy, galleryPhotos } from '../data/photoGallery';
 import type { SiteLocale } from '../data/site';
 import { galleryImageSizes } from '../utils/responsiveImages';
+import { getDictionary } from '../i18n';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = galleryCopy[locale];
+const dictionary = getDictionary(locale);
+const { ui, menu } = dictionary;
 ---
 
-<section class="photo-gallery" aria-labelledby="photo-gallery-title" data-photo-gallery>
+<section class="photo-gallery" aria-labelledby="photo-gallery-title" aria-roledescription={ui.carousel} data-photo-gallery>
   <div class="container">
     <h2 id="photo-gallery-title">{copy.title}</h2>
     <p class="photo-gallery-intro">{copy.intro}</p>
     <p class="visually-hidden" id="photo-gallery-help">{copy.keyboard}</p>
-    <div class="photo-gallery-track" id="photo-gallery-track" role="region" aria-labelledby="photo-gallery-title" aria-describedby="photo-gallery-help" tabindex="0" data-photo-track>
-      <ul role="list">
+    <div class="photo-gallery-track" id="photo-gallery-track" role="group" aria-labelledby="photo-gallery-title" aria-describedby="photo-gallery-help" tabindex="0" data-photo-track>
+      <div class="photo-gallery-slides">
         {galleryPhotos.map((image, index) => (
-          <li>
+          <div class="photo-gallery-slide" role="group" aria-roledescription={ui.slide} aria-label={`${index + 1} ${menu.of} ${galleryPhotos.length}: ${copy.captions[index]}`}>
             <figure>
               <div class="photo-gallery-image">
                 <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} responsive sizes={galleryImageSizes} /></template>
@@ -38,13 +41,16 @@ const copy = galleryCopy[locale];
               </div>
               <figcaption>{copy.captions[index]}</figcaption>
             </figure>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
     <div class="photo-gallery-controls" data-photo-controls hidden>
-      <button type="button" aria-label={copy.previous} aria-controls="photo-gallery-track" data-photo-previous aria-disabled="true"><Icon name="previous" size={22} /></button>
-      <button type="button" aria-label={copy.next} aria-controls="photo-gallery-track" data-photo-next aria-disabled="false"><Icon name="chevron" size={22} /></button>
+      <p class="photo-gallery-counter" role="status" aria-live="polite" aria-atomic="true" data-photo-counter data-of={menu.of}>1 {menu.of} {galleryPhotos.length}</p>
+      <div class="photo-gallery-control-buttons">
+        <button type="button" aria-label={copy.previous} aria-controls="photo-gallery-track" data-photo-previous aria-disabled="true"><Icon name="previous" size={22} /></button>
+        <button type="button" aria-label={copy.next} aria-controls="photo-gallery-track" data-photo-next aria-disabled="false"><Icon name="chevron" size={22} /></button>
+      </div>
     </div>
     <dialog class="photo-lightbox" aria-labelledby="photo-lightbox-title">
       <div class="photo-lightbox-toolbar">
@@ -71,7 +77,9 @@ const copy = galleryCopy[locale];
     const controls = gallery.querySelector<HTMLElement>('[data-photo-controls]');
     const previous = gallery.querySelector<HTMLButtonElement>('[data-photo-previous]');
     const next = gallery.querySelector<HTMLButtonElement>('[data-photo-next]');
-    if (!track || !controls || !previous || !next) return;
+    const counter = gallery.querySelector<HTMLElement>('[data-photo-counter]');
+    if (!track || !controls || !previous || !next || !counter) return;
+    const slides = [...track.querySelectorAll<HTMLElement>('.photo-gallery-slide')];
     const dialog = gallery.querySelector<HTMLDialogElement>('.photo-lightbox');
     const lightboxImage = dialog?.querySelector<HTMLImageElement>('[data-photo-lightbox-image]');
     const lightboxImageWrap = dialog?.querySelector<HTMLElement>('.photo-lightbox-image-wrap');
@@ -98,13 +106,31 @@ const copy = galleryCopy[locale];
         observer.unobserve(entry.target);
       }
     }, { rootMargin: '200px' });
-    track.querySelectorAll('li').forEach((slide) => observer.observe(slide));
+    track.querySelectorAll<HTMLElement>('.photo-gallery-slide').forEach((slide) => observer.observe(slide));
+    let currentIndex = 0;
+    let counterTimer = 0;
     const sync = () => {
       previous.setAttribute('aria-disabled', String(track.scrollLeft <= 2));
       next.setAttribute('aria-disabled', String(track.scrollLeft + track.clientWidth >= track.scrollWidth - 2));
+      window.clearTimeout(counterTimer);
+      counterTimer = window.setTimeout(() => {
+        const trackLeft = track.getBoundingClientRect().left;
+        let nearestIndex = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+        slides.forEach((slide, index) => {
+          const distance = Math.abs(slide.getBoundingClientRect().left - trackLeft);
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+          }
+        });
+        if (nearestIndex === currentIndex) return;
+        currentIndex = nearestIndex;
+        counter.textContent = `${currentIndex + 1} ${counter.dataset.of ?? ''} ${slides.length}`.trim();
+      }, 120);
     };
     const move = (direction: number) => {
-      const slide = track.querySelector('li');
+      const slide = track.querySelector<HTMLElement>('.photo-gallery-slide');
       if (!slide) return;
       const step = slide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(slide.parentElement!).columnGap);
       track.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
@@ -184,14 +210,16 @@ const copy = galleryCopy[locale];
   .photo-gallery-intro { max-width: 36rem; margin-bottom: 2.25rem; color: var(--muted); font-size: 1.0625rem; }
   .photo-gallery-track { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface); padding-bottom: 1rem; }
   .photo-gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-  ul { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
-  li { min-width: 0; scroll-snap-align: start; }
+  .photo-gallery-slides { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); gap: 1.5rem; }
+  .photo-gallery-slide { min-width: 0; scroll-snap-align: start; }
   .photo-gallery-image { position: relative; aspect-ratio: 2048 / 1366; overflow: hidden; }
   figure :global(picture) { height: 100%; }
   figure :global(img) { height: 100%; object-fit: cover; }
   figcaption { margin-top: .85rem; color: var(--text); font-size: 1rem; }
-  .photo-gallery-controls { display: flex; justify-content: flex-end; gap: .75rem; margin-top: 1rem; }
+  .photo-gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
   .photo-gallery-controls[hidden] { display: none; }
+  .photo-gallery-counter { margin: 0 auto 0 0; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
+  .photo-gallery-control-buttons { display: flex; gap: .75rem; }
   button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
   button:hover { background: var(--surface); }
   button[aria-disabled='true'] { color: var(--muted); border-color: var(--border); cursor: default; }
@@ -212,7 +240,7 @@ const copy = galleryCopy[locale];
   .photo-lightbox-controls button:focus-visible, .photo-gallery-enlarge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   @media (max-width: 760px) {
     .photo-gallery { padding-bottom: 4rem; }
-    ul { grid-auto-columns: 86%; gap: 1rem; }
+    .photo-gallery-slides { grid-auto-columns: 86%; gap: 1rem; }
     .photo-gallery-intro { margin-bottom: 1.5rem; }
   }
   @media (max-width: 320px) {
