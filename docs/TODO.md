@@ -174,6 +174,10 @@
 
 - [x] **CR-85 — Aggiornare l’indicatore quando la pagina torna attiva.** I timer in schede in background possono essere rallentati dal browser: tornando al sito, la scritta aperto/chiuso ora si ricalcola subito su `visibilitychange` verso `visible` e sul ripristino `pageshow` (incluso BFCache); resta anche il controllo periodico ogni minuto. Aggiunte asserzioni al controllo orari per proteggere entrambi i punti di aggiornamento. Nessun orario o dato del ristorante modificato. Verifiche: build completa e `git diff --check`; preview Paseo locale verificata sulla home a 390×844 e 1440×1000, indicatore presente e nessun overflow.
 
+### Pagina 404 su schermi stretti (26/10/2026)
+
+- [x] **CR-86 — Rendere più compatta la CTA principale della pagina 404 sotto i 321 px.** La preview Paseo iniziale a 280×800 mostrava “Înapoi la pagina principală” su tre righe strette. Sotto i 321 px la CTA usa testo, spaziatura e padding laterale più compatti, mantenendo freccia ed etichette tradotte. Verifiche visive Paseo: RO ed ES a 280×800 e ES a 320×800 mostrano la CTA su due righe; a 321×800 lo stile normale torna e la CTA resta su due righe; desktop ES a 1440×1000 resta invariato. Larghezze documento osservate: 265/280, 305/320, 306/321 e 1425/1440 px, senza overflow orizzontale. Build completa: Astro check (62 file, zero diagnostiche), 19 pagine e checker SEO/menu/orari/galleria/i18n superati; `git diff --check` passa.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.
