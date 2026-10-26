@@ -170,6 +170,10 @@
 
 - [x] **CR-84 — Uniformare le icone dei link social nel footer.** Facebook e Instagram ora mostrano le rispettive icone Tabler da 18 px, come TikTok; frecce di collegamento esterno e testi localizzati restano invariati. `ASTRO_TELEMETRY_DISABLED=1 npm run build` supera Astro check (62 file, zero diagnostiche), build di 19 pagine e controlli SEO, menu, orari, galleria e i18n; `git diff --check` passa. Preview Paseo locale verificata visivamente nel footer a 390×844 e 1440×1000: tutte e tre le piattaforme hanno icona e freccia esterna, link alti 44 px e nessun overflow orizzontale.
 
+### Stato di apertura in tempo reale
+
+- [x] **CR-85 — Aggiornare l’indicatore quando la pagina torna attiva.** I timer in schede in background possono essere rallentati dal browser: tornando al sito, la scritta aperto/chiuso ora si ricalcola subito su `visibilitychange` verso `visible` e sul ripristino `pageshow` (incluso BFCache); resta anche il controllo periodico ogni minuto. Aggiunte asserzioni al controllo orari per proteggere entrambi i punti di aggiornamento. Nessun orario o dato del ristorante modificato. Verifiche: build completa e `git diff --check`; preview Paseo locale verificata sulla home a 390×844 e 1440×1000, indicatore presente e nessun overflow.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.

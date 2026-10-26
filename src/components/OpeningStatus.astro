@@ -48,5 +48,9 @@ const copy = siteData.copy[locale].visit.openingStatus;
 
     updateStatus();
     window.setInterval(updateStatus, 60_000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') updateStatus();
+    });
+    window.addEventListener('pageshow', updateStatus);
   }
 </script>
