@@ -35,7 +35,8 @@ assert.match(gallerySource, /lightboxScroll\.addEventListener\('pointercancel',[
 assert.match(gallerySource, /lightboxScroll\.style\.touchAction = zoom === 1 \? 'pan-y pinch-zoom' : 'auto'/, 'The menu viewer should reserve horizontal gestures for page navigation only at fit zoom');
 assert.match(menuStyles, /\.menu-lightbox-scroll\s*\{[^}]*touch-action:\s*pan-y pinch-zoom;/, 'The menu viewer should preserve native vertical scrolling and pinch zoom at fit size');
 assert.match(menuStyles, /\.menu-lightbox-toolbar\s*\{[^}]*min-width:\s*0;/, 'Narrow menu lightboxes should allow their toolbar title to wrap within the dialog');
-assert.match(menuStyles, /@media \(max-width:\s*320px\)\s*\{[^}]*\.menu-lightbox-controls,\s*\.menu-lightbox-page-controls,\s*\.menu-zoom-controls\s*\{[^}]*gap:\s*0;/, 'At narrow widths, all six minimum-size menu lightbox controls should fit without gaps');
+assert.match(menuStyles, /@media \(max-width:\s*320px\)\s*\{[\s\S]*?\.menu-lightbox-controls,\s*\.menu-lightbox-page-controls,\s*\.menu-zoom-controls\s*\{[^}]*gap:\s*0;/, 'At narrow widths, all six minimum-size menu lightbox controls should fit without gaps');
+assert.match(menuStyles, /\.menu-search input\s*\{[^}]*scroll-margin-block-start:\s*3rem;/, 'Direct links to dish search should account for the sticky panel input offset');
 
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
@@ -175,6 +176,7 @@ assert.match(transcriptSource, /resetButton\.addEventListener\('click',[\s\S]*?i
 assert.match(transcriptSource, /window\.addEventListener\('beforeprint'[\s\S]*?input\.value = ''[\s\S]*?categoryFilter\.value = ''[\s\S]*?priceLimit\.value = String\(maximumMenuPrice\)[\s\S]*?page\.open = true/, 'Print should temporarily include the full menu even when filters are active');
 assert.match(transcriptSource, /window\.addEventListener\('afterprint'[\s\S]*?input\.value = previousState\.query[\s\S]*?categoryFilter\.value = previousState\.category[\s\S]*?priceLimit\.value = previousState\.priceLimit[\s\S]*?page\.open = previousState\.pagesOpen\[index\][\s\S]*?syncSearchUrl\(\)/, 'Closing print preview should restore the filters, expanded sections, and share URL');
 assert.match(menuStyles, /@media print\s*\{[\s\S]*?\.menu-gallery[\s\S]*?\.menu-transcript-return[\s\S]*?\.menu-transcript-pages[\s\S]*?\[data-menu-item\]\[hidden\]/, 'Print styles should focus on the readable transcript, hide navigation links, and include filtered items');
+assert.match(menuStyles, /@media \(max-width: 320px\)\s*\{[\s\S]*?\.menu-category-filter summary, \.menu-price-filter summary\s*\{\s*display: grid;[\s\S]*?grid-template-areas: "label arrow" "value arrow";[\s\S]*?\.menu-category-filter summary > span, \.menu-price-filter summary > span\s*\{\s*grid-area: label;[\s\S]*?\.menu-category-filter summary output, \.menu-price-filter summary output\s*\{[\s\S]*?grid-area: value;[\s\S]*?\.menu-category-filter summary::after, \.menu-price-filter summary::after\s*\{\s*grid-area: arrow;/, 'Narrow menu filters should stack labels and values without squeezing either column');
 
 for (const locale of locales) {
   const prefix = prefixFor(locale);
