@@ -3,6 +3,7 @@ import Icon from './Icon.astro';
 import RestaurantPhoto from './RestaurantPhoto.astro';
 import { galleryCopy, galleryPhotos } from '../data/photoGallery';
 import type { SiteLocale } from '../data/site';
+import { galleryImageSizes } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = galleryCopy[locale];
@@ -19,7 +20,7 @@ const copy = galleryCopy[locale];
           <li>
             <figure>
               <div class="photo-gallery-image">
-                <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} /></template>
+                <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} responsive sizes={galleryImageSizes} /></template>
                 <noscript><RestaurantPhoto {image} alt={copy.alts[index]} /></noscript>
                 <button
                   class="photo-gallery-enlarge"

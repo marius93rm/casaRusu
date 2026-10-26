@@ -2,6 +2,8 @@ import { locales, prefixFor, homeFor, localeFor, unlocalizedRoute } from './i18n
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { galleryPhotos } from '../src/data/photoGallery.ts';
+import { galleryImageSizes, imageSizes } from '../src/utils/responsiveImages.ts';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputDirectory = path.join(projectRoot, 'dist');
@@ -517,7 +519,7 @@ async function main() {
     const base = new URL(page.route, baseOrigin);
     const contentRoute = unlocalizedRoute(page.route);
     const expectedResponsivePhotoCount = contentRoute === '/'
-      ? 3
+      ? 3 + galleryPhotos.length
       : ['/meniu/', '/preparate/snitel-cotlet-porc/'].includes(contentRoute) ? 1 : 0;
     const responsivePictures = [...page.html.matchAll(/<picture\b(?=[^>]*\bdata-responsive-photo=["']true["'])[^>]*>[\s\S]*?<\/picture\s*>/gi)];
     if (responsivePictures.length !== expectedResponsivePhotoCount) {
@@ -528,6 +530,9 @@ async function main() {
       const sources = openingTags(markup, 'source').map((tag) => tag.attributes);
       const image = openingTags(markup, 'img')[0]?.attributes;
       const expectedImage = image?.src;
+      const expectedSizes = galleryPhotos.some((galleryImage) => expectedImage?.endsWith(galleryImage))
+        ? galleryImageSizes
+        : imageSizes;
       const expectedTypes = ['image/avif', 'image/webp'];
       if (sources.length !== expectedTypes.length || sources.some((source, sourceIndex) => source.type !== expectedTypes[sourceIndex])) {
         report(page.relativeFile, `foto responsive ${index + 1}: attese le alternative AVIF e WebP nell’ordine previsto.`);
@@ -541,7 +546,7 @@ async function main() {
         if (source.srcset !== responsiveCandidates(expectedImage ?? '', format)) {
           report(page.relativeFile, `foto responsive ${index + 1}: srcset ${format.toUpperCase()} non corrispondente alle varianti generate.`);
         }
-        if (source.sizes !== '(max-width: 760px) calc(100vw - 2.5rem), min(44vw, 40rem)') {
+        if (source.sizes !== expectedSizes) {
           report(page.relativeFile, `foto responsive ${index + 1}: dimensione visualizzata non sincronizzata con il layout.`);
         }
       }

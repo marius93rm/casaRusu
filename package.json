@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "audit:lighthouse": "node scripts/audit-lighthouse.mjs",
+    "optimize:gallery": "node scripts/optimize-gallery.mjs",
     "dev": "astro dev --host 0.0.0.0",
     "check": "astro check",
     "build": "astro check && astro build && npm run check:seo && npm run check:menu && npm run check:hours && npm run check:gallery && npm run check:i18n",
