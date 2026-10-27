@@ -38,10 +38,10 @@ export const es = {
     "menu": {
       "eyebrow": "Menú",
       "title": "Menú del Restaurante Casa Rusu",
-      "body": "Explora nuestro menú, desde los entrantes hasta los postres y las bebidas. Elige una página o lee con calma los platos y los precios.",
+      "body": "Explora nuestro menú impreso, desde los entrantes hasta los postres y las bebidas. Llámanos para confirmar los precios actuales y la disponibilidad.",
       "seo": {
         "title": "Menú Casa Rusu en Codlea · Platos y precios",
-        "description": "Descubre el menú de Casa Rusu en Codlea: entrantes, pasta, pescado, parrilla, postres y bebidas, con ingredientes traducidos, cantidades y precios en lei."
+        "description": "Descubre el menú impreso de Casa Rusu en Codlea: entrantes, platos, postres y bebidas con precios en lei. Llama para confirmar precios y disponibilidad."
       },
       "dishAction": "Ver el plato",
       "backAction": "Volver al menú",
@@ -165,7 +165,7 @@ export const es = {
     "read": "Leer el menú",
     "scanPage": "Ver esta página del menú",
     "readTitle": "El menú, sin prisa",
-    "readBody": "Platos, ingredientes, cantidades y precios del menú original en un formato fácil de leer.",
+    "readBody": "Platos, cantidades y precios del menú impreso, con los ingredientes cuando se indican.",
     "languageNote": "Las imágenes muestran el menú original en rumano. El texto de abajo está traducido; los precios están en lei rumanos.",
     "printMenu": "Imprimir menú",
     "searchLandmark": "Buscar en el menú",

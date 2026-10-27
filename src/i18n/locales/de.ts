@@ -38,10 +38,10 @@ export const de = {
     "menu": {
       "eyebrow": "Speisekarte",
       "title": "Speisekarte des Restaurants Casa Rusu",
-      "body": "Entdecken Sie unsere Speisekarte, von Vorspeisen bis zu Desserts und Getränken. Wählen Sie eine Seite oder lesen Sie in Ruhe die Gerichte und Preise.",
+      "body": "Entdecken Sie unsere gedruckte Speisekarte, von Vorspeisen bis zu Desserts und Getränken. Rufen Sie uns an, um aktuelle Preise und Verfügbarkeit zu prüfen.",
       "seo": {
         "title": "Casa Rusu Speisekarte in Codlea · Gerichte und Preise",
-        "description": "Entdecken Sie die Speisekarte von Casa Rusu in Codlea: Vorspeisen, Pasta, Fisch, Grillgerichte, Desserts und Getränke mit übersetzten Zutaten, Mengen und Preisen in Lei."
+        "description": "Entdecken Sie die gedruckte Speisekarte von Casa Rusu in Codlea: Gerichte und Getränke mit Preisen in Lei. Aktuelle Preise und Verfügbarkeit bitte telefonisch erfragen."
       },
       "dishAction": "Gericht ansehen",
       "backAction": "Zurück zur Speisekarte",
@@ -165,7 +165,7 @@ export const de = {
     "read": "Speisekarte lesen",
     "scanPage": "Diese Menüseite ansehen",
     "readTitle": "Die Speisekarte in Ruhe entdecken",
-    "readBody": "Gerichte, Zutaten, Mengen und Preise der Originalkarte in einem gut lesbaren Format.",
+    "readBody": "Gerichte, Mengen und Preise aus der gedruckten Karte, mit Zutaten, soweit angegeben.",
     "languageNote": "Die Bilder zeigen die rumänische Originalkarte. Der folgende Text ist übersetzt; die Preise sind in rumänischen Lei angegeben.",
     "printMenu": "Speisekarte drucken",
     "searchLandmark": "Speisekarte durchsuchen",

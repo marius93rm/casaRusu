@@ -54,10 +54,10 @@ export const ro = {
     "menu": {
       "eyebrow": "Meniu",
       "title": "Meniu Restaurant Casa Rusu",
-      "body": "Răsfoiește meniul nostru, de la aperitive la deserturi și băuturi. Alege o pagină sau citește preparatele și prețurile pe îndelete.",
+      "body": "Răsfoiește meniul tipărit, de la aperitive la deserturi și băuturi. Sună-ne pentru a verifica prețurile actuale și disponibilitatea.",
       "seo": {
         "title": "Meniu Restaurant Casa Rusu Codlea | Preparate și prețuri",
-        "description": "Descoperă meniul Restaurant Casa Rusu din Codlea: aperitive, paste, pește, preparate la grătar, deserturi și băuturi, cu ingrediente, cantități și prețuri în lei."
+        "description": "Descoperă meniul tipărit Casa Rusu din Codlea: aperitive, preparate, deserturi și băuturi cu prețuri în lei. Sună-ne pentru prețuri actuale și disponibilitate."
       },
       "dishAction": "Vezi preparatul",
       "backAction": "Înapoi la meniu",
@@ -163,7 +163,7 @@ export const ro = {
     "read": "Citește meniul",
     "scanPage": "Vezi pagina scanată",
     "readTitle": "Meniul, pe îndelete",
-    "readBody": "Preparatele, ingredientele, cantitățile și prețurile din meniul original, într-un format ușor de citit.",
+    "readBody": "Preparatele, cantitățile și prețurile din meniul tipărit, cu ingredientele acolo unde sunt indicate.",
     "languageNote": "Meniul este în limba română. Prețurile sunt în lei.",
     "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",
