@@ -20,14 +20,14 @@ export const es = {
     "notFound": {
       "eyebrow": "404 · Página no encontrada",
       "title": "No encontramos esta página.",
-      "description": "Esta dirección no lleva a una página disponible. Vuelve al inicio o explora el menú de Casa Rusu.",
-      "body": "Puede que el enlace esté desactualizado o que la dirección se haya escrito mal. Te ayudamos a encontrar el camino de vuelta.",
+      "description": "Esta dirección no lleva a una página disponible de Casa Rusu. Vuelve al inicio o descubre nuestro menú.",
+      "body": "Parece que el enlace se ha perdido por el camino. Te ayudamos a encontrar la vuelta al restaurante.",
       "homeAction": "Volver a la página de inicio",
       "menuAction": "Explorar el menú",
       "callAction": "Llamar al restaurante",
       "language": "Elige el idioma",
       "metaTitle": "Página no encontrada | Restaurant Casa Rusu",
-      "metaDescription": "La página que buscas no está disponible. Vuelve a Restaurant Casa Rusu en Codlea o explora el menú."
+      "metaDescription": "La dirección solicitada no lleva a una página disponible. Vuelve a Restaurant Casa Rusu en Codlea o descubre el menú."
     }
   },
   "seo": {

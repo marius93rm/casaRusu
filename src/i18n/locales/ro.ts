@@ -17,15 +17,15 @@ export const ro = {
     "menuEyebrow": "Meniu Casa Rusu",
     "notFound": {
       "eyebrow": "Eroare 404 · pagina nu a fost găsită",
-      "title": "Pagina nu a fost găsită.",
-      "description": "Adresa aceasta nu duce la o pagină disponibilă. Revino la pagina principală sau răsfoiește meniul Casa Rusu.",
-      "body": "Este posibil ca linkul să fie vechi sau adresa introdusă să fie greșită. Te ajutăm să găsești drumul spre restaurant.",
+      "title": "Nu găsim această pagină.",
+      "description": "Adresa aceasta nu duce la o pagină disponibilă la Restaurant Casa Rusu. Revino la pagina principală sau descoperă meniul.",
+      "body": "Se pare că linkul s-a rătăcit pe drum. Te ajutăm să găsești drumul spre restaurant.",
       "homeAction": "Înapoi la pagina principală",
       "menuAction": "Răsfoiește meniul",
       "callAction": "Sună la restaurant",
       "language": "Alege limba",
       "metaTitle": "Pagina nu a fost găsită | Restaurant Casa Rusu",
-      "metaDescription": "Pagina căutată nu este disponibilă. Revino la Restaurant Casa Rusu din Codlea sau răsfoiește meniul."
+      "metaDescription": "Adresa cerută nu duce la o pagină disponibilă. Revino la Restaurant Casa Rusu din Codlea sau descoperă meniul."
     }
   },
   "seo": {

@@ -19,15 +19,15 @@ export const en = {
     "menuEyebrow": "The Casa Rusu menu",
     "notFound": {
       "eyebrow": "404 · Page not found",
-      "title": "We couldn't find that page.",
-      "description": "This address doesn’t lead to a page we can show. Head home or browse the Casa Rusu menu.",
-      "body": "The link may be out of date, or the address may have been typed incorrectly. We can help you find your way back.",
+      "title": "We couldn't find this page.",
+      "description": "This address doesn't lead to an available Casa Rusu page. Head back to the homepage or explore the menu.",
+      "body": "It looks like the link took a wrong turn. We'll help you find your way back to the restaurant.",
       "homeAction": "Back to the homepage",
       "menuAction": "Browse the menu",
       "callAction": "Call the restaurant",
       "language": "Choose language",
       "metaTitle": "Page not found | Restaurant Casa Rusu",
-      "metaDescription": "The page you requested isn’t available. Return to Restaurant Casa Rusu in Codlea or browse the menu."
+      "metaDescription": "The requested address doesn't lead to an available page. Return to Restaurant Casa Rusu in Codlea or explore the menu."
     }
   },
   "seo": {
