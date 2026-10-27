@@ -76,14 +76,14 @@ export const fr = {
     "dish": {
       "eyebrow": "De notre cuisine",
       "title": "Escalope panée de porc avec os",
-      "body": "Nous la servons avec une généreuse portion de frites au persil, au parmesan et à l’ail.",
+      "body": "La photo montre l’escalope de longe de porc avec os, accompagnée de frites au persil, au parmesan et à l’ail.",
       "seo": {
         "title": "Escalope de porc avec os · Casa Rusu, Codlea",
         "description": "Le menu imprimé indique {quantity} d’escalope de porc avec os à {price} lei, sans accompagnement. Appelez Casa Rusu à Codlea pour vérifier la disponibilité de l’assiette présentée avec des frites."
       },
       "note": "Appelez-nous pour connaître la disponibilité et le prix.",
       "menuListingLabel": "Dans le menu imprimé",
-      "menuListingNote": "Le menu imprimé présente l’escalope séparément des garnitures. Le plat présenté ici est accompagné de frites ; appelez-nous pour confirmer le prix et la disponibilité de cette assiette.",
+      "menuListingNote": "Le menu imprimé présente l’escalope séparément des garnitures. La photo la montre avec des frites. Appelez-nous pour vérifier si cette assiette est disponible et connaître son prix actuel.",
       "menuListingAction": "Voir ce plat dans la carte",
       "imageAlt": "Plat Casa Rusu avec côte de porc, frites et garnitures.",
       "action": "Découvrir le plat"

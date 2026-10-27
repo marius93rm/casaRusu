@@ -76,14 +76,14 @@ export const it = {
     "dish": {
       "eyebrow": "Dalla nostra cucina",
       "title": "Cotoletta di maiale con osso",
-      "body": "La serviamo con una generosa porzione di patatine fritte con prezzemolo, parmigiano e aglio.",
+      "body": "La foto mostra la cotoletta di lonza di maiale con osso, accompagnata da patatine con prezzemolo, parmigiano e aglio.",
       "seo": {
         "title": "Cotoletta di maiale con osso · Casa Rusu, Codlea",
         "description": "Il menu stampato indica {quantity} di cotoletta di maiale con osso a {price} lei, senza contorni. Chiama Casa Rusu a Codlea per verificare la disponibilità della porzione mostrata con patatine."
       },
       "note": "Chiamaci per disponibilità e prezzo.",
       "menuListingLabel": "Nel menu stampato",
-      "menuListingNote": "Il menu stampato elenca la cotoletta separatamente dai contorni. Il piatto mostrato qui è servito con patatine fritte: chiamaci per confermare prezzo e disponibilità di questa porzione.",
+      "menuListingNote": "Il menu stampato elenca la cotoletta separatamente dai contorni. La foto la mostra con patatine fritte. Chiamaci per verificare se questa porzione è disponibile e qual è il prezzo attuale.",
       "menuListingAction": "Vedi la voce nel menu",
       "imageAlt": "Piatto Casa Rusu con cotoletta di maiale, patatine fritte e guarnizioni.",
       "action": "Scopri il piatto"

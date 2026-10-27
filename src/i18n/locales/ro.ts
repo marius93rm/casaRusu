@@ -92,14 +92,14 @@ export const ro = {
     "dish": {
       "eyebrow": "Din bucătăria noastră",
       "title": "Șnițel din cotlet de porc cu os",
-      "body": "Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.",
+      "body": "Fotografia arată șnițelul din cotlet de porc cu os alături de cartofi prăjiți cu pătrunjel, parmezan și usturoi.",
       "seo": {
         "title": "Șnițel din cotlet de porc cu os | Casa Rusu, Codlea",
         "description": "Meniul tipărit listează șnițelul din cotlet de porc cu os, {quantity}, la {price} lei, fără garnituri. Sună la Casa Rusu din Codlea pentru disponibilitatea servirii cu cartofi prăjiți."
       },
       "note": "Sună-ne pentru disponibilitate și preț.",
       "menuListingLabel": "În meniul tipărit",
-      "menuListingNote": "Meniul tipărit listează șnițelul separat de garnituri. Preparatul prezentat aici este servit cu cartofi prăjiți; sună-ne ca să confirmi prețul și disponibilitatea acestei serviri.",
+      "menuListingNote": "Meniul tipărit listează șnițelul separat de garnituri. Fotografia îl arată alături de cartofi prăjiți. Sună-ne ca să verifici dacă această servire este disponibilă și care este prețul actual.",
       "menuListingAction": "Vezi poziția în meniu",
       "imageAlt": "Preparat Casa Rusu cu cotlet de porc, cartofi prăjiți și garnituri.",
       "action": "Descoperă preparatul"

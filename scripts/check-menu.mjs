@@ -55,6 +55,33 @@ for (const locale of locales) {
   );
 }
 
+const schnitzelPhotoCopy = {
+  ro: {
+    body: 'Fotografia arată șnițelul din cotlet de porc cu os alături de cartofi prăjiți cu pătrunjel, parmezan și usturoi.',
+    note: 'Meniul tipărit listează șnițelul separat de garnituri. Fotografia îl arată alături de cartofi prăjiți. Sună-ne ca să verifici dacă această servire este disponibilă și care este prețul actual.',
+  },
+  en: {
+    body: 'The photo shows the bone-in pork loin schnitzel with fries topped with parsley, parmesan and garlic.',
+    note: 'The printed menu lists the schnitzel separately from side dishes. The photo shows it with fries. Call us to check whether this serving is available and its current price.',
+  },
+  it: {
+    body: 'La foto mostra la cotoletta di lonza di maiale con osso, accompagnata da patatine con prezzemolo, parmigiano e aglio.',
+    note: 'Il menu stampato elenca la cotoletta separatamente dai contorni. La foto la mostra con patatine fritte. Chiamaci per verificare se questa porzione è disponibile e qual è il prezzo attuale.',
+  },
+  es: {
+    body: 'La foto muestra el escalope de lomo de cerdo con hueso junto a patatas fritas con perejil, parmesano y ajo.',
+    note: 'El menú impreso incluye el escalope por separado de las guarniciones. La foto lo muestra con patatas fritas. Llámanos para comprobar si está disponible esta ración y cuál es su precio actual.',
+  },
+  fr: {
+    body: 'La photo montre l’escalope de longe de porc avec os, accompagnée de frites au persil, au parmesan et à l’ail.',
+    note: 'Le menu imprimé présente l’escalope séparément des garnitures. La photo la montre avec des frites. Appelez-nous pour vérifier si cette assiette est disponible et connaître son prix actuel.',
+  },
+  de: {
+    body: 'Das Foto zeigt das panierte Schweinekotelett mit Pommes, Petersilie, Parmesan und Knoblauch.',
+    note: 'Die gedruckte Speisekarte führt das Schnitzel getrennt von den Beilagen auf. Auf dem Foto ist es mit Pommes zu sehen. Bitte rufen Sie an, um zu prüfen, ob diese Portion verfügbar ist und welchen aktuellen Preis sie hat.',
+  },
+};
+
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
 assert.notEqual('ITALIAN'.toLocaleLowerCase('tr'), normalizeMenuSearchText('ITALIAN'), 'Locale-neutral normalization should remain stable under Turkish case rules');
@@ -201,6 +228,11 @@ assert.match(menuStyles, /@media \(max-width: 320px\)\s*\{[\s\S]*?\.menu-categor
 for (const locale of locales) {
   const prefix = prefixFor(locale);
   const html = await readFile(path.join(dist, prefix, 'index.html'), 'utf8');
+  const dishDescription = dictionaries[locale].copy.dish.body;
+  assert.equal(dishDescription, schnitzelPhotoCopy[locale].body, `${prefix || 'RO'} dish: describe the pictured serving without claiming how the restaurant serves or prices it`);
+  assert.ok(html.includes(dishDescription), `${prefix || 'RO'} home: show the localized photo description`);
+  const menuHtml = menus.find(({ file }) => file === `${prefix}meniu/index.html`)?.html ?? '';
+  assert.ok(menuHtml.includes(dishDescription), `${prefix || 'RO'} menu: show the localized photo description`);
   const menuHref = `/${prefix}meniu/`;
   const hero = html.match(/<div class="hero-actions">([\s\S]*?)<\/div>/)?.[1] ?? '';
   assert.ok(hero.includes(`href="${menuHref}"`), `${prefix || 'RO'} home: hero must link to localized menu`);
@@ -219,6 +251,8 @@ for (const locale of locales) {
     note: dictionaries[locale].copy.dish.menuListingNote,
     action: dictionaries[locale].copy.dish.menuListingAction,
   };
+  assert.equal(dishCopy.note, schnitzelPhotoCopy[locale].note, `${prefix || 'RO'} dish: identify the fries as pictured and keep availability and current price conditional`);
+  assert.ok(dishHtml.includes(dishDescription), `${prefix || 'RO'} dish: show the localized photo description`);
   const dishMenuHref = `/${prefix}meniu/#menu-page-porc`;
   assert.ok(dishHtml.includes(`id="dish-menu-listing-title">${dishCopy.label}</p>`), `${prefix || 'RO'} dish: printed-menu price must be clearly labelled`);
   assert.match(dishHtml, /class="dish-menu-listing-price">\s*<span>300g<\/span>\s*<strong>54 lei<\/strong>/, `${prefix || 'RO'} dish: show the printed schnitzel portion and price`);

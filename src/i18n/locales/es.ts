@@ -76,14 +76,14 @@ export const es = {
     "dish": {
       "eyebrow": "De nuestra cocina",
       "title": "Escalope de lomo de cerdo con hueso",
-      "body": "Lo servimos con una generosa ración de patatas fritas con perejil, parmesano y ajo.",
+      "body": "La foto muestra el escalope de lomo de cerdo con hueso junto a patatas fritas con perejil, parmesano y ajo.",
       "seo": {
         "title": "Escalope de cerdo con hueso · Casa Rusu, Codlea",
         "description": "El menú impreso indica {quantity} de escalope de cerdo con hueso a {price} lei, sin guarnición. Llama a Casa Rusu en Codlea para consultar la disponibilidad del plato de la foto con patatas fritas."
       },
       "note": "Llámanos para consultar disponibilidad y precio.",
       "menuListingLabel": "En el menú impreso",
-      "menuListingNote": "El menú impreso incluye el escalope separado de las guarniciones. El plato que se muestra aquí se sirve con patatas fritas; llámanos para confirmar el precio y la disponibilidad de esta ración.",
+      "menuListingNote": "El menú impreso incluye el escalope por separado de las guarniciones. La foto lo muestra con patatas fritas. Llámanos para comprobar si está disponible esta ración y cuál es su precio actual.",
       "menuListingAction": "Ver este plato en el menú",
       "imageAlt": "Plato Casa Rusu con lomo de cerdo, patatas fritas y guarniciones.",
       "action": "Descubre el plato"
