@@ -38,6 +38,23 @@ assert.match(menuStyles, /\.menu-lightbox-toolbar\s*\{[^}]*min-width:\s*0;/, 'Na
 assert.match(menuStyles, /@media \(max-width:\s*320px\)\s*\{[\s\S]*?\.menu-lightbox-controls,\s*\.menu-lightbox-page-controls,\s*\.menu-zoom-controls\s*\{[^}]*gap:\s*0;/, 'At narrow widths, all six minimum-size menu lightbox controls should fit without gaps');
 assert.match(menuStyles, /\.menu-search input\s*\{[^}]*scroll-margin-block-start:\s*3rem;/, 'Direct links to dish search should account for the sticky panel input offset');
 
+const inclusiveSearchCopy = {
+  ro: ['Ce cauți în meniu?', 'Caută în meniu', 'Preparat, băutură, ingredient, categorie sau preț', 'Caută după nume, ingredient, categorie sau preț în lei. Poți căuta și băuturi și poți limita prețul maxim.', 'Nu am găsit rezultate potrivite.', 'Un rezultat găsit.', '{count} rezultate găsite.'],
+  en: ['What are you looking for?', 'Search the menu', 'Item, drink, ingredient, category, or price', 'Search by name, ingredient, category or price in Romanian lei. Drink names and Romanian menu names are searchable too. You can also set a maximum price.', 'No matching results found.', 'One result found.', '{count} results found.'],
+  it: ['Cosa cerchi nel menu?', 'Cerca nel menu', 'Nome, bevanda, ingrediente, categoria o prezzo', 'Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche le bevande e le denominazioni romene e impostare un prezzo massimo.', 'Nessun risultato trovato.', 'Un risultato trovato.', '{count} risultati trovati.'],
+  es: ['¿Qué buscas en el menú?', 'Buscar en el menú', 'Nombre, bebida, ingrediente, categoría o precio', 'Busca por nombre, ingrediente, categoría o precio en lei. También puedes buscar bebidas y los nombres rumanos del menú y fijar un precio máximo.', 'No se han encontrado resultados.', 'Se ha encontrado un resultado.', 'Se han encontrado {count} resultados.'],
+  fr: ['Que recherchez-vous dans le menu ?', 'Rechercher dans le menu', 'Nom, boisson, ingrédient, catégorie ou prix', 'Recherchez par nom, ingrédient, catégorie ou prix en lei. Vous pouvez aussi rechercher des boissons et les intitulés roumains du menu, et définir un prix maximum.', 'Aucun résultat trouvé.', 'Un résultat trouvé.', '{count} résultats trouvés.'],
+  de: ['Wonach suchen Sie?', 'Speisekarte durchsuchen', 'Name, Getränk, Zutat, Kategorie oder Preis', 'Suchen Sie nach Namen, Zutaten, Kategorien oder Preisen in Lei. Auch Getränke und rumänische Menübezeichnungen können Sie finden. Sie können einen Höchstpreis festlegen.', 'Keine passenden Ergebnisse gefunden.', 'Ein Ergebnis gefunden.', '{count} Ergebnisse gefunden.'],
+};
+for (const locale of locales) {
+  const menu = dictionaries[locale].menu;
+  assert.deepEqual(
+    ['searchLabel', 'searchShortcut', 'searchPlaceholder', 'searchHint', 'searchNoResults', 'searchOneResult', 'searchManyResults'].map((key) => menu[key]),
+    inclusiveSearchCopy[locale],
+    `${locale}: menu search copy should include drinks and use result counts that fit every menu category`,
+  );
+}
+
 assert.equal(normalizeMenuSearchText('ȚELINĂ'), 'telina', 'Search normalization must ignore Romanian diacritics and case');
 assert.equal(normalizeMenuSearchText('ITALIAN'), 'italian', 'Search normalization must not depend on the browser locale');
 assert.notEqual('ITALIAN'.toLocaleLowerCase('tr'), normalizeMenuSearchText('ITALIAN'), 'Locale-neutral normalization should remain stable under Turkish case rules');
@@ -105,6 +122,9 @@ for (const { file, html } of menus) {
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
   const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
   const labels = dictionaries[locale].menu;
+  assert.ok(html.includes(`<label for="menu-dish-search">${labels.searchLabel}</label>`), `${file}: search field label should be inclusive and localized`);
+  assert.ok(html.includes(`placeholder="${labels.searchPlaceholder}"`), `${file}: search suggestions should include drinks and be localized`);
+  assert.ok(html.includes(`data-search-no-results="${labels.searchNoResults}"`) && html.includes(`data-search-one-result="${labels.searchOneResult}"`) && html.includes(`data-search-many-results="${labels.searchManyResults}"`), `${file}: accessible result counts should be localized and category-neutral`);
   assert.match(html, new RegExp(`<button\\b(?=[^>]*data-menu-print)(?=[^>]*hidden)[^>]*>${labels.printMenu}<\\/button>`), `${file}: print action should be localized and hidden until its behavior is available`);
   const transcriptPrices = [...html.matchAll(/<li\b[^>]*data-menu-item[^>]*data-menu-price="(\d+)"[^>]*>([\s\S]*?)<\/li>/g)];
   assert.equal(transcriptPrices.length, 200, 'All printed prices should be available to the filter');
@@ -144,7 +164,7 @@ for (const { file, html } of menus) {
   const searchShortcut = html.match(/<a\b(?=[^>]*data-menu-search-link)[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
   assert.match(searchShortcut, /href="#menu-dish-search"/, `${file}: the menu gallery should offer a direct route to dish search`);
   assert.match(searchShortcut, /\shidden(?:="")?(?:\s|>)/, `${file}: the search shortcut must stay hidden when scripts are unavailable`);
-  assert.ok(searchShortcut.includes(labels.searchLabel), `${file}: dish search shortcut should be localized`);
+  assert.ok(searchShortcut.includes(labels.searchShortcut), `${file}: menu search shortcut should be localized`);
   assert.match(html, /data-menu-search-status[^>]*role="status"[^>]*aria-live="polite"/, `${file}: search results must be announced politely`);
   assert.ok(html.includes(`<ul lang="${locale}">`), `${file}: translated content needs its language declared`);
   assert.doesNotMatch(html, /Meniul complet urmează|full menu (?:is )?coming soon/i, `${file}: outdated placeholder`);
@@ -188,7 +208,7 @@ for (const locale of locales) {
   const previewSearch = html.match(/<a\b(?=[^>]*data-menu-home-search-link)[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
   assert.ok(previewSearch.includes(`href="${menuHref}#read-menu"`), `${prefix || 'RO'} home: menu preview should link directly to the visible transcript and search`);
   assert.match(previewSearch, /\shidden(?:="")?(?:\s|>)/, `${prefix || 'RO'} home: hide the search link if JavaScript is unavailable`);
-  assert.ok(previewSearch.includes(dictionaries[locale].menu.searchLabel), `${prefix || 'RO'} home: direct search link should be localized`);
+  assert.ok(previewSearch.includes(dictionaries[locale].menu.searchShortcut), `${prefix || 'RO'} home: direct search link should be localized`);
   for (const id of ['coperta', 'aperitive']) {
     assert.ok(html.includes(`/images/menu/${id}-480.avif`), `${prefix || 'RO'} home: menu preview is missing AVIF for ${id}`);
   }
@@ -205,4 +225,4 @@ for (const locale of locales) {
   assert.ok(dishHtml.includes(dishCopy.note), `${prefix || 'RO'} dish: distinguish the printed listing from the serving shown here`);
   assert.ok(dishHtml.includes(`href="${dishMenuHref}"`) && dishHtml.includes(dishCopy.action), `${prefix || 'RO'} dish: link directly to the schnitzel menu page`);
 }
-console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con quantità e prezzi identici, ricerca testuale e filtri categoria/prezzo accessibili e condivisibili, deep link sincronizzati, asset responsive e collegamenti home/schede speciali.');
+console.log('Controllo menu superato: 14 pagine, 200 voci tradotte nelle sei lingue con prezzi e quantità identici; ricerca inclusiva per tutte le categorie, filtri e URL condivisibili, asset responsive e collegamenti sincronizzati.');
