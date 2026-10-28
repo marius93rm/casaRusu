@@ -31,7 +31,10 @@ const {
   detectLanguage = true,
 } = Astro.props;
 
-const effectiveNoIndex = noIndex || !siteConfig.seo.indexable || !Astro.site;
+const netlifyContext = process.env.CONTEXT?.trim().toLowerCase();
+const isNetlifyNonProductionBuild = process.env.NETLIFY === 'true' && netlifyContext !== 'production';
+const canPublishSearchMetadata = siteConfig.seo.indexable && !noIndex;
+const effectiveNoIndex = noIndex || !siteConfig.seo.indexable || !Astro.site || isNetlifyNonProductionBuild;
 const theme = siteConfig.branding.theme;
 const themeStyle = [
   `--background:${theme.background}`,
@@ -42,7 +45,7 @@ const themeStyle = [
   `--accent:${theme.accent}`,
   `--border:${theme.border}`,
 ].join(';');
-const canonicalUrl = Astro.site && !effectiveNoIndex ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const canonicalUrl = Astro.site && canPublishSearchMetadata ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const localizedUrl = (locale: SiteLocale) => {
   if (!Astro.site) return undefined;
   const path = switchLocalePath(new URL(Astro.url.pathname, Astro.url), locale);
@@ -88,8 +91,8 @@ const socialLocale = socialLocales[lang];
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {!effectiveNoIndex && Astro.site && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
-    {!effectiveNoIndex && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
+    {Astro.site && canPublishSearchMetadata && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
+    {canPublishSearchMetadata && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     {effectiveNoIndex && <meta name="robots" content="noindex,nofollow" />}
   </head>
@@ -101,12 +104,18 @@ const socialLocale = socialLocales[lang];
         const mobileBookingCta = document.querySelector('.mobile-booking-cta');
         if (!(mobileBookingCta instanceof HTMLElement)) return;
 
+        const mobileBooking = mobileBookingCta.closest('.mobile-booking');
         const mobileViewport = window.matchMedia('(max-width: 760px)');
+        const netlifyOverlaySelector = 'iframe[title="Powered by Netlify"], iframe[title="Netlify Drawer"]';
+        const root = document.documentElement;
         let syncFrame = 0;
+        let observedNetlifyOverlay = null;
+        let netlifyOverlayResizeObserver;
         const syncMobileBookingSpace = () => {
           syncFrame = 0;
           if (!mobileViewport.matches) {
-            document.documentElement.style.removeProperty('--mobile-booking-height');
+            root.style.removeProperty('--mobile-booking-height');
+            root.style.removeProperty('--mobile-booking-bottom-offset');
             return;
           }
 
@@ -125,13 +134,40 @@ const socialLocale = socialLocales[lang];
           }
 
           if (height > 0) {
-            document.documentElement.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
+            root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
           }
+
+          const netlifyOverlay = document.querySelector(netlifyOverlaySelector);
+          if (netlifyOverlay !== observedNetlifyOverlay) {
+            netlifyOverlayResizeObserver?.disconnect();
+            observedNetlifyOverlay = netlifyOverlay;
+            if (netlifyOverlay instanceof HTMLIFrameElement) netlifyOverlayResizeObserver?.observe(netlifyOverlay);
+          }
+
+          if (mobileBooking instanceof HTMLElement && !mobileBooking.hidden && netlifyOverlay instanceof HTMLIFrameElement) {
+            const overlayRect = netlifyOverlay.getBoundingClientRect();
+            const pinnedToViewportBottom = Math.abs(window.innerHeight - overlayRect.bottom) <= 2;
+            if (overlayRect.width > 0 && overlayRect.height > 0 && pinnedToViewportBottom) {
+              root.style.setProperty('--mobile-booking-bottom-offset', `${Math.ceil(window.innerHeight - overlayRect.top)}px`);
+              return;
+            }
+          }
+
+          root.style.removeProperty('--mobile-booking-bottom-offset');
         };
         const scheduleSync = () => {
           if (syncFrame) return;
           syncFrame = window.requestAnimationFrame(syncMobileBookingSpace);
         };
+
+        if ('ResizeObserver' in window) netlifyOverlayResizeObserver = new ResizeObserver(scheduleSync);
+        const containsNetlifyOverlay = (node) => node instanceof Element
+          && (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
+        const netlifyOverlayMutationObserver = new MutationObserver((records) => {
+          if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay))) scheduleSync();
+        });
+        netlifyOverlayMutationObserver.observe(root, { childList: true, subtree: true });
+        if (mobileBooking instanceof HTMLElement) new MutationObserver(scheduleSync).observe(mobileBooking, { attributes: true, attributeFilter: ['hidden'] });
 
         window.addEventListener('resize', scheduleSync, { passive: true });
         mobileViewport.addEventListener('change', scheduleSync);

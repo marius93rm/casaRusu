@@ -7,6 +7,8 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const outputDirectory = path.join(projectRoot, 'dist');
 const errors = [];
 const localOrigin = 'http://casa-rusu.local';
+const netlifyContext = process.env.CONTEXT?.trim().toLowerCase();
+const isNetlifyNonProductionBuild = process.env.NETLIFY === 'true' && netlifyContext !== 'production';
 
 function report(file, message) {
   errors.push(`${file}: ${message}`);
@@ -189,9 +191,9 @@ async function main() {
     };
 
     const robotsTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'robots');
-    if (isNotFound) {
+    if (isNotFound || !productionOrigin || isNetlifyNonProductionBuild) {
       if (robotsTags.length !== 1 || robotsTags[0].content?.toLowerCase() !== 'noindex,nofollow') {
-        report(relativeFile, 'la pagina 404 deve avere un solo meta robots noindex,nofollow.');
+        report(relativeFile, 'la pagina deve avere un solo meta robots noindex,nofollow se è una 404, non ha SITE_URL o la build Netlify non è production.');
       }
     } else if (productionOrigin) {
       if (robotsTags.length > 0) report(relativeFile, 'le pagine di produzione non devono avere meta robots noindex.');
