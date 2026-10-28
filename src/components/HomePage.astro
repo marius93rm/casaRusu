@@ -11,6 +11,7 @@ import { menuCopy, menuPages } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
 import { getDictionary, localizedPath } from '../i18n';
 import { formatOpeningHours } from '../utils/openingHours';
+import { imageSizes, imageSrcset, restaurantAvifWidths } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
@@ -84,7 +85,7 @@ const structuredData = {
 ---
 
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
-  criticalImage={{ srcset: `${siteData.media.cover} 2048w`, sizes: '100vw', type: 'image/jpeg' }}>
+  criticalImage={{ srcset: imageSrcset(siteData.media.cover, restaurantAvifWidths, 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
   <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
@@ -110,7 +111,7 @@ const structuredData = {
         </div>
 
         <figure class="hero-visual">
-          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager />
+          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager responsive />
         </figure>
       </div>
     </section>
@@ -140,7 +141,7 @@ const structuredData = {
     <section class="dish-section" id="preparat" tabindex="-1" aria-labelledby="dish-title">
       <div class="container dish-grid">
         <figure class="dish-visual">
-          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} />
+          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} responsive />
         </figure>
         <div class="dish-copy">
           <p class="section-label">{copy.dish.eyebrow}</p>
@@ -163,7 +164,7 @@ const structuredData = {
           <p>{copy.visit.body}</p>
         </div>
         <figure class="visit-visual">
-          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} />
+          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} responsive />
         </figure>
 
         <div class="visit-content">
@@ -179,6 +180,9 @@ const structuredData = {
                 data-address={`${siteData.company.address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
                 data-copy-success={copy.visit.addressCopied}
                 data-copy-error={copy.visit.addressCopyFailed}
+                data-share-label={copy.visit.shareAddress}
+                data-share-url={siteData.links.googleBusiness}
+                data-share-status={copy.visit.addressShareStatus}
                 aria-describedby="visit-copy-address-status"
               >{copy.visit.copyAddress}</button>
               <p class="visit-copy-address-status" id="visit-copy-address-status" data-copy-address-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
@@ -216,8 +220,38 @@ const structuredData = {
     const copyAddressButton = document.querySelector('[data-copy-address]');
     const copyAddressStatus = document.querySelector('[data-copy-address-status]');
     if (copyAddressButton instanceof HTMLButtonElement && copyAddressStatus instanceof HTMLParagraphElement) {
+      const address = copyAddressButton.dataset.address?.trim();
+      const shareData = address && copyAddressButton.dataset.shareUrl
+        ? { title: document.title, text: address, url: copyAddressButton.dataset.shareUrl }
+        : null;
+      const canShareAddress = () => {
+        if (!window.isSecureContext || typeof navigator.share !== 'function' || !shareData) return false;
+        if (typeof navigator.canShare !== 'function') return true;
+
+        try {
+          return navigator.canShare(shareData);
+        } catch {
+          return false;
+        }
+      };
+
+      if (canShareAddress()) copyAddressButton.textContent = copyAddressButton.dataset.shareLabel ?? copyAddressButton.textContent;
       copyAddressButton.addEventListener('click', async () => {
-        const address = copyAddressButton.dataset.address?.trim();
+        copyAddressStatus.hidden = true;
+        copyAddressStatus.textContent = '';
+
+        if (canShareAddress() && shareData) {
+          try {
+            await navigator.share(shareData);
+            copyAddressStatus.textContent = copyAddressButton.dataset.shareStatus ?? '';
+            copyAddressStatus.hidden = false;
+            return;
+          } catch (error) {
+            // Closing the native share sheet is an intentional choice, not a copy failure.
+            if (error instanceof DOMException && error.name === 'AbortError') return;
+          }
+        }
+
         try {
           if (!address || typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
           await navigator.clipboard.writeText(address);

@@ -16,8 +16,8 @@ const copy = siteData.copy[locale].footer;
       <p>{copy.location}</p>
     </div>
     <div class="footer-links">
-      <a href={siteData.links.facebook} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab">{copy.facebook}<Icon name="diagonal" size={15} /></a>
-      <a href={siteData.links.instagram} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab">{copy.instagram}<Icon name="diagonal" size={15} /></a>
+      <a href={siteData.links.facebook} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab"><Icon name="facebook" size={18} />{copy.facebook}<Icon name="diagonal" size={15} /></a>
+      <a href={siteData.links.instagram} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab"><Icon name="instagram" size={18} />{copy.instagram}<Icon name="diagonal" size={15} /></a>
       <a href={siteData.links.tiktok} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab"><Icon name="tiktok" size={18} />TikTok<Icon name="diagonal" size={15} /></a>
       <LanguageSwitcher {locale} />
     </div>

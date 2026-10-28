@@ -17,15 +17,15 @@ export const ro = {
     "menuEyebrow": "Meniu Casa Rusu",
     "notFound": {
       "eyebrow": "Eroare 404 · pagina nu a fost găsită",
-      "title": "Pagina nu a fost găsită.",
-      "description": "Adresa aceasta nu duce la o pagină disponibilă. Revino la pagina principală sau răsfoiește meniul Casa Rusu.",
-      "body": "Este posibil ca linkul să fie vechi sau adresa introdusă să fie greșită. Te ajutăm să găsești drumul spre restaurant.",
+      "title": "Nu găsim această pagină.",
+      "description": "Adresa aceasta nu duce la o pagină disponibilă la Restaurant Casa Rusu. Revino la pagina principală sau descoperă meniul.",
+      "body": "Se pare că linkul s-a rătăcit pe drum. Te ajutăm să găsești drumul spre restaurant.",
       "homeAction": "Înapoi la pagina principală",
       "menuAction": "Răsfoiește meniul",
       "callAction": "Sună la restaurant",
       "language": "Alege limba",
       "metaTitle": "Pagina nu a fost găsită | Restaurant Casa Rusu",
-      "metaDescription": "Pagina căutată nu este disponibilă. Revino la Restaurant Casa Rusu din Codlea sau răsfoiește meniul."
+      "metaDescription": "Adresa cerută nu duce la o pagină disponibilă. Revino la Restaurant Casa Rusu din Codlea sau descoperă meniul."
     }
   },
   "seo": {
@@ -54,10 +54,10 @@ export const ro = {
     "menu": {
       "eyebrow": "Meniu",
       "title": "Meniu Restaurant Casa Rusu",
-      "body": "Răsfoiește meniul nostru, de la aperitive la deserturi și băuturi. Alege o pagină sau citește preparatele și prețurile pe îndelete.",
+      "body": "Răsfoiește meniul tipărit, de la aperitive la deserturi și băuturi. Sună-ne pentru a verifica prețurile actuale și disponibilitatea.",
       "seo": {
         "title": "Meniu Restaurant Casa Rusu Codlea | Preparate și prețuri",
-        "description": "Descoperă meniul Restaurant Casa Rusu din Codlea: aperitive, paste, pește, preparate la grătar, deserturi și băuturi, cu ingrediente, cantități și prețuri în lei."
+        "description": "Descoperă meniul tipărit Casa Rusu din Codlea: aperitive, preparate, deserturi și băuturi cu prețuri în lei. Sună-ne pentru prețuri actuale și disponibilitate."
       },
       "dishAction": "Vezi preparatul",
       "backAction": "Înapoi la meniu",
@@ -92,14 +92,14 @@ export const ro = {
     "dish": {
       "eyebrow": "Din bucătăria noastră",
       "title": "Șnițel din cotlet de porc cu os",
-      "body": "Îl pregătim cu o porție serioasă de cartofi prăjiți cu pătrunjel, parmezan și usturoi.",
+      "body": "Fotografia arată șnițelul din cotlet de porc cu os alături de cartofi prăjiți cu pătrunjel, parmezan și usturoi.",
       "seo": {
         "title": "Șnițel din cotlet de porc cu os | Casa Rusu, Codlea",
         "description": "Meniul tipărit listează șnițelul din cotlet de porc cu os, {quantity}, la {price} lei, fără garnituri. Sună la Casa Rusu din Codlea pentru disponibilitatea servirii cu cartofi prăjiți."
       },
       "note": "Sună-ne pentru disponibilitate și preț.",
       "menuListingLabel": "În meniul tipărit",
-      "menuListingNote": "Meniul tipărit listează șnițelul separat de garnituri. Preparatul prezentat aici este servit cu cartofi prăjiți; sună-ne ca să confirmi prețul și disponibilitatea acestei serviri.",
+      "menuListingNote": "Meniul tipărit listează șnițelul separat de garnituri. Fotografia îl arată alături de cartofi prăjiți. Sună-ne ca să verifici dacă această servire este disponibilă și care este prețul actual.",
       "menuListingAction": "Vezi poziția în meniu",
       "imageAlt": "Preparat Casa Rusu cu cotlet de porc, cartofi prăjiți și garnituri.",
       "action": "Descoperă preparatul"
@@ -115,6 +115,8 @@ export const ro = {
       "copyAddress": "Copiază adresa",
       "addressCopied": "Adresa a fost copiată.",
       "addressCopyFailed": "Adresa nu a putut fi copiată. Selecteaz-o și copiaz-o manual.",
+      "shareAddress": "Distribuie adresa",
+      "addressShareStatus": "Alege o aplicație pentru a distribui adresa.",
       "mapAction": "Cum ajungi la noi",
       "reviewsAction": "Citește recenziile pe Google",
       "openingStatus": {
@@ -161,16 +163,18 @@ export const ro = {
     "read": "Citește meniul",
     "scanPage": "Vezi pagina scanată",
     "readTitle": "Meniul, pe îndelete",
-    "readBody": "Preparatele, ingredientele, cantitățile și prețurile din meniul original, într-un format ușor de citit.",
+    "readBody": "Preparatele, cantitățile și prețurile din meniul tipărit, cu ingredientele acolo unde sunt indicate.",
+    "allergenNote": "Ingredientele sunt menționate doar acolo unde apar în meniul tipărit; acesta nu este un ghid complet al alergenilor. Dacă ai alergii sau cerințe alimentare, întreabă restaurantul înainte de a comanda.",
     "languageNote": "Meniul este în limba română. Prețurile sunt în lei.",
     "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",
-    "searchLabel": "Găsește rapid un preparat",
+    "searchLabel": "Ce cauți în meniu?",
+    "searchShortcut": "Caută în meniu",
     "searchReturn": "Înapoi la filtre",
     "categoryFilter": "Filtrează după categorie",
     "categoryAll": "Toate categoriile",
-    "searchPlaceholder": "Preparat, ingredient, categorie sau preț",
-    "searchHint": "Caută după denumire, ingredient, categorie sau preț în lei. Poți limita prețul maxim și ordona după preț în fiecare categorie.",
+    "searchPlaceholder": "Preparat, băutură, ingredient, categorie sau preț",
+    "searchHint": "Caută după nume, ingredient, categorie sau preț în lei. Poți căuta și băuturi, limita prețul maxim și ordona după preț în fiecare categorie.",
     "priceLimit": "Filtrează după preț maxim",
     "priceLimitAll": "Toate prețurile",
     "priceLimitUpTo": "Până la {price} lei",
@@ -179,9 +183,14 @@ export const ro = {
     "sortPriceAsc": "Preț crescător",
     "sortPriceDesc": "Preț descrescător",
     "searchReset": "Șterge filtrele",
-    "searchNoResults": "Nu am găsit preparate potrivite.",
-    "searchOneResult": "Un preparat găsit.",
-    "searchManyResults": "{count} preparate găsite.",
+    "searchShare": "Copiază linkul rezultatelor",
+    "searchShareNative": "Distribuie rezultatele",
+    "searchShareCopied": "Linkul meniului a fost copiat.",
+    "searchShareDone": "Linkul meniului a fost distribuit.",
+    "searchShareFailed": "Linkul nu a putut fi copiat. Copiază-l din bara de adrese.",
+    "searchNoResults": "Nu am găsit rezultate potrivite.",
+    "searchOneResult": "Un rezultat găsit.",
+    "searchManyResults": "{count} rezultate găsite.",
     "extras": "Din bucătăria noastră",
     "extrasTitle": "Mai aproape de preparatele noastre",
     "fallback": "Imaginea nu s-a încărcat. Poți deschide originalul sau citi meniul de mai jos."

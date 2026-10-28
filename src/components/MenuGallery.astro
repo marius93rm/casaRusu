@@ -36,7 +36,7 @@ const { ui } = getDictionary(locale);
     <div class="menu-gallery-actions">
       <a href="#read-menu" class="text-link menu-read-link">{copy.read}<Icon name="arrow" size={18} /></a>
       <a href="#menu-dish-search" class="text-link menu-search-link" data-menu-search-link hidden>
-        {copy.searchLabel}<Icon name="arrow" size={18} />
+        {copy.searchShortcut}<Icon name="arrow" size={18} />
       </a>
     </div>
   </aside>
@@ -129,6 +129,7 @@ const { ui } = getDictionary(locale);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current = 0;
     let zoom = 1;
+    let lightboxSwipeStart: { pointerId: number; x: number; y: number } | null = null;
     let opener: HTMLElement | null = null;
     let previousOverflow = '';
 
@@ -236,6 +237,8 @@ const { ui } = getDictionary(locale);
       zoom = Math.max(1, Math.min(4, value));
       lightboxImage.style.width = `${zoom * 100}%`;
       lightboxImage.style.maxHeight = zoom === 1 ? '100%' : 'none';
+      lightboxScroll.style.touchAction = zoom === 1 ? 'pan-y pinch-zoom' : 'auto';
+      if (zoom > 1) lightboxSwipeStart = null;
       zoomOut.disabled = zoom === 1;
       zoomIn.disabled = zoom === 4;
       if (zoom === 1) lightboxScroll.scrollTo(0, 0);
@@ -276,6 +279,23 @@ const { ui } = getDictionary(locale);
     zoomOut.addEventListener('click', () => setZoom(zoom - .5));
     lightboxPrevious.addEventListener('click', () => moveLightbox(current - 1));
     lightboxNext.addEventListener('click', () => moveLightbox(current + 1));
+    lightboxScroll.addEventListener('pointerdown', (event) => {
+      if (zoom !== 1 || event.pointerType !== 'touch' || !event.isPrimary || event.button !== 0) {
+        lightboxSwipeStart = null;
+        return;
+      }
+      lightboxSwipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+    }, { passive: true });
+    lightboxScroll.addEventListener('pointerup', (event) => {
+      const start = lightboxSwipeStart;
+      lightboxSwipeStart = null;
+      if (!start || zoom !== 1 || start.pointerId !== event.pointerId || event.pointerType !== 'touch' || !event.isPrimary) return;
+      const deltaX = event.clientX - start.x;
+      const deltaY = event.clientY - start.y;
+      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+      moveLightbox(current + (deltaX < 0 ? 1 : -1));
+    }, { passive: true });
+    lightboxScroll.addEventListener('pointercancel', () => { lightboxSwipeStart = null; }, { passive: true });
     dialog.addEventListener('keydown', (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey || zoom > 1) return;
       if (event.key === 'ArrowLeft' && current > 0) { event.preventDefault(); moveLightbox(current - 1); }

@@ -19,15 +19,15 @@ export const en = {
     "menuEyebrow": "The Casa Rusu menu",
     "notFound": {
       "eyebrow": "404 · Page not found",
-      "title": "We couldn't find that page.",
-      "description": "This address doesn’t lead to a page we can show. Head home or browse the Casa Rusu menu.",
-      "body": "The link may be out of date, or the address may have been typed incorrectly. We can help you find your way back.",
+      "title": "We couldn't find this page.",
+      "description": "This address doesn't lead to an available Casa Rusu page. Head back to the homepage or explore the menu.",
+      "body": "It looks like the link took a wrong turn. We'll help you find your way back to the restaurant.",
       "homeAction": "Back to the homepage",
       "menuAction": "Browse the menu",
       "callAction": "Call the restaurant",
       "language": "Choose language",
       "metaTitle": "Page not found | Restaurant Casa Rusu",
-      "metaDescription": "The page you requested isn’t available. Return to Restaurant Casa Rusu in Codlea or browse the menu."
+      "metaDescription": "The requested address doesn't lead to an available page. Return to Restaurant Casa Rusu in Codlea or explore the menu."
     }
   },
   "seo": {
@@ -56,10 +56,10 @@ export const en = {
     "menu": {
       "eyebrow": "Menu",
       "title": "Casa Rusu Restaurant Menu",
-      "body": "Browse our menu, from starters to desserts and drinks. Choose a page or take your time reading the dishes and prices.",
+      "body": "Browse our printed menu, from starters to desserts and drinks. Call us to check current prices and availability.",
       "seo": {
         "title": "Casa Rusu Restaurant Menu in Codlea | Dishes & Prices",
-        "description": "Explore the Casa Rusu menu in Codlea: starters, pasta, fish, grilled dishes, desserts and drinks, with translated ingredients, portions and prices in Romanian lei."
+        "description": "Explore Casa Rusu’s printed menu in Codlea: starters, main courses, desserts and drinks, with prices in lei. Call to confirm current prices and availability."
       },
       "dishAction": "See the dish",
       "backAction": "Back to menu",
@@ -94,14 +94,14 @@ export const en = {
     "dish": {
       "eyebrow": "From our kitchen",
       "title": "Bone-in pork loin schnitzel",
-      "body": "We serve it with a hearty portion of fries topped with parsley, parmesan and garlic.",
+      "body": "The photo shows the bone-in pork loin schnitzel with fries topped with parsley, parmesan and garlic.",
       "seo": {
         "title": "Bone-in Pork Loin Schnitzel | Casa Rusu, Codlea",
         "description": "The printed menu lists {quantity} of bone-in pork loin schnitzel at {price} lei, without sides. Call Casa Rusu in Codlea to check availability of the pictured serving with fries."
       },
       "note": "Call us to check availability and price.",
       "menuListingLabel": "Printed menu listing",
-      "menuListingNote": "The printed menu lists the schnitzel separately from side dishes. The serving shown here comes with fries; call us to confirm the price and availability of this serving.",
+      "menuListingNote": "The printed menu lists the schnitzel separately from side dishes. The photo shows it with fries. Call us to check whether this serving is available and its current price.",
       "menuListingAction": "See this menu entry",
       "imageAlt": "Casa Rusu dish with pork loin, fries and garnishes.",
       "action": "Discover the dish"
@@ -117,6 +117,8 @@ export const en = {
       "copyAddress": "Copy address",
       "addressCopied": "Address copied.",
       "addressCopyFailed": "Could not copy the address. Select it and copy it manually.",
+      "shareAddress": "Share address",
+      "addressShareStatus": "Choose an app to share the address.",
       "mapAction": "Get directions",
       "reviewsAction": "Read reviews on Google",
       "openingStatus": {
@@ -163,16 +165,18 @@ export const en = {
     "read": "Read the menu",
     "scanPage": "View scanned menu page",
     "readTitle": "Take your time with the menu",
-    "readBody": "Dishes, ingredients, quantities and prices from the original menu, in an easy-to-read format.",
+    "readBody": "Dishes, quantities and prices from the printed menu, with ingredients where listed.",
+    "allergenNote": "Ingredients are shown only where listed on the printed menu; this is not a complete allergen list. If you have an allergy or dietary requirement, please ask the restaurant before ordering.",
     "languageNote": "The printed images show the original Romanian menu. The text below is translated; prices are in Romanian lei.",
     "printMenu": "Print menu",
     "searchLandmark": "Search the menu",
-    "searchLabel": "Find a dish",
+    "searchLabel": "What are you looking for?",
+    "searchShortcut": "Search the menu",
     "searchReturn": "Back to filters",
     "categoryFilter": "Filter by category",
     "categoryAll": "All categories",
-    "searchPlaceholder": "Dish, ingredient, category, or price",
-    "searchHint": "Search by dish name, ingredient, category or price in Romanian lei. Romanian dish names are also searchable. Set a maximum price or sort by price within each category.",
+    "searchPlaceholder": "Item, drink, ingredient, category, or price",
+    "searchHint": "Search by name, ingredient, category or price in Romanian lei. Drink names and Romanian menu names are searchable too. Set a maximum price or sort by price within each category.",
     "priceLimit": "Filter by maximum price",
     "priceLimitAll": "All prices",
     "priceLimitUpTo": "Up to {price} lei",
@@ -181,9 +185,14 @@ export const en = {
     "sortPriceAsc": "Price: low to high",
     "sortPriceDesc": "Price: high to low",
     "searchReset": "Clear filters",
-    "searchNoResults": "No matching dishes found.",
-    "searchOneResult": "One dish found.",
-    "searchManyResults": "{count} dishes found.",
+    "searchShare": "Copy results link",
+    "searchShareNative": "Share results",
+    "searchShareCopied": "Menu link copied.",
+    "searchShareDone": "The menu link was shared.",
+    "searchShareFailed": "The link could not be copied. Copy it from the address bar.",
+    "searchNoResults": "No matching results found.",
+    "searchOneResult": "One result found.",
+    "searchManyResults": "{count} results found.",
     "extras": "From our kitchen",
     "extrasTitle": "A closer look at our dishes",
     "fallback": "This image could not load. Open the original or read the menu below."

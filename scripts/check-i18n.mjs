@@ -87,6 +87,15 @@ for (const locale of locales) {
   }
 }
 
+const germanNotFoundCopy = dictionaries.de.ui.notFound;
+assert.match(germanNotFoundCopy.description, /\bKehren Sie\b/, 'German 404 copy should use the formal register');
+assert.match(germanNotFoundCopy.body, /\bIhnen\b/, 'German 404 body should address visitors formally');
+assert.doesNotMatch(
+  `${germanNotFoundCopy.description} ${germanNotFoundCopy.body}`,
+  /\b(?:du|dir|dich)\b/i,
+  'German 404 copy should not mix informal and formal address',
+);
+
 assert.match(notFoundSource, /<html lang="ro">/);
 assert.match(notFoundSource, /<meta name="robots" content="noindex,nofollow"\s*\/?\s*>/i);
 assert.doesNotMatch(notFoundSource, /<link\b(?=[^>]*\brel="canonical")[^>]*>/i);

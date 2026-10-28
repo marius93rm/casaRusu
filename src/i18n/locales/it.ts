@@ -20,14 +20,14 @@ export const it = {
     "notFound": {
       "eyebrow": "404 · Pagina non trovata",
       "title": "Non troviamo questa pagina.",
-      "description": "Questo indirizzo non porta a una pagina disponibile. Torna alla pagina iniziale o sfoglia il menu di Casa Rusu.",
-      "body": "Il link potrebbe non essere aggiornato oppure l’indirizzo potrebbe contenere un errore. Ti aiutiamo a ritrovare la strada.",
+      "description": "Questo indirizzo non porta a una pagina disponibile di Casa Rusu. Torna alla pagina iniziale o scopri il menu.",
+      "body": "Sembra che il link abbia preso la strada sbagliata. Ti aiutiamo a ritrovare la via per il ristorante.",
       "homeAction": "Torna alla pagina iniziale",
       "menuAction": "Sfoglia il menu",
       "callAction": "Chiama il ristorante",
       "language": "Scegli la lingua",
       "metaTitle": "Pagina non trovata | Restaurant Casa Rusu",
-      "metaDescription": "La pagina richiesta non è disponibile. Torna a Restaurant Casa Rusu a Codlea o sfoglia il menu."
+      "metaDescription": "L’indirizzo richiesto non porta a una pagina disponibile. Torna a Restaurant Casa Rusu a Codlea o scopri il menu."
     }
   },
   "seo": {
@@ -38,10 +38,10 @@ export const it = {
     "menu": {
       "eyebrow": "Menu",
       "title": "Menu del Ristorante Casa Rusu",
-      "body": "Sfoglia il nostro menu, dagli antipasti ai dolci e alle bevande. Scegli una pagina oppure leggi con calma i piatti e i prezzi.",
+      "body": "Sfoglia il menu stampato, dagli antipasti ai dolci e alle bevande. Chiamaci per verificare i prezzi attuali e la disponibilità.",
       "seo": {
         "title": "Menu Casa Rusu a Codlea · Piatti e prezzi",
-        "description": "Scopri il menu di Casa Rusu a Codlea: antipasti, pasta, pesce, grigliate, dolci e bevande, con ingredienti tradotti, quantità e prezzi in lei."
+        "description": "Scopri il menu stampato di Casa Rusu a Codlea: antipasti, piatti, dolci e bevande con prezzi in lei. Chiama per prezzi attuali e disponibilità."
       },
       "dishAction": "Vedi il piatto",
       "backAction": "Torna al menu",
@@ -76,14 +76,14 @@ export const it = {
     "dish": {
       "eyebrow": "Dalla nostra cucina",
       "title": "Cotoletta di maiale con osso",
-      "body": "La serviamo con una generosa porzione di patatine fritte con prezzemolo, parmigiano e aglio.",
+      "body": "La foto mostra la cotoletta di lonza di maiale con osso, accompagnata da patatine con prezzemolo, parmigiano e aglio.",
       "seo": {
         "title": "Cotoletta di maiale con osso · Casa Rusu, Codlea",
         "description": "Il menu stampato indica {quantity} di cotoletta di maiale con osso a {price} lei, senza contorni. Chiama Casa Rusu a Codlea per verificare la disponibilità della porzione mostrata con patatine."
       },
       "note": "Chiamaci per disponibilità e prezzo.",
       "menuListingLabel": "Nel menu stampato",
-      "menuListingNote": "Il menu stampato elenca la cotoletta separatamente dai contorni. Il piatto mostrato qui è servito con patatine fritte: chiamaci per confermare prezzo e disponibilità di questa porzione.",
+      "menuListingNote": "Il menu stampato elenca la cotoletta separatamente dai contorni. La foto la mostra con patatine fritte. Chiamaci per verificare se questa porzione è disponibile e qual è il prezzo attuale.",
       "menuListingAction": "Vedi la voce nel menu",
       "imageAlt": "Piatto Casa Rusu con cotoletta di maiale, patatine fritte e guarnizioni.",
       "action": "Scopri il piatto"
@@ -99,6 +99,8 @@ export const it = {
       "copyAddress": "Copia l’indirizzo",
       "addressCopied": "Indirizzo copiato.",
       "addressCopyFailed": "Impossibile copiare l’indirizzo. Selezionalo e copialo manualmente.",
+      "shareAddress": "Condividi indirizzo",
+      "addressShareStatus": "Scegli un’app per condividere l’indirizzo.",
       "mapAction": "Indicazioni stradali",
       "reviewsAction": "Leggi le recensioni su Google",
       "openingStatus": {
@@ -163,16 +165,18 @@ export const it = {
     "read": "Leggi il menu",
     "scanPage": "Vedi la pagina del menu",
     "readTitle": "Il menu, con calma",
-    "readBody": "Piatti, ingredienti, quantità e prezzi del menu originale in un formato facile da leggere.",
+    "readBody": "Piatti, quantità e prezzi dal menu stampato, con gli ingredienti dove indicati.",
+    "allergenNote": "Gli ingredienti sono indicati solo dove compaiono nel menu stampato; questo non è un elenco completo degli allergeni. Se hai un'allergia o esigenze alimentari, chiedi al ristorante prima di ordinare.",
     "languageNote": "Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.",
     "printMenu": "Stampa il menu",
     "searchLandmark": "Ricerca nel menu",
-    "searchLabel": "Trova un piatto",
+    "searchLabel": "Cosa cerchi nel menu?",
+    "searchShortcut": "Cerca nel menu",
     "searchReturn": "Torna ai filtri",
     "categoryFilter": "Filtra per categoria",
     "categoryAll": "Tutte le categorie",
-    "searchPlaceholder": "Piatto, ingrediente, categoria o prezzo",
-    "searchHint": "Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche i nomi romeni, impostare un prezzo massimo e ordinare i prezzi in ogni categoria.",
+    "searchPlaceholder": "Nome, bevanda, ingrediente, categoria o prezzo",
+    "searchHint": "Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche le bevande e le denominazioni romene, impostare un prezzo massimo e ordinare per prezzo in ogni categoria.",
     "priceLimit": "Filtra per prezzo massimo",
     "priceLimitAll": "Tutti i prezzi",
     "priceLimitUpTo": "Fino a {price} lei",
@@ -181,9 +185,14 @@ export const it = {
     "sortPriceAsc": "Prezzo crescente",
     "sortPriceDesc": "Prezzo decrescente",
     "searchReset": "Azzera filtri",
-    "searchNoResults": "Nessun piatto trovato.",
-    "searchOneResult": "Un piatto trovato.",
-    "searchManyResults": "{count} piatti trovati.",
+    "searchShare": "Copia il link dei risultati",
+    "searchShareNative": "Condividi i risultati",
+    "searchShareCopied": "Link del menu copiato.",
+    "searchShareDone": "Link del menu condiviso.",
+    "searchShareFailed": "Impossibile copiare il link. Copialo dalla barra degli indirizzi.",
+    "searchNoResults": "Nessun risultato trovato.",
+    "searchOneResult": "Un risultato trovato.",
+    "searchManyResults": "{count} risultati trovati.",
     "extras": "Dalla nostra cucina",
     "extrasTitle": "I nostri piatti da vicino",
     "fallback": "L’immagine non è stata caricata. Apri l’originale oppure leggi il menu qui sotto."

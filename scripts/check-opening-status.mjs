@@ -8,6 +8,18 @@ const openingHours = [
   { daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '11:00', closes: '22:30' },
   { daysOfWeek: ['Saturday', 'Sunday'], opens: '11:00', closes: '23:00' },
 ];
+const openingStatusComponent = await readFile(new URL('../src/components/OpeningStatus.astro', import.meta.url), 'utf8');
+
+assert.match(
+  openingStatusComponent,
+  /document\.addEventListener\('visibilitychange',[\s\S]*document\.visibilityState === 'visible'[\s\S]*updateStatus\(\)/,
+  'opening status should refresh when a background tab returns to the foreground',
+);
+assert.match(
+  openingStatusComponent,
+  /window\.addEventListener\('pageshow', updateStatus\)/,
+  'opening status should refresh when a page is restored from the back-forward cache',
+);
 
 assert.deepEqual(
   calculateOpeningStatus(openingHours, new Date('2026-10-26T08:59:00Z')),
@@ -45,4 +57,4 @@ for (const locale of locales) {
   }
 }
 
-console.log('Controllo orari superato: stati aperto/chiuso, prossima apertura, weekend, cambio ora Bucharest e copertura sulle 18 pagine.');
+console.log('Controllo orari superato: stati aperto/chiuso, prossima apertura, weekend, cambio ora Bucharest, refresh al ritorno in primo piano e copertura sulle 18 pagine.');

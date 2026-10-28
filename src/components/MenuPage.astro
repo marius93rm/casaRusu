@@ -45,6 +45,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
         <header class="menu-page-heading">
           <p class="eyebrow">{copy.menu.eyebrow}</p>
           <h1 id="menu-page-title">{copy.menu.title}</h1>
+          <p class="menu-allergen-note">{menu.allergenNote}</p>
           <p class="menu-page-intro">{copy.menu.body}</p>
           <OpeningStatus {locale} />
         </header>
@@ -58,7 +59,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
         </header>
         <article class="menu-feature">
           <a class="menu-feature-visual" href={dishHref} aria-label={`${copy.menu.dishAction}: ${copy.dish.title}`}>
-            <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} />
+            <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} responsive />
           </a>
 
           <div class="menu-feature-copy">

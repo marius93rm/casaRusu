@@ -13,6 +13,8 @@ interface GalleryCopy {
   intro: string;
   previous: string;
   next: string;
+  enlarge: string;
+  close: string;
   keyboard: string;
   captions: [string, string, string, string];
   alts: [string, string, string, string];
@@ -23,6 +25,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Momente la Casa Rusu',
     intro: 'Din sală până la masă, câteva imagini din restaurantul nostru.',
     previous: 'Fotografiile anterioare', next: 'Fotografiile următoare',
+    enlarge: 'Mărește fotografia', close: 'Închide fotografia',
     keyboard: 'Glisează sau folosește săgețile pentru a vedea fotografiile.',
     captions: ['Un platou de împărțit', 'Din bucătărie, la masă', 'Un pahar, în companie bună', 'Atmosfera din sală'],
     alts: [
@@ -36,6 +39,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Moments at Casa Rusu',
     intro: 'From the dining room to the table, a glimpse of our restaurant.',
     previous: 'Previous photographs', next: 'Next photographs',
+    enlarge: 'Enlarge photo', close: 'Close photo',
     keyboard: 'Swipe or use the arrow keys to explore the photographs.',
     captions: ['A platter to share', 'From our kitchen to your table', 'A drink in good company', 'Around the dining room'],
     alts: [
@@ -49,6 +53,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Momenti a Casa Rusu',
     intro: 'Dalla sala alla tavola, qualche scorcio del nostro ristorante.',
     previous: 'Fotografie precedenti', next: 'Fotografie successive',
+    enlarge: 'Ingrandisci la foto', close: 'Chiudi la foto',
     keyboard: 'Scorri o usa i tasti freccia per esplorare le fotografie.',
     captions: ['Un tagliere da condividere', 'Dalla cucina alla tavola', 'Un bicchiere in buona compagnia', 'L’atmosfera in sala'],
     alts: [
@@ -62,6 +67,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Momentos en Casa Rusu',
     intro: 'Del comedor a la mesa, algunas imágenes de nuestro restaurante.',
     previous: 'Fotografías anteriores', next: 'Fotografías siguientes',
+    enlarge: 'Ampliar foto', close: 'Cerrar foto',
     keyboard: 'Desliza o usa las flechas del teclado para explorar las fotografías.',
     captions: ['Una tabla para compartir', 'De la cocina a la mesa', 'Una copa en buena compañía', 'El ambiente del comedor'],
     alts: [
@@ -75,6 +81,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Instants à Casa Rusu',
     intro: 'De la salle à la table, quelques images de notre restaurant.',
     previous: 'Photographies précédentes', next: 'Photographies suivantes',
+    enlarge: 'Agrandir la photo', close: 'Fermer la photo',
     keyboard: 'Balayez ou utilisez les touches fléchées pour parcourir les photographies.',
     captions: ['Un plateau à partager', 'De la cuisine à la table', 'Un verre en bonne compagnie', 'L’ambiance de la salle'],
     alts: [
@@ -88,6 +95,7 @@ export const galleryCopy: Record<SiteLocale, GalleryCopy> = {
     title: 'Momente bei Casa Rusu',
     intro: 'Vom Gastraum bis zum gedeckten Tisch: Einblicke in unser Restaurant.',
     previous: 'Vorherige Fotografien', next: 'Nächste Fotografien',
+    enlarge: 'Foto vergrößern', close: 'Foto schließen',
     keyboard: 'Wischen oder die Pfeiltasten nutzen, um die Fotografien anzusehen.',
     captions: ['Eine Platte zum Teilen', 'Aus der Küche an den Tisch', 'Ein Glas in guter Gesellschaft', 'Die Atmosphäre im Gastraum'],
     alts: [

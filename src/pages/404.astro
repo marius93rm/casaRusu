@@ -109,8 +109,10 @@ const socialImage = {
       const segments = window.location.pathname.split('/').filter(Boolean);
       const pathLocale = segments[0];
       const search = new URLSearchParams(window.location.search);
-      let preferred = search.get('lang');
-      if (!supported.includes(preferred)) {
+      const requestedLocale = search.get('lang');
+      let preferred = supported.includes(requestedLocale) ? requestedLocale : null;
+      if (!preferred && supported.includes(pathLocale)) preferred = pathLocale;
+      if (!preferred) {
         try {
           preferred = window.localStorage.getItem('casa-rusu-language');
         } catch {
@@ -121,9 +123,7 @@ const socialImage = {
       const detected = browserLanguages
         .map((language) => (language || '').toLowerCase().split(/[-_]/)[0])
         .find((language) => supported.includes(language));
-      const locale = supported.includes(preferred)
-        ? preferred
-        : supported.includes(pathLocale) ? pathLocale : detected || 'ro';
+      const locale = supported.includes(preferred) ? preferred : detected || 'ro';
       const copy = messages[locale];
       if (!copy) return;
 
@@ -203,5 +203,8 @@ const socialImage = {
     .not-found-actions .button { width: 100%; }
     .not-found-copy h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
     .not-found-call { max-width: 100%; }
+  }
+  @media (max-width: 320px) {
+    .not-found-actions .button-primary { gap: .5rem; padding-inline: .75rem; font-size: 1rem; }
   }
 </style>
