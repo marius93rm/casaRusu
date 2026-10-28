@@ -166,6 +166,7 @@ export const de = {
     "scanPage": "Diese Menüseite ansehen",
     "readTitle": "Die Speisekarte in Ruhe entdecken",
     "readBody": "Gerichte, Mengen und Preise aus der gedruckten Karte, mit Zutaten, soweit angegeben.",
+    "allergenNote": "Zutaten werden nur angegeben, wenn sie auf der gedruckten Speisekarte stehen; dies ist keine vollständige Allergenliste. Wenn Sie eine Allergie oder besondere Ernährungsbedürfnisse haben, fragen Sie bitte vor der Bestellung im Restaurant nach.",
     "languageNote": "Die Bilder zeigen die rumänische Originalkarte. Der folgende Text ist übersetzt; die Preise sind in rumänischen Lei angegeben.",
     "printMenu": "Speisekarte drucken",
     "searchLandmark": "Speisekarte durchsuchen",

@@ -166,6 +166,7 @@ export const es = {
     "scanPage": "Ver esta página del menú",
     "readTitle": "El menú, sin prisa",
     "readBody": "Platos, cantidades y precios del menú impreso, con los ingredientes cuando se indican.",
+    "allergenNote": "Los ingredientes solo se indican cuando aparecen en el menú impreso; esta no es una lista completa de alérgenos. Si tienes alguna alergia o necesidad alimentaria, consulta con el restaurante antes de pedir.",
     "languageNote": "Las imágenes muestran el menú original en rumano. El texto de abajo está traducido; los precios están en lei rumanos.",
     "printMenu": "Imprimir menú",
     "searchLandmark": "Buscar en el menú",

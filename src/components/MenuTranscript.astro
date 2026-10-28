@@ -14,6 +14,7 @@ const maximumMenuPrice = Math.max(...menuPages.flatMap((page) => page.sections.f
     <p class="eyebrow">{copy.read}</p>
     <h2 id="menu-transcript-title">{copy.readTitle}</h2>
     <p>{copy.readBody}</p>
+    <p class="menu-allergen-note">{copy.allergenNote}</p>
     <p class="menu-language-note">{copy.languageNote}</p>
     <button class="button button-outline menu-print-action" type="button" data-menu-print hidden>{copy.printMenu}</button>
   </header>

@@ -166,6 +166,7 @@ export const en = {
     "scanPage": "View scanned menu page",
     "readTitle": "Take your time with the menu",
     "readBody": "Dishes, quantities and prices from the printed menu, with ingredients where listed.",
+    "allergenNote": "Ingredients are shown only where listed on the printed menu; this is not a complete allergen list. If you have an allergy or dietary requirement, please ask the restaurant before ordering.",
     "languageNote": "The printed images show the original Romanian menu. The text below is translated; prices are in Romanian lei.",
     "printMenu": "Print menu",
     "searchLandmark": "Search the menu",

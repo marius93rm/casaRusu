@@ -6,6 +6,12 @@ import path from 'node:path';
 import { menuCategoryQueryParam, menuPriceLimitQueryParam, menuSearchMatches, menuSearchQueryParam, normalizeMenuSearchText, parseMenuCategory, parseMenuPriceLimit, updateMenuSearchUrl } from '../src/utils/menuSearch.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const escapeHtmlText = (value) => value
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#39;');
 const dist = path.join(root, 'dist');
 const menus = await Promise.all(locales.map((locale) => `${prefixFor(locale)}meniu/index.html`).map(async (file) => ({
   file, html: await readFile(path.join(dist, file), 'utf8'),
@@ -46,6 +52,14 @@ const inclusiveSearchCopy = {
   fr: ['Que recherchez-vous dans le menu ?', 'Rechercher dans le menu', 'Nom, boisson, ingrédient, catégorie ou prix', 'Recherchez par nom, ingrédient, catégorie ou prix en lei. Vous pouvez aussi rechercher des boissons et les intitulés roumains du menu, et définir un prix maximum.', 'Aucun résultat trouvé.', 'Un résultat trouvé.', '{count} résultats trouvés.'],
   de: ['Wonach suchen Sie?', 'Speisekarte durchsuchen', 'Name, Getränk, Zutat, Kategorie oder Preis', 'Suchen Sie nach Namen, Zutaten, Kategorien oder Preisen in Lei. Auch Getränke und rumänische Menübezeichnungen können Sie finden. Sie können einen Höchstpreis festlegen.', 'Keine passenden Ergebnisse gefunden.', 'Ein Ergebnis gefunden.', '{count} Ergebnisse gefunden.'],
 };
+const allergenNoticeCopy = {
+  ro: 'Ingredientele sunt menționate doar acolo unde apar în meniul tipărit; acesta nu este un ghid complet al alergenilor. Dacă ai alergii sau cerințe alimentare, întreabă restaurantul înainte de a comanda.',
+  en: 'Ingredients are shown only where listed on the printed menu; this is not a complete allergen list. If you have an allergy or dietary requirement, please ask the restaurant before ordering.',
+  it: "Gli ingredienti sono indicati solo dove compaiono nel menu stampato; questo non è un elenco completo degli allergeni. Se hai un'allergia o esigenze alimentari, chiedi al ristorante prima di ordinare.",
+  es: 'Los ingredientes solo se indican cuando aparecen en el menú impreso; esta no es una lista completa de alérgenos. Si tienes alguna alergia o necesidad alimentaria, consulta con el restaurante antes de pedir.',
+  fr: 'Les ingrédients sont mentionnés uniquement lorsqu’ils figurent sur le menu imprimé ; ceci ne constitue pas une liste complète des allergènes. En cas d’allergie ou de régime alimentaire particulier, renseignez-vous auprès du restaurant avant de commander.',
+  de: 'Zutaten werden nur angegeben, wenn sie auf der gedruckten Speisekarte stehen; dies ist keine vollständige Allergenliste. Wenn Sie eine Allergie oder besondere Ernährungsbedürfnisse haben, fragen Sie bitte vor der Bestellung im Restaurant nach.',
+};
 for (const locale of locales) {
   const menu = dictionaries[locale].menu;
   assert.deepEqual(
@@ -53,6 +67,7 @@ for (const locale of locales) {
     inclusiveSearchCopy[locale],
     `${locale}: menu search copy should include drinks and use result counts that fit every menu category`,
   );
+  assert.equal(menu.allergenNote, allergenNoticeCopy[locale], `${locale}: allergen information should be cautious and localized`);
 }
 
 const schnitzelPhotoCopy = {
@@ -149,6 +164,7 @@ for (const { file, html } of menus) {
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
   const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
   const labels = dictionaries[locale].menu;
+  assert.ok(html.includes(`<p class="menu-allergen-note">${escapeHtmlText(labels.allergenNote)}</p>`), `${file}: show the localized allergen notice beside the printed-menu information`);
   assert.ok(html.includes(`<label for="menu-dish-search">${labels.searchLabel}</label>`), `${file}: search field label should be inclusive and localized`);
   assert.ok(html.includes(`placeholder="${labels.searchPlaceholder}"`), `${file}: search suggestions should include drinks and be localized`);
   assert.ok(html.includes(`data-search-no-results="${labels.searchNoResults}"`) && html.includes(`data-search-one-result="${labels.searchOneResult}"`) && html.includes(`data-search-many-results="${labels.searchManyResults}"`), `${file}: accessible result counts should be localized and category-neutral`);

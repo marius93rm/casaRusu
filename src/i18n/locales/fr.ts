@@ -166,6 +166,7 @@ export const fr = {
     "scanPage": "Voir cette page du menu",
     "readTitle": "La carte, à votre rythme",
     "readBody": "Plats, portions et prix de la carte imprimée, avec les ingrédients lorsqu’ils sont indiqués.",
+    "allergenNote": "Les ingrédients sont mentionnés uniquement lorsqu’ils figurent sur le menu imprimé ; ceci ne constitue pas une liste complète des allergènes. En cas d’allergie ou de régime alimentaire particulier, renseignez-vous auprès du restaurant avant de commander.",
     "languageNote": "Les images présentent le menu original en roumain. Le texte ci-dessous est traduit ; les prix sont en lei roumains.",
     "printMenu": "Imprimer le menu",
     "searchLandmark": "Recherche dans la carte",

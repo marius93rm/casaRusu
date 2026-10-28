@@ -164,6 +164,7 @@ export const ro = {
     "scanPage": "Vezi pagina scanată",
     "readTitle": "Meniul, pe îndelete",
     "readBody": "Preparatele, cantitățile și prețurile din meniul tipărit, cu ingredientele acolo unde sunt indicate.",
+    "allergenNote": "Ingredientele sunt menționate doar acolo unde apar în meniul tipărit; acesta nu este un ghid complet al alergenilor. Dacă ai alergii sau cerințe alimentare, întreabă restaurantul înainte de a comanda.",
     "languageNote": "Meniul este în limba română. Prețurile sunt în lei.",
     "printMenu": "Tipărește meniul",
     "searchLandmark": "Căutare în meniu",

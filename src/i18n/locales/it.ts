@@ -166,6 +166,7 @@ export const it = {
     "scanPage": "Vedi la pagina del menu",
     "readTitle": "Il menu, con calma",
     "readBody": "Piatti, quantità e prezzi dal menu stampato, con gli ingredienti dove indicati.",
+    "allergenNote": "Gli ingredienti sono indicati solo dove compaiono nel menu stampato; questo non è un elenco completo degli allergeni. Se hai un'allergia o esigenze alimentari, chiedi al ristorante prima di ordinare.",
     "languageNote": "Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.",
     "printMenu": "Stampa il menu",
     "searchLandmark": "Ricerca nel menu",
