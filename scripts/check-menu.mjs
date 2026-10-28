@@ -164,7 +164,12 @@ for (const { file, html } of menus) {
   assert.equal(enlargeLinks.length, 14, `${file}: all menu images need a direct fallback link`);
   const locale = locales.find((locale) => file === `${prefixFor(locale)}meniu/index.html`);
   const labels = dictionaries[locale].menu;
-  assert.ok(html.includes(`<p class="menu-allergen-note">${escapeHtmlText(labels.allergenNote)}</p>`), `${file}: show the localized allergen notice beside the printed-menu information`);
+  const menuHeadingStart = html.indexOf('<header class="menu-page-heading">');
+  const menuHeadingEnd = html.indexOf('</header>', menuHeadingStart);
+  const allergenNotice = html.indexOf(`<p class="menu-allergen-note">${escapeHtmlText(labels.allergenNote)}</p>`);
+  const menuIntro = html.indexOf('<p class="menu-page-intro">', menuHeadingStart);
+  const menuGallery = html.indexOf('class="menu-gallery"');
+  assert.ok(menuHeadingStart >= 0 && allergenNotice > menuHeadingStart && allergenNotice < menuIntro && menuIntro < menuHeadingEnd && menuHeadingEnd < menuGallery, `${file}: show the localized allergen notice before the menu introduction and scanned gallery`);
   assert.ok(html.includes(`<label for="menu-dish-search">${labels.searchLabel}</label>`), `${file}: search field label should be inclusive and localized`);
   assert.ok(html.includes(`placeholder="${labels.searchPlaceholder}"`), `${file}: search suggestions should include drinks and be localized`);
   assert.ok(html.includes(`data-search-no-results="${labels.searchNoResults}"`) && html.includes(`data-search-one-result="${labels.searchOneResult}"`) && html.includes(`data-search-many-results="${labels.searchManyResults}"`), `${file}: accessible result counts should be localized and category-neutral`);

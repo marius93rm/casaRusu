@@ -58,7 +58,7 @@
 .menu-transcript-heading .eyebrow { margin-bottom: 1rem; }
 .menu-transcript-heading h2, .menu-extras-heading h2 { margin-bottom: 1.2rem; font-size: clamp(2.4rem, 4vw, 3.5rem); }
 .menu-transcript-heading > p:not(.eyebrow) { color: var(--muted); font-size: 1.0625rem; }
-.menu-transcript-heading > p.menu-allergen-note { margin-top: .9rem; padding: .85rem 1rem; border-left: 3px solid var(--accent); background: var(--surface); color: var(--text); }
+.menu-page-heading > p.menu-allergen-note { max-width: 46rem; margin-top: .9rem; margin-bottom: .9rem; padding: .85rem 1rem; border-left: 3px solid var(--accent); background: var(--surface); color: var(--text); }
 .menu-transcript-heading .menu-language-note { margin-top: .75rem; font-size: 1rem; }
 .menu-print-action { margin-top: 1.25rem; cursor: pointer; }
 .menu-print-action[hidden] { display: none; }
