@@ -15,6 +15,7 @@ const headerSource = await readFile(new URL('../src/components/Header.astro', im
 const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
 const layoutSource = await readFile(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
 const styleSource = await readFile(new URL('../src/styles/global.css', import.meta.url), 'utf8');
+const notFoundComponentSource = await readFile(new URL('../src/pages/404.astro', import.meta.url), 'utf8');
 const notFoundSource = await readFile(new URL('../dist/404.html', import.meta.url), 'utf8');
 assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
 assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
@@ -35,6 +36,7 @@ assert.match(layoutSource, /ResizeObserver/, 'The mobile booking reserve should 
 assert.match(styleSource, /bottom: var\(--mobile-booking-bottom-offset/, 'The mobile booking CTA should sit above an injected preview badge');
 assert.match(styleSource, /body \{ padding-bottom: calc\([^;]*--mobile-booking-bottom-offset/, 'The mobile page should reserve space below the raised booking CTA');
 assert.match(styleSource, /scroll-padding-bottom: calc\([^;]*--mobile-booking-bottom-offset/, 'Focused controls should scroll clear of the raised booking CTA');
+assert.doesNotMatch(notFoundComponentSource, /not-found-number/, 'The 404 page should not repeat its error code as text behind the message');
 assert.deepEqual(Object.keys(dictionaries), [...locales], 'All supported languages need a dictionary');
 for (const locale of locales) {
   const dictionary = dictionaries[locale];

@@ -50,7 +50,6 @@ const socialImage = {
 
   <main id="main-content" class="not-found-screen" tabindex="-1">
     <section class="container not-found-panel" aria-labelledby="not-found-title">
-      <span class="not-found-number" aria-hidden="true">404</span>
       <div class="not-found-copy">
         <p class="eyebrow" data-copy="eyebrow">{dictionary.ui.notFound.eyebrow}</p>
         <h1 id="not-found-title" data-copy="title">{dictionary.ui.notFound.title}</h1>
@@ -180,7 +179,6 @@ const socialImage = {
   .not-found-screen { display: grid; min-height: calc(100dvh - 80px); align-items: center; padding-block: clamp(2rem, 7vh, 5rem); }
   .not-found-panel { position: relative; isolation: isolate; display: grid; min-height: 34rem; align-items: center; justify-items: center; overflow: hidden; padding: clamp(2.5rem, 7vw, 6rem); border: 1px solid var(--border); background: var(--surface); text-align: center; }
   .not-found-panel::before { position: absolute; z-index: -1; top: 0; left: 50%; width: min(28rem, 70%); height: 2px; background: var(--accent); content: ''; transform: translateX(-50%); }
-  .not-found-number { position: absolute; z-index: -1; top: .18em; left: 50%; color: var(--border); font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(13rem, 34vw, 31rem); font-weight: 500; letter-spacing: -.09em; line-height: .7; opacity: .42; pointer-events: none; transform: translateX(-54%); }
   .not-found-copy { width: min(100%, 48rem); }
   .not-found-copy .eyebrow { margin-bottom: 1rem; }
   .not-found-copy h1 { max-width: 15ch; margin: 0 auto 1rem; font-size: clamp(3rem, 6vw, 5.25rem); }
@@ -198,7 +196,6 @@ const socialImage = {
     .not-found-header-inner { min-height: 68px; }
     .not-found-screen { min-height: calc(100dvh - 68px); padding-block: 1.25rem; }
     .not-found-panel { min-height: 37rem; padding: 2rem 1.25rem; }
-    .not-found-number { top: .3em; font-size: clamp(12rem, 60vw, 18rem); }
     .not-found-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
     .not-found-actions .button { width: 100%; }
     .not-found-copy h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
