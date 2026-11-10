@@ -62,7 +62,7 @@ export const es = {
       "eyebrow": "Restaurante · Codlea",
       "title": "Restaurante Casa Rusu en Codlea",
       "slogan": "¡Sabores que unen a las personas!",
-      "description": "Nos encontrarás en Strada Laterală 42, en Codlea. ¡Llámanos y ven a comer!",
+      "description": "Nos encontrarás en {address}, en Codlea. ¡Llámanos y ven a comer!",
       "primaryAction": "Llama para reservar una mesa",
       "secondaryAction": "Ver ubicación",
       "imageAlt": "El luminoso interior del Restaurante Casa Rusu en Codlea, con mesas preparadas y bancos verdes."
@@ -91,10 +91,10 @@ export const es = {
     "visit": {
       "titleFirst": "¡Nos vemos",
       "titleSecond": "a la mesa!",
-      "body": "Llámanos para reservar una mesa. Estamos en Strada Laterală 42, en Codlea.",
+      "body": "Llámanos para reservar una mesa. Estamos en {address}, en Codlea.",
       "addressLabel": "Dirección",
       "phoneLabel": "Teléfono",
-      "imageAlt": "El letrero del Restaurante Casa Rusu en la fachada, junto al número 42.",
+      "imageAlt": "El letrero del Restaurante Casa Rusu instalado en la fachada del edificio.",
       "hoursLabel": "Horario",
       "copyAddress": "Copiar dirección",
       "addressCopied": "Dirección copiada.",

@@ -9,6 +9,7 @@ import type { Translation } from './types';
 
 export { locales, defaultLocale, socialLocales, type Locale } from './config';
 export { isLocale, getLocaleFromUrl, localizedPath, switchLocalePath } from './paths';
+export { interpolateSiteData } from '../data/company';
 
 const dictionaries = { ro, en, it, es, fr, de } as const satisfies Record<Locale, Translation>;
 

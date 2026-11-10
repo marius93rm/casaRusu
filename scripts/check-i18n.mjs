@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { dictionaries, prefixFor } from './i18n.mjs';
 import { locales, defaultLocale, socialLocales } from '../src/i18n/config.ts';
 import { getLocaleFromUrl, localizedPath, switchLocalePath, isLocale } from '../src/i18n/paths.ts';
+import { company, formatCompanyAddress, interpolateSiteData } from '../src/data/company.ts';
 
 function leaves(value, prefix = '') {
   return Object.entries(value).flatMap(([key, entry]) => {
@@ -11,6 +12,9 @@ function leaves(value, prefix = '') {
   });
 }
 const base = new Map(leaves(dictionaries[defaultLocale]));
+const addressStreet = company.address.street;
+const addressNumber = company.address.houseNumber;
+const phoneDigits = company.phone.replace(/\D/g, '');
 const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
 const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
 const shellSource = await readFile(new URL('../src/components/SiteShell.astro', import.meta.url), 'utf8');
@@ -51,7 +55,14 @@ for (const locale of locales) {
     assert.ok(value.trim(), `${locale}.${key}: empty translation`);
     const placeholders = (text) => [...text.matchAll(/\{\w+\}/g)].map(([token]) => token).sort();
     assert.deepEqual(placeholders(value), placeholders(base.get(key)), `${locale}.${key}: missing interpolation`);
+    assert.ok(!value.toLocaleLowerCase().includes(addressStreet.toLocaleLowerCase()), `${locale}.${key}: street address must come from siteData`);
+    assert.ok(!value.replace(/\D/g, '').includes(phoneDigits), `${locale}.${key}: phone number must come from siteData`);
   }
+  assert.match(dictionary.copy.hero.description, /\{address\}/, `${locale}: hero address must use the siteData placeholder`);
+  assert.match(dictionary.copy.visit.body, /\{address\}/, `${locale}: visit address must use the siteData placeholder`);
+  assert.doesNotMatch(dictionary.copy.visit.imageAlt, new RegExp(`\\b${addressNumber}\\b`), `${locale}: address number must not be hardcoded in image text`);
+  assert.equal(interpolateSiteData('{address}', locale), formatCompanyAddress(locale), `${locale}: address placeholder must use siteData and locale formatting`);
+  assert.equal(interpolateSiteData('{phone}', locale), company.phone, `${locale}: phone placeholder must use siteData`);
   assert.ok(isLocale(locale));
   for (const route of ['/', '/meniu/', '/preparate/snitel-cotlet-porc/']) {
     const expectedRoute = locale === defaultLocale ? route : `/${locale}${route}`;
@@ -65,6 +76,10 @@ for (const locale of locales) {
     }
     const html = await readFile(new URL(`../dist/${prefixFor(locale)}${route.slice(1)}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`<html lang="${locale}">`));
+    if (route === '/') {
+      assert.ok(html.includes(formatCompanyAddress(locale)), `${locale}: generated home page must contain the formatted siteData address`);
+      assert.doesNotMatch(html, /\{(?:address|phone)\}/, `${locale}: siteData placeholders must be rendered at build time`);
+    }
     const mobileBookingBars = [...html.matchAll(/<aside\b(?=[^>]*class="mobile-booking")(?=[^>]*data-mobile-booking)[^>]*>/g)].map(([tag]) => tag);
     assert.equal(mobileBookingBars.length, 1, `${locale} ${route}: page should render one shared mobile booking bar`);
     assert.equal(mobileBookingBars[0].includes('hidden'), route === '/', `${locale} ${route}: only the home booking bar should start hidden`);

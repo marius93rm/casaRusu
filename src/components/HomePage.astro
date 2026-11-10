@@ -7,13 +7,16 @@ import OpeningStatus from './OpeningStatus.astro';
 import RestaurantPhoto from './RestaurantPhoto.astro';
 import PhotoGallery from './PhotoGallery.astro';
 import { menuCopy, menuPages } from '../data/menu';
+import { formatCompanyAddress } from '../data/company';
 import { siteData, type SiteLocale } from '../data/site';
-import { getDictionary, localizedPath } from '../i18n';
+import { getDictionary, interpolateSiteData, localizedPath } from '../i18n';
 import { formatOpeningHours } from '../utils/openingHours';
 import { imageSizes, imageSrcset, restaurantAvifWidths } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const address = formatCompanyAddress(locale);
+const canonicalAddress = formatCompanyAddress('ro');
 const { ui } = getDictionary(locale);
 const seo = siteData.seo[locale];
 const socialImage = {
@@ -54,7 +57,7 @@ const structuredData = {
   priceRange: menuPriceRange,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: siteData.company.address,
+    streetAddress: canonicalAddress,
     addressLocality: siteData.company.city,
     postalCode: siteData.company.postalCode,
     addressCountry: 'RO',
@@ -95,7 +98,7 @@ const structuredData = {
           <p class="eyebrow">{copy.hero.eyebrow}</p>
           <h1 id="hero-title">{copy.hero.title}</h1>
           <p class="hero-slogan">{copy.hero.slogan}</p>
-          <p class="hero-description">{copy.hero.description}</p>
+          <p class="hero-description">{interpolateSiteData(copy.hero.description, locale)}</p>
           <OpeningStatus {locale} />
           <div class="hero-actions">
             <a class="button button-primary" href={siteData.company.phoneHref} data-booking-primary>
@@ -159,7 +162,7 @@ const structuredData = {
       <div class="container visit-layout">
         <div class="visit-heading">
           <h2 id="visit-title">{copy.visit.titleFirst}{' '}<span>{copy.visit.titleSecond}</span></h2>
-          <p>{copy.visit.body}</p>
+          <p>{interpolateSiteData(copy.visit.body, locale)}</p>
         </div>
         <figure class="visit-visual">
           <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} responsive />
@@ -169,13 +172,13 @@ const structuredData = {
           <div class="visit-details">
             <div class="visit-detail">
               <span>{copy.visit.addressLabel}</span>
-              <strong>{siteData.company.address}</strong>
+              <strong>{address}</strong>
               <p>{siteData.company.postalCode} {siteData.company.city}, {ui.country}</p>
               <button
                 class="text-link visit-copy-address"
                 type="button"
                 data-copy-address
-                data-address={`${siteData.company.address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
+                data-address={`${address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
                 data-copy-success={copy.visit.addressCopied}
                 data-copy-error={copy.visit.addressCopyFailed}
                 data-share-label={copy.visit.shareAddress}

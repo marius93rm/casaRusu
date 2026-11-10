@@ -4,26 +4,7 @@ import { it } from '../i18n/locales/it';
 import { es } from '../i18n/locales/es';
 import { fr } from '../i18n/locales/fr';
 import { de } from '../i18n/locales/de';
-
-const company = {
-  name: 'Restaurant Casa Rusu',
-  phone: '+40 732 901 232',
-  phoneHref: 'tel:+40732901232',
-  address: 'Strada Laterală, nr. 42',
-  postalCode: '505100',
-  city: 'Codlea',
-  country: 'România',
-  // Based on the printed menu's explicitly traditional and Italian platters.
-  cuisines: ['Romanian', 'Italian'],
-  geo: {
-    latitude: 45.697789,
-    longitude: 25.449737,
-  },
-  openingHours: [
-    { daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '11:00', closes: '22:30' },
-    { daysOfWeek: ['Saturday', 'Sunday'], opens: '11:00', closes: '23:00' },
-  ],
-} as const;
+import { company } from './company';
 
 const mapDirectionsUrl = new URL('https://www.google.com/maps/dir/');
 mapDirectionsUrl.searchParams.set('api', '1');
