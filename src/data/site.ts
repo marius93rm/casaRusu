@@ -26,7 +26,6 @@ export const siteData = {
     facebook: 'https://www.facebook.com/people/Restaurant-Casa-Rusu/61594316175166/',
     instagram: 'https://www.instagram.com/restaurant.casarusu/',
     tiktok: 'https://www.tiktok.com/@restaurant.casarusu',
-    recentFoodPost: 'https://www.facebook.com/reel/1038477139209678/',
     map: mapDirectionsUrl.toString(),
     googleBusiness: 'https://www.google.com/maps?cid=8243879332869202835',
   },
@@ -39,7 +38,8 @@ export const siteData = {
   promotions: {
     cocktailOffer: {
       expiresAt: '2026-12-01T00:00:00+02:00',
-      sourceUrl: 'https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl',
+      sourceUrl:
+        'https://www.facebook.com/restaurantcasarusu/posts/pfbid076PQ5RUYNEQqQE92EEYeNW7tk6h2LCb7Bjd86GgSSz1r54WswqNDhFJ9SkadPdaDl',
     },
   },
   copy: { ro: ro.copy, en: en.copy, it: it.copy, es: es.copy, fr: fr.copy, de: de.copy },

@@ -1,6 +1,6 @@
 # Restaurant Casa Rusu · Codlea
 
-Sito Astro indipendente per Restaurant Casa Rusu. Contatti, colori e collegamenti sono in `src/data/site.ts`; i testi sono nei dizionari `src/i18n/locales/`; logo, fotografie e font sono locali in `public/brand/`, `public/images/` e `public/fonts/`. I font DM Sans e Cormorant Garamond sono ospitati localmente; le licenze sono in `public/fonts/OFL.txt` e `public/fonts/Cormorant-Garamond-OFL.txt`.
+Sito Astro indipendente per Restaurant Casa Rusu. Contatti, colori e collegamenti sono in `src/data/site.ts`; i testi sono nei dizionari `src/i18n/locales/`; logo, fotografie e font ottimizzati sono locali in `public/brand/`, `public/images/` e `public/fonts/optimized/`. Le sorgenti originali dei font sono in `assets/fonts/source/` e non vengono incluse nel deploy; le licenze per i font serviti sono in `public/fonts/OFL.txt` e `public/fonts/Cormorant-Garamond-OFL.txt`.
 
 ## Anteprima
 
@@ -33,6 +33,7 @@ Per verificare o creare la versione statica:
 
 ```bash
 npm run check
+npm run format:check
 npm run build
 ```
 
@@ -56,4 +57,6 @@ Per una build locale puoi copiare `.env.example` in `.env` e impostare `SITE_URL
 
 ## Verifica del redesign
 
-`npm run build` esegue il controllo Astro, genera le 18 rotte (home, menu e scheda del piatto in RO/EN/IT/ES/FR/DE) e avvia `check:seo`, `check:menu`, `check:hours` e `check:i18n`. Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.
+`npm run build` esegue il controllo Astro e genera **19 file HTML**: **18 rotte di contenuto localizzate** (home, menu e scheda del piatto nelle sei lingue) più la 404. Poi avvia `check:seo`, `check:menu`, `check:hours`, `check:gallery`, `check:i18n` e `check:docs`; quest’ultimo confronta i conteggi generati e i controlli della build con questa documentazione e quella [multilingua](docs/i18n/README.md). `npm run format:check` controlla con Prettier i file modificati nel workspace; in CI verifica quelli interessati dal push e, nelle PR, quelli dell’ultimo commit, incluso il markup Astro, senza riformattare in blocco il codice storico.
+
+Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.

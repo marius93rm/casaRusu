@@ -5,24 +5,20 @@ import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandTiktok,
-  IconCheck,
   IconChevronRight,
   IconChevronLeft,
   IconZoomIn,
   IconZoomOut,
   IconArrowsMinimize,
-  IconMail,
   IconMapPin,
   IconMenu2,
   IconPhone,
-  IconPlus,
   IconX,
 } from '@tabler/icons-astro';
 
 type IconName =
   | 'arrow'
   | 'diagonal'
-  | 'plus'
   | 'close'
   | 'menu'
   | 'chevron'
@@ -30,9 +26,7 @@ type IconName =
   | 'zoom-in'
   | 'zoom-out'
   | 'fit'
-  | 'check'
   | 'phone'
-  | 'email'
   | 'instagram'
   | 'tiktok'
   | 'facebook'
@@ -49,7 +43,6 @@ const { name = 'arrow', class: className, size = 20 } = Astro.props;
 const icons = {
   arrow: IconArrowRight,
   diagonal: IconArrowUpRight,
-  plus: IconPlus,
   close: IconX,
   menu: IconMenu2,
   chevron: IconChevronRight,
@@ -57,9 +50,7 @@ const icons = {
   'zoom-in': IconZoomIn,
   'zoom-out': IconZoomOut,
   fit: IconArrowsMinimize,
-  check: IconCheck,
   phone: IconPhone,
-  email: IconMail,
   instagram: IconBrandInstagram,
   tiktok: IconBrandTiktok,
   facebook: IconBrandFacebook,

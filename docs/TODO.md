@@ -243,6 +243,10 @@
 
 - [x] **CR-105 — Ignorare i file ambiente e documentare le variabili di build.** Aggiunte le esclusioni `.env*` con eccezione esplicita per `.env.example`, che contiene `SITE_URL` vuoto finché l’origine HTTPS di produzione non sarà confermata e chiarisce che Netlify fornisce `NETLIFY` e `CONTEXT`. `astro.config.ts` e `check:seo` caricano i file ambiente tramite Vite mantenendo la precedenza delle variabili della shell/hosting, così la copia locale `.env.example` → `.env` è effettivamente utilizzabile e build/checker leggono lo stesso valore. README aggiornato. Verifica pattern Git con `.env`, `.env.local`, `.env.production` ignorati e `.env.example` ammesso; `ASTRO_TELEMETRY_DISABLED=1 npm run build` e `git diff --check` superati.
 
+### Pulizia del repository e qualità automatica (10/11/2026)
+
+- [x] **CR-106 — Rimuovere asset morti e aggiungere controlli di qualità.** Spostate le sei sorgenti `.woff2` in `assets/fonts/source/`; `optimize-fonts.py` ora genera soltanto in `public/fonts/optimized/`. Rimosso `siteData.links.recentFoodPost` e tolte da `Icon.astro` le icone `email`, `plus` e `check`. Conservato lo ZIP originale fuori dalla repo in `../casaRusu-artifacts/casa-rusu-screenshot-originals.zip`, convertite a WebP qualità 92 le 18 schermate e la panoramica e rimosse otto PNG senza riferimenti. Gli asset documentali tracciati passano da 35,48 MB a 6,47 MB, circa 29 MB in meno. README e documento i18n distinguono le 18 rotte di contenuto dai 19 HTML complessivi con la 404; `check:docs` confronta quei conteggi con gli HTML generati e allinea i checker documentati allo script `build`. Aggiunti Prettier con plugin Astro, controllo incrementale `format:check`, aggiornamenti settimanali Dependabot per npm e GitHub Actions e workflow CI con Astro e checker. Il generatore font non è stato eseguito nell’ambiente corrente perché manca il modulo Python `fontTools`; gli asset ottimizzati versionati restano disponibili per la build.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.

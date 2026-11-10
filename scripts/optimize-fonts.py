@@ -8,8 +8,8 @@ from fontTools import subset
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
-source = Path('public/fonts')
-destination = source / 'optimized'
+source = Path('assets/fonts/source')
+destination = Path('public/fonts/optimized')
 destination.mkdir(exist_ok=True)
 romanian = set(map(ord, 'ĂăȘșȚțŞşŢţ'))
 latin = set(range(0x20, 0x100)) | set(range(0x2000, 0x2070)) | {0x131, 0x152, 0x153, 0x2BB, 0x2BC, 0x2C6, 0x2DA, 0x2DC, 0x304, 0x308, 0x329, 0x20AC, 0x2122, 0x2191, 0x2193, 0x2212, 0x2215, 0xFEFF, 0xFFFD}
