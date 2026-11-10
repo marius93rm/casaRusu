@@ -12,13 +12,22 @@ function detect(options = {}) {
   const redirects = [];
   const context = {
     URL,
-    document: { currentScript: { dataset: { locales: JSON.stringify(locales), defaultLocale, preferenceKey: languagePreferenceKey } } },
+    document: {
+      currentScript: {
+        dataset: { locales: JSON.stringify(locales), defaultLocale, preferenceKey: languagePreferenceKey },
+      },
+    },
     navigator: { languages, language },
     window: {
       location: { href: `${origin}${path}`, replace: (url) => redirects.push(url) },
       get localStorage() {
         if (blocked) throw new Error('Storage denied');
-        return { getItem: (key) => { assert.equal(key, languagePreferenceKey); return saved; } };
+        return {
+          getItem: (key) => {
+            assert.equal(key, languagePreferenceKey);
+            return saved;
+          },
+        };
       },
     },
   };
@@ -32,11 +41,19 @@ for (const locale of locales) {
   for (const path of ['/', '/meniu/', '/preparate/snitel-cotlet-porc/']) {
     const expected = locale === defaultLocale ? null : `${origin}/${locale}${path}${suffix}`;
     assert.equal(detect({ path: `${path}${suffix}`, languages: [`${locale.toUpperCase()}-XX`] }), expected);
-    assert.equal(detect({ path: `${path}${suffix}`, saved: locale, languages: ['fr-CA'] }), expected, 'A manual preference wins');
+    assert.equal(
+      detect({ path: `${path}${suffix}`, saved: locale, languages: ['fr-CA'] }),
+      expected,
+      'A manual preference wins',
+    );
   }
   if (locale !== defaultLocale) {
     for (const saved of locales) {
-      assert.equal(detect({ path: `/${locale}/meniu/?source=menu#menu-page-porc`, saved }), null, 'An explicit locale URL must remain shareable');
+      assert.equal(
+        detect({ path: `/${locale}/meniu/?source=menu#menu-page-porc`, saved }),
+        null,
+        'An explicit locale URL must remain shareable',
+      );
     }
   }
 }
@@ -50,10 +67,18 @@ assert.equal(detect({ languages: ['en_US'] }), `${origin}/en/`);
 assert.equal(detect({ saved: 'invalid', languages: ['de-DE'] }), `${origin}/de/`, 'Ignore an invalid saved preference');
 assert.equal(detect({ blocked: true }), `${origin}/it/`, 'Detection works with blocked storage');
 assert.equal(detect({ blocked: true, path: '/fr/meniu/' }), null, 'Explicit URLs work with blocked storage');
-assert.equal(detect({ blocked: true, path: '/meniu/?lang=ro#read-menu' }), null, 'An explicit Romanian choice survives blocked storage');
+assert.equal(
+  detect({ blocked: true, path: '/meniu/?lang=ro#read-menu' }),
+  null,
+  'An explicit Romanian choice survives blocked storage',
+);
 assert.equal(detect({ path: '/?lang=invalid', languages: ['en-GB'] }), `${origin}/en/?lang=invalid`);
 const redirect = detect({ path: '/meniu/?source=qr#menu-page-porc' });
-assert.equal(detect({ path: new URL(redirect).pathname + new URL(redirect).search + new URL(redirect).hash }), null, 'A redirected page cannot loop');
+assert.equal(
+  detect({ path: new URL(redirect).pathname + new URL(redirect).search + new URL(redirect).hash }),
+  null,
+  'A redirected page cannot loop',
+);
 
 // Test the script as emitted, including the configuration passed by Astro.
 for (const prefix of ['', 'en/', 'it/', 'es/', 'fr/', 'de/']) {
@@ -78,38 +103,69 @@ const notFoundMessages = JSON.parse(messagesScript[2]);
 const notFoundResolver = notFoundScript[2];
 
 class TestElement {
-  constructor() { this.attributes = new Map(); this.dataset = {}; }
-  setAttribute(name, value) { this.attributes.set(name, value); }
-  removeAttribute(name) { this.attributes.delete(name); }
+  constructor() {
+    this.attributes = new Map();
+    this.dataset = {};
+  }
+  setAttribute(name, value) {
+    this.attributes.set(name, value);
+  }
+  removeAttribute(name) {
+    this.attributes.delete(name);
+  }
 }
 class TestHTMLElement extends TestElement {}
 class TestScriptElement extends TestHTMLElement {
-  constructor(textContent) { super(); this.textContent = textContent; }
+  constructor(textContent) {
+    super();
+    this.textContent = textContent;
+  }
 }
 class TestMetaElement extends TestHTMLElement {
-  constructor() { super(); this.content = ''; }
+  constructor() {
+    super();
+    this.content = '';
+  }
 }
 class TestAnchorElement extends TestHTMLElement {
-  constructor(href = '') { super(); this.href = href; }
+  constructor(href = '') {
+    super();
+    this.href = href;
+  }
 }
 
-function resolveNotFound({ path = '/missing/', search = '', saved = null, blocked = false, languages = ['ro-RO'], language = 'ro-RO' } = {}) {
+function resolveNotFound({
+  path = '/missing/',
+  search = '',
+  saved = null,
+  blocked = false,
+  languages = ['ro-RO'],
+  language = 'ro-RO',
+} = {}) {
   const pageUrl = new URL(`${path}${search}`, origin);
   const copyElements = Object.fromEntries(
-    ['skipToContent', 'eyebrow', 'title', 'description', 'body', 'homeAction', 'menuAction', 'callAction']
-      .map((key) => [key, Object.assign(new TestHTMLElement(), { dataset: { copy: key }, textContent: '' })]),
+    ['skipToContent', 'eyebrow', 'title', 'description', 'body', 'homeAction', 'menuAction', 'callAction'].map(
+      (key) => [key, Object.assign(new TestHTMLElement(), { dataset: { copy: key }, textContent: '' })],
+    ),
   );
-  const metas = new Map([
-    'meta[name="description"]', 'meta[property="og:title"]', 'meta[property="og:description"]',
-    'meta[property="og:locale"]', 'meta[property="og:image:alt"]', 'meta[name="twitter:title"]',
-    'meta[name="twitter:description"]', 'meta[name="twitter:image:alt"]',
-  ].map((selector) => [selector, new TestMetaElement()]));
+  const metas = new Map(
+    [
+      'meta[name="description"]',
+      'meta[property="og:title"]',
+      'meta[property="og:description"]',
+      'meta[property="og:locale"]',
+      'meta[property="og:image:alt"]',
+      'meta[name="twitter:title"]',
+      'meta[name="twitter:description"]',
+      'meta[name="twitter:image:alt"]',
+    ].map((selector) => [selector, new TestMetaElement()]),
+  );
   const home = new TestAnchorElement('/');
   const menu = new TestAnchorElement('/meniu/');
   const brand = new TestAnchorElement('/');
   const languageNav = new TestHTMLElement();
   const languageLinks = locales.map((locale) => Object.assign(new TestAnchorElement(), { dataset: { locale } }));
-  const state = { saved };
+  const state = { saved, writes: [] };
   const document = {
     title: 'Pagina nu a fost găsită | Restaurant Casa Rusu',
     documentElement: { lang: 'ro' },
@@ -135,42 +191,116 @@ function resolveNotFound({ path = '/missing/', search = '', saved = null, blocke
     get() {
       if (blocked) throw new Error('Storage denied');
       return {
-        getItem: (key) => { assert.equal(key, languagePreferenceKey); return state.saved; },
-        setItem: (key, value) => { assert.equal(key, languagePreferenceKey); state.saved = value; },
+        getItem: (key) => {
+          assert.equal(key, languagePreferenceKey);
+          return state.saved;
+        },
+        setItem: (key, value) => {
+          assert.equal(key, languagePreferenceKey);
+          state.saved = value;
+          state.writes.push([key, value]);
+        },
       };
     },
   });
   vm.runInNewContext(notFoundResolver, {
-    document, window, navigator: { languages, language }, URLSearchParams,
+    document,
+    window,
+    navigator: { languages, language },
+    URLSearchParams,
     HTMLScriptElement: TestScriptElement,
     HTMLElement: TestHTMLElement,
     HTMLMetaElement: TestMetaElement,
     HTMLAnchorElement: TestAnchorElement,
   });
-  return { locale: document.documentElement.lang, title: document.title, home, menu, brand, languageNav, languageLinks, copyElements, state };
+  return {
+    locale: document.documentElement.lang,
+    title: document.title,
+    home,
+    menu,
+    brand,
+    languageNav,
+    languageLinks,
+    copyElements,
+    state,
+  };
 }
 
 for (const locale of locales) {
   const route = `/${locale}/missing/`;
   const pageLocale = resolveNotFound({ path: route, saved: 'en', languages: ['de-DE'] });
   assert.equal(pageLocale.locale, locale, `${locale}: an explicit 404 path should outrank a saved/browser language`);
+  assert.deepEqual(pageLocale.state.writes, [], `${locale}: the path locale must not be saved as a preference`);
   assert.equal(pageLocale.home.href, locale === defaultLocale ? '/' : `/${locale}/`);
   assert.equal(pageLocale.menu.href, locale === defaultLocale ? '/meniu/' : `/${locale}/meniu/`);
   assert.equal(pageLocale.brand.href, pageLocale.home.href);
   assert.equal(pageLocale.title, notFoundMessages[locale].metaTitle);
   assert.equal(pageLocale.copyElements.title.textContent, notFoundMessages[locale].title);
   assert.equal(pageLocale.languageNav.attributes.get('aria-label'), notFoundMessages[locale].language);
-  assert.deepEqual(pageLocale.languageLinks.filter((link) => link.attributes.get('aria-current') === 'page').map((link) => link.dataset.locale), [locale]);
+  assert.deepEqual(
+    pageLocale.languageLinks
+      .filter((link) => link.attributes.get('aria-current') === 'page')
+      .map((link) => link.dataset.locale),
+    [locale],
+  );
 
-  const queryLocale = resolveNotFound({ path: '/it/missing/', search: `?lang=${locale}`, saved: 'en', languages: ['de-DE'] });
+  const queryLocale = resolveNotFound({
+    path: '/it/missing/',
+    search: `?lang=${locale}`,
+    saved: 'en',
+    languages: ['de-DE'],
+  });
   assert.equal(queryLocale.locale, locale, `${locale}: a valid language query should outrank the URL prefix`);
-  const savedLocale = resolveNotFound({ path: '/missing/', search: '?lang=invalid', saved: locale, languages: ['de-DE'] });
+  assert.deepEqual(
+    queryLocale.state.writes,
+    [[languagePreferenceKey, locale]],
+    `${locale}: an explicit language query should be saved`,
+  );
+  const savedLocale = resolveNotFound({
+    path: '/missing/',
+    search: '?lang=invalid',
+    saved: locale,
+    languages: ['de-DE'],
+  });
   assert.equal(savedLocale.locale, locale, `${locale}: the saved choice should be used without a supported URL locale`);
-  const browserLocale = resolveNotFound({ path: '/missing/', saved: 'invalid', languages: ['nl-NL', `${locale.toUpperCase()}-XX`] });
+  assert.deepEqual(
+    savedLocale.state.writes,
+    [],
+    `${locale}: an existing preference should not be rewritten as a new choice`,
+  );
+  const browserLocale = resolveNotFound({
+    path: '/missing/',
+    saved: 'invalid',
+    languages: ['nl-NL', `${locale.toUpperCase()}-XX`],
+  });
   assert.equal(browserLocale.locale, locale, `${locale}: browser language is the final fallback`);
+  assert.deepEqual(browserLocale.state.writes, [], `${locale}: a browser-detected language must not be saved`);
 }
 
-assert.equal(resolveNotFound({ path: '/fr/missing/', search: '?lang=de', saved: 'en', blocked: true }).locale, 'de', 'A query choice should work when storage is blocked');
-assert.equal(resolveNotFound({ path: '/fr/missing/', saved: 'en', blocked: true, languages: ['de-DE'] }).locale, 'fr', 'An explicit path should work when storage is blocked');
-assert.equal(resolveNotFound({ path: '/missing/', saved: 'en', blocked: true, languages: ['es-ES'] }).locale, 'es', 'Browser fallback should work when storage is blocked');
-console.log('Rilevamento lingua superato: pagine normali e 404, precedenza query/percorso/preferenza/browser, sei lingue, storage bloccato e link di recupero localizzati.');
+const inferredItalian404 = resolveNotFound({ path: '/it/url-inesistente/', languages: ['en-US'], language: 'en-US' });
+assert.equal(inferredItalian404.locale, 'it', 'The explicit URL should determine the 404 language');
+assert.deepEqual(inferredItalian404.state.writes, [], 'The explicit URL should not become a saved preference');
+assert.equal(
+  detect({ saved: inferredItalian404.state.saved, languages: ['en-US'], language: 'en-US' }),
+  `${origin}/en/`,
+  'An inferred 404 locale must not change the next home language redirect',
+);
+
+assert.equal(
+  resolveNotFound({ path: '/fr/missing/', search: '?lang=de', saved: 'en', blocked: true }).locale,
+  'de',
+  'A query choice should work when storage is blocked',
+);
+assert.equal(
+  resolveNotFound({ path: '/fr/missing/', saved: 'en', blocked: true, languages: ['de-DE'] }).locale,
+  'fr',
+  'An explicit path should work when storage is blocked',
+);
+assert.equal(
+  resolveNotFound({ path: '/missing/', saved: 'en', blocked: true, languages: ['es-ES'] }).locale,
+  'es',
+  'Browser fallback should work when storage is blocked',
+);
+console.log(
+  'Rilevamento lingua superato: pagine normali e 404, precedenza query/percorso/preferenza/browser, sei lingue, storage bloccato e link di recupero localizzati.',
+);

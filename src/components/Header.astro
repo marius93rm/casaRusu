@@ -21,7 +21,9 @@ const homeHref = localizedPath('/', locale);
 ---
 
 <header class="site-header">
-  <span id="external-link-new-tab" class="visually-hidden">{dictionary.ui.opensInNewTab}</span>
+  <span id="external-link-new-tab" class="visually-hidden">
+    {dictionary.ui.opensInNewTab}
+  </span>
   <div class="container header-inner">
     <Brand href={homeHref} {locale} />
 
@@ -35,8 +37,12 @@ const homeHref = localizedPath('/', locale);
       data-close-label={dictionary.ui.closeMenu}
       hidden
     >
-      <span class="menu-toggle-open"><Icon name="menu" /></span>
-      <span class="menu-toggle-close"><Icon name="close" /></span>
+      <span class="menu-toggle-open">
+        <Icon name="menu" />
+      </span>
+      <span class="menu-toggle-close">
+        <Icon name="close" />
+      </span>
     </button>
 
     <nav id="main-navigation" class="main-navigation" aria-label={dictionary.ui.mainNavigation}>
@@ -47,7 +53,11 @@ const homeHref = localizedPath('/', locale);
             const isCurrentPage = !target.hash && target.pathname === Astro.url.pathname;
 
             return (
-              <li><a href={item.href} aria-current={isCurrentPage ? 'page' : undefined}>{item.label}</a></li>
+              <li>
+                <a href={item.href} aria-current={isCurrentPage ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
             );
           })}
         </ul>
@@ -55,7 +65,11 @@ const homeHref = localizedPath('/', locale);
 
       <div class="header-actions">
         <LanguageSwitcher {locale} />
-        {cta && <a class="header-cta" href={cta.href}>{cta.label}</a>}
+        {cta && (
+          <a class="header-cta" href={cta.href}>
+            {cta.label}
+          </a>
+        )}
       </div>
     </nav>
   </div>
@@ -66,6 +80,8 @@ const homeHref = localizedPath('/', locale);
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('#main-navigation');
     if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+    const header = toggle.closest('.site-header');
+    if (!(header instanceof HTMLElement)) return;
 
     const setOpen = (open) => {
       toggle.setAttribute('aria-expanded', String(open));
@@ -89,7 +105,12 @@ const homeHref = localizedPath('/', locale);
 
       setOpen(false);
       const targetUrl = new URL(link.href, window.location.href);
-      if (targetUrl.origin !== window.location.origin || targetUrl.pathname !== window.location.pathname || !targetUrl.hash) return;
+      if (
+        targetUrl.origin !== window.location.origin ||
+        targetUrl.pathname !== window.location.pathname ||
+        !targetUrl.hash
+      )
+        return;
 
       const target = document.getElementById(decodeURIComponent(targetUrl.hash.slice(1)));
       if (!(target instanceof HTMLElement)) return;
@@ -98,10 +119,19 @@ const homeHref = localizedPath('/', locale);
     });
     document.addEventListener('click', (event) => {
       if (
-        toggle.getAttribute('aria-expanded') === 'true'
-        && event.target instanceof Node
-        && !toggle.contains(event.target)
-        && !nav.contains(event.target)
+        toggle.getAttribute('aria-expanded') === 'true' &&
+        event.target instanceof Node &&
+        !toggle.contains(event.target) &&
+        !nav.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    });
+    document.addEventListener('focusin', (event) => {
+      if (
+        toggle.getAttribute('aria-expanded') === 'true' &&
+        event.target instanceof Node &&
+        !header.contains(event.target)
       ) {
         setOpen(false);
       }

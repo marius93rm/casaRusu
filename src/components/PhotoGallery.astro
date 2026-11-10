@@ -12,19 +12,43 @@ const dictionary = getDictionary(locale);
 const { ui, menu } = dictionary;
 ---
 
-<section class="photo-gallery" aria-labelledby="photo-gallery-title" aria-roledescription={ui.carousel} data-photo-gallery>
+<section
+  class="photo-gallery"
+  aria-labelledby="photo-gallery-title"
+  aria-roledescription={ui.carousel}
+  data-photo-gallery
+>
   <div class="container">
     <h2 id="photo-gallery-title">{copy.title}</h2>
     <p class="photo-gallery-intro">{copy.intro}</p>
-    <p class="visually-hidden" id="photo-gallery-help">{copy.keyboard}</p>
-    <div class="photo-gallery-track" id="photo-gallery-track" role="group" aria-labelledby="photo-gallery-title" aria-describedby="photo-gallery-help" tabindex="0" data-photo-track>
+    <p class="visually-hidden" id="photo-gallery-help">
+      {copy.keyboard}
+    </p>
+    <div
+      class="photo-gallery-track"
+      id="photo-gallery-track"
+      role="group"
+      aria-labelledby="photo-gallery-title"
+      aria-describedby="photo-gallery-help"
+      tabindex="0"
+      data-photo-track
+    >
       <div class="photo-gallery-slides">
         {galleryPhotos.map((image, index) => (
-          <div class="photo-gallery-slide" role="group" aria-roledescription={ui.slide} aria-label={`${index + 1} ${menu.of} ${galleryPhotos.length}: ${copy.captions[index]}`}>
+          <div
+            class="photo-gallery-slide"
+            role="group"
+            aria-roledescription={ui.slide}
+            aria-label={`${index + 1} ${menu.of} ${galleryPhotos.length}: ${copy.captions[index]}`}
+          >
             <figure>
               <div class="photo-gallery-image">
-                <template data-photo-picture><RestaurantPhoto {image} alt={copy.alts[index]} responsive sizes={galleryImageSizes} /></template>
-                <noscript><RestaurantPhoto {image} alt={copy.alts[index]} /></noscript>
+                <template data-photo-picture>
+                  <RestaurantPhoto {image} alt={copy.alts[index]} responsive sizes={galleryImageSizes} />
+                </template>
+                <noscript>
+                  <RestaurantPhoto {image} alt={copy.alts[index]} />
+                </noscript>
                 <button
                   class="photo-gallery-enlarge"
                   type="button"
@@ -36,7 +60,8 @@ const { ui, menu } = dictionary;
                   data-photo-caption={copy.captions[index]}
                   hidden
                 >
-                  <Icon name="zoom-in" size={18} /><span>{copy.enlarge}</span>
+                  <Icon name="zoom-in" size={18} />
+                  <span>{copy.enlarge}</span>
                 </button>
               </div>
               <figcaption>{copy.captions[index]}</figcaption>
@@ -46,19 +71,52 @@ const { ui, menu } = dictionary;
       </div>
     </div>
     <div class="photo-gallery-controls" data-photo-controls hidden>
-      <p class="photo-gallery-counter" role="status" aria-live="polite" aria-atomic="true" data-photo-counter data-of={menu.of}>1 {menu.of} {galleryPhotos.length}</p>
+      <p
+        class="photo-gallery-counter"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        data-photo-counter
+        data-of={menu.of}
+      >
+        1 {menu.of} {galleryPhotos.length}
+      </p>
       <div class="photo-gallery-control-buttons">
-        <button type="button" aria-label={copy.previous} aria-controls="photo-gallery-track" data-photo-previous aria-disabled="true"><Icon name="previous" size={22} /></button>
-        <button type="button" aria-label={copy.next} aria-controls="photo-gallery-track" data-photo-next aria-disabled="false"><Icon name="chevron" size={22} /></button>
+        <button
+          type="button"
+          aria-label={copy.previous}
+          aria-controls="photo-gallery-track"
+          data-photo-previous
+          aria-disabled="true"
+        >
+          <Icon name="previous" size={22} />
+        </button>
+        <button
+          type="button"
+          aria-label={copy.next}
+          aria-controls="photo-gallery-track"
+          data-photo-next
+          aria-disabled="false"
+        >
+          <Icon name="chevron" size={22} />
+        </button>
       </div>
     </div>
     <dialog class="photo-lightbox" aria-labelledby="photo-lightbox-title">
       <div class="photo-lightbox-toolbar">
         <h2 id="photo-lightbox-title">{copy.title}</h2>
         <div class="photo-lightbox-controls">
-          <button type="button" aria-label={copy.previous} data-photo-lightbox-previous disabled><Icon name="previous" /></button>
-          <button type="button" aria-label={copy.next} data-photo-lightbox-next disabled><Icon name="chevron" /></button>
-          <form method="dialog"><button type="submit" aria-label={copy.close} autofocus><Icon name="close" /></button></form>
+          <button type="button" aria-label={copy.previous} data-photo-lightbox-previous disabled>
+            <Icon name="previous" />
+          </button>
+          <button type="button" aria-label={copy.next} data-photo-lightbox-next disabled>
+            <Icon name="chevron" />
+          </button>
+          <form method="dialog">
+            <button type="submit" aria-label={copy.close} autofocus>
+              <Icon name="close" />
+            </button>
+          </form>
         </div>
       </div>
       <figure class="photo-lightbox-media">
@@ -87,7 +145,8 @@ const { ui, menu } = dictionary;
     const lightboxPrevious = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-previous]');
     const lightboxNext = dialog?.querySelector<HTMLButtonElement>('[data-photo-lightbox-next]');
     const enlargeButtons = [...gallery.querySelectorAll<HTMLButtonElement>('[data-photo-open]')];
-    if (!dialog || !lightboxImage || !lightboxImageWrap || !lightboxCaption || !lightboxPrevious || !lightboxNext) return;
+    if (!dialog || !lightboxImage || !lightboxImageWrap || !lightboxCaption || !lightboxPrevious || !lightboxNext)
+      return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let lightboxIndex = 0;
     let swipeStart: { pointerId: number; x: number; y: number } | null = null;
@@ -99,13 +158,16 @@ const { ui, menu } = dictionary;
       const template = slide.querySelector<HTMLTemplateElement>('[data-photo-picture]');
       template?.replaceWith(template.content.cloneNode(true));
     };
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        reveal(entry.target);
-        observer.unobserve(entry.target);
-      }
-    }, { rootMargin: '200px' });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '200px' },
+    );
     track.querySelectorAll<HTMLElement>('.photo-gallery-slide').forEach((slide) => observer.observe(slide));
     let currentIndex = 0;
     let counterTimer = 0;
@@ -132,7 +194,8 @@ const { ui, menu } = dictionary;
     const move = (direction: number) => {
       const slide = track.querySelector<HTMLElement>('.photo-gallery-slide');
       if (!slide) return;
-      const step = slide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(slide.parentElement!).columnGap);
+      const step =
+        slide.getBoundingClientRect().width + Number.parseFloat(getComputedStyle(slide.parentElement!).columnGap);
       track.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
     };
     const showLightboxPhoto = (index: number) => {
@@ -158,21 +221,31 @@ const { ui, menu } = dictionary;
     });
     lightboxPrevious.addEventListener('click', () => showLightboxPhoto(lightboxIndex - 1));
     lightboxNext.addEventListener('click', () => showLightboxPhoto(lightboxIndex + 1));
-    lightboxImageWrap.addEventListener('pointerdown', (event) => {
-      if (event.pointerType !== 'touch' || !event.isPrimary || event.button !== 0) return;
-      swipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
-    }, { passive: true });
-    lightboxImageWrap.addEventListener('pointerup', (event) => {
-      const start = swipeStart;
+    lightboxImageWrap.addEventListener(
+      'pointerdown',
+      (event) => {
+        if (event.pointerType !== 'touch' || !event.isPrimary || event.button !== 0) return;
+        swipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+      },
+      { passive: true },
+    );
+    lightboxImageWrap.addEventListener(
+      'pointerup',
+      (event) => {
+        const start = swipeStart;
+        swipeStart = null;
+        if (!start || event.pointerId !== start.pointerId) return;
+        const deltaX = event.clientX - start.x;
+        const deltaY = event.clientY - start.y;
+        if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+        if (deltaX < 0 && lightboxIndex < enlargeButtons.length - 1) showLightboxPhoto(lightboxIndex + 1);
+        else if (deltaX > 0 && lightboxIndex > 0) showLightboxPhoto(lightboxIndex - 1);
+      },
+      { passive: true },
+    );
+    lightboxImageWrap.addEventListener('pointercancel', () => {
       swipeStart = null;
-      if (!start || event.pointerId !== start.pointerId) return;
-      const deltaX = event.clientX - start.x;
-      const deltaY = event.clientY - start.y;
-      if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
-      if (deltaX < 0 && lightboxIndex < enlargeButtons.length - 1) showLightboxPhoto(lightboxIndex + 1);
-      else if (deltaX > 0 && lightboxIndex > 0) showLightboxPhoto(lightboxIndex - 1);
-    }, { passive: true });
-    lightboxImageWrap.addEventListener('pointercancel', () => { swipeStart = null; });
+    });
     dialog.addEventListener('keydown', (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'ArrowLeft' && lightboxIndex > 0) {
@@ -183,19 +256,29 @@ const { ui, menu } = dictionary;
         showLightboxPhoto(lightboxIndex + 1);
       }
     });
-    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
     dialog.addEventListener('close', () => {
       document.body.style.overflow = previousOverflow;
       opener?.focus({ preventScroll: true });
     });
-    previous.addEventListener('click', () => { if (previous.getAttribute('aria-disabled') !== 'true') move(-1); });
-    next.addEventListener('click', () => { if (next.getAttribute('aria-disabled') !== 'true') move(1); });
+    previous.addEventListener('click', () => {
+      if (previous.getAttribute('aria-disabled') !== 'true') move(-1);
+    });
+    next.addEventListener('click', () => {
+      if (next.getAttribute('aria-disabled') !== 'true') move(1);
+    });
     track.addEventListener('keydown', (event) => {
       if (event.target !== track || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       if (event.key === 'ArrowLeft') move(-1);
       else if (event.key === 'ArrowRight') move(1);
-      else track.scrollTo({ left: event.key === 'Home' ? 0 : track.scrollWidth, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+      else
+        track.scrollTo({
+          left: event.key === 'Home' ? 0 : track.scrollWidth,
+          behavior: reducedMotion.matches ? 'instant' : 'smooth',
+        });
     });
     track.addEventListener('scroll', sync, { passive: true });
     new ResizeObserver(sync).observe(track);
@@ -205,46 +288,217 @@ const { ui, menu } = dictionary;
 </script>
 
 <style>
-  .photo-gallery { padding-bottom: var(--section-space); }
-  .photo-gallery h2 { max-width: 45rem; margin-bottom: 1rem; font-size: clamp(2.5rem, 4.2vw, 4rem); }
-  .photo-gallery-intro { max-width: 36rem; margin-bottom: 2.25rem; color: var(--muted); font-size: 1.0625rem; }
-  .photo-gallery-track { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--accent) var(--surface); padding-bottom: 1rem; }
-  .photo-gallery-track:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
-  .photo-gallery-slides { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 1.5rem) / 2); gap: 1.5rem; }
-  .photo-gallery-slide { min-width: 0; scroll-snap-align: start; }
-  .photo-gallery-image { position: relative; aspect-ratio: 2048 / 1366; overflow: hidden; }
-  figure :global(picture) { height: 100%; }
-  figure :global(img) { height: 100%; object-fit: cover; }
-  figcaption { margin-top: .85rem; color: var(--text); font-size: 1rem; }
-  .photo-gallery-controls { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-top: 1rem; }
-  .photo-gallery-controls[hidden] { display: none; }
-  .photo-gallery-counter { margin: 0 auto 0 0; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
-  .photo-gallery-control-buttons { display: flex; gap: .75rem; }
-  button { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
-  button:hover { background: var(--surface); }
-  button[aria-disabled='true'] { color: var(--muted); border-color: var(--border); cursor: default; }
-  .photo-gallery-enlarge { position: absolute; right: .75rem; bottom: .75rem; display: flex; align-items: center; justify-content: center; gap: .4rem; width: auto; min-width: 44px; min-height: 44px; padding: .55rem .75rem; border-color: var(--accent); background: rgb(33 30 26 / 92%); color: #fff; font: inherit; font-size: .875rem; }
-  .photo-gallery-enlarge[hidden] { display: none; }
-  .photo-gallery-enlarge:hover { background: var(--surface); color: var(--primary); }
-  .photo-lightbox { width: min(94vw, 72rem); height: min(92dvh, 56rem); max-width: none; max-height: none; margin: auto; padding: clamp(.75rem, 2vw, 1.25rem); border: 1px solid var(--border); background: var(--background); color: var(--text); }
-  .photo-lightbox[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 1rem; }
-  .photo-lightbox::backdrop { background: rgb(0 0 0 / 82%); }
-  .photo-lightbox-toolbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
-  .photo-lightbox-toolbar h2 { margin: 0; font-size: clamp(1.25rem, 3vw, 1.75rem); }
-  .photo-lightbox-controls { display: flex; align-items: center; gap: .5rem; }
-  .photo-lightbox-controls form { margin: 0; }
-  .photo-lightbox-media { display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: .5rem; min-height: 0; margin: 0; }
-  .photo-lightbox-image-wrap { display: grid; place-items: center; width: 100%; min-width: 0; min-height: 0; overflow: auto; touch-action: pan-y pinch-zoom; }
-  .photo-lightbox-image-wrap img { display: block; width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain; }
-  .photo-lightbox-media figcaption { margin: 0; text-align: center; }
-  .photo-lightbox-controls button:focus-visible, .photo-gallery-enlarge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .photo-gallery {
+    padding-bottom: var(--section-space);
+  }
+  .photo-gallery h2 {
+    max-width: 45rem;
+    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 4.2vw, 4rem);
+  }
+  .photo-gallery-intro {
+    max-width: 36rem;
+    margin-bottom: 2.25rem;
+    color: var(--muted);
+    font-size: 1.0625rem;
+  }
+  .photo-gallery-track {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--surface);
+    padding-bottom: 1rem;
+  }
+  .photo-gallery-track:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+  }
+  .photo-gallery-slides {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 1.5rem) / 2);
+    gap: 1.5rem;
+  }
+  .photo-gallery-slide {
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .photo-gallery-image {
+    position: relative;
+    aspect-ratio: 2048 / 1366;
+    overflow: hidden;
+  }
+  figure :global(picture) {
+    height: 100%;
+  }
+  figure :global(img) {
+    height: 100%;
+    object-fit: cover;
+  }
+  figcaption {
+    margin-top: 0.85rem;
+    color: var(--text);
+    font-size: 1rem;
+  }
+  .photo-gallery-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .photo-gallery-controls[hidden] {
+    display: none;
+  }
+  .photo-gallery-counter {
+    margin: 0 auto 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .photo-gallery-control-buttons {
+    display: flex;
+    gap: 0.75rem;
+  }
+  button {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  button:hover {
+    background: var(--surface);
+  }
+  button[aria-disabled='true'] {
+    color: var(--muted);
+    border-color: var(--border);
+    cursor: default;
+  }
+  .photo-gallery-enlarge {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: auto;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.55rem 0.75rem;
+    border-color: var(--accent);
+    background: rgb(33 30 26 / 92%);
+    color: #fff;
+    font: inherit;
+    font-size: 0.875rem;
+  }
+  .photo-gallery-enlarge[hidden] {
+    display: none;
+  }
+  .photo-gallery-enlarge:hover {
+    background: var(--surface);
+    color: var(--primary);
+  }
+  .photo-lightbox {
+    width: min(94vw, 72rem);
+    height: min(92dvh, 56rem);
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    padding-block: max(clamp(0.75rem, 2vw, 1.25rem), env(safe-area-inset-top, 0px))
+      max(clamp(0.75rem, 2vw, 1.25rem), env(safe-area-inset-bottom, 0px));
+    padding-inline: max(clamp(0.75rem, 2vw, 1.25rem), env(safe-area-inset-left, 0px))
+      max(clamp(0.75rem, 2vw, 1.25rem), env(safe-area-inset-right, 0px));
+    border: 1px solid var(--border);
+    background: var(--background);
+    color: var(--text);
+  }
+  .photo-lightbox[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .photo-lightbox::backdrop {
+    background: rgb(0 0 0 / 82%);
+  }
+  .photo-lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .photo-lightbox-toolbar h2 {
+    margin: 0;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+  }
+  .photo-lightbox-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .photo-lightbox-controls form {
+    margin: 0;
+  }
+  .photo-lightbox-media {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 0.5rem;
+    min-height: 0;
+    margin: 0;
+  }
+  .photo-lightbox-image-wrap {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    touch-action: pan-y pinch-zoom;
+  }
+  .photo-lightbox-image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .photo-lightbox-media figcaption {
+    margin: 0;
+    text-align: center;
+  }
+  .photo-lightbox-controls button:focus-visible,
+  .photo-gallery-enlarge:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
   @media (max-width: 760px) {
-    .photo-gallery { padding-bottom: 4rem; }
-    .photo-gallery-slides { grid-auto-columns: 86%; gap: 1rem; }
-    .photo-gallery-intro { margin-bottom: 1.5rem; }
+    .photo-gallery {
+      padding-bottom: 4rem;
+    }
+    .photo-gallery-slides {
+      grid-auto-columns: 86%;
+      gap: 1rem;
+    }
+    .photo-gallery-intro {
+      margin-bottom: 1.5rem;
+    }
   }
   @media (max-width: 320px) {
-    .photo-lightbox-toolbar { align-items: flex-start; flex-direction: column; }
-    .photo-lightbox-controls { align-self: flex-end; }
+    .photo-lightbox-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .photo-lightbox-controls {
+      align-self: flex-end;
+    }
   }
 </style>
