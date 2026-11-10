@@ -2,6 +2,7 @@ import { locales, prefixFor, homeFor, localeFor, unlocalizedRoute } from './i18n
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 import { loadEnv } from 'vite';
 import { galleryPhotos } from '../src/data/photoGallery.ts';
 import { galleryImageSizes, imageSizes } from '../src/utils/responsiveImages.ts';
@@ -13,6 +14,11 @@ const errors = [];
 const localOrigin = 'http://casa-rusu.local';
 const netlifyContext = process.env.CONTEXT?.trim().toLowerCase();
 const isNetlifyNonProductionBuild = process.env.NETLIFY === 'true' && netlifyContext !== 'production';
+const socialImageSpecs = {
+  home: { path: '/images/social/home-1200x630.jpg', width: 1200, height: 630 },
+  menu: { path: '/images/social/menu-1200x630.jpg', width: 1200, height: 630 },
+  dish: { path: '/images/social/dish-1200x630.jpg', width: 1200, height: 630 },
+};
 
 function report(file, message) {
   errors.push(`${file}: ${message}`);
@@ -21,12 +27,9 @@ function report(file, message) {
 function decodeEntities(value) {
   return value.replace(/&(#x[\da-f]+|#\d+|amp|quot|apos|lt|gt);/gi, (entity, code) => {
     if (code[0] === '#') {
-      const numeric = code[1].toLowerCase() === 'x'
-        ? Number.parseInt(code.slice(2), 16)
-        : Number.parseInt(code.slice(1), 10);
-      return Number.isFinite(numeric) && numeric <= 0x10ffff
-        ? String.fromCodePoint(numeric)
-        : entity;
+      const numeric =
+        code[1].toLowerCase() === 'x' ? Number.parseInt(code.slice(2), 16) : Number.parseInt(code.slice(1), 10);
+      return Number.isFinite(numeric) && numeric <= 0x10ffff ? String.fromCodePoint(numeric) : entity;
     }
 
     return {
@@ -77,7 +80,7 @@ async function findHtmlFiles(directory, prefix = '') {
   for (const entry of entries) {
     const relative = path.join(prefix, entry.name);
     const fullPath = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await findHtmlFiles(fullPath, relative));
+    if (entry.isDirectory()) files.push(...(await findHtmlFiles(fullPath, relative)));
     else if (entry.isFile() && entry.name.endsWith('.html')) files.push(relative);
   }
 
@@ -115,7 +118,9 @@ async function resolveOutputPath(urlPath) {
 }
 
 function normalizedText(value) {
-  return decodeEntities(value.replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim();
+  return decodeEntities(value.replace(/<[^>]*>/g, ''))
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 async function getConfiguredSiteUrl() {
@@ -124,7 +129,8 @@ async function getConfiguredSiteUrl() {
 
   const source = await readFile(path.join(projectRoot, 'src/config/site.ts'), 'utf8');
   const match = source.match(/\bsiteUrl\s*:\s*(['"])(.*?)\1/s);
-  if (!match) throw new Error('Non riesco a leggere siteConfig.seo.siteUrl come stringa letterale in src/config/site.ts.');
+  if (!match)
+    throw new Error('Non riesco a leggere siteConfig.seo.siteUrl come stringa letterale in src/config/site.ts.');
   return match[2].trim();
 }
 
@@ -149,7 +155,10 @@ function singleMetaContent(page, attribute, key) {
 }
 
 function sourceCandidates(srcset) {
-  return srcset.split(',').map((candidate) => candidate.trim().split(/\s+/)[0]).filter(Boolean);
+  return srcset
+    .split(',')
+    .map((candidate) => candidate.trim().split(/\s+/)[0])
+    .filter(Boolean);
 }
 
 function responsiveCandidates(image, format) {
@@ -161,6 +170,26 @@ function responsiveCandidates(image, format) {
 async function main() {
   if (!(await fileExists(path.join(outputDirectory, 'index.html')))) {
     throw new Error('dist/index.html non esiste: esegui prima `npm run build`.');
+  }
+
+  for (const [name, image] of Object.entries(socialImageSpecs)) {
+    const outputPath = await resolveOutputPath(image.path);
+    if (!outputPath) {
+      report(image.path, `immagine social ${name} mancante in dist/.`);
+      continue;
+    }
+
+    try {
+      const metadata = await sharp(outputPath).metadata();
+      if (metadata.format !== 'jpeg' || metadata.width !== image.width || metadata.height !== image.height) {
+        report(
+          image.path,
+          `atteso JPEG ${image.width}×${image.height}, trovato ${metadata.format ?? 'formato sconosciuto'} ${metadata.width ?? '?'}×${metadata.height ?? '?'}.`,
+        );
+      }
+    } catch (error) {
+      report(image.path, `impossibile leggere i metadati dell’immagine social: ${error.message}`);
+    }
   }
 
   const configuredSiteUrl = await getConfiguredSiteUrl();
@@ -189,6 +218,16 @@ async function main() {
     const expectedLanguage = localeFor(route);
     const metaTags = openingTags(html, 'meta').map((tag) => tag.attributes);
     const linkTags = openingTags(html, 'link').map((tag) => tag.attributes);
+    const viewportTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'viewport');
+    if (
+      viewportTags.length !== 1 ||
+      viewportTags[0].content?.trim().toLowerCase() !== 'width=device-width, initial-scale=1, viewport-fit=cover'
+    ) {
+      report(
+        relativeFile,
+        'atteso un solo meta viewport con width=device-width, initial-scale=1 e viewport-fit=cover.',
+      );
+    }
     const titleMatches = [...html.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title\s*>/gi)];
     const titles = titleMatches.map((match) => normalizedText(match[1])).filter(Boolean);
     const metadata = {
@@ -197,13 +236,17 @@ async function main() {
       ogTitle: metaTags.find((tag) => tag.property?.toLowerCase() === 'og:title')?.content?.trim() ?? '',
       ogDescription: metaTags.find((tag) => tag.property?.toLowerCase() === 'og:description')?.content?.trim() ?? '',
       twitterTitle: metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:title')?.content?.trim() ?? '',
-      twitterDescription: metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:description')?.content?.trim() ?? '',
+      twitterDescription:
+        metaTags.find((tag) => tag.name?.toLowerCase() === 'twitter:description')?.content?.trim() ?? '',
     };
 
     const robotsTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'robots');
     if (isNotFound || !productionOrigin || isNetlifyNonProductionBuild) {
       if (robotsTags.length !== 1 || robotsTags[0].content?.toLowerCase() !== 'noindex,nofollow') {
-        report(relativeFile, 'la pagina deve avere un solo meta robots noindex,nofollow se è una 404, non ha SITE_URL o la build Netlify non è production.');
+        report(
+          relativeFile,
+          'la pagina deve avere un solo meta robots noindex,nofollow se è una 404, non ha SITE_URL o la build Netlify non è production.',
+        );
       }
     } else if (productionOrigin) {
       if (robotsTags.length > 0) report(relativeFile, 'le pagine di produzione non devono avere meta robots noindex.');
@@ -213,22 +256,31 @@ async function main() {
 
     if (!htmlTag?.attributes.lang?.trim()) report(relativeFile, 'attributo lang mancante su <html>.');
     else if (htmlTag.attributes.lang.toLowerCase() !== expectedLanguage) {
-      report(relativeFile, `lang="${htmlTag.attributes.lang}" non corrisponde alla lingua attesa "${expectedLanguage}".`);
+      report(
+        relativeFile,
+        `lang="${htmlTag.attributes.lang}" non corrisponde alla lingua attesa "${expectedLanguage}".`,
+      );
     }
 
-    const primaryNavigationMatch = html.match(/<nav\b(?=[^>]*\bid=["']main-navigation["'])[^>]*>\s*<ul>([\s\S]*?)<\/ul>/i);
+    const primaryNavigationMatch = html.match(
+      /<nav\b(?=[^>]*\bid=["']main-navigation["'])[^>]*>\s*<ul>([\s\S]*?)<\/ul>/i,
+    );
     if (isNotFound) {
       if (linkTags.some((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical') || tag.hreflang)) {
         report(relativeFile, 'la pagina 404 non deve dichiarare canonical o hreflang.');
       }
       if (metaTags.some((tag) => tag.property?.toLowerCase() === 'og:url') || /data-language-detection/i.test(html)) {
-        report(relativeFile, 'la pagina 404 non deve pubblicare una URL canonica social né attivare il redirect della lingua.');
+        report(
+          relativeFile,
+          'la pagina 404 non deve pubblicare una URL canonica social né attivare il redirect della lingua.',
+        );
       }
     } else if (!primaryNavigationMatch) {
       report(relativeFile, 'lista della navigazione principale mancante.');
     } else {
-      const primaryLinks = [...primaryNavigationMatch[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
-        .map(([, rawAttributes]) => parseAttributes(rawAttributes));
+      const primaryLinks = [...primaryNavigationMatch[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)].map(
+        ([, rawAttributes]) => parseAttributes(rawAttributes),
+      );
       const expectedMenuPath = `/${prefixFor(expectedLanguage)}meniu/`;
       const menuLink = primaryLinks.find((attributes) => attributes.href === expectedMenuPath);
       const shouldMarkMenuCurrent = route === expectedMenuPath;
@@ -240,17 +292,22 @@ async function main() {
 
       const currentPages = primaryLinks.filter((attributes) => attributes['aria-current'] === 'page');
       if (currentPages.length !== Number(shouldMarkMenuCurrent)) {
-        report(relativeFile, `atteso ${Number(shouldMarkMenuCurrent)} link corrente nella navigazione principale, trovati ${currentPages.length}.`);
+        report(
+          relativeFile,
+          `atteso ${Number(shouldMarkMenuCurrent)} link corrente nella navigazione principale, trovati ${currentPages.length}.`,
+        );
       }
     }
 
-    if (titleMatches.length !== 1 || !metadata.title) report(relativeFile, `atteso un solo <title> non vuoto, trovati ${titleMatches.length}.`);
+    if (titleMatches.length !== 1 || !metadata.title)
+      report(relativeFile, `atteso un solo <title> non vuoto, trovati ${titleMatches.length}.`);
     for (const [name, value] of Object.entries(metadata).slice(1)) {
       const isOpenGraph = name === 'ogTitle' || name === 'ogDescription';
       const attribute = isOpenGraph ? 'property' : 'name';
       const key = name.replace(/[A-Z]/g, (letter) => `:${letter.toLowerCase()}`).toLowerCase();
       const matches = metaTags.filter((tag) => tag[attribute]?.toLowerCase() === key);
-      if (matches.length !== 1 || !value) report(relativeFile, `atteso un solo meta ${key} non vuoto, trovati ${matches.length}.`);
+      if (matches.length !== 1 || !value)
+        report(relativeFile, `atteso un solo meta ${key} non vuoto, trovati ${matches.length}.`);
     }
 
     const descriptionTags = metaTags.filter((tag) => tag.name?.toLowerCase() === 'description');
@@ -287,7 +344,10 @@ async function main() {
 
     if (route === homeFor(expectedLanguage)) {
       const directionsLinks = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
-        .map(([, rawAttributes, innerHtml]) => ({ attributes: parseAttributes(rawAttributes), label: normalizedText(innerHtml) }))
+        .map(([, rawAttributes, innerHtml]) => ({
+          attributes: parseAttributes(rawAttributes),
+          label: normalizedText(innerHtml),
+        }))
         .filter(({ attributes }) => Object.hasOwn(attributes, 'data-map-directions'));
       const expectedDirectionsLabels = {
         ro: 'Cum ajungi la noi',
@@ -302,13 +362,24 @@ async function main() {
       } else {
         const [{ attributes, label }] = directionsLinks;
         const directionsUrl = parseUrl(attributes.href);
-        if (!directionsUrl || directionsUrl.protocol !== 'https:' || directionsUrl.hostname !== 'www.google.com'
-          || directionsUrl.pathname !== '/maps/dir/' || directionsUrl.searchParams.get('api') !== '1'
-          || directionsUrl.searchParams.get('destination') !== '45.697789,25.449737') {
-          report(relativeFile, 'Il link visita deve aprire Google Maps Directions con il pin verificato di Casa Rusu come destinazione.');
+        if (
+          !directionsUrl ||
+          directionsUrl.protocol !== 'https:' ||
+          directionsUrl.hostname !== 'www.google.com' ||
+          directionsUrl.pathname !== '/maps/dir/' ||
+          directionsUrl.searchParams.get('api') !== '1' ||
+          directionsUrl.searchParams.get('destination') !== '45.697789,25.449737'
+        ) {
+          report(
+            relativeFile,
+            'Il link visita deve aprire Google Maps Directions con il pin verificato di Casa Rusu come destinazione.',
+          );
         }
         if (label !== expectedDirectionsLabels[expectedLanguage]) {
-          report(relativeFile, `Il link alle indicazioni deve essere localizzato: atteso "${expectedDirectionsLabels[expectedLanguage]}".`);
+          report(
+            relativeFile,
+            `Il link alle indicazioni deve essere localizzato: atteso "${expectedDirectionsLabels[expectedLanguage]}".`,
+          );
         }
       }
 
@@ -326,12 +397,13 @@ async function main() {
           report(relativeFile, 'JSON-LD Restaurant.name deve essere valorizzato.');
         }
 
-        const normalizeTelephone = (value) => typeof value === 'string'
-          ? value.replace(/[^\d+]/g, '')
-          : '';
+        const normalizeTelephone = (value) => (typeof value === 'string' ? value.replace(/[^\d+]/g, '') : '');
         const phoneDigits = normalizeTelephone(restaurant.telephone);
         if (!/^\+[1-9]\d{7,14}$/.test(phoneDigits)) {
-          report(relativeFile, 'JSON-LD Restaurant.telephone deve includere un prefisso internazionale e un numero valido.');
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.telephone deve includere un prefisso internazionale e un numero valido.',
+          );
         }
 
         const telephoneLinks = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)]
@@ -343,10 +415,18 @@ async function main() {
           })
           .filter(Boolean);
         if (telephoneLinks.length === 0 || telephoneLinks.some((link) => link.number !== phoneDigits)) {
-          report(relativeFile, 'JSON-LD Restaurant.telephone deve corrispondere a tutti i link telefonici della homepage.');
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.telephone deve corrispondere a tutti i link telefonici della homepage.',
+          );
         }
-        if (!telephoneLinks.some((link) => link.number === phoneDigits && normalizeTelephone(link.text) === phoneDigits)) {
-          report(relativeFile, 'JSON-LD Restaurant.telephone deve essere visibile nel testo di un link telefonico della homepage.');
+        if (
+          !telephoneLinks.some((link) => link.number === phoneDigits && normalizeTelephone(link.text) === phoneDigits)
+        ) {
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.telephone deve essere visibile nel testo di un link telefonico della homepage.',
+          );
         }
 
         const address = restaurant.address;
@@ -362,39 +442,59 @@ async function main() {
 
         const openingHours = Array.isArray(restaurant.openingHoursSpecification)
           ? restaurant.openingHoursSpecification
-          : restaurant.openingHoursSpecification ? [restaurant.openingHoursSpecification] : [];
-        const daysOfWeek = new Set([
-          'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
-        ].map((day) => `https://schema.org/${day}`));
+          : restaurant.openingHoursSpecification
+            ? [restaurant.openingHoursSpecification]
+            : [];
+        const daysOfWeek = new Set(
+          ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(
+            (day) => `https://schema.org/${day}`,
+          ),
+        );
         if (openingHours.length === 0) {
           report(relativeFile, 'JSON-LD Restaurant.openingHoursSpecification deve contenere almeno un gruppo orario.');
         }
         for (const hours of openingHours) {
           const validObject = hours && typeof hours === 'object';
-          const days = validObject
-            ? Array.isArray(hours.dayOfWeek) ? hours.dayOfWeek : [hours.dayOfWeek]
-            : [];
-          if (!validObject || hours['@type'] !== 'OpeningHoursSpecification' || days.length === 0
-            || days.some((day) => !daysOfWeek.has(day))
-            || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.opens)
-            || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.closes)) {
-            report(relativeFile, 'Ogni gruppo di openingHoursSpecification deve contenere giorni Schema.org e orari HH:mm validi.');
+          const days = validObject ? (Array.isArray(hours.dayOfWeek) ? hours.dayOfWeek : [hours.dayOfWeek]) : [];
+          if (
+            !validObject ||
+            hours['@type'] !== 'OpeningHoursSpecification' ||
+            days.length === 0 ||
+            days.some((day) => !daysOfWeek.has(day)) ||
+            !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.opens) ||
+            !/^([01]\d|2[0-3]):[0-5]\d$/.test(hours.closes)
+          ) {
+            report(
+              relativeFile,
+              'Ogni gruppo di openingHoursSpecification deve contenere giorni Schema.org e orari HH:mm validi.',
+            );
           }
         }
 
         if (restaurant.acceptsReservations !== true) {
-          report(relativeFile, 'JSON-LD Restaurant.acceptsReservations deve riflettere la prenotazione telefonica dichiarata sul sito.');
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.acceptsReservations deve riflettere la prenotazione telefonica dichiarata sul sito.',
+          );
         }
 
         const expectedCuisines = ['Romanian', 'Italian'];
-        if (!Array.isArray(restaurant.servesCuisine)
-          || restaurant.servesCuisine.length !== expectedCuisines.length
-          || expectedCuisines.some((cuisine) => !restaurant.servesCuisine.includes(cuisine))) {
-          report(relativeFile, 'JSON-LD Restaurant.servesCuisine deve includere i tipi di cucina documentati nel menu.');
+        if (
+          !Array.isArray(restaurant.servesCuisine) ||
+          restaurant.servesCuisine.length !== expectedCuisines.length ||
+          expectedCuisines.some((cuisine) => !restaurant.servesCuisine.includes(cuisine))
+        ) {
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.servesCuisine deve includere i tipi di cucina documentati nel menu.',
+          );
         }
 
         if (restaurant.priceRange !== '2–340 lei' || restaurant.priceRange.length >= 100) {
-          report(relativeFile, 'JSON-LD Restaurant.priceRange deve riflettere l’intero intervallo del menu fornito e restare sotto 100 caratteri.');
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.priceRange deve riflettere l’intero intervallo del menu fornito e restare sotto 100 caratteri.',
+          );
         }
 
         const geo = restaurant.geo;
@@ -406,9 +506,12 @@ async function main() {
             ['longitude', -180, 180],
           ]) {
             const value = geo[coordinate];
-            const precision = typeof value === 'number' ? String(value).split('.')[1]?.length ?? 0 : 0;
+            const precision = typeof value === 'number' ? (String(value).split('.')[1]?.length ?? 0) : 0;
             if (!Number.isFinite(value) || value < minimum || value > maximum || precision < 5) {
-              report(relativeFile, `JSON-LD Restaurant.geo.${coordinate} deve essere un numero valido con almeno 5 decimali.`);
+              report(
+                relativeFile,
+                `JSON-LD Restaurant.geo.${coordinate} deve essere un numero valido con almeno 5 decimali.`,
+              );
             }
           }
         }
@@ -421,10 +524,18 @@ async function main() {
             report(relativeFile, 'JSON-LD Restaurant.sameAs deve contenere URL HTTPS assoluti.');
           }
           const hosts = new Set(profiles.filter(Boolean).map((profile) => profile.hostname));
-          if (!hosts.has('www.facebook.com')) report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Facebook.');
-          if (!hosts.has('www.instagram.com')) report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Instagram.');
-          if (!profiles.some((profile) => profile?.hostname === 'www.google.com'
-            && profile.pathname === '/maps' && profile.searchParams.has('cid'))) {
+          if (!hosts.has('www.facebook.com'))
+            report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Facebook.');
+          if (!hosts.has('www.instagram.com'))
+            report(relativeFile, 'JSON-LD Restaurant.sameAs non include il profilo Instagram.');
+          if (
+            !profiles.some(
+              (profile) =>
+                profile?.hostname === 'www.google.com' &&
+                profile.pathname === '/maps' &&
+                profile.searchParams.has('cid'),
+            )
+          ) {
             report(relativeFile, 'JSON-LD Restaurant.sameAs non include la scheda Google Maps con CID.');
           }
           if (new Set(profiles.filter(Boolean).map((profile) => profile.href)).size !== restaurant.sameAs.length) {
@@ -433,10 +544,19 @@ async function main() {
         }
 
         const mapUrl = parseUrl(restaurant.hasMap);
-        if (!mapUrl || mapUrl.protocol !== 'https:' || mapUrl.hostname !== 'www.google.com'
-          || mapUrl.pathname !== '/maps' || !mapUrl.searchParams.has('cid')
-          || !Array.isArray(restaurant.sameAs) || !restaurant.sameAs.includes(restaurant.hasMap)) {
-          report(relativeFile, 'JSON-LD Restaurant.hasMap deve puntare alla scheda Google Maps HTTPS verificata inclusa in sameAs.');
+        if (
+          !mapUrl ||
+          mapUrl.protocol !== 'https:' ||
+          mapUrl.hostname !== 'www.google.com' ||
+          mapUrl.pathname !== '/maps' ||
+          !mapUrl.searchParams.has('cid') ||
+          !Array.isArray(restaurant.sameAs) ||
+          !restaurant.sameAs.includes(restaurant.hasMap)
+        ) {
+          report(
+            relativeFile,
+            'JSON-LD Restaurant.hasMap deve puntare alla scheda Google Maps HTTPS verificata inclusa in sameAs.',
+          );
         }
 
         if (productionOrigin) {
@@ -457,7 +577,10 @@ async function main() {
           for (const imageValue of restaurantImages) {
             const imageUrl = parseUrl(imageValue);
             if (!imageUrl || imageUrl.origin !== productionOrigin || imageUrl.search || imageUrl.hash) {
-              report(relativeFile, 'JSON-LD Restaurant.image deve contenere URL assoluti senza query o fragment sull’origine di produzione.');
+              report(
+                relativeFile,
+                'JSON-LD Restaurant.image deve contenere URL assoluti senza query o fragment sull’origine di produzione.',
+              );
             } else if (!(await resolveOutputPath(imageUrl.pathname))) {
               report(relativeFile, `JSON-LD Restaurant.image non punta a un asset generato: ${imageUrl.pathname}.`);
             }
@@ -472,8 +595,13 @@ async function main() {
 
           const expectedMenuPath = `/${prefixFor(expectedLanguage)}meniu/`;
           const menuUrl = parseUrl(restaurant.menu);
-          if (!menuUrl || menuUrl.origin !== productionOrigin || menuUrl.pathname !== expectedMenuPath
-            || menuUrl.search || menuUrl.hash) {
+          if (
+            !menuUrl ||
+            menuUrl.origin !== productionOrigin ||
+            menuUrl.pathname !== expectedMenuPath ||
+            menuUrl.search ||
+            menuUrl.hash
+          ) {
             report(relativeFile, `JSON-LD Restaurant.menu deve puntare a ${productionOrigin}${expectedMenuPath}.`);
           } else if (!(await resolveOutputPath(menuUrl.pathname))) {
             report(relativeFile, `JSON-LD Restaurant.menu non punta a una pagina HTML generata: ${menuUrl.pathname}.`);
@@ -491,11 +619,30 @@ async function main() {
     // These fields identify the same physical business in both locales. `menu`
     // is intentionally excluded because it points to a localized page.
     for (const field of [
-      '@context', '@type', '@id', 'name', 'url', 'telephone', 'acceptsReservations', 'servesCuisine', 'priceRange',
-      'address', 'geo', 'hasMap', 'openingHoursSpecification', 'sameAs', 'image', 'logo',
+      '@context',
+      '@type',
+      '@id',
+      'name',
+      'url',
+      'telephone',
+      'acceptsReservations',
+      'servesCuisine',
+      'priceRange',
+      'address',
+      'geo',
+      'hasMap',
+      'openingHoursSpecification',
+      'sameAs',
+      'image',
+      'logo',
     ]) {
-      if (JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(translatedRestaurant.restaurant[field])) {
-        report(translatedRestaurant.relativeFile, `JSON-LD Restaurant.${field} deve essere uguale alla homepage rumena per la stessa attività.`);
+      if (
+        JSON.stringify(romanianRestaurant.restaurant[field]) !== JSON.stringify(translatedRestaurant.restaurant[field])
+      ) {
+        report(
+          translatedRestaurant.relativeFile,
+          `JSON-LD Restaurant.${field} deve essere uguale alla homepage rumena per la stessa attività.`,
+        );
       }
     }
   }
@@ -522,12 +669,20 @@ async function main() {
   for (const page of pages) {
     const base = new URL(page.route, baseOrigin);
     const contentRoute = unlocalizedRoute(page.route);
-    const expectedResponsivePhotoCount = contentRoute === '/'
-      ? 3 + galleryPhotos.length
-      : ['/meniu/', '/preparate/snitel-cotlet-porc/'].includes(contentRoute) ? 1 : 0;
-    const responsivePictures = [...page.html.matchAll(/<picture\b(?=[^>]*\bdata-responsive-photo=["']true["'])[^>]*>[\s\S]*?<\/picture\s*>/gi)];
+    const expectedResponsivePhotoCount =
+      contentRoute === '/'
+        ? 3 + galleryPhotos.length
+        : ['/meniu/', '/preparate/snitel-cotlet-porc/'].includes(contentRoute)
+          ? 1
+          : 0;
+    const responsivePictures = [
+      ...page.html.matchAll(/<picture\b(?=[^>]*\bdata-responsive-photo=["']true["'])[^>]*>[\s\S]*?<\/picture\s*>/gi),
+    ];
     if (responsivePictures.length !== expectedResponsivePhotoCount) {
-      report(page.relativeFile, `attese ${expectedResponsivePhotoCount} foto del ristorante responsive, trovate ${responsivePictures.length}.`);
+      report(
+        page.relativeFile,
+        `attese ${expectedResponsivePhotoCount} foto del ristorante responsive, trovate ${responsivePictures.length}.`,
+      );
     }
 
     for (const [index, [markup]] of responsivePictures.entries()) {
@@ -538,47 +693,83 @@ async function main() {
         ? galleryImageSizes
         : imageSizes;
       const expectedTypes = ['image/avif', 'image/webp'];
-      if (sources.length !== expectedTypes.length || sources.some((source, sourceIndex) => source.type !== expectedTypes[sourceIndex])) {
-        report(page.relativeFile, `foto responsive ${index + 1}: attese le alternative AVIF e WebP nell’ordine previsto.`);
+      if (
+        sources.length !== expectedTypes.length ||
+        sources.some((source, sourceIndex) => source.type !== expectedTypes[sourceIndex])
+      ) {
+        report(
+          page.relativeFile,
+          `foto responsive ${index + 1}: attese le alternative AVIF e WebP nell’ordine previsto.`,
+        );
       }
-      if (!expectedImage?.startsWith('/images/') || !expectedImage.endsWith('.jpg') || image.width !== '2048' || image.height !== '1366') {
-        report(page.relativeFile, `foto responsive ${index + 1}: deve mantenere il JPEG originale da 2048×1366 come fallback e dimensione intrinseca.`);
+      if (
+        !expectedImage?.startsWith('/images/') ||
+        !expectedImage.endsWith('.jpg') ||
+        image.width !== '2048' ||
+        image.height !== '1366'
+      ) {
+        report(
+          page.relativeFile,
+          `foto responsive ${index + 1}: deve mantenere il JPEG originale da 2048×1366 come fallback e dimensione intrinseca.`,
+        );
       }
 
       for (const [sourceIndex, source] of sources.entries()) {
         const format = sourceIndex === 0 ? 'avif' : 'webp';
         if (source.srcset !== responsiveCandidates(expectedImage ?? '', format)) {
-          report(page.relativeFile, `foto responsive ${index + 1}: srcset ${format.toUpperCase()} non corrispondente alle varianti generate.`);
+          report(
+            page.relativeFile,
+            `foto responsive ${index + 1}: srcset ${format.toUpperCase()} non corrispondente alle varianti generate.`,
+          );
         }
         if (source.sizes !== expectedSizes) {
-          report(page.relativeFile, `foto responsive ${index + 1}: dimensione visualizzata non sincronizzata con il layout.`);
+          report(
+            page.relativeFile,
+            `foto responsive ${index + 1}: dimensione visualizzata non sincronizzata con il layout.`,
+          );
         }
       }
 
-      const shouldPreload = ['/','/preparate/snitel-cotlet-porc/'].includes(contentRoute) && index === 0;
+      const shouldPreload = ['/', '/preparate/snitel-cotlet-porc/'].includes(contentRoute) && index === 0;
       if (shouldPreload) {
-        const preload = page.linkTags.find((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('preload')
-          && tag.as?.toLowerCase() === 'image' && tag.type === 'image/avif');
+        const preload = page.linkTags.find(
+          (tag) =>
+            tag.rel?.toLowerCase().split(/\s+/).includes('preload') &&
+            tag.as?.toLowerCase() === 'image' &&
+            tag.type === 'image/avif',
+        );
         if (!preload || preload.imagesrcset !== sources[0]?.srcset || preload.imagesizes !== sources[0]?.sizes) {
-          report(page.relativeFile, `preload responsive ${index + 1}: deve corrispondere all’alternativa AVIF e alle sue sizes.`);
+          report(
+            page.relativeFile,
+            `preload responsive ${index + 1}: deve corrispondere all’alternativa AVIF e alle sue sizes.`,
+          );
         }
       }
     }
 
     const tags = openingTags(page.html, 'a|area|link|img|source|script|iframe|video|audio|track|embed|object');
     for (const meta of page.metaTags) {
-      if (['og:url', 'og:image'].includes(meta.property?.toLowerCase()) || meta.name?.toLowerCase() === 'twitter:image') {
+      if (
+        ['og:url', 'og:image'].includes(meta.property?.toLowerCase()) ||
+        meta.name?.toLowerCase() === 'twitter:image'
+      ) {
         if (meta.content) tags.push({ name: 'meta', attributes: { content: meta.content } });
       }
     }
     for (const tag of tags) {
       const attributes = tag.attributes;
       const refs = [];
-      if ((tag.name === 'a' || tag.name === 'area' || tag.name === 'link') && attributes.href) refs.push(attributes.href);
-      if (['img', 'source', 'script', 'iframe', 'video', 'audio', 'track', 'embed'].includes(tag.name) && attributes.src) refs.push(attributes.src);
+      if ((tag.name === 'a' || tag.name === 'area' || tag.name === 'link') && attributes.href)
+        refs.push(attributes.href);
+      if (
+        ['img', 'source', 'script', 'iframe', 'video', 'audio', 'track', 'embed'].includes(tag.name) &&
+        attributes.src
+      )
+        refs.push(attributes.src);
       if (tag.name === 'object' && attributes.data) refs.push(attributes.data);
       if (tag.name === 'meta' && attributes.content) refs.push(attributes.content);
-      if ((tag.name === 'img' || tag.name === 'source') && attributes.srcset) refs.push(...sourceCandidates(attributes.srcset));
+      if ((tag.name === 'img' || tag.name === 'source') && attributes.srcset)
+        refs.push(...sourceCandidates(attributes.srcset));
 
       for (const reference of refs) {
         if (/^(?:data:|mailto:|tel:|javascript:|blob:)/i.test(reference)) continue;
@@ -616,11 +807,12 @@ async function main() {
     for (const page of pages) {
       if (page.route === '/404') continue;
       const contentRoute = unlocalizedRoute(page.route);
-      const expectedSocialImage = contentRoute === '/'
-        ? { path: '/images/casa-rusu-interior.jpg', width: '2048', height: '1366' }
-        : contentRoute === '/meniu/'
-          ? { path: '/images/menu/coperta.jpg', width: '1448', height: '2048' }
-          : { path: '/images/casa-rusu-preparat.jpg', width: '2048', height: '1366' };
+      const expectedSocialImage =
+        contentRoute === '/'
+          ? socialImageSpecs.home
+          : contentRoute === '/meniu/'
+            ? socialImageSpecs.menu
+            : socialImageSpecs.dish;
       const socialImage = singleMetaContent(page, 'property', 'og:image');
       const twitterImage = singleMetaContent(page, 'name', 'twitter:image');
       const socialImageAlt = singleMetaContent(page, 'property', 'og:image:alt');
@@ -644,8 +836,14 @@ async function main() {
       if (socialImageAlt && twitterImageAlt !== socialImageAlt) {
         report(page.relativeFile, 'twitter:image:alt deve corrispondere a og:image:alt.');
       }
-      if (socialImageWidth !== expectedSocialImage.width || socialImageHeight !== expectedSocialImage.height) {
-        report(page.relativeFile, `dimensioni social attese: ${expectedSocialImage.width}×${expectedSocialImage.height}.`);
+      if (
+        socialImageWidth !== String(expectedSocialImage.width) ||
+        socialImageHeight !== String(expectedSocialImage.height)
+      ) {
+        report(
+          page.relativeFile,
+          `dimensioni social attese: ${expectedSocialImage.width}×${expectedSocialImage.height}.`,
+        );
       }
 
       const canonicalTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('canonical'));
@@ -657,14 +855,19 @@ async function main() {
       const canonical = parseUrl(canonicalTags[0].href ?? '');
       const expectedCanonical = `${productionOrigin}${page.route}`;
       if (!canonical || canonical.href !== expectedCanonical) {
-        report(page.relativeFile, `canonical atteso ${expectedCanonical}, trovato ${canonicalTags[0].href ?? '(assente)'}.`);
+        report(
+          page.relativeFile,
+          `canonical atteso ${expectedCanonical}, trovato ${canonicalTags[0].href ?? '(assente)'}.`,
+        );
       } else if (pagesByCanonical.has(canonical.href)) {
         report(page.relativeFile, `canonical duplicato anche in ${pagesByCanonical.get(canonical.href)}.`);
       } else {
         pagesByCanonical.set(canonical.href, page.relativeFile);
       }
 
-      const alternateTags = page.linkTags.filter((tag) => tag.rel?.toLowerCase().split(/\s+/).includes('alternate') && tag.hreflang);
+      const alternateTags = page.linkTags.filter(
+        (tag) => tag.rel?.toLowerCase().split(/\s+/).includes('alternate') && tag.hreflang,
+      );
       const alternates = new Map();
       for (const alternate of alternateTags) {
         const language = alternate.hreflang.toLowerCase();
@@ -673,17 +876,23 @@ async function main() {
       }
 
       const romanianRoute = unlocalizedRoute(page.route);
-      const expectedAlternates = Object.fromEntries(locales.map((locale) => [
-        locale === 'ro' ? 'ro-ro' : locale,
-        `${productionOrigin}${locale === 'ro' ? romanianRoute : `/${locale}${romanianRoute}`}`,
-      ]));
+      const expectedAlternates = Object.fromEntries(
+        locales.map((locale) => [
+          locale === 'ro' ? 'ro-ro' : locale,
+          `${productionOrigin}${locale === 'ro' ? romanianRoute : `/${locale}${romanianRoute}`}`,
+        ]),
+      );
       expectedAlternates['x-default'] = `${productionOrigin}${romanianRoute}`;
       for (const [language, expectedHref] of Object.entries(expectedAlternates)) {
         if (alternates.get(language) !== expectedHref) {
-          report(page.relativeFile, `hreflang ${language} atteso ${expectedHref}, trovato ${alternates.get(language) ?? '(assente)'}.`);
+          report(
+            page.relativeFile,
+            `hreflang ${language} atteso ${expectedHref}, trovato ${alternates.get(language) ?? '(assente)'}.`,
+          );
         }
         const targetRoute = new URL(expectedHref).pathname;
-        if (!pagesByRoute.has(targetRoute)) report(page.relativeFile, `pagina hreflang mancante per ${language}: ${targetRoute}.`);
+        if (!pagesByRoute.has(targetRoute))
+          report(page.relativeFile, `pagina hreflang mancante per ${language}: ${targetRoute}.`);
       }
       for (const language of alternates.keys()) {
         if (!(language in expectedAlternates)) report(page.relativeFile, `hreflang non previsto: ${language}.`);
@@ -695,7 +904,9 @@ async function main() {
       report('dist/', 'sitemap-index.xml assente nonostante seo.siteUrl configurato.');
     } else {
       const sitemapIndex = await readFile(sitemapIndexPath, 'utf8');
-      const sitemapUrls = [...sitemapIndex.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)].map((match) => decodeEntities(match[1].trim()));
+      const sitemapUrls = [...sitemapIndex.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)].map((match) =>
+        decodeEntities(match[1].trim()),
+      );
       if (!/<sitemapindex\b/i.test(sitemapIndex) || sitemapUrls.length === 0) {
         report('dist/sitemap-index.xml', 'indice sitemap vuoto o malformato.');
       }
@@ -719,7 +930,8 @@ async function main() {
         }
         for (const match of sitemap.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)) {
           const pageUrl = decodeEntities(match[1].trim());
-          if (indexedPageUrls.has(pageUrl)) report(path.relative(projectRoot, sitemapPath), `URL sitemap duplicato: ${pageUrl}.`);
+          if (indexedPageUrls.has(pageUrl))
+            report(path.relative(projectRoot, sitemapPath), `URL sitemap duplicato: ${pageUrl}.`);
           indexedPageUrls.add(pageUrl);
         }
       }
@@ -731,7 +943,8 @@ async function main() {
       for (const page of pages) {
         if (page.route === '/404') continue;
         const expectedUrl = `${productionOrigin}${page.route}`;
-        if (!indexedPageUrls.has(expectedUrl)) report('dist/sitemap-index.xml', `URL pagina mancante nella sitemap: ${expectedUrl}.`);
+        if (!indexedPageUrls.has(expectedUrl))
+          report('dist/sitemap-index.xml', `URL pagina mancante nella sitemap: ${expectedUrl}.`);
       }
     }
   }
@@ -743,8 +956,12 @@ async function main() {
     return;
   }
 
-  const mode = productionOrigin ? `origine ${productionOrigin}, canonical/hreflang/sitemap attivi` : 'modalità locale, SEO di produzione in attesa di seo.siteUrl';
-  console.log(`Controllo SEO superato: ${pages.length} pagine HTML, metadati distinti, lingue, link/asset interni e JSON-LD validi; ${mode}.`);
+  const mode = productionOrigin
+    ? `origine ${productionOrigin}, canonical/hreflang/sitemap attivi`
+    : 'modalità locale, SEO di produzione in attesa di seo.siteUrl';
+  console.log(
+    `Controllo SEO superato: ${pages.length} pagine HTML, metadati distinti, lingue, link/asset interni e JSON-LD validi; ${mode}.`,
+  );
 }
 
 main().catch((error) => {

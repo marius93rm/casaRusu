@@ -24,7 +24,7 @@ Per copiare nuovamente i sette originali consegnati, senza trasformazioni:
 node scripts/prepare-restaurant-photos.mjs /percorso/nuoveCasaRusu
 ```
 
-Anche `scripts/optimize-photos.mjs` conserva gli originali del ristorante e applica l’encoding soltanto alle pagine stampate del menu.
+Anche `npm run optimize:photos` conserva gli originali del ristorante e applica l'encoding soltanto alle pagine stampate del menu.
 
 ## Verifiche
 
@@ -38,11 +38,11 @@ I risultati aggiornati dopo il ripristino degli originali sono in [lighthouse-su
 
 Sono misure di laboratorio. Il peso dei file originali è deliberatamente superiore a quello delle versioni precedenti, per preservare integralmente le fotografie consegnate.
 
-| Pagina IT | Performance mobile | Performance desktop | Accessibilità | Best practice | SEO |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Home | 92 | 100 | 100 | 100 | 100 |
-| Menu | 100 | 100 | 100 | 100 | 100 |
-| Scheda del piatto | 100 | 100 | 100 | 100 | 100 |
+| Pagina IT         | Performance mobile | Performance desktop | Accessibilità | Best practice | SEO |
+| ----------------- | -----------------: | ------------------: | ------------: | ------------: | --: |
+| Home              |                 92 |                 100 |           100 |           100 | 100 |
+| Menu              |                100 |                 100 |           100 |           100 | 100 |
+| Scheda del piatto |                100 |                 100 |           100 |           100 | 100 |
 
 Home: 662.857 byte trasferiti nell’audit, contro 1.263.535 prima di differire il caricamento della galleria, sempre usando gli originali. LCP mediano mobile 3,31 s e desktop 0,67 s; TBT mediano 0 ms e CLS mediano 0. Il maggiore tempo LCP mobile rispetto alla prima versione compressa è il compromesso misurato per mantenere i JPEG originali.
 

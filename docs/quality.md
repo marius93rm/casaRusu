@@ -4,10 +4,10 @@
 
 [Audit GitHub riuscito](https://github.com/marius93rm/casaRusu/actions/runs/39799807441), sul commit `7f6490b`, con Lighthouse 13.5.0. Sei pagine (home, menu e piatto in RO/EN), profili mobile e desktop standard, tre esecuzioni per combinazione: 36 report HTML e JSON. Nessuna categoria esclusa tra Performance, Accessibility, Best Practices e SEO; nessuna modifica ai pesi o al rallentamento standard dei profili. Ogni navigazione usa il ripristino dello storage/cache previsto da Lighthouse.
 
-| Pagine | Profilo | Prestazioni | Accessibilità | Buone pratiche | SEO |
-| --- | --- | ---: | ---: | ---: | ---: |
-| Home, menu e piatto · RO/EN | Mobile | 100 | 100 | 100 | 100 |
-| Home, menu e piatto · RO/EN | Desktop | 100 | 100 | 100 | 100 |
+| Pagine                      | Profilo | Prestazioni | Accessibilità | Buone pratiche | SEO |
+| --------------------------- | ------- | ----------: | ------------: | -------------: | --: |
+| Home, menu e piatto · RO/EN | Mobile  |         100 |           100 |            100 | 100 |
+| Home, menu e piatto · RO/EN | Desktop |         100 |           100 |            100 | 100 |
 
 I punteggi in tabella sono le mediane delle tre esecuzioni, non il risultato migliore. 35 delle 36 esecuzioni hanno Performance 100; la prima esecuzione della home RO ha Performance 82. Tutte le 36 hanno 100 nelle altre tre categorie. Il valore anomalo resta nel [riepilogo completo](lighthouse-summary.json); non è stato eliminato o ritoccato. Questi sono risultati di laboratorio sul sito compilato e servito dal runner GitHub. I risultati dell’hosting pubblico andranno misurati dopo la pubblicazione.
 
@@ -37,6 +37,6 @@ Controllati viewport 320, 390, 768, 1101 e 1440 px. Verificati salto all’ultim
 
 Avviare il workflow `Lighthouse` da GitHub Actions per rieseguire l’audit senza pubblicazione. In un ambiente con un endpoint CDP già attivo: `LIGHTHOUSE_PORT=PORT npm run audit:lighthouse`, mentre la build è servita su `http://127.0.0.1:4325`. Lo script Node si collega al browser esistente e non ne avvia uno. Su questo host rimane in vigore il divieto di avviare Chromium da shell.
 
-Per rigenerare le foto: `node scripts/optimize-photos.mjs` (usa sharp disponibile con Astro). Per i font: `python scripts/optimize-fonts.py`, in un ambiente con fontTools 4.67.0 e brotli 1.2.0. I file ottimizzati sono versionati: questi strumenti non sono richiesti per la build ordinaria.
+Per rigenerare le immagini: `npm run optimize:gallery` per la galleria, `npm run optimize:photos` per le pagine stampate del menu e `npm run optimize:social` per le anteprime 1200×630. Gli script Node usano `sharp`, dichiarata direttamente in `devDependencies`; i crop social sono JPEG qualità 94 con campionamento cromatico 4:4:4. Per i font: `npm run optimize:fonts`, in un ambiente Python con fontTools 4.67.0 e brotli 1.2.0. I file ottimizzati sono versionati: questi strumenti non sono richiesti per la build ordinaria.
 
 Riferimenti: [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/), [W3C: testo al 200%](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html), [web.dev: animazioni efficienti](https://web.dev/articles/animations-guide), [web.dev: font](https://web.dev/articles/font-best-practices), [Astro: CSS inline](https://docs.astro.build/en/reference/configuration-reference/#buildinlinestylesheets).

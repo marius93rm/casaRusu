@@ -13,14 +13,15 @@ import { imageSizes, imageSrcset, restaurantAvifWidths } from '../utils/responsi
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
 const socialImage = {
-  src: siteData.media.featuredDish,
+  src: siteData.media.social.dish,
   alt: copy.dish.imageAlt,
-  width: 2048,
-  height: 1366,
+  width: 1200,
+  height: 630,
 };
 const menuHref = localizedPath('/meniu', locale);
 const printedDishPage = menuPages.find((page) => page.id === 'porc');
-const printedDish = printedDishPage?.sections.flatMap((section) => section.items)
+const printedDish = printedDishPage?.sections
+  .flatMap((section) => section.items)
   .find((item) => item.name === 'Șnițel din cotlet de porc cu os');
 
 if (!printedDishPage || !printedDish) {
@@ -37,50 +38,57 @@ const seoDescription = copy.dish.seo.description
   title={copy.dish.seo.title}
   description={seoDescription}
   {socialImage}
-  criticalImage={{ srcset: imageSrcset(siteData.media.featuredDish, restaurantAvifWidths, 'avif'), sizes: imageSizes, type: 'image/avif' }}
+  criticalImage={{
+    srcset: imageSrcset(siteData.media.featuredDish, restaurantAvifWidths, 'avif'),
+    sizes: imageSizes,
+    type: 'image/avif',
+  }}
 >
   <SiteShell locale={locale} navigation={copy.nav} bookingLabel={copy.hero.primaryAction}>
+    <main id="main-content" tabindex="-1">
+      <article class="dish-detail" aria-labelledby="dish-detail-title">
+        <div class="container">
+          <Breadcrumbs locale={locale} currentLabel={copy.dish.title} level="dish" />
+          <OpeningStatus {locale} />
+          <div class="dish-detail-grid">
+            <figure class="dish-detail-visual">
+              <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} eager responsive />
+            </figure>
 
-  <main id="main-content" tabindex="-1">
-    <article class="dish-detail" aria-labelledby="dish-detail-title">
-      <div class="container">
-        <Breadcrumbs locale={locale} currentLabel={copy.dish.title} level="dish" />
-        <OpeningStatus {locale} />
-        <div class="dish-detail-grid">
-          <figure class="dish-detail-visual">
-            <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} eager responsive />
-          </figure>
-
-          <div class="dish-detail-copy">
-            <p class="section-label">{copy.dish.eyebrow}</p>
-            <h1 id="dish-detail-title">{copy.dish.title}</h1>
-            <p class="dish-detail-body">{copy.dish.body}</p>
-            <aside class="dish-menu-listing" aria-labelledby="dish-menu-listing-title">
-              <div class="dish-menu-listing-heading">
-                <p class="section-label" id="dish-menu-listing-title">{copy.dish.menuListingLabel}</p>
-                <p class="dish-menu-listing-price">
-                  <span>{printedDish.quantity}</span>
-                  <strong>{printedDish.price} lei</strong>
-                </p>
+            <div class="dish-detail-copy">
+              <p class="section-label">{copy.dish.eyebrow}</p>
+              <h1 id="dish-detail-title">{copy.dish.title}</h1>
+              <p class="dish-detail-body">{copy.dish.body}</p>
+              <aside class="dish-menu-listing" aria-labelledby="dish-menu-listing-title">
+                <div class="dish-menu-listing-heading">
+                  <p class="section-label" id="dish-menu-listing-title">
+                    {copy.dish.menuListingLabel}
+                  </p>
+                  <p class="dish-menu-listing-price">
+                    <span>{printedDish.quantity}</span>
+                    <strong>{printedDish.price} lei</strong>
+                  </p>
+                </div>
+                <p class="dish-menu-listing-note">{copy.dish.menuListingNote}</p>
+                <a class="text-link" href={`${menuHref}/#menu-page-${printedDishPage.id}`}>
+                  {copy.dish.menuListingAction}
+                  <Icon name="arrow" size={18} />
+                </a>
+              </aside>
+              <div class="dish-detail-actions">
+                <a class="button button-primary" href={siteData.company.phoneHref}>
+                  {copy.hero.primaryAction}
+                  <Icon name="phone" size={18} />
+                </a>
+                <a class="text-link" href={menuHref}>
+                  {copy.menu.backAction}
+                  <Icon name="arrow" size={18} />
+                </a>
               </div>
-              <p class="dish-menu-listing-note">{copy.dish.menuListingNote}</p>
-              <a class="text-link" href={`${menuHref}/#menu-page-${printedDishPage.id}`}>
-                {copy.dish.menuListingAction}<Icon name="arrow" size={18} />
-              </a>
-            </aside>
-            <div class="dish-detail-actions">
-              <a class="button button-primary" href={siteData.company.phoneHref}>
-                {copy.hero.primaryAction}<Icon name="phone" size={18} />
-              </a>
-              <a class="text-link" href={menuHref}>
-                {copy.menu.backAction}<Icon name="arrow" size={18} />
-              </a>
             </div>
           </div>
         </div>
-      </div>
-    </article>
-  </main>
-
+      </article>
+    </main>
   </SiteShell>
 </BaseLayout>

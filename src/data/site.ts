@@ -34,6 +34,11 @@ export const siteData = {
     cover: '/images/casa-rusu-interior.jpg',
     featuredDish: '/images/casa-rusu-preparat.jpg',
     exterior: '/images/casa-rusu-exterior.jpg',
+    social: {
+      home: '/images/social/home-1200x630.jpg',
+      menu: '/images/social/menu-1200x630.jpg',
+      dish: '/images/social/dish-1200x630.jpg',
+    },
   },
   promotions: {
     cocktailOffer: {
