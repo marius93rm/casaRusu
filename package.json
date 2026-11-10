@@ -23,13 +23,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
-    "@tabler/icons-astro": "^3.47.0",
-    "astro": "7.3.1"
+    "@tabler/icons-astro": "^3.50.0",
+    "astro": "7.4.7"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.10",
+    "@astrojs/check": "0.9.12",
     "axe-core": "4.14.0",
-    "lighthouse": "13.5.0",
+    "lighthouse": "13.6.0",
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.2",
     "sharp": "^0.35.5",
