@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from './Header.astro';
-import Footer from './Footer.astro';
+import SiteShell from './SiteShell.astro';
 import Icon from './Icon.astro';
 import MenuPreview from './MenuPreview.astro';
 import OpeningStatus from './OpeningStatus.astro';
@@ -87,8 +86,7 @@ const structuredData = {
 <BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
   criticalImage={{ srcset: imageSrcset(siteData.media.cover, restaurantAvifWidths, 'avif'), sizes: imageSizes, type: 'image/avif' }}>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-  <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
-  <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
+  <SiteShell locale={locale} navigation={copy.nav} bookingLabel={copy.hero.primaryAction} bookingMode="contextual">
 
   <main id="main-content" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
@@ -207,12 +205,7 @@ const structuredData = {
     </section>
   </main>
 
-  <Footer {locale} />
-  <aside class="mobile-booking" aria-label={ui.reservations} data-mobile-booking hidden>
-    <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-      {copy.hero.primaryAction}<Icon name="phone" size={18} />
-    </a>
-  </aside>
+  </SiteShell>
 </BaseLayout>
 
 <script is:inline>
@@ -263,76 +256,5 @@ const structuredData = {
       });
     }
 
-    const mobileBooking = document.querySelector('[data-mobile-booking]');
-    const primaryBooking = document.querySelector('[data-booking-primary]');
-    const visitPhoto = document.querySelector('.visit-visual');
-    const visitActions = [...document.querySelectorAll('.visit-details a, .visit-details button')];
-    if (!(mobileBooking instanceof HTMLElement) || !(primaryBooking instanceof HTMLAnchorElement)) return;
-    const mobileBookingCta = mobileBooking.querySelector('.mobile-booking-cta');
-
-    const mobileViewport = window.matchMedia('(max-width: 760px)');
-    const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-    let syncFrame = 0;
-    const measureBookingBarHeight = () => {
-      if (!mobileViewport.matches || !(mobileBookingCta instanceof HTMLElement)) return 0;
-      const measurement = mobileBookingCta.cloneNode(true);
-      measurement.removeAttribute('href');
-      measurement.setAttribute('aria-hidden', 'true');
-      measurement.setAttribute('inert', '');
-      measurement.tabIndex = -1;
-      measurement.style.setProperty('visibility', 'hidden', 'important');
-      measurement.style.setProperty('pointer-events', 'none', 'important');
-      document.body.appendChild(measurement);
-      const height = measurement.getBoundingClientRect().height;
-      measurement.remove();
-      return height || rootFontSize * 4;
-    };
-    let bookingBarHeight = measureBookingBarHeight();
-    const syncMobileBooking = () => {
-      const rect = primaryBooking.getBoundingClientRect();
-      const bookingBarBottomOffset = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mobile-booking-bottom-offset')) || 0;
-      const bookingBarBottom = window.innerHeight - bookingBarBottomOffset;
-      const bookingBarTop = bookingBarBottom - bookingBarHeight;
-      const visibleAboveBookingBar = rect.bottom > rootFontSize * 5
-        && rect.top < bookingBarTop
-        && rect.right > 0
-        && rect.left < window.innerWidth;
-      const visitPhotoRect = visitPhoto instanceof HTMLElement ? visitPhoto.getBoundingClientRect() : null;
-      const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
-        && visitPhotoRect.bottom > bookingBarTop
-        && visitPhotoRect.top < bookingBarBottom;
-      const visitActionOverlapsBookingBar = visitActions.some((action) => {
-        const actionRect = action.getBoundingClientRect();
-        return actionRect.bottom > bookingBarTop
-          && actionRect.top < bookingBarBottom
-          && actionRect.right > 0
-          && actionRect.left < window.innerWidth;
-      });
-      const shouldHide = mobileViewport.matches
-        && (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar)
-        && !mobileBooking.contains(document.activeElement);
-      mobileBooking.hidden = shouldHide;
-    };
-    const scheduleSync = () => {
-      if (syncFrame) return;
-      syncFrame = window.requestAnimationFrame(() => {
-        syncFrame = 0;
-        syncMobileBooking();
-      });
-    };
-
-    window.addEventListener('scroll', scheduleSync, { passive: true });
-    window.addEventListener('resize', () => {
-      bookingBarHeight = measureBookingBarHeight();
-      scheduleSync();
-    }, { passive: true });
-    document.addEventListener('keydown', scheduleSync);
-    document.addEventListener('focusin', scheduleSync);
-    document.addEventListener('focusout', scheduleSync, true);
-    mobileViewport.addEventListener('change', () => {
-      bookingBarHeight = measureBookingBarHeight();
-      scheduleSync();
-    });
-    syncMobileBooking();
   })();
 </script>

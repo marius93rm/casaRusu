@@ -235,6 +235,10 @@
 
 - [x] **CR-103 — Rimuovere il watermark 404 che distraeva dal messaggio.** L’anteprima mobile mostrava il grande “404” dietro a titolo e paragrafi. L’audit axe lo segnalava anche con contrasto 1,05:1 dopo averlo attenuato; il numero è ridondante rispetto all’etichetta “404 · page not found” e al titolo. Rimosso il watermark, senza cambiare il messaggio o le azioni localizzate. `check:i18n` verifica che non venga reintrodotto. `ASTRO_TELEMETRY_DISABLED=1 npm run build` superata: Astro check su 63 file senza diagnostiche, 19 pagine e checker SEO/menu/orari/galleria/i18n/lingua superati; `git diff --check` passa. Preview Paseo verificata visivamente a 390×844 e 1440×1000. Axe sulla 404: 31 controlli superati, zero violazioni.
 
+### Shell condivisa e barra mobile (10/11/2026)
+
+- [x] **CR-104 — Condividere la shell e il controller della barra prenotazioni.** `SiteShell.astro` ora raccoglie skip link, header, footer e markup della CTA nelle pagine home, menu e piatto. Un unico controller misura la barra, applica l’offset degli overlay Netlify e mantiene il comportamento contestuale della home; la misura clonata viene riutilizzata tra gli aggiornamenti e le letture del layout precedono le scritture. `check:i18n` verifica la shell e il controller condivisi, inclusa l’unica misura di fallback; `ASTRO_TELEMETRY_DISABLED=1 npm run build` passa: Astro check su 64 file senza diagnostiche, 19 pagine e checker SEO/menu/orari/galleria/i18n/lingua superati. In Chrome locale, a 390×844 la barra è nascosta vicino alla CTA principale della home, compare dopo lo scorrimento e si nasconde quando interferirebbe con le azioni dei contatti; menu e scheda piatto mostrano la barra e riservano 64 px. Desktop 1636×904: barra nascosta via CSS, padding e variabili mobile assenti. Nessun overflow orizzontale osservato.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.

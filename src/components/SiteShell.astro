@@ -1,0 +1,182 @@
+---
+import Footer from './Footer.astro';
+import Header, { type NavigationItem } from './Header.astro';
+import Icon from './Icon.astro';
+import { siteData, type SiteLocale } from '../data/site';
+import { getDictionary } from '../i18n';
+
+interface Props {
+  locale: SiteLocale;
+  navigation: readonly NavigationItem[];
+  bookingLabel: string;
+  bookingMode?: 'always' | 'contextual';
+}
+
+const {
+  locale,
+  navigation,
+  bookingLabel,
+  bookingMode = 'always',
+} = Astro.props;
+const { ui } = getDictionary(locale);
+---
+
+<a class="skip-link" href="#main-content">{ui.skipToContent}</a>
+<Header {locale} {navigation} cta={{ label: bookingLabel, href: siteData.company.phoneHref }} />
+<slot />
+<Footer {locale} />
+<aside
+  class="mobile-booking"
+  aria-label={ui.reservations}
+  data-mobile-booking
+  data-mode={bookingMode}
+  hidden={bookingMode === 'contextual'}
+>
+  <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
+    {bookingLabel}<Icon name="phone" size={18} />
+  </a>
+</aside>
+
+<script is:inline>
+  (() => {
+    const mobileBooking = document.querySelector('[data-mobile-booking]');
+    if (!(mobileBooking instanceof HTMLElement)) return;
+
+    const mobileBookingCta = mobileBooking.querySelector('.mobile-booking-cta');
+    if (!(mobileBookingCta instanceof HTMLElement)) return;
+
+    const contextualMode = mobileBooking.dataset.mode === 'contextual';
+    const primaryBooking = contextualMode ? document.querySelector('[data-booking-primary]') : null;
+    const visitPhoto = contextualMode ? document.querySelector('.visit-visual') : null;
+    const visitActions = contextualMode
+      ? [...document.querySelectorAll('.visit-details a, .visit-details button')]
+      : [];
+    const mobileViewport = window.matchMedia('(max-width: 760px)');
+    const root = document.documentElement;
+    const rootFontSize = Number.parseFloat(getComputedStyle(root).fontSize) || 16;
+    const netlifyOverlaySelector = 'iframe[title="Powered by Netlify"], iframe[title="Netlify Drawer"]';
+    let bookingBarHeight = 0;
+    let syncFrame = 0;
+    let measureOnNextSync = true;
+    let observedNetlifyOverlay = null;
+    let bookingResizeObserver = null;
+
+    const measureBookingBarHeight = (force = false) => {
+      if (!mobileViewport.matches) return 0;
+
+      const renderedHeight = mobileBookingCta.getBoundingClientRect().height;
+      if (renderedHeight > 0) {
+        bookingBarHeight = renderedHeight;
+        return bookingBarHeight;
+      }
+      if (!force && bookingBarHeight > 0) return bookingBarHeight;
+
+      const measurement = mobileBookingCta.cloneNode(true);
+      measurement.removeAttribute('href');
+      measurement.setAttribute('aria-hidden', 'true');
+      measurement.setAttribute('inert', '');
+      measurement.tabIndex = -1;
+      measurement.style.setProperty('visibility', 'hidden', 'important');
+      measurement.style.setProperty('pointer-events', 'none', 'important');
+      document.body.appendChild(measurement);
+      const height = measurement.getBoundingClientRect().height;
+      measurement.remove();
+      bookingBarHeight = height || rootFontSize * 4;
+      return bookingBarHeight;
+    };
+
+    const syncMobileBooking = (remeasure = false) => {
+      if (!mobileViewport.matches) {
+        root.style.removeProperty('--mobile-booking-height');
+        root.style.removeProperty('--mobile-booking-bottom-offset');
+        return;
+      }
+
+      const height = measureBookingBarHeight(remeasure);
+      const netlifyOverlay = document.querySelector(netlifyOverlaySelector);
+      if (netlifyOverlay !== observedNetlifyOverlay) {
+        if (observedNetlifyOverlay instanceof HTMLIFrameElement) bookingResizeObserver?.unobserve(observedNetlifyOverlay);
+        observedNetlifyOverlay = netlifyOverlay;
+        if (netlifyOverlay instanceof HTMLIFrameElement) bookingResizeObserver?.observe(netlifyOverlay);
+      }
+
+      let bottomOffset = 0;
+      if (netlifyOverlay instanceof HTMLIFrameElement) {
+        const overlayRect = netlifyOverlay.getBoundingClientRect();
+        const pinnedToViewportBottom = Math.abs(window.innerHeight - overlayRect.bottom) <= 2;
+        if (overlayRect.width > 0 && overlayRect.height > 0 && pinnedToViewportBottom) {
+          bottomOffset = Math.ceil(window.innerHeight - overlayRect.top);
+        }
+      }
+
+      const bookingBarBottom = window.innerHeight - bottomOffset;
+      const bookingBarTop = bookingBarBottom - height;
+      let hideForContent = false;
+
+      if (contextualMode && primaryBooking instanceof HTMLAnchorElement) {
+        const primaryRect = primaryBooking.getBoundingClientRect();
+        const visibleAboveBookingBar = primaryRect.bottom > rootFontSize * 5
+          && primaryRect.top < bookingBarTop
+          && primaryRect.right > 0
+          && primaryRect.left < window.innerWidth;
+        const visitPhotoRect = visitPhoto instanceof HTMLElement ? visitPhoto.getBoundingClientRect() : null;
+        const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
+          && visitPhotoRect.bottom > bookingBarTop
+          && visitPhotoRect.top < bookingBarBottom;
+        const visitActionOverlapsBookingBar = visitActions.some((action) => {
+          const actionRect = action.getBoundingClientRect();
+          return actionRect.bottom > bookingBarTop
+            && actionRect.top < bookingBarBottom
+            && actionRect.right > 0
+            && actionRect.left < window.innerWidth;
+        });
+        hideForContent = (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar)
+          && !mobileBooking.contains(document.activeElement);
+      }
+
+      root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
+      if (bottomOffset > 0 && !hideForContent) {
+        root.style.setProperty('--mobile-booking-bottom-offset', `${bottomOffset}px`);
+      } else {
+        root.style.removeProperty('--mobile-booking-bottom-offset');
+      }
+      mobileBooking.hidden = contextualMode && hideForContent;
+    };
+
+    const scheduleSync = (remeasure = false) => {
+      measureOnNextSync ||= remeasure;
+      if (syncFrame) return;
+      syncFrame = window.requestAnimationFrame(() => {
+        syncFrame = 0;
+        const shouldRemeasure = measureOnNextSync;
+        measureOnNextSync = false;
+        syncMobileBooking(shouldRemeasure);
+      });
+    };
+
+    if ('ResizeObserver' in window) {
+      bookingResizeObserver = new ResizeObserver((entries) => {
+        scheduleSync(entries.some((entry) => entry.target === mobileBookingCta));
+      });
+      bookingResizeObserver.observe(mobileBookingCta);
+    }
+
+    const containsNetlifyOverlay = (node) => node instanceof Element
+      && (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
+    const netlifyOverlayMutationObserver = new MutationObserver((records) => {
+      if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay))) scheduleSync();
+    });
+    netlifyOverlayMutationObserver.observe(root, { childList: true, subtree: true });
+
+    window.addEventListener('resize', () => scheduleSync(true), { passive: true });
+    mobileViewport.addEventListener('change', () => scheduleSync(true));
+    if (contextualMode) {
+      window.addEventListener('scroll', () => scheduleSync(), { passive: true });
+      document.addEventListener('keydown', () => scheduleSync());
+      document.addEventListener('focusin', () => scheduleSync());
+      document.addEventListener('focusout', () => scheduleSync(), true);
+    }
+    if (document.fonts) void document.fonts.ready.then(() => scheduleSync(true));
+    scheduleSync(true);
+  })();
+</script>

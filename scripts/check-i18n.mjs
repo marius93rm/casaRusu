@@ -13,6 +13,7 @@ function leaves(value, prefix = '') {
 const base = new Map(leaves(dictionaries[defaultLocale]));
 const headerSource = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
 const homeSource = await readFile(new URL('../src/components/HomePage.astro', import.meta.url), 'utf8');
+const shellSource = await readFile(new URL('../src/components/SiteShell.astro', import.meta.url), 'utf8');
 const layoutSource = await readFile(new URL('../src/layouts/BaseLayout.astro', import.meta.url), 'utf8');
 const styleSource = await readFile(new URL('../src/styles/global.css', import.meta.url), 'utf8');
 const notFoundComponentSource = await readFile(new URL('../src/pages/404.astro', import.meta.url), 'utf8');
@@ -20,19 +21,23 @@ const notFoundSource = await readFile(new URL('../dist/404.html', import.meta.ur
 assert.match(headerSource, /targetUrl\.origin !== window\.location\.origin[\s\S]*targetUrl\.pathname !== window\.location\.pathname[\s\S]*!targetUrl\.hash/, 'Same-page navigation links should be distinguished from route changes');
 assert.match(headerSource, /requestAnimationFrame\(\(\) => target\.focus\(\{ preventScroll: true \}\)\)/, 'Same-page navigation should restore keyboard focus to its destination');
 assert.match(homeSource, /data-booking-primary/, 'The home page needs a primary booking action to observe');
-assert.match(homeSource, /data-mobile-booking hidden/, 'The duplicate home booking bar should start hidden');
-assert.match(homeSource, /getBoundingClientRect\(\)/, 'The mobile booking bar should follow the primary action position');
-assert.match(homeSource, /\.visit-details a, \.visit-details button/, 'The mobile booking bar should account for every visit action');
-assert.match(homeSource, /actionRect\.bottom > bookingBarTop[\s\S]*actionRect\.top < bookingBarBottom[\s\S]*actionRect\.right > 0[\s\S]*actionRect\.left < window\.innerWidth/, 'Visit action overlap should include the offset booking bar and horizontal viewport boundaries');
-assert.match(homeSource, /visibleAboveBookingBar \|\| visitPhotoOverlapsBookingBar \|\| visitActionOverlapsBookingBar/, 'Visit actions that overlap the mobile booking bar should hide it');
-assert.match(homeSource, /requestAnimationFrame/, 'The mobile booking position check should be coalesced to animation frames');
-assert.match(homeSource, /document\.addEventListener\('keydown', scheduleSync\)/, 'Keyboard navigation should refresh the mobile booking visibility');
-assert.match(homeSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');
-assert.match(layoutSource, /--mobile-booking-height/, 'The mobile page should reserve the rendered booking CTA height');
-assert.match(layoutSource, /iframe\[title="Powered by Netlify"\]/, 'The mobile booking bar should recognize the Netlify badge');
-assert.match(layoutSource, /iframe\[title="Netlify Drawer"\]/, 'The mobile booking bar should recognize the Netlify Deploy Preview drawer');
-assert.match(layoutSource, /--mobile-booking-bottom-offset/, 'The mobile booking bar should reserve space above a viewport-pinned Netlify overlay');
-assert.match(layoutSource, /ResizeObserver/, 'The mobile booking reserve should track CTA size changes');
+assert.match(homeSource, /bookingMode="contextual"/, 'The home page should opt into contextual booking visibility');
+assert.match(homeSource, /<SiteShell/, 'The home page should use the shared page shell');
+assert.match(shellSource, /data-mobile-booking[\s\S]*hidden=\{bookingMode === 'contextual'\}/, 'The shared shell should start its contextual booking bar hidden');
+assert.match(shellSource, /getBoundingClientRect\(\)/, 'The shared controller should measure the booking bar and its overlap targets');
+assert.match(shellSource, /\.visit-details a, \.visit-details button/, 'The mobile booking bar should account for every visit action');
+assert.match(shellSource, /actionRect\.bottom > bookingBarTop[\s\S]*actionRect\.top < bookingBarBottom[\s\S]*actionRect\.right > 0[\s\S]*actionRect\.left < window\.innerWidth/, 'Visit action overlap should include the offset booking bar and horizontal viewport boundaries');
+assert.match(shellSource, /hideForContent = \(visibleAboveBookingBar \|\| visitPhotoOverlapsBookingBar \|\| visitActionOverlapsBookingBar\)/, 'Visit actions that overlap the mobile booking bar should hide it');
+assert.match(shellSource, /requestAnimationFrame/, 'The mobile booking position check should be coalesced to animation frames');
+assert.match(shellSource, /document\.addEventListener\('keydown', \(\) => scheduleSync\(\)\)/, 'Keyboard navigation should refresh the mobile booking visibility');
+assert.match(shellSource, /!mobileBooking\.contains\(document\.activeElement\)/, 'A focused mobile booking action must not be hidden');
+assert.match(shellSource, /--mobile-booking-height/, 'The mobile page should reserve the rendered booking CTA height');
+assert.match(shellSource, /iframe\[title="Powered by Netlify"\]/, 'The mobile booking bar should recognize the Netlify badge');
+assert.match(shellSource, /iframe\[title="Netlify Drawer"\]/, 'The mobile booking bar should recognize the Netlify Deploy Preview drawer');
+assert.match(shellSource, /--mobile-booking-bottom-offset/, 'The mobile booking bar should reserve space above a viewport-pinned Netlify overlay');
+assert.match(shellSource, /ResizeObserver/, 'The mobile booking reserve should track CTA size changes');
+assert.equal((shellSource.match(/cloneNode\(true\)/g) ?? []).length, 1, 'The shared controller should keep a single fallback measurement');
+assert.doesNotMatch(layoutSource, /mobile-booking-height|mobile-booking-bottom-offset/, 'Mobile booking behavior should have one controller in the shared shell');
 assert.match(styleSource, /bottom: var\(--mobile-booking-bottom-offset/, 'The mobile booking CTA should sit above an injected preview badge');
 assert.match(styleSource, /body \{ padding-bottom: calc\([^;]*--mobile-booking-bottom-offset/, 'The mobile page should reserve space below the raised booking CTA');
 assert.match(styleSource, /scroll-padding-bottom: calc\([^;]*--mobile-booking-bottom-offset/, 'Focused controls should scroll clear of the raised booking CTA');
@@ -60,6 +65,9 @@ for (const locale of locales) {
     }
     const html = await readFile(new URL(`../dist/${prefixFor(locale)}${route.slice(1)}index.html`, import.meta.url), 'utf8');
     assert.ok(html.includes(`<html lang="${locale}">`));
+    const mobileBookingBars = [...html.matchAll(/<aside\b(?=[^>]*class="mobile-booking")(?=[^>]*data-mobile-booking)[^>]*>/g)].map(([tag]) => tag);
+    assert.equal(mobileBookingBars.length, 1, `${locale} ${route}: page should render one shared mobile booking bar`);
+    assert.equal(mobileBookingBars[0].includes('hidden'), route === '/', `${locale} ${route}: only the home booking bar should start hidden`);
     const siteHeader = html.match(/<header\b(?=[^>]*class="site-header")[\s\S]*?<\/header>/)?.[0] ?? '';
     assert.ok(siteHeader.includes(`<span id="external-link-new-tab" class="visually-hidden">${dictionary.ui.opensInNewTab}</span>`), `${locale}: external-link description should be inside the shared header landmark`);
     const newTabLinks = [...html.matchAll(/<a\b(?=[^>]*\btarget="_blank")[^>]*>/g)].map(([tag]) => tag);
@@ -69,7 +77,7 @@ for (const locale of locales) {
         assert.match(html, new RegExp(`<section\\b(?=[^>]*\\bid="${id}")(?=[^>]*\\btabindex="-1")[^>]*>`), `${locale}: in-page navigation target ${id} must be programmatically focusable`);
       }
       assert.match(html, /<a\b(?=[^>]*data-booking-primary)[^>]*>/, `${locale}: home primary booking action must be identifiable`);
-      assert.match(html, /<aside\b(?=[^>]*data-mobile-booking)(?=[^>]*\bhidden)[^>]*>/, `${locale}: duplicate home booking bar must be hidden until needed`);
+      assert.match(html, /<aside\b(?=[^>]*data-mode="contextual")(?=[^>]*\bhidden)[^>]*>/, `${locale}: contextual home booking bar must be hidden until needed`);
     }
     assert.ok(html.includes(`property="og:locale" content="${socialLocales[locale]}"`));
     const switchers = [...html.matchAll(/<details\b[^>]*data-language-switcher[^>]*>([\s\S]*?)<\/details>/g)];

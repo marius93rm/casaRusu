@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from './Header.astro';
-import Footer from './Footer.astro';
+import SiteShell from './SiteShell.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
 import OpeningStatus from './OpeningStatus.astro';
@@ -10,11 +9,10 @@ import MenuGallery from './MenuGallery.astro';
 import MenuTranscript from './MenuTranscript.astro';
 import { menuCopy, menuPages, menuSrcset } from '../data/menu';
 import { siteData, type SiteLocale } from '../data/site';
-import { getDictionary, localizedPath } from '../i18n';
+import { localizedPath } from '../i18n';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
-const { ui } = getDictionary(locale);
 const menu = menuCopy[locale];
 const offer = copy.menu.offer;
 const offerActive = Date.now() < Date.parse(siteData.promotions.cocktailOffer.expiresAt);
@@ -35,8 +33,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
   description={copy.menu.seo.description}
   {socialImage}
 >
-  <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
-  <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
+  <SiteShell locale={locale} navigation={copy.nav} bookingLabel={copy.hero.primaryAction}>
 
   <main id="main-content" tabindex="-1">
     <section class="menu-page" aria-labelledby="menu-page-title">
@@ -101,12 +98,7 @@ const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
     </section>
   </main>
 
-  <Footer {locale} />
-  <aside class="mobile-booking" aria-label={ui.reservations}>
-    <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-      {copy.hero.primaryAction}<Icon name="phone" size={18} />
-    </a>
-  </aside>
+  </SiteShell>
 </BaseLayout>
 
 <script>
