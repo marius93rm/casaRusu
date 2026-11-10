@@ -11,6 +11,16 @@ export default defineConfig({
   output: 'static',
   build: { inlineStylesheets: 'always' },
   ...(siteUrl
-    ? { site: siteUrl, integrations: [sitemap({ i18n: { defaultLocale, locales: Object.fromEntries(locales.map((locale) => [locale, locale === 'ro' ? 'ro-RO' : locale])) } })] }
+    ? {
+        site: siteUrl,
+        integrations: [
+          sitemap({
+            i18n: {
+              defaultLocale,
+              locales: Object.fromEntries(locales.map((locale) => [locale, locale === 'ro' ? 'ro-RO' : locale])),
+            },
+          }),
+        ],
+      }
     : {}),
 });

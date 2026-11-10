@@ -57,7 +57,7 @@ assert.match(
 );
 assert.match(
   shellSource,
-  /hideForContent = \(visibleAboveBookingBar \|\| visitPhotoOverlapsBookingBar \|\| visitActionOverlapsBookingBar\)/,
+  /hideForContent\s*=\s*\(\s*visibleAboveBookingBar\s*\|\|\s*visitPhotoOverlapsBookingBar\s*\|\|\s*visitActionOverlapsBookingBar\s*\)/,
   'Visit actions that overlap the mobile booking bar should hide it',
 );
 assert.match(

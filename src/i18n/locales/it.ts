@@ -1,200 +1,206 @@
 import type { Translation } from '../types';
 
 export const it = {
-  "languageName": "Italiano",
-  "ui": {
-    "menu": "Menu",
-    "closeMenu": "Chiudi menu",
-    "mainNavigation": "Navigazione principale",
-    "languageSwitcher": "Cambia lingua",
-    "contact": "Contatti",
-    "skipToContent": "Vai al contenuto",
-    "reservations": "Prenotazioni",
-    "home": "Home",
-    "breadcrumbs": "Percorso di navigazione",
-    "country": "Romania",
-    "opensInNewTab": "Si apre in una nuova scheda",
-    "carousel": "carosello",
-    "slide": "diapositiva",
-    "menuEyebrow": "Il menu di Casa Rusu",
-    "notFound": {
-      "eyebrow": "404 · Pagina non trovata",
-      "title": "Non troviamo questa pagina.",
-      "description": "Questo indirizzo non porta a una pagina disponibile di Casa Rusu. Torna alla pagina iniziale o scopri il menu.",
-      "body": "Sembra che il link abbia preso la strada sbagliata. Ti aiutiamo a ritrovare la via per il ristorante.",
-      "homeAction": "Torna alla pagina iniziale",
-      "menuAction": "Sfoglia il menu",
-      "callAction": "Chiama il ristorante",
-      "language": "Scegli la lingua",
-      "metaTitle": "Pagina non trovata | Restaurant Casa Rusu",
-      "metaDescription": "L’indirizzo richiesto non porta a una pagina disponibile. Torna a Restaurant Casa Rusu a Codlea o scopri il menu."
-    }
+  languageName: 'Italiano',
+  ui: {
+    menu: 'Menu',
+    closeMenu: 'Chiudi menu',
+    mainNavigation: 'Navigazione principale',
+    languageSwitcher: 'Cambia lingua',
+    contact: 'Contatti',
+    skipToContent: 'Vai al contenuto',
+    reservations: 'Prenotazioni',
+    home: 'Home',
+    breadcrumbs: 'Percorso di navigazione',
+    country: 'Romania',
+    opensInNewTab: 'Si apre in una nuova scheda',
+    carousel: 'carosello',
+    slide: 'diapositiva',
+    menuEyebrow: 'Il menu di Casa Rusu',
+    notFound: {
+      eyebrow: '404 · Pagina non trovata',
+      title: 'Non troviamo questa pagina.',
+      description:
+        'Questo indirizzo non porta a una pagina disponibile di Casa Rusu. Torna alla pagina iniziale o scopri il menu.',
+      body: 'Sembra che il link abbia preso la strada sbagliata. Ti aiutiamo a ritrovare la via per il ristorante.',
+      homeAction: 'Torna alla pagina iniziale',
+      menuAction: 'Sfoglia il menu',
+      callAction: 'Chiama il ristorante',
+      language: 'Scegli la lingua',
+      metaTitle: 'Pagina non trovata | Restaurant Casa Rusu',
+      metaDescription:
+        'L’indirizzo richiesto non porta a una pagina disponibile. Torna a Restaurant Casa Rusu a Codlea o scopri il menu.',
+    },
   },
-  "seo": {
-    "title": "Ristorante Casa Rusu a Codlea · Orari e indirizzo",
-    "description": "Trova Restaurant Casa Rusu a Codlea: indirizzo, orari, telefono per prenotare e piatti selezionati dal menu del ristorante."
+  seo: {
+    title: 'Ristorante Casa Rusu a Codlea · Orari e indirizzo',
+    description:
+      'Trova Restaurant Casa Rusu a Codlea: indirizzo, orari, telefono per prenotare e piatti selezionati dal menu del ristorante.',
   },
-  "copy": {
-    "menu": {
-      "eyebrow": "Menu",
-      "title": "Menu del Ristorante Casa Rusu",
-      "body": "Sfoglia il menu stampato, dagli antipasti ai dolci e alle bevande. Chiamaci per verificare i prezzi attuali e la disponibilità.",
-      "seo": {
-        "title": "Menu Casa Rusu a Codlea · Piatti e prezzi",
-        "description": "Scopri il menu stampato di Casa Rusu a Codlea: antipasti, piatti, dolci e bevande con prezzi in lei. Chiama per prezzi attuali e disponibilità."
+  copy: {
+    menu: {
+      eyebrow: 'Menu',
+      title: 'Menu del Ristorante Casa Rusu',
+      body: 'Sfoglia il menu stampato, dagli antipasti ai dolci e alle bevande. Chiamaci per verificare i prezzi attuali e la disponibilità.',
+      seo: {
+        title: 'Menu Casa Rusu a Codlea · Piatti e prezzi',
+        description:
+          'Scopri il menu stampato di Casa Rusu a Codlea: antipasti, piatti, dolci e bevande con prezzi in lei. Chiama per prezzi attuali e disponibilità.',
       },
-      "dishAction": "Vedi il piatto",
-      "backAction": "Torna al menu",
-      "offer": {
-        "eyebrow": "Offerta pubblicata · valida fino al 30 novembre 2026",
-        "title": "3 cocktail + 1 offerto dalla casa",
-        "body": "Ordina tre cocktail della selezione e ricevi il quarto in omaggio:",
-        "callAction": "Chiama per informazioni e prenotazioni",
-        "sourceAction": "Vedi l’offerta su Facebook",
-        "cocktails": [
-          "Disaronno Sour",
-          "PornStar Martini",
-          "Aperol Vanilla Sour"
-        ]
-      }
-    },
-    "hero": {
-      "eyebrow": "Ristorante · Codlea",
-      "title": "Ristorante Casa Rusu a Codlea",
-      "slogan": "Sapori che uniscono le persone!",
-      "description": "Ci trovi in {address}, a Codlea. Chiamaci e vieni a tavola!",
-      "primaryAction": "Chiama per prenotare un tavolo",
-      "secondaryAction": "Vedi dove siamo",
-      "imageAlt": "L’interno luminoso del Ristorante Casa Rusu a Codlea, con tavoli apparecchiati e divanetti verdi."
-    },
-    "story": {
-      "title": "A tavola, con le persone care.",
-      "body": "Il menu riunisce zuppe, antipasti tradizionali, pasta, pinsa, pesce, carne e dolci.",
-      "priceGuide": "Prezzi di partenza dal menu stampato",
-      "priceFrom": "Da {price} lei"
-    },
-    "dish": {
-      "eyebrow": "Dalla nostra cucina",
-      "title": "Cotoletta di maiale con osso",
-      "body": "La foto mostra la cotoletta di lonza di maiale con osso, accompagnata da patatine con prezzemolo, parmigiano e aglio.",
-      "seo": {
-        "title": "Cotoletta di maiale con osso · Casa Rusu, Codlea",
-        "description": "Il menu stampato indica {quantity} di cotoletta di maiale con osso a {price} lei, senza contorni. Chiama Casa Rusu a Codlea per verificare la disponibilità della porzione mostrata con patatine."
+      dishAction: 'Vedi il piatto',
+      backAction: 'Torna al menu',
+      offer: {
+        eyebrow: 'Offerta pubblicata · valida fino al 30 novembre 2026',
+        title: '3 cocktail + 1 offerto dalla casa',
+        body: 'Ordina tre cocktail della selezione e ricevi il quarto in omaggio:',
+        callAction: 'Chiama per informazioni e prenotazioni',
+        sourceAction: 'Vedi l’offerta su Facebook',
+        cocktails: ['Disaronno Sour', 'PornStar Martini', 'Aperol Vanilla Sour'],
       },
-      "note": "Chiamaci per disponibilità e prezzo.",
-      "menuListingLabel": "Nel menu stampato",
-      "menuListingNote": "Il menu stampato elenca la cotoletta separatamente dai contorni. La foto la mostra con patatine fritte. Chiamaci per verificare se questa porzione è disponibile e qual è il prezzo attuale.",
-      "menuListingAction": "Vedi la voce nel menu",
-      "imageAlt": "Piatto Casa Rusu con cotoletta di maiale, patatine fritte e guarnizioni.",
-      "action": "Scopri il piatto"
     },
-    "visit": {
-      "titleFirst": "Incontriamoci",
-      "titleSecond": "a tavola!",
-      "body": "Chiamaci per prenotare un tavolo. Ci trovi in {address}, a Codlea.",
-      "addressLabel": "Indirizzo",
-      "phoneLabel": "Telefono",
-      "imageAlt": "L’insegna del Ristorante Casa Rusu montata sulla facciata dell’edificio.",
-      "hoursLabel": "Orari",
-      "copyAddress": "Copia l’indirizzo",
-      "addressCopied": "Indirizzo copiato.",
-      "addressCopyFailed": "Impossibile copiare l’indirizzo. Selezionalo e copialo manualmente.",
-      "shareAddress": "Condividi indirizzo",
-      "addressShareStatus": "Scegli un’app per condividere l’indirizzo.",
-      "mapAction": "Indicazioni stradali",
-      "reviewsAction": "Leggi le recensioni su Google",
-      "openingStatus": {
-        "open": "Aperto ora",
-        "closed": "Chiuso ora",
-        "closes": "chiude alle {time}",
-        "opens": "apre {day} alle {time}",
-        "today": "oggi",
-        "tomorrow": "domani",
-        "regular": "secondo gli orari abituali",
-        "weekdays": {
-          "Monday": "lunedì",
-          "Tuesday": "martedì",
-          "Wednesday": "mercoledì",
-          "Thursday": "giovedì",
-          "Friday": "venerdì",
-          "Saturday": "sabato",
-          "Sunday": "domenica"
-        }
-      }
+    hero: {
+      eyebrow: 'Ristorante · Codlea',
+      title: 'Ristorante Casa Rusu a Codlea',
+      slogan: 'Sapori che uniscono le persone!',
+      description: 'Ci trovi in {address}, a Codlea. Chiamaci e vieni a tavola!',
+      primaryAction: 'Chiama per prenotare un tavolo',
+      secondaryAction: 'Vedi dove siamo',
+      imageAlt: 'L’interno luminoso del Ristorante Casa Rusu a Codlea, con tavoli apparecchiati e divanetti verdi.',
     },
-    "footer": {
-      "location": "Codlea · Romania",
-      "facebook": "Facebook",
-      "instagram": "Instagram"
+    story: {
+      title: 'A tavola, con le persone care.',
+      body: 'Il menu riunisce zuppe, antipasti tradizionali, pasta, pinsa, pesce, carne e dolci.',
+      priceGuide: 'Prezzi di partenza dal menu stampato',
+      priceFrom: 'Da {price} lei',
     },
-    "nav": [
+    dish: {
+      eyebrow: 'Dalla nostra cucina',
+      title: 'Cotoletta di maiale con osso',
+      body: 'La foto mostra la cotoletta di lonza di maiale con osso, accompagnata da patatine con prezzemolo, parmigiano e aglio.',
+      seo: {
+        title: 'Cotoletta di maiale con osso · Casa Rusu, Codlea',
+        description:
+          'Il menu stampato indica {quantity} di cotoletta di maiale con osso a {price} lei, senza contorni. Chiama Casa Rusu a Codlea per verificare la disponibilità della porzione mostrata con patatine.',
+      },
+      note: 'Chiamaci per disponibilità e prezzo.',
+      menuListingLabel: 'Nel menu stampato',
+      menuListingNote:
+        'Il menu stampato elenca la cotoletta separatamente dai contorni. La foto la mostra con patatine fritte. Chiamaci per verificare se questa porzione è disponibile e qual è il prezzo attuale.',
+      menuListingAction: 'Vedi la voce nel menu',
+      imageAlt: 'Piatto Casa Rusu con cotoletta di maiale, patatine fritte e guarnizioni.',
+      action: 'Scopri il piatto',
+    },
+    visit: {
+      titleFirst: 'Incontriamoci',
+      titleSecond: 'a tavola!',
+      body: 'Chiamaci per prenotare un tavolo. Ci trovi in {address}, a Codlea.',
+      addressLabel: 'Indirizzo',
+      phoneLabel: 'Telefono',
+      imageAlt: 'L’insegna del Ristorante Casa Rusu montata sulla facciata dell’edificio.',
+      hoursLabel: 'Orari',
+      copyAddress: 'Copia l’indirizzo',
+      addressCopied: 'Indirizzo copiato.',
+      addressCopyFailed: 'Impossibile copiare l’indirizzo. Selezionalo e copialo manualmente.',
+      shareAddress: 'Condividi indirizzo',
+      addressShareStatus: 'Scegli un’app per condividere l’indirizzo.',
+      mapAction: 'Indicazioni stradali',
+      reviewsAction: 'Leggi le recensioni su Google',
+      openingStatus: {
+        open: 'Aperto ora',
+        closed: 'Chiuso ora',
+        closes: 'chiude alle {time}',
+        opens: 'apre {day} alle {time}',
+        today: 'oggi',
+        tomorrow: 'domani',
+        regular: 'secondo gli orari abituali',
+        weekdays: {
+          Monday: 'lunedì',
+          Tuesday: 'martedì',
+          Wednesday: 'mercoledì',
+          Thursday: 'giovedì',
+          Friday: 'venerdì',
+          Saturday: 'sabato',
+          Sunday: 'domenica',
+        },
+      },
+    },
+    footer: {
+      location: 'Codlea · Romania',
+      facebook: 'Facebook',
+      instagram: 'Instagram',
+    },
+    nav: [
       {
-        "label": "Menu",
-        "href": "/it/meniu/"
-      },
-      {
-        "label": "Chi siamo",
-        "href": "/it/#poveste"
+        label: 'Menu',
+        href: '/it/meniu/',
       },
       {
-        "label": "Dalla nostra cucina",
-        "href": "/it/#preparat"
+        label: 'Chi siamo',
+        href: '/it/#poveste',
       },
       {
-        "label": "Contatti",
-        "href": "/it/#vizita"
-      }
-    ]
+        label: 'Dalla nostra cucina',
+        href: '/it/#preparat',
+      },
+      {
+        label: 'Contatti',
+        href: '/it/#vizita',
+      },
+    ],
   },
-  "menu": {
-    "action": "Vedi il menu",
-    "previewTitle": "Voglia di qualcosa di buono?",
-    "previewBody": "Dagli antipasti alle grigliate, fino al dolce e a un calice di vino. Sfoglia il menu e scegli ciò che ti stuzzica.",
-    "index": "Scegli una pagina",
-    "gallery": "Il menu in immagini",
-    "page": "Pagina",
-    "of": "di",
-    "previous": "Pagina precedente",
-    "next": "Pagina successiva",
-    "enlarge": "Ingrandisci la pagina",
-    "original": "Apri l’immagine originale",
-    "close": "Chiudi immagine",
-    "zoomIn": "Ingrandisci",
-    "zoomOut": "Riduci",
-    "reset": "Adatta alla pagina",
-    "read": "Leggi il menu",
-    "scanPage": "Vedi la pagina del menu",
-    "readTitle": "Il menu, con calma",
-    "readBody": "Piatti, quantità e prezzi dal menu stampato, con gli ingredienti dove indicati.",
-    "allergenNote": "Gli ingredienti sono indicati solo dove compaiono nel menu stampato; questo non è un elenco completo degli allergeni. Se hai un'allergia o esigenze alimentari, chiedi al ristorante prima di ordinare.",
-    "languageNote": "Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.",
-    "printMenu": "Stampa il menu",
-    "searchLandmark": "Ricerca nel menu",
-    "searchLabel": "Cosa cerchi nel menu?",
-    "searchShortcut": "Cerca nel menu",
-    "searchReturn": "Torna ai filtri",
-    "categoryFilter": "Filtra per categoria",
-    "categoryAll": "Tutte le categorie",
-    "searchPlaceholder": "Nome, bevanda, ingrediente, categoria o prezzo",
-    "searchHint": "Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche le bevande e le denominazioni romene, impostare un prezzo massimo e ordinare per prezzo in ogni categoria.",
-    "priceLimit": "Filtra per prezzo massimo",
-    "priceLimitAll": "Tutti i prezzi",
-    "priceLimitUpTo": "Fino a {price} lei",
-    "sortFilter": "Ordina in ogni categoria",
-    "sortMenuOrder": "Ordine del menu",
-    "sortPriceAsc": "Prezzo crescente",
-    "sortPriceDesc": "Prezzo decrescente",
-    "searchReset": "Azzera filtri",
-    "searchShare": "Copia il link dei risultati",
-    "searchShareNative": "Condividi i risultati",
-    "searchShareCopied": "Link del menu copiato.",
-    "searchShareDone": "Link del menu condiviso.",
-    "searchShareFailed": "Impossibile copiare il link. Copialo dalla barra degli indirizzi.",
-    "searchNoResults": "Nessun risultato trovato.",
-    "searchOneResult": "Un risultato trovato.",
-    "searchManyResults": "{count} risultati trovati.",
-    "extras": "Dalla nostra cucina",
-    "extrasTitle": "I nostri piatti da vicino",
-    "fallback": "L’immagine non è stata caricata. Apri l’originale oppure leggi il menu qui sotto."
-  }
+  menu: {
+    action: 'Vedi il menu',
+    previewTitle: 'Voglia di qualcosa di buono?',
+    previewBody:
+      'Dagli antipasti alle grigliate, fino al dolce e a un calice di vino. Sfoglia il menu e scegli ciò che ti stuzzica.',
+    index: 'Scegli una pagina',
+    gallery: 'Il menu in immagini',
+    page: 'Pagina',
+    of: 'di',
+    previous: 'Pagina precedente',
+    next: 'Pagina successiva',
+    enlarge: 'Ingrandisci la pagina',
+    original: 'Apri l’immagine originale',
+    close: 'Chiudi immagine',
+    zoomIn: 'Ingrandisci',
+    zoomOut: 'Riduci',
+    reset: 'Adatta alla pagina',
+    read: 'Leggi il menu',
+    scanPage: 'Vedi la pagina del menu',
+    readTitle: 'Il menu, con calma',
+    readBody: 'Piatti, quantità e prezzi dal menu stampato, con gli ingredienti dove indicati.',
+    allergenNote:
+      "Gli ingredienti sono indicati solo dove compaiono nel menu stampato; questo non è un elenco completo degli allergeni. Se hai un'allergia o esigenze alimentari, chiedi al ristorante prima di ordinare.",
+    languageNote:
+      'Le immagini mostrano il menu originale romeno. Il testo qui sotto è tradotto; i prezzi sono in lei romeni.',
+    printMenu: 'Stampa il menu',
+    searchLandmark: 'Ricerca nel menu',
+    searchLabel: 'Cosa cerchi nel menu?',
+    searchShortcut: 'Cerca nel menu',
+    searchReturn: 'Torna ai filtri',
+    categoryFilter: 'Filtra per categoria',
+    categoryAll: 'Tutte le categorie',
+    searchPlaceholder: 'Nome, bevanda, ingrediente, categoria o prezzo',
+    searchHint:
+      'Cerca per nome, ingrediente, categoria o prezzo in lei. Puoi cercare anche le bevande e le denominazioni romene, impostare un prezzo massimo e ordinare per prezzo in ogni categoria.',
+    priceLimit: 'Filtra per prezzo massimo',
+    priceLimitAll: 'Tutti i prezzi',
+    priceLimitUpTo: 'Fino a {price} lei',
+    sortFilter: 'Ordina in ogni categoria',
+    sortMenuOrder: 'Ordine del menu',
+    sortPriceAsc: 'Prezzo crescente',
+    sortPriceDesc: 'Prezzo decrescente',
+    searchReset: 'Azzera filtri',
+    searchShare: 'Copia il link dei risultati',
+    searchShareNative: 'Condividi i risultati',
+    searchShareCopied: 'Link del menu copiato.',
+    searchShareDone: 'Link del menu condiviso.',
+    searchShareFailed: 'Impossibile copiare il link. Copialo dalla barra degli indirizzi.',
+    searchNoResults: 'Nessun risultato trovato.',
+    searchOneResult: 'Un risultato trovato.',
+    searchManyResults: '{count} risultati trovati.',
+    extras: 'Dalla nostra cucina',
+    extrasTitle: 'I nostri piatti da vicino',
+    fallback: 'L’immagine non è stata caricata. Apri l’originale oppure leggi il menu qui sotto.',
+  },
 } as const satisfies Translation;

@@ -26,13 +26,9 @@ function runGit(args) {
 
 function changedFiles() {
   const head = process.env.FORMAT_HEAD_SHA;
-  const eventName = process.env.GITHUB_EVENT_NAME;
 
   if (head) {
-    const base =
-      eventName === 'pull_request'
-        ? runGit(['rev-parse', `${head}^`])
-        : process.env.FORMAT_BASE_SHA || runGit(['rev-parse', `${head}^`]);
+    const base = process.env.FORMAT_BASE_SHA || runGit(['rev-parse', `${head}^`]);
     if (/^0+$/.test(base)) {
       return runGit(['diff-tree', '--root', '--no-commit-id', '--name-only', '--diff-filter=ACMR', '-r', head])
         .split('\n')
