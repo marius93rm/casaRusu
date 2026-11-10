@@ -239,6 +239,10 @@
 
 - [x] **CR-104 — Condividere la shell e il controller della barra prenotazioni.** `SiteShell.astro` ora raccoglie skip link, header, footer e markup della CTA nelle pagine home, menu e piatto. Un unico controller misura la barra, applica l’offset degli overlay Netlify e mantiene il comportamento contestuale della home; la misura clonata viene riutilizzata tra gli aggiornamenti e le letture del layout precedono le scritture. `check:i18n` verifica la shell e il controller condivisi, inclusa l’unica misura di fallback; `ASTRO_TELEMETRY_DISABLED=1 npm run build` passa: Astro check su 64 file senza diagnostiche, 19 pagine e checker SEO/menu/orari/galleria/i18n/lingua superati. In Chrome locale, a 390×844 la barra è nascosta vicino alla CTA principale della home, compare dopo lo scorrimento e si nasconde quando interferirebbe con le azioni dei contatti; menu e scheda piatto mostrano la barra e riservano 64 px. Desktop 1636×904: barra nascosta via CSS, padding e variabili mobile assenti. Nessun overflow orizzontale osservato.
 
+### Configurazione ambientale (10/11/2026)
+
+- [x] **CR-105 — Ignorare i file ambiente e documentare le variabili di build.** Aggiunte le esclusioni `.env*` con eccezione esplicita per `.env.example`, che contiene `SITE_URL` vuoto finché l’origine HTTPS di produzione non sarà confermata e chiarisce che Netlify fornisce `NETLIFY` e `CONTEXT`. `astro.config.ts` e `check:seo` caricano i file ambiente tramite Vite mantenendo la precedenza delle variabili della shell/hosting, così la copia locale `.env.example` → `.env` è effettivamente utilizzabile e build/checker leggono lo stesso valore. README aggiornato. Verifica pattern Git con `.env`, `.env.local`, `.env.production` ignorati e `.env.example` ammesso; `ASTRO_TELEMETRY_DISABLED=1 npm run build` e `git diff --check` superati.
+
 ## Regole per il coordinamento
 
 - Procedere con un elemento per ciclo, scegliendo il più prioritario che può produrre un risultato verificabile.

@@ -52,6 +52,8 @@ Indirizzo, CAP, telefono e orari sono stati verificati sulla [pagina Facebook uf
 
 Per abilitare canonical assoluti, hreflang, immagini Open Graph assolute e sitemap, impostare la variabile `SITE_URL` nell'ambiente di build con l'origine pubblica HTTPS (per esempio `SITE_URL=https://www.example.com npm run build`). Astro usa lo stesso valore per canonical e sitemap e il controllo SEO lo verifica. Senza `SITE_URL` la build resta in modalità locale e aggiunge `noindex,nofollow`; così un'eventuale preview accessibile ai crawler non entra nei risultati di ricerca. Configurare la variabile solo quando l'origine di produzione è confermata.
 
+Per una build locale puoi copiare `.env.example` in `.env` e impostare `SITE_URL` lì; Astro e il checker SEO caricano il file mantenendo la precedenza delle variabili definite dalla shell o dall'hosting. Netlify fornisce `NETLIFY` e `CONTEXT` durante i build ospitati: non inserirli nei file locali.
+
 ## Verifica del redesign
 
 `npm run build` esegue il controllo Astro, genera le 18 rotte (home, menu e scheda del piatto in RO/EN/IT/ES/FR/DE) e avvia `check:seo`, `check:menu`, `check:hours` e `check:i18n`. Per la verifica manuale, controllare le tre tipologie di pagina in Paseo a 320, 390, 768, 1024 e 1440 px: nessuno scorrimento orizzontale, immagini e font locali caricati, CTA visibile e ancore valide. Verificare il menu mobile in apertura/chiusura con Escape e il ritorno del focus al pulsante. Le regole del tema scuro sono state applicate temporaneamente nel browser per controllare resa e contrasto.

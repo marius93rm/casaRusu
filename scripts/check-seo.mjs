@@ -2,11 +2,13 @@ import { locales, prefixFor, homeFor, localeFor, unlocalizedRoute } from './i18n
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 import { galleryPhotos } from '../src/data/photoGallery.ts';
 import { galleryImageSizes, imageSizes } from '../src/utils/responsiveImages.ts';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputDirectory = path.join(projectRoot, 'dist');
+const env = loadEnv(process.env.NODE_ENV ?? 'production', projectRoot, '');
 const errors = [];
 const localOrigin = 'http://casa-rusu.local';
 const netlifyContext = process.env.CONTEXT?.trim().toLowerCase();
@@ -117,7 +119,7 @@ function normalizedText(value) {
 }
 
 async function getConfiguredSiteUrl() {
-  const environmentSiteUrl = process.env.SITE_URL?.trim();
+  const environmentSiteUrl = process.env.SITE_URL?.trim() || env.SITE_URL?.trim();
   if (environmentSiteUrl) return environmentSiteUrl;
 
   const source = await readFile(path.join(projectRoot, 'src/config/site.ts'), 'utf8');
