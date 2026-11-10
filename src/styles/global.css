@@ -383,7 +383,9 @@ h1, h2, h3 {
   .footer-links { gap: 1rem; }
 }
 @media (max-width: 760px) {
-  .main-navigation[data-enhanced='true'] { max-height: calc(100dvh - 100% - 5rem); }
+  .main-navigation[data-enhanced='true'] {
+    max-height: calc(100dvh - 100% - var(--mobile-booking-height, calc(4rem + env(safe-area-inset-bottom))) - var(--mobile-booking-bottom-offset, 0px) - 1rem);
+  }
   .mobile-booking { display: block; }
   body:has(.mobile-booking[hidden]) { padding-bottom: 0; }
   html {
