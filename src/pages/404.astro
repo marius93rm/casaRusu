@@ -41,7 +41,9 @@ const socialImage = {
   noIndex
   detectLanguage={false}
 >
-  <a class="skip-link" href="#main-content" data-copy="skipToContent">{dictionary.ui.skipToContent}</a>
+  <a class="skip-link" href="#main-content" data-copy="skipToContent">
+    {dictionary.ui.skipToContent}
+  </a>
   <header class="not-found-header">
     <div class="container not-found-header-inner">
       <Brand href="/" label="Casa Rusu Restaurant" />
@@ -51,10 +53,18 @@ const socialImage = {
   <main id="main-content" class="not-found-screen" tabindex="-1">
     <section class="container not-found-panel" aria-labelledby="not-found-title">
       <div class="not-found-copy">
-        <p class="eyebrow" data-copy="eyebrow">{dictionary.ui.notFound.eyebrow}</p>
-        <h1 id="not-found-title" data-copy="title">{dictionary.ui.notFound.title}</h1>
-        <p class="not-found-lead" data-copy="description">{dictionary.ui.notFound.description}</p>
-        <p class="not-found-body" data-copy="body">{dictionary.ui.notFound.body}</p>
+        <p class="eyebrow" data-copy="eyebrow">
+          {dictionary.ui.notFound.eyebrow}
+        </p>
+        <h1 id="not-found-title" data-copy="title">
+          {dictionary.ui.notFound.title}
+        </h1>
+        <p class="not-found-lead" data-copy="description">
+          {dictionary.ui.notFound.description}
+        </p>
+        <p class="not-found-body" data-copy="body">
+          {dictionary.ui.notFound.body}
+        </p>
 
         <div class="not-found-actions">
           <a id="not-found-home" class="button button-primary" href="/">
@@ -164,44 +174,166 @@ const socialImage = {
         else link.removeAttribute('aria-current');
       }
 
-      try {
-        window.localStorage.setItem('casa-rusu-language', locale);
-      } catch {
-        // The page remains fully translated when storage is unavailable.
+      if (supported.includes(requestedLocale)) {
+        try {
+          window.localStorage.setItem('casa-rusu-language', requestedLocale);
+        } catch {
+          // The page remains fully translated when storage is unavailable.
+        }
       }
     })();
   </script>
 </BaseLayout>
 
 <style>
-  .not-found-header { border-bottom: 1px solid var(--border); }
-  .not-found-header-inner { display: flex; min-height: 80px; align-items: center; }
-  .not-found-screen { display: grid; min-height: calc(100dvh - 80px); align-items: center; padding-block: clamp(2rem, 7vh, 5rem); }
-  .not-found-panel { position: relative; isolation: isolate; display: grid; min-height: 34rem; align-items: center; justify-items: center; overflow: hidden; padding: clamp(2.5rem, 7vw, 6rem); border: 1px solid var(--border); background: var(--surface); text-align: center; }
-  .not-found-panel::before { position: absolute; z-index: -1; top: 0; left: 50%; width: min(28rem, 70%); height: 2px; background: var(--accent); content: ''; transform: translateX(-50%); }
-  .not-found-copy { width: min(100%, 48rem); }
-  .not-found-copy .eyebrow { margin-bottom: 1rem; }
-  .not-found-copy h1 { max-width: 15ch; margin: 0 auto 1rem; font-size: clamp(3rem, 6vw, 5.25rem); }
-  .not-found-lead { max-width: 42rem; margin: 0 auto; color: var(--primary); font-size: clamp(1.125rem, 2vw, 1.375rem); line-height: 1.5; }
-  .not-found-body { max-width: 38rem; margin: 1rem auto 0; color: var(--muted); font-size: 1rem; }
-  .not-found-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .85rem; margin-top: 2rem; }
-  .not-found-call { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; color: var(--primary); text-decoration-color: var(--border); text-underline-offset: .25rem; }
-  .not-found-call svg { flex: none; color: var(--accent); }
-  .not-found-phone { color: var(--muted); font-variant-numeric: tabular-nums; }
-  .not-found-languages { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .25rem; margin-top: 2rem; }
-  .not-found-languages a { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; padding: .25rem; color: var(--muted); font-size: .875rem; text-decoration: none; }
-  .not-found-languages a[aria-current='page'] { color: var(--primary); font-weight: 700; text-decoration: underline; text-underline-offset: .3rem; }
-  .not-found-languages a:hover { color: var(--accent); }
+  .not-found-header {
+    border-bottom: 1px solid var(--border);
+  }
+  .not-found-header-inner {
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+  }
+  .not-found-screen {
+    display: grid;
+    min-height: calc(100dvh - 80px);
+    align-items: center;
+    padding-block: clamp(2rem, 7vh, 5rem);
+  }
+  .not-found-panel {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    min-height: 34rem;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+    padding: clamp(2.5rem, 7vw, 6rem);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+  }
+  .not-found-panel::before {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 50%;
+    width: min(28rem, 70%);
+    height: 2px;
+    background: var(--accent);
+    content: '';
+    transform: translateX(-50%);
+  }
+  .not-found-copy {
+    width: min(100%, 48rem);
+  }
+  .not-found-copy .eyebrow {
+    margin-bottom: 1rem;
+  }
+  .not-found-copy h1 {
+    max-width: 15ch;
+    margin: 0 auto 1rem;
+    font-size: clamp(3rem, 6vw, 5.25rem);
+  }
+  .not-found-lead {
+    max-width: 42rem;
+    margin: 0 auto;
+    color: var(--primary);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.5;
+  }
+  .not-found-body {
+    max-width: 38rem;
+    margin: 1rem auto 0;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .not-found-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2rem;
+  }
+  .not-found-call {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: var(--primary);
+    text-decoration-color: var(--border);
+    text-underline-offset: 0.25rem;
+  }
+  .not-found-call svg {
+    flex: none;
+    color: var(--accent);
+  }
+  .not-found-phone {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .not-found-languages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 2rem;
+  }
+  .not-found-languages a {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  .not-found-languages a[aria-current='page'] {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+  .not-found-languages a:hover {
+    color: var(--accent);
+  }
   @media (max-width: 600px) {
-    .not-found-header-inner { min-height: 68px; }
-    .not-found-screen { min-height: calc(100dvh - 68px); padding-block: 1.25rem; }
-    .not-found-panel { min-height: 37rem; padding: 2rem 1.25rem; }
-    .not-found-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
-    .not-found-actions .button { width: 100%; }
-    .not-found-copy h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
-    .not-found-call { max-width: 100%; }
+    .not-found-header-inner {
+      min-height: 68px;
+    }
+    .not-found-screen {
+      min-height: calc(100dvh - 68px);
+      padding-block: 1.25rem;
+    }
+    .not-found-panel {
+      min-height: 37rem;
+      padding: 2rem 1.25rem;
+    }
+    .not-found-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .not-found-actions .button {
+      width: 100%;
+    }
+    .not-found-copy h1 {
+      font-size: clamp(2.8rem, 12vw, 4rem);
+    }
+    .not-found-call {
+      max-width: 100%;
+    }
   }
   @media (max-width: 320px) {
-    .not-found-actions .button-primary { gap: .5rem; padding-inline: .75rem; font-size: 1rem; }
+    .not-found-actions .button-primary {
+      gap: 0.5rem;
+      padding-inline: 0.75rem;
+      font-size: 1rem;
+    }
   }
 </style>

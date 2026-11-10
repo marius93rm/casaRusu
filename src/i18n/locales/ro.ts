@@ -78,7 +78,7 @@ export const ro = {
       "eyebrow": "Restaurant · Codlea",
       "title": "Restaurant Casa Rusu în Codlea",
       "slogan": "Gusturi care aduc oamenii împreună!",
-      "description": "Ne găsești pe Strada Laterală, nr. 42, în Codlea. Sună-ne și hai la masă!",
+      "description": "Ne găsești pe {address}, în Codlea. Sună-ne și hai la masă!",
       "primaryAction": "Sună-ne pentru o rezervare",
       "secondaryAction": "Vezi locația",
       "imageAlt": "Interiorul luminos al Restaurantului Casa Rusu din Codlea, cu mese pregătite și banchete verzi."
@@ -107,10 +107,10 @@ export const ro = {
     "visit": {
       "titleFirst": "Hai să ne",
       "titleSecond": "întâlnim la masă!",
-      "body": "Sună-ne pentru o rezervare. Ne găsești pe Strada Laterală, nr. 42, în Codlea.",
+      "body": "Sună-ne pentru o rezervare. Ne găsești pe {address}, în Codlea.",
       "addressLabel": "Adresă",
       "phoneLabel": "Telefon",
-      "imageAlt": "Firma Restaurantului Casa Rusu pe fațada clădirii, lângă numărul 42.",
+      "imageAlt": "Firma Restaurantului Casa Rusu montată pe fațada clădirii.",
       "hoursLabel": "Program",
       "copyAddress": "Copiază adresa",
       "addressCopied": "Adresa a fost copiată.",

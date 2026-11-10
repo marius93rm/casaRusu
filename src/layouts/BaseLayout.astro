@@ -45,16 +45,15 @@ const themeStyle = [
   `--accent:${theme.accent}`,
   `--border:${theme.border}`,
 ].join(';');
-const canonicalUrl = Astro.site && canPublishSearchMetadata ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
+const canonicalUrl =
+  Astro.site && canPublishSearchMetadata ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
 const localizedUrl = (locale: SiteLocale) => {
   if (!Astro.site) return undefined;
   const path = switchLocalePath(new URL(Astro.url.pathname, Astro.url), locale);
   return new URL(path === '/' || path.endsWith('/') ? path : `${path}/`, Astro.site).toString();
 };
 const romanianUrl = localizedUrl('ro');
-const socialImageUrl = Astro.site && socialImageData
-  ? new URL(socialImageData.src, Astro.site).toString()
-  : undefined;
+const socialImageUrl = Astro.site && socialImageData ? new URL(socialImageData.src, Astro.site).toString() : undefined;
 const socialLocale = socialLocales[lang];
 ---
 
@@ -63,15 +62,40 @@ const socialLocale = socialLocales[lang];
   <head>
     <meta charset="UTF-8" />
     {detectLanguage && <LanguageDetection />}
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
-    {criticalImage && <link rel="preload" as="image" type={criticalImage.type} imagesrcset={criticalImage.srcset} imagesizes={criticalImage.sizes} fetchpriority="high" />}
+    {criticalImage && (
+      <link
+        rel="preload"
+        as="image"
+        type={criticalImage.type}
+        imagesrcset={criticalImage.srcset}
+        imagesizes={criticalImage.sizes}
+        fetchpriority="high"
+      />
+    )}
     <meta name="theme-color" content={theme.background} media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#211e1a" media="(prefers-color-scheme: dark)" />
     <link rel="preload" href="/fonts/optimized/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
-    {lang === 'ro' && <link rel="preload" href="/fonts/optimized/dm-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin />}
-    <link rel="preload" href="/fonts/optimized/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin />
-    {lang === 'ro' && <link rel="preload" href="/fonts/optimized/cormorant-garamond-latin-ext.woff2" as="font" type="font/woff2" crossorigin />}
+    {lang === 'ro' && (
+      <link rel="preload" href="/fonts/optimized/dm-sans-latin-ext.woff2" as="font" type="font/woff2" crossorigin />
+    )}
+    <link
+      rel="preload"
+      href="/fonts/optimized/cormorant-garamond-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    {lang === 'ro' && (
+      <link
+        rel="preload"
+        href="/fonts/optimized/cormorant-garamond-latin-ext.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <meta property="og:type" content="website" />
@@ -79,7 +103,11 @@ const socialLocale = socialLocales[lang];
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:locale" content={socialLocale} />
-    {locales.filter((locale) => locale !== lang).map((locale) => <meta property="og:locale:alternate" content={socialLocales[locale]} />)}
+    {locales
+      .filter((locale) => locale !== lang)
+      .map((locale) => (
+        <meta property="og:locale:alternate" content={socialLocales[locale]} />
+      ))}
     {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta property="og:image:alt" content={socialImageData.alt} />}
     {socialImageUrl && socialImageData && <meta property="og:image:width" content={String(socialImageData.width)} />}
@@ -91,7 +119,11 @@ const socialLocale = socialLocales[lang];
     {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     {socialImageUrl && socialImageData && <meta name="twitter:image:alt" content={socialImageData.alt} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {Astro.site && canPublishSearchMetadata && locales.map((locale) => <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />)}
+    {Astro.site &&
+      canPublishSearchMetadata &&
+      locales.map((locale) => (
+        <link rel="alternate" hreflang={locale === 'ro' ? 'ro-RO' : locale} href={localizedUrl(locale)} />
+      ))}
     {canPublishSearchMetadata && romanianUrl && <link rel="alternate" hreflang="x-default" href={romanianUrl} />}
     <link rel="icon" type="image/svg+xml" href="/brand/favicon.svg" />
     {effectiveNoIndex && <meta name="robots" content="noindex,nofollow" />}
@@ -99,82 +131,5 @@ const socialLocale = socialLocales[lang];
   <body style={themeStyle}>
     <slot />
     <Motion />
-    <script is:inline>
-      (() => {
-        const mobileBookingCta = document.querySelector('.mobile-booking-cta');
-        if (!(mobileBookingCta instanceof HTMLElement)) return;
-
-        const mobileBooking = mobileBookingCta.closest('.mobile-booking');
-        const mobileViewport = window.matchMedia('(max-width: 760px)');
-        const netlifyOverlaySelector = 'iframe[title="Powered by Netlify"], iframe[title="Netlify Drawer"]';
-        const root = document.documentElement;
-        let syncFrame = 0;
-        let observedNetlifyOverlay = null;
-        let netlifyOverlayResizeObserver;
-        const syncMobileBookingSpace = () => {
-          syncFrame = 0;
-          if (!mobileViewport.matches) {
-            root.style.removeProperty('--mobile-booking-height');
-            root.style.removeProperty('--mobile-booking-bottom-offset');
-            return;
-          }
-
-          let height = mobileBookingCta.getBoundingClientRect().height;
-          if (!height) {
-            const measurement = mobileBookingCta.cloneNode(true);
-            measurement.removeAttribute('href');
-            measurement.setAttribute('aria-hidden', 'true');
-            measurement.setAttribute('inert', '');
-            measurement.tabIndex = -1;
-            measurement.style.setProperty('visibility', 'hidden', 'important');
-            measurement.style.setProperty('pointer-events', 'none', 'important');
-            document.body.appendChild(measurement);
-            height = measurement.getBoundingClientRect().height;
-            measurement.remove();
-          }
-
-          if (height > 0) {
-            root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
-          }
-
-          const netlifyOverlay = document.querySelector(netlifyOverlaySelector);
-          if (netlifyOverlay !== observedNetlifyOverlay) {
-            netlifyOverlayResizeObserver?.disconnect();
-            observedNetlifyOverlay = netlifyOverlay;
-            if (netlifyOverlay instanceof HTMLIFrameElement) netlifyOverlayResizeObserver?.observe(netlifyOverlay);
-          }
-
-          if (mobileBooking instanceof HTMLElement && !mobileBooking.hidden && netlifyOverlay instanceof HTMLIFrameElement) {
-            const overlayRect = netlifyOverlay.getBoundingClientRect();
-            const pinnedToViewportBottom = Math.abs(window.innerHeight - overlayRect.bottom) <= 2;
-            if (overlayRect.width > 0 && overlayRect.height > 0 && pinnedToViewportBottom) {
-              root.style.setProperty('--mobile-booking-bottom-offset', `${Math.ceil(window.innerHeight - overlayRect.top)}px`);
-              return;
-            }
-          }
-
-          root.style.removeProperty('--mobile-booking-bottom-offset');
-        };
-        const scheduleSync = () => {
-          if (syncFrame) return;
-          syncFrame = window.requestAnimationFrame(syncMobileBookingSpace);
-        };
-
-        if ('ResizeObserver' in window) netlifyOverlayResizeObserver = new ResizeObserver(scheduleSync);
-        const containsNetlifyOverlay = (node) => node instanceof Element
-          && (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
-        const netlifyOverlayMutationObserver = new MutationObserver((records) => {
-          if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay))) scheduleSync();
-        });
-        netlifyOverlayMutationObserver.observe(root, { childList: true, subtree: true });
-        if (mobileBooking instanceof HTMLElement) new MutationObserver(scheduleSync).observe(mobileBooking, { attributes: true, attributeFilter: ['hidden'] });
-
-        window.addEventListener('resize', scheduleSync, { passive: true });
-        mobileViewport.addEventListener('change', scheduleSync);
-        if ('ResizeObserver' in window) new ResizeObserver(scheduleSync).observe(mobileBookingCta);
-        if (document.fonts) void document.fonts.ready.then(scheduleSync);
-        scheduleSync();
-      })();
-    </script>
   </body>
 </html>

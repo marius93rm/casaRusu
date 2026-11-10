@@ -1,27 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from './Header.astro';
-import Footer from './Footer.astro';
+import SiteShell from './SiteShell.astro';
 import Icon from './Icon.astro';
 import MenuPreview from './MenuPreview.astro';
 import OpeningStatus from './OpeningStatus.astro';
 import RestaurantPhoto from './RestaurantPhoto.astro';
 import PhotoGallery from './PhotoGallery.astro';
 import { menuCopy, menuPages } from '../data/menu';
+import { formatCompanyAddress } from '../data/company';
 import { siteData, type SiteLocale } from '../data/site';
-import { getDictionary, localizedPath } from '../i18n';
+import { getDictionary, interpolateSiteData, localizedPath } from '../i18n';
 import { formatOpeningHours } from '../utils/openingHours';
 import { imageSizes, imageSrcset, restaurantAvifWidths } from '../utils/responsiveImages';
 
 const { locale } = Astro.props as { locale: SiteLocale };
 const copy = siteData.copy[locale];
+const address = formatCompanyAddress(locale);
+const canonicalAddress = formatCompanyAddress('ro');
 const { ui } = getDictionary(locale);
 const seo = siteData.seo[locale];
 const socialImage = {
-  src: siteData.media.cover,
+  src: siteData.media.social.home,
   alt: copy.hero.imageAlt,
-  width: 2048,
-  height: 1366,
+  width: 1200,
+  height: 630,
 };
 const dishHref = localizedPath('/preparate/snitel-cotlet-porc', locale);
 const openingHours = formatOpeningHours(siteData.company.openingHours, locale);
@@ -43,7 +45,9 @@ const menuPriceCategories = [
     href: `${localizedPath('/meniu', locale)}/?category=${page.id}-${sectionIndex + 1}#read-menu`,
   };
 });
-const menuPrices = menuPages.flatMap((page) => page.sections.flatMap((section) => section.items.map((item) => item.price)));
+const menuPrices = menuPages.flatMap((page) =>
+  page.sections.flatMap((section) => section.items.map((item) => item.price)),
+);
 const menuPriceRange = `${Math.min(...menuPrices)}–${Math.max(...menuPrices)} lei`;
 const structuredData = {
   '@context': 'https://schema.org',
@@ -55,7 +59,7 @@ const structuredData = {
   priceRange: menuPriceRange,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: siteData.company.address,
+    streetAddress: canonicalAddress,
     addressLocality: siteData.company.city,
     postalCode: siteData.company.postalCode,
     addressCountry: 'RO',
@@ -73,146 +77,192 @@ const structuredData = {
     closes: hours.closes,
   })),
   sameAs: [siteData.links.facebook, siteData.links.instagram, siteData.links.tiktok, siteData.links.googleBusiness],
-  ...(Astro.site ? {
-    '@id': new URL('/#restaurant', Astro.site).toString(),
-    url: new URL('/', Astro.site).toString(),
-    image: [siteData.media.cover, siteData.media.exterior, siteData.media.featuredDish]
-      .map((image) => new URL(image, Astro.site).toString()),
-    logo: new URL(siteData.media.logo, Astro.site).toString(),
-    menu: new URL(`${localizedPath('/meniu', locale)}/`, Astro.site).toString(),
-  } : {}),
+  ...(Astro.site
+    ? {
+        '@id': new URL('/#restaurant', Astro.site).toString(),
+        url: new URL('/', Astro.site).toString(),
+        image: [siteData.media.cover, siteData.media.exterior, siteData.media.featuredDish].map((image) =>
+          new URL(image, Astro.site).toString(),
+        ),
+        logo: new URL(siteData.media.logo, Astro.site).toString(),
+        menu: new URL(`${localizedPath('/meniu', locale)}/`, Astro.site).toString(),
+      }
+    : {}),
 };
 ---
 
-<BaseLayout lang={locale} title={seo.title} description={seo.description} {socialImage}
-  criticalImage={{ srcset: imageSrcset(siteData.media.cover, restaurantAvifWidths, 'avif'), sizes: imageSizes, type: 'image/avif' }}>
+<BaseLayout
+  lang={locale}
+  title={seo.title}
+  description={seo.description}
+  {socialImage}
+  criticalImage={{
+    srcset: imageSrcset(siteData.media.cover, restaurantAvifWidths, 'avif'),
+    sizes: imageSizes,
+    type: 'image/avif',
+  }}
+>
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-  <a class="skip-link" href="#main-content">{ui.skipToContent}</a>
-  <Header {locale} navigation={copy.nav} cta={{ label: copy.hero.primaryAction, href: siteData.company.phoneHref }} />
-
-  <main id="main-content" tabindex="-1">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="container hero-stage">
-        <div class="hero-copy">
-          <p class="eyebrow">{copy.hero.eyebrow}</p>
-          <h1 id="hero-title">{copy.hero.title}</h1>
-          <p class="hero-slogan">{copy.hero.slogan}</p>
-          <p class="hero-description">{copy.hero.description}</p>
-          <OpeningStatus {locale} />
-          <div class="hero-actions">
-            <a class="button button-primary" href={siteData.company.phoneHref} data-booking-primary>
-              {copy.hero.primaryAction}<Icon name="phone" size={18} />
-            </a>
-            <a class="button button-outline" href={`${localizedPath('/meniu', locale)}/`}>
-              {menuCopy[locale].action}<Icon name="arrow" size={18} />
-            </a>
-            <a class="text-link" href="#vizita">{copy.hero.secondaryAction}<Icon name="diagonal" size={17} /></a>
-          </div>
-        </div>
-
-        <figure class="hero-visual">
-          <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager responsive />
-        </figure>
-      </div>
-    </section>
-
-    <section class="story-section" id="poveste" tabindex="-1" aria-labelledby="story-title">
-      <div class="container story-inner">
-        <h2 id="story-title">{copy.story.title}</h2>
-        <p class="story-body">{copy.story.body}</p>
-        <p class="story-price-note">{copy.story.priceGuide}</p>
-        <ul class="story-price-grid" aria-label={copy.story.priceGuide}>
-          {menuPriceCategories.map((category) => (
-            <li>
-              <a class="story-price-card" href={category.href}>
-                <span class="story-price-category">{category.label}</span>
-                <span class="story-price-value">{copy.story.priceFrom.replace('{price}', String(category.price))}</span>
+  <SiteShell locale={locale} navigation={copy.nav} bookingLabel={copy.hero.primaryAction} bookingMode="contextual">
+    <main id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-stage">
+          <div class="hero-copy">
+            <p class="eyebrow">{copy.hero.eyebrow}</p>
+            <h1 id="hero-title">{copy.hero.title}</h1>
+            <p class="hero-slogan">{copy.hero.slogan}</p>
+            <p class="hero-description">{interpolateSiteData(copy.hero.description, locale)}</p>
+            <OpeningStatus {locale} />
+            <div class="hero-actions">
+              <a class="button button-primary" href={siteData.company.phoneHref} data-booking-primary>
+                {copy.hero.primaryAction}
+                <Icon name="phone" size={18} />
+              </a>
+              <a class="button button-outline" href={`${localizedPath('/meniu', locale)}/`}>
+                {menuCopy[locale].action}
                 <Icon name="arrow" size={18} />
               </a>
-            </li>
-          ))}
-        </ul>
-        <a class="text-link story-link" href="#preparat">{copy.dish.eyebrow}<Icon name="arrow" size={18} /></a>
-      </div>
-    </section>
+              <a class="text-link" href="#vizita">
+                {copy.hero.secondaryAction}
+                <Icon name="diagonal" size={17} />
+              </a>
+            </div>
+          </div>
 
-    <MenuPreview {locale} />
+          <figure class="hero-visual">
+            <RestaurantPhoto image={siteData.media.cover} alt={copy.hero.imageAlt} eager responsive />
+          </figure>
+        </div>
+      </section>
 
-    <section class="dish-section" id="preparat" tabindex="-1" aria-labelledby="dish-title">
-      <div class="container dish-grid">
-        <figure class="dish-visual">
-          <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} responsive />
-        </figure>
-        <div class="dish-copy">
-          <p class="section-label">{copy.dish.eyebrow}</p>
-          <h2 id="dish-title">{copy.dish.title}</h2>
-          <p>{copy.dish.body}</p>
-          <small>{copy.dish.note}</small>
-          <a class="text-link" href={dishHref}>
-            {copy.dish.action}<Icon name="diagonal" size={17} />
+      <section class="story-section" id="poveste" tabindex="-1" aria-labelledby="story-title">
+        <div class="container story-inner">
+          <h2 id="story-title">{copy.story.title}</h2>
+          <p class="story-body">{copy.story.body}</p>
+          <p class="story-price-note">{copy.story.priceGuide}</p>
+          <ul class="story-price-grid" aria-label={copy.story.priceGuide}>
+            {menuPriceCategories.map((category) => (
+              <li>
+                <a class="story-price-card" href={category.href}>
+                  <span class="story-price-category">{category.label}</span>
+                  <span class="story-price-value">
+                    {copy.story.priceFrom.replace('{price}', String(category.price))}
+                  </span>
+                  <Icon name="arrow" size={18} />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a class="text-link story-link" href="#preparat">
+            {copy.dish.eyebrow}
+            <Icon name="arrow" size={18} />
           </a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <PhotoGallery {locale} />
+      <MenuPreview {locale} />
 
-    <section class="visit-section" id="vizita" tabindex="-1" aria-labelledby="visit-title">
-      <div class="container visit-layout">
-        <div class="visit-heading">
-          <h2 id="visit-title">{copy.visit.titleFirst}{' '}<span>{copy.visit.titleSecond}</span></h2>
-          <p>{copy.visit.body}</p>
-        </div>
-        <figure class="visit-visual">
-          <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} responsive />
-        </figure>
-
-        <div class="visit-content">
-          <div class="visit-details">
-            <div class="visit-detail">
-              <span>{copy.visit.addressLabel}</span>
-              <strong>{siteData.company.address}</strong>
-              <p>{siteData.company.postalCode} {siteData.company.city}, {ui.country}</p>
-              <button
-                class="text-link visit-copy-address"
-                type="button"
-                data-copy-address
-                data-address={`${siteData.company.address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
-                data-copy-success={copy.visit.addressCopied}
-                data-copy-error={copy.visit.addressCopyFailed}
-                data-share-label={copy.visit.shareAddress}
-                data-share-url={siteData.links.googleBusiness}
-                data-share-status={copy.visit.addressShareStatus}
-                aria-describedby="visit-copy-address-status"
-              >{copy.visit.copyAddress}</button>
-              <p class="visit-copy-address-status" id="visit-copy-address-status" data-copy-address-status role="status" aria-live="polite" aria-atomic="true" hidden></p>
-            </div>
-            <div class="visit-detail">
-              <span>{copy.visit.phoneLabel}</span>
-              <a href={siteData.company.phoneHref}>{siteData.company.phone}</a>
-            </div>
-            <div class="visit-detail visit-hours">
-              <span>{copy.visit.hoursLabel}</span>
-              {openingHours.map((hours) => <p>{hours}</p>)}
-            </div>
-            <a class="button button-outline" href={siteData.links.map} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab" data-map-directions>
-              {copy.visit.mapAction}<Icon name="location" size={18} />
-            </a>
-            <a class="button button-outline" href={siteData.links.googleBusiness} target="_blank" rel="noreferrer" aria-describedby="external-link-new-tab">
-              {copy.visit.reviewsAction}<Icon name="diagonal" size={18} />
+      <section class="dish-section" id="preparat" tabindex="-1" aria-labelledby="dish-title">
+        <div class="container dish-grid">
+          <figure class="dish-visual">
+            <RestaurantPhoto image={siteData.media.featuredDish} alt={copy.dish.imageAlt} responsive />
+          </figure>
+          <div class="dish-copy">
+            <p class="section-label">{copy.dish.eyebrow}</p>
+            <h2 id="dish-title">{copy.dish.title}</h2>
+            <p>{copy.dish.body}</p>
+            <small>{copy.dish.note}</small>
+            <a class="text-link" href={dishHref}>
+              {copy.dish.action}
+              <Icon name="diagonal" size={17} />
             </a>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <Footer {locale} />
-  <aside class="mobile-booking" aria-label={ui.reservations} data-mobile-booking hidden>
-    <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-      {copy.hero.primaryAction}<Icon name="phone" size={18} />
-    </a>
-  </aside>
+      <PhotoGallery {locale} />
+
+      <section class="visit-section" id="vizita" tabindex="-1" aria-labelledby="visit-title">
+        <div class="container visit-layout">
+          <div class="visit-heading">
+            <h2 id="visit-title">
+              {copy.visit.titleFirst} <span>{copy.visit.titleSecond}</span>
+            </h2>
+            <p>{interpolateSiteData(copy.visit.body, locale)}</p>
+          </div>
+          <figure class="visit-visual">
+            <RestaurantPhoto image={siteData.media.exterior} alt={copy.visit.imageAlt} responsive />
+          </figure>
+
+          <div class="visit-content">
+            <div class="visit-details">
+              <div class="visit-detail">
+                <span>{copy.visit.addressLabel}</span>
+                <strong>{address}</strong>
+                <p>
+                  {siteData.company.postalCode} {siteData.company.city}, {ui.country}
+                </p>
+                <button
+                  class="text-link visit-copy-address"
+                  type="button"
+                  data-copy-address
+                  data-address={`${address}, ${siteData.company.postalCode} ${siteData.company.city}, ${ui.country}`}
+                  data-copy-success={copy.visit.addressCopied}
+                  data-copy-error={copy.visit.addressCopyFailed}
+                  data-share-label={copy.visit.shareAddress}
+                  data-share-url={siteData.links.googleBusiness}
+                  data-share-status={copy.visit.addressShareStatus}
+                  aria-describedby="visit-copy-address-status"
+                >
+                  {copy.visit.copyAddress}
+                </button>
+                <p
+                  class="visit-copy-address-status"
+                  id="visit-copy-address-status"
+                  data-copy-address-status
+                  role="status"
+                  aria-live="polite"
+                  aria-atomic="true"
+                  hidden
+                ></p>
+              </div>
+              <div class="visit-detail">
+                <span>{copy.visit.phoneLabel}</span>
+                <a href={siteData.company.phoneHref}>{siteData.company.phone}</a>
+              </div>
+              <div class="visit-detail visit-hours">
+                <span>{copy.visit.hoursLabel}</span>
+                {openingHours.map((hours) => (
+                  <p>{hours}</p>
+                ))}
+              </div>
+              <a
+                class="button button-outline"
+                href={siteData.links.map}
+                target="_blank"
+                rel="noreferrer"
+                aria-describedby="external-link-new-tab"
+                data-map-directions
+              >
+                {copy.visit.mapAction}
+                <Icon name="location" size={18} />
+              </a>
+              <a
+                class="button button-outline"
+                href={siteData.links.googleBusiness}
+                target="_blank"
+                rel="noreferrer"
+                aria-describedby="external-link-new-tab"
+              >
+                {copy.visit.reviewsAction}
+                <Icon name="diagonal" size={18} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </SiteShell>
 </BaseLayout>
 
 <script is:inline>
@@ -221,9 +271,10 @@ const structuredData = {
     const copyAddressStatus = document.querySelector('[data-copy-address-status]');
     if (copyAddressButton instanceof HTMLButtonElement && copyAddressStatus instanceof HTMLParagraphElement) {
       const address = copyAddressButton.dataset.address?.trim();
-      const shareData = address && copyAddressButton.dataset.shareUrl
-        ? { title: document.title, text: address, url: copyAddressButton.dataset.shareUrl }
-        : null;
+      const shareData =
+        address && copyAddressButton.dataset.shareUrl
+          ? { title: document.title, text: address, url: copyAddressButton.dataset.shareUrl }
+          : null;
       const canShareAddress = () => {
         if (!window.isSecureContext || typeof navigator.share !== 'function' || !shareData) return false;
         if (typeof navigator.canShare !== 'function') return true;
@@ -235,7 +286,8 @@ const structuredData = {
         }
       };
 
-      if (canShareAddress()) copyAddressButton.textContent = copyAddressButton.dataset.shareLabel ?? copyAddressButton.textContent;
+      if (canShareAddress())
+        copyAddressButton.textContent = copyAddressButton.dataset.shareLabel ?? copyAddressButton.textContent;
       copyAddressButton.addEventListener('click', async () => {
         copyAddressStatus.hidden = true;
         copyAddressStatus.textContent = '';
@@ -253,7 +305,8 @@ const structuredData = {
         }
 
         try {
-          if (!address || typeof navigator.clipboard?.writeText !== 'function') throw new Error('Clipboard unavailable');
+          if (!address || typeof navigator.clipboard?.writeText !== 'function')
+            throw new Error('Clipboard unavailable');
           await navigator.clipboard.writeText(address);
           copyAddressStatus.textContent = copyAddressButton.dataset.copySuccess ?? '';
         } catch {
@@ -262,77 +315,5 @@ const structuredData = {
         copyAddressStatus.hidden = false;
       });
     }
-
-    const mobileBooking = document.querySelector('[data-mobile-booking]');
-    const primaryBooking = document.querySelector('[data-booking-primary]');
-    const visitPhoto = document.querySelector('.visit-visual');
-    const visitActions = [...document.querySelectorAll('.visit-details a, .visit-details button')];
-    if (!(mobileBooking instanceof HTMLElement) || !(primaryBooking instanceof HTMLAnchorElement)) return;
-    const mobileBookingCta = mobileBooking.querySelector('.mobile-booking-cta');
-
-    const mobileViewport = window.matchMedia('(max-width: 760px)');
-    const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-    let syncFrame = 0;
-    const measureBookingBarHeight = () => {
-      if (!mobileViewport.matches || !(mobileBookingCta instanceof HTMLElement)) return 0;
-      const measurement = mobileBookingCta.cloneNode(true);
-      measurement.removeAttribute('href');
-      measurement.setAttribute('aria-hidden', 'true');
-      measurement.setAttribute('inert', '');
-      measurement.tabIndex = -1;
-      measurement.style.setProperty('visibility', 'hidden', 'important');
-      measurement.style.setProperty('pointer-events', 'none', 'important');
-      document.body.appendChild(measurement);
-      const height = measurement.getBoundingClientRect().height;
-      measurement.remove();
-      return height || rootFontSize * 4;
-    };
-    let bookingBarHeight = measureBookingBarHeight();
-    const syncMobileBooking = () => {
-      const rect = primaryBooking.getBoundingClientRect();
-      const bookingBarBottomOffset = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mobile-booking-bottom-offset')) || 0;
-      const bookingBarBottom = window.innerHeight - bookingBarBottomOffset;
-      const bookingBarTop = bookingBarBottom - bookingBarHeight;
-      const visibleAboveBookingBar = rect.bottom > rootFontSize * 5
-        && rect.top < bookingBarTop
-        && rect.right > 0
-        && rect.left < window.innerWidth;
-      const visitPhotoRect = visitPhoto instanceof HTMLElement ? visitPhoto.getBoundingClientRect() : null;
-      const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
-        && visitPhotoRect.bottom > bookingBarTop
-        && visitPhotoRect.top < bookingBarBottom;
-      const visitActionOverlapsBookingBar = visitActions.some((action) => {
-        const actionRect = action.getBoundingClientRect();
-        return actionRect.bottom > bookingBarTop
-          && actionRect.top < bookingBarBottom
-          && actionRect.right > 0
-          && actionRect.left < window.innerWidth;
-      });
-      const shouldHide = mobileViewport.matches
-        && (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar)
-        && !mobileBooking.contains(document.activeElement);
-      mobileBooking.hidden = shouldHide;
-    };
-    const scheduleSync = () => {
-      if (syncFrame) return;
-      syncFrame = window.requestAnimationFrame(() => {
-        syncFrame = 0;
-        syncMobileBooking();
-      });
-    };
-
-    window.addEventListener('scroll', scheduleSync, { passive: true });
-    window.addEventListener('resize', () => {
-      bookingBarHeight = measureBookingBarHeight();
-      scheduleSync();
-    }, { passive: true });
-    document.addEventListener('keydown', scheduleSync);
-    document.addEventListener('focusin', scheduleSync);
-    document.addEventListener('focusout', scheduleSync, true);
-    mobileViewport.addEventListener('change', () => {
-      bookingBarHeight = measureBookingBarHeight();
-      scheduleSync();
-    });
-    syncMobileBooking();
   })();
 </script>

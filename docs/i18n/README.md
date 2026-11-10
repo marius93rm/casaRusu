@@ -2,14 +2,16 @@
 
 Implementato il 22 ottobre 2026 su richiesta di Marius: inglese, italiano, spagnolo, francese e tedesco, oltre al romeno esistente.
 
-| Lingua | Home | Menu | Scheda del piatto |
-| --- | --- | --- | --- |
-| Română | `/` | `/meniu/` | `/preparate/snitel-cotlet-porc/` |
-| English | `/en/` | `/en/meniu/` | `/en/preparate/snitel-cotlet-porc/` |
+| Lingua   | Home   | Menu         | Scheda del piatto                   |
+| -------- | ------ | ------------ | ----------------------------------- |
+| Română   | `/`    | `/meniu/`    | `/preparate/snitel-cotlet-porc/`    |
+| English  | `/en/` | `/en/meniu/` | `/en/preparate/snitel-cotlet-porc/` |
 | Italiano | `/it/` | `/it/meniu/` | `/it/preparate/snitel-cotlet-porc/` |
-| Español | `/es/` | `/es/meniu/` | `/es/preparate/snitel-cotlet-porc/` |
+| Español  | `/es/` | `/es/meniu/` | `/es/preparate/snitel-cotlet-porc/` |
 | Français | `/fr/` | `/fr/meniu/` | `/fr/preparate/snitel-cotlet-porc/` |
-| Deutsch | `/de/` | `/de/meniu/` | `/de/preparate/snitel-cotlet-porc/` |
+| Deutsch  | `/de/` | `/de/meniu/` | `/de/preparate/snitel-cotlet-porc/` |
+
+La build genera **19 file HTML**: **18 rotte di contenuto localizzate** (home, menu e scheda del piatto in sei lingue) più la 404.
 
 ## Comportamento
 
@@ -31,7 +33,7 @@ Gli URL che hanno già un prefisso, per esempio `/fr/meniu/`, aprono sempre quel
 
 La scelta nel selettore dell’header o del footer viene salvata in `localStorage` con la chiave `casa-rusu-language`. Si applica alle visite successive dallo stesso browser. Se lo storage è bloccato il rilevamento continua a funzionare; la scelta manuale del romeno aggiunge `lang=ro` all’URL per impedirne l’immediato reindirizzamento. Il cambio successivo rimuove questo parametro. Senza JavaScript rimangono disponibili le pagine statiche e il selettore manuale.
 
-La logica è in `src/i18n/detect-language.js`, inserita da `LanguageDetection.astro`. `scripts/check-language-detection.mjs` esegue lo stesso script con preferenze, lingue regionali, storage bloccato e URL espliciti; verifica anche la sua inclusione immediata negli HTML delle 18 pagine. Per controllare la versione romena in un browser non romeno, selezionare prima Română.
+La logica è in `src/i18n/detect-language.js`, inserita da `LanguageDetection.astro`. `scripts/check-language-detection.mjs` esegue lo stesso script con preferenze, lingue regionali, storage bloccato e URL espliciti; verifica anche la sua inclusione immediata nelle 18 rotte di contenuto e controlla separatamente la pagina 404. Per controllare la versione romena in un browser non romeno, selezionare prima Română.
 
 Verifica Paseo: browser `en-US` senza preferenza → `/en/meniu/?source=qr#menu-page-porc`, scansione 06/14; tutte le sei preferenze salvate applicate all’apertura della scheda del piatto; click FR → IT salva `it` e conserva menu, query e scansione; successivo accesso alla radice → `/it/`. La scelta romena è stata verificata anche con scrittura nello storage negata. Screenshot: [accesso automatico italiano su mobile](automatic-it-mobile.png).
 
@@ -49,13 +51,13 @@ Con `SITE_URL` configurata, ogni pagina genera canonical, sei hreflang reciproci
 
 ## Verifiche
 
-- `npm run build`: controllo Astro senza diagnostiche, 18 rotte e controlli SEO/menu/orari/i18n.
+- `npm run build`: controllo Astro senza diagnostiche, 19 file HTML (18 rotte di contenuto più la 404) e controlli SEO/menu/orari/galleria/i18n/documentazione.
 - `SITE_URL=https://example.invalid ASTRO_TELEMETRY_DISABLED=1 npm run build`: prova di produzione con origine riservata, canonical/hreflang/sitemap; successivamente ripristinata la build locale senza origine.
-- `check:i18n`: parità dei sei dizionari, segnaposto, 108 cambi lingua con query e ancora, link dei selettori nelle 18 pagine, lingua corrente e locale Open Graph.
+- `check:i18n`: parità dei sei dizionari, segnaposto, 108 cambi lingua con query e ancora, link dei selettori nelle 18 rotte di contenuto, lingua corrente e locale Open Graph.
 - `check:menu`: 14 scansioni e 200 voci per lingua; ordine, prezzi e quantità identici, asset, controlli galleria e collegamenti alle schede.
-- Paseo locale: tutte le 18 pagine a 320, 768 e 1440 px; anche le home a 1101 px. Nessun overflow orizzontale. Screenshot mobile a 390×844 e desktop a 1440×1000, con tema scuro e una verifica del tema chiaro tramite le variabili della palette.
+- Paseo locale: tutte le 18 rotte di contenuto a 320, 768 e 1440 px; anche le home a 1101 px. Nessun overflow orizzontale. Screenshot mobile a 390×844 e desktop a 1440×1000, con tema scuro e una verifica del tema chiaro tramite le variabili della palette.
 - Ricerca EN/IT/ES/FR/DE: `chicken`/`pollo`/`poulet`/`hahnchen` trovano 15 voci; `telina` trova sette voci originali; `340` una voce; una query assente zero; la cancellazione ripristina tutte le 200 voci. Click reale IT → FR mantiene `?ref=test#menu-page-porc` e la scansione 06/14. Escape chiude il selettore e restituisce il focus.
-- Axe-core su tutte le 18 pagine a 390×844 con navigazione e selettore aperti: nessuna violazione A/AA o best practice rilevata dopo la correzione dell’etichetta accessibile del selettore. La home RO è stata ricontrollata a fine animazione per escludere il contrasto transitorio durante la comparsa. Il controllo automatico non equivale a una verifica completa con lettori di schermo.
+- Axe-core sulle 18 rotte di contenuto a 390×844 con navigazione e selettore aperti: nessuna violazione A/AA o best practice rilevata dopo la correzione dell’etichetta accessibile del selettore. La home RO è stata ricontrollata a fine animazione per escludere il contrasto transitorio durante la comparsa. Il controllo automatico non equivale a una verifica completa con lettori di schermo.
 - Iframe di verifica con esecuzione degli script disabilitata: menu IT con sei link lingua, 14 scansioni, 200 voci e apertura nativa di selettore e categoria; la ricerca resta nascosta. Fixture e libreria di audit rimosse dalla build.
 
 Misure in [checks.json](checks.json); screenshot nella stessa cartella. Il dominio e la pubblicazione restano tracciati separatamente in CR-03.

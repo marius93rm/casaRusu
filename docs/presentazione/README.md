@@ -1,8 +1,8 @@
 # Casa Rusu · Screenshot di presentazione
 
-18 acquisizioni reali del sito in italiano, dalla build locale aggiornata del 23 ottobre 2026.
+18 acquisizioni reali del sito in italiano, dalla build locale aggiornata del 23 ottobre 2026. Nel repository sono mantenute in WebP qualità 92; il file ZIP con i PNG originali è stato spostato nella directory sorella `casaRusu-artifacts/casa-rusu-screenshot-originals.zip`.
 
-Apri `index.html` per la galleria o `anteprima.png` per la panoramica. I PNG originali sono organizzati in:
+Apri `index.html` per la galleria o `anteprima.webp` per la panoramica. Le 18 immagini WebP sono organizzate in:
 
 - `desktop/`: 8 immagini, con homepage, anteprima del menu, cucina, contatti, menu sfogliabile, ricerca, scheda del piatto e tema scuro.
 - `mobile/`: 6 immagini, con homepage, menu, cucina, contatti e ricerca.
@@ -14,4 +14,4 @@ Le acquisizioni sono in tema chiaro, con una variante desktop in tema scuro. Le 
 
 Browser: Paseo locale. Font e immagini caricati prima delle acquisizioni. Animazioni terminate per le immagini complete; navigazione e barra di prenotazione mostrate una sola volta. Nel menu completo la ricerca resta nella sua posizione iniziale, senza ripetersi durante lo scorrimento.
 
-Verifica: build Astro e controlli SEO, menu, orari e i18n superati; controllo visivo delle immagini desktop, mobile e complete. Nessuna modifica al codice del sito.
+Verifica al momento dell’acquisizione: build Astro e controlli SEO, menu, orari, galleria e i18n superati; controllo visivo delle immagini desktop, mobile e complete. Nessuna modifica al codice del sito per produrre gli screenshot.

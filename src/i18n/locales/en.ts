@@ -80,7 +80,7 @@ export const en = {
       "eyebrow": "Restaurant · Codlea",
       "title": "Restaurant Casa Rusu in Codlea",
       "slogan": "Flavours that bring people together!",
-      "description": "Find us at Strada Laterală 42 in Codlea. Call us and join us at the table!",
+      "description": "Find us at {address} in Codlea. Call us and join us at the table!",
       "primaryAction": "Call us to book a table",
       "secondaryAction": "View location",
       "imageAlt": "The bright interior of Restaurant Casa Rusu in Codlea, with set tables and green banquettes."
@@ -109,10 +109,10 @@ export const en = {
     "visit": {
       "titleFirst": "Let’s meet",
       "titleSecond": "at the table!",
-      "body": "Call us to book a table. Find us at Strada Laterală 42 in Codlea.",
+      "body": "Call us to book a table. Find us at {address} in Codlea.",
       "addressLabel": "Address",
       "phoneLabel": "Phone",
-      "imageAlt": "The Casa Rusu restaurant sign on the outside wall beside number 42.",
+      "imageAlt": "The Casa Rusu restaurant sign mounted on the building's facade.",
       "hoursLabel": "Opening hours",
       "copyAddress": "Copy address",
       "addressCopied": "Address copied.",
