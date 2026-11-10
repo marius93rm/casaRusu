@@ -12,16 +12,13 @@ interface Props {
   bookingMode?: 'always' | 'contextual';
 }
 
-const {
-  locale,
-  navigation,
-  bookingLabel,
-  bookingMode = 'always',
-} = Astro.props;
+const { locale, navigation, bookingLabel, bookingMode = 'always' } = Astro.props;
 const { ui } = getDictionary(locale);
 ---
 
-<a class="skip-link" href="#main-content">{ui.skipToContent}</a>
+<a class="skip-link" href="#main-content">
+  {ui.skipToContent}
+</a>
 <Header {locale} {navigation} cta={{ label: bookingLabel, href: siteData.company.phoneHref }} />
 <slot />
 <Footer {locale} />
@@ -33,7 +30,8 @@ const { ui } = getDictionary(locale);
   hidden={bookingMode === 'contextual'}
 >
   <a class="mobile-booking-cta" href={siteData.company.phoneHref}>
-    {bookingLabel}<Icon name="phone" size={18} />
+    {bookingLabel}
+    <Icon name="phone" size={18} />
   </a>
 </aside>
 
@@ -95,7 +93,8 @@ const { ui } = getDictionary(locale);
       const height = measureBookingBarHeight(remeasure);
       const netlifyOverlay = document.querySelector(netlifyOverlaySelector);
       if (netlifyOverlay !== observedNetlifyOverlay) {
-        if (observedNetlifyOverlay instanceof HTMLIFrameElement) bookingResizeObserver?.unobserve(observedNetlifyOverlay);
+        if (observedNetlifyOverlay instanceof HTMLIFrameElement)
+          bookingResizeObserver?.unobserve(observedNetlifyOverlay);
         observedNetlifyOverlay = netlifyOverlay;
         if (netlifyOverlay instanceof HTMLIFrameElement) bookingResizeObserver?.observe(netlifyOverlay);
       }
@@ -115,23 +114,26 @@ const { ui } = getDictionary(locale);
 
       if (contextualMode && primaryBooking instanceof HTMLAnchorElement) {
         const primaryRect = primaryBooking.getBoundingClientRect();
-        const visibleAboveBookingBar = primaryRect.bottom > rootFontSize * 5
-          && primaryRect.top < bookingBarTop
-          && primaryRect.right > 0
-          && primaryRect.left < window.innerWidth;
+        const visibleAboveBookingBar =
+          primaryRect.bottom > rootFontSize * 5 &&
+          primaryRect.top < bookingBarTop &&
+          primaryRect.right > 0 &&
+          primaryRect.left < window.innerWidth;
         const visitPhotoRect = visitPhoto instanceof HTMLElement ? visitPhoto.getBoundingClientRect() : null;
-        const visitPhotoOverlapsBookingBar = visitPhotoRect !== null
-          && visitPhotoRect.bottom > bookingBarTop
-          && visitPhotoRect.top < bookingBarBottom;
+        const visitPhotoOverlapsBookingBar =
+          visitPhotoRect !== null && visitPhotoRect.bottom > bookingBarTop && visitPhotoRect.top < bookingBarBottom;
         const visitActionOverlapsBookingBar = visitActions.some((action) => {
           const actionRect = action.getBoundingClientRect();
-          return actionRect.bottom > bookingBarTop
-            && actionRect.top < bookingBarBottom
-            && actionRect.right > 0
-            && actionRect.left < window.innerWidth;
+          return (
+            actionRect.bottom > bookingBarTop &&
+            actionRect.top < bookingBarBottom &&
+            actionRect.right > 0 &&
+            actionRect.left < window.innerWidth
+          );
         });
-        hideForContent = (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar)
-          && !mobileBooking.contains(document.activeElement);
+        hideForContent =
+          (visibleAboveBookingBar || visitPhotoOverlapsBookingBar || visitActionOverlapsBookingBar) &&
+          !mobileBooking.contains(document.activeElement);
       }
 
       root.style.setProperty('--mobile-booking-height', `${Math.ceil(height)}px`);
@@ -161,10 +163,12 @@ const { ui } = getDictionary(locale);
       bookingResizeObserver.observe(mobileBookingCta);
     }
 
-    const containsNetlifyOverlay = (node) => node instanceof Element
-      && (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
+    const containsNetlifyOverlay = (node) =>
+      node instanceof Element &&
+      (node.matches(netlifyOverlaySelector) || node.querySelector(netlifyOverlaySelector) instanceof HTMLIFrameElement);
     const netlifyOverlayMutationObserver = new MutationObserver((records) => {
-      if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay))) scheduleSync();
+      if (records.some((record) => [...record.addedNodes, ...record.removedNodes].some(containsNetlifyOverlay)))
+        scheduleSync();
     });
     netlifyOverlayMutationObserver.observe(root, { childList: true, subtree: true });
 
