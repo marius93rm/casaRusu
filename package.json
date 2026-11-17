@@ -22,7 +22,7 @@
     "check:i18n": "node scripts/check-i18n.mjs && node scripts/check-language-detection.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "3.7.4",
+    "@astrojs/sitemap": "3.7.5",
     "@tabler/icons-astro": "^3.50.0",
     "astro": "7.4.7"
   },
